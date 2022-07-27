@@ -1,7 +1,5 @@
 package br.ufu.facom.ereno;
 
-import br.ufu.facom.ereno.usecasesExtractors.UC00GooseOnly;
-
 import java.io.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;

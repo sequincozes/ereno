@@ -111,56 +111,6 @@ public final class ProtectionIED {
     }
 
 
-
-//    public ArrayList<GooseMessage> generateBurstingGooseMessages(double currentTimestamp) {
-//        if (this.gooseMessages == null) {
-//            this.gooseMessages = new ArrayList<>();
-//        }
-//        int stNum = getInitialStNum();
-//        int sqNum = getInitialSqNum();
-//        boolean cbStatus = isInitialCbStatus();
-//        GooseMessage periodicGoose = new GooseMessage(toInt(cbStatus), stNum, sqNum, currentTimestamp, getFirstGooseTime());
-//        this.gooseMessages.add(periodicGoose);              // periodic message
-//
-//        if (debug) {
-//            System.out.println(getPreviousGoose(periodicGoose).asCSVFull());
-//            System.out.println(periodicGoose.asCSVFull());
-//        }
-//
-//        for (double eventTimestamp : getEventsTimestamp()) {
-//            // Status change
-//            cbStatus = !cbStatus;
-//            stNum = stNum + 1;
-//            sqNum = 1;
-//            double timestamp = getDelayFromEvent() + eventTimestamp;
-//            double t = timestamp; // new t
-//
-////            System.out.println(t);
-//            for (double interval : gettIntervals()) { // GOOSE BURST MODE
-//                if (eventTimestamp == getEventsTimestamp()[0] && interval >= getEventsTimestamp()[1]) {
-//                    break;
-//                } else {
-//                    GooseMessage gm = new GooseMessage(
-//                            toInt(cbStatus), // current status
-//                            stNum, // same stNum
-//                            sqNum++, // increase sqNum
-//                            timestamp, // current timestamp
-//                            t // timestamp of last st change
-//                    );
-//                    if (debug) {
-//                        System.out.println(gm.asCSVFull());
-//                    }
-//                    this.gooseMessages.add(gm);
-//                    timestamp = timestamp + interval;                               // burst mode
-//                }
-//            }
-//        }
-//        if (debug) {
-//            System.exit(0);
-//        }
-//        return this.gooseMessages;
-//    }
-
     public double[] exponentialBackoff(long minTime, long maxTime, double intervalMultiplier) {
         long retryIntervalMs = minTime;
 
@@ -190,33 +140,6 @@ public final class ProtectionIED {
         return arrayIntervals;
     }
 
-    public double[] exponentialBackoffForUC01(long minTime, long maxTime, double intervalMultiplier) {
-        long retryIntervalMs = minTime;
-
-        ArrayList<Double> tIntervals = new ArrayList<>();
-        do {
-            tIntervals.add(retryIntervalMs / 1000.0);
-            retryIntervalMs *= intervalMultiplier;
-            if (retryIntervalMs > maxTime) {
-                intervalMultiplier = intervalMultiplier + 0.001;
-                retryIntervalMs = minTime;
-            } else if (retryIntervalMs == maxTime) {
-                tIntervals.add(retryIntervalMs / 1000.0);
-                break;
-            }
-
-        } while (retryIntervalMs <= maxTime);
-
-        int i = 0;
-        double[] arrayIntervals = new double[tIntervals.size() + 1];
-        arrayIntervals[i++] = tIntervals.get(0); // first two retransmission are on same period
-        for (double ti : tIntervals) {
-            arrayIntervals[i++] = ti;
-        }
-
-        return arrayIntervals;
-    }
-
     public int getInitialStNum() {
         return initialStNum;
     }
@@ -241,14 +164,6 @@ public final class ProtectionIED {
         this.tIntervals = tIntervals;
     }
 
-//    public double[] getEventsTimestamp() {
-//        return eventsTimestamp;
-//    }
-//
-//    public void setEventsTimestamp(double[] eventsTimestamp) {
-//        this.eventsTimestamp = eventsTimestamp;
-//    }
-
     public ArrayList<GooseMessage> getGooseMessages() {
         return gooseMessages;
     }
@@ -271,14 +186,6 @@ public final class ProtectionIED {
 
     public void setFirstGooseTime(double firstGooseTime) {
         this.firstGooseTime = firstGooseTime;
-    }
-
-    public double getBackoffStartingMult() {
-        return backoffStartingMult;
-    }
-
-    public void setBackoffStartingMult(double backoffStartingMult) {
-        this.backoffStartingMult = backoffStartingMult;
     }
 
     public double getMinTime() {
@@ -312,15 +219,6 @@ public final class ProtectionIED {
             return 1;
         }
 
-    }
-
-    private long getRandomTime() {
-        Random gooseRandom = new Random(System.nanoTime());
-        return gooseRandom.nextInt(1000); // random index, random SV messages
-    }
-
-    private int getRandomTimeBetween(int low, int high) {
-        return new Random(System.currentTimeMillis()).nextInt(high - low) + low;
     }
 
     public void removeMessagesBeforeThan(double timestamp) {

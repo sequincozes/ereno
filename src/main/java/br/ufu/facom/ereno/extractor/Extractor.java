@@ -1,6 +1,8 @@
-package br.ufu.facom.ereno.usecasesExtractors;
+package br.ufu.facom.ereno.extractor;
 
 import br.ufu.facom.ereno.model.GooseMessage;
+import br.ufu.facom.ereno.useCases.UC00GooseOnly;
+import br.ufu.facom.ereno.useCases.UC01GooseOnly;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -11,6 +13,7 @@ public class Extractor {
     double maxTime = 1000;
     static boolean replace = true;
 
+    static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate"};//,"poisoned_high_rate_consistent"};
 
     public static void main(String[] args) {
         UC00GooseOnly uc00 = new UC00GooseOnly();
@@ -19,10 +22,10 @@ public class Extractor {
             startWriting();
 
             ArrayList<GooseMessage> gooseMessages = uc00.generateNormalSamples(20);
-            writeGooseMessagesToFile(gooseMessages, AbstractUseCase.label[0], true);
+            writeGooseMessagesToFile(gooseMessages, label[0], true);
 
             ArrayList<GooseMessage> randomReplayMessages = uc01.generateReplayAttacksUC1(gooseMessages, 10);
-            writeGooseMessagesToFile(randomReplayMessages, AbstractUseCase.label[1], false);
+            writeGooseMessagesToFile(randomReplayMessages, label[1], false);
 
             finishWriting();
         } catch (IOException e) {
@@ -123,32 +126,32 @@ public class Extractor {
         write("@attribute timeFromLastChange numeric"); // temporal consistency 68
         write("@attribute delay numeric"); // temporal consistency 69
         String classLine = "@attribute @class@ {"
-                + AbstractUseCase.label[0] + ", "
-                + AbstractUseCase.label[1] + ", "
-                + AbstractUseCase.label[2] + ", "
-                + AbstractUseCase.label[3] + ", "
-                + AbstractUseCase.label[4] + ", "
-                + AbstractUseCase.label[5] + ", "
-                + AbstractUseCase.label[6] + ", "
-                + AbstractUseCase.label[7]
+                + label[0] + ", "
+                + label[1] + ", "
+                + label[2] + ", "
+                + label[3] + ", "
+                + label[4] + ", "
+                + label[5] + ", "
+                + label[6] + ", "
+                + label[7]
                 + "}";
 
         write(classLine);
         write("@data");
     }
 
-    protected static void write(String line) throws FileNotFoundException, IOException {
+    protected static void write(String line) throws IOException {
         bw.write(line);
         bw.newLine();
     }
 
-    private static void startWriting() throws FileNotFoundException, IOException {
+    private static void startWriting() throws IOException {
         File fout = new File(filename);
         FileOutputStream fos = new FileOutputStream(fout, !replace);
         bw = new BufferedWriter(new OutputStreamWriter(fos));
     }
 
-    protected static void finishWriting() throws FileNotFoundException, IOException {
+    protected static void finishWriting() throws IOException {
         bw.close();
     }
 
@@ -186,21 +189,21 @@ public class Extractor {
         write("@attribute tDiff numeric"); // temporal consistency 67
         write("@attribute timeFromLastChange numeric"); // temporal consistency 68
         String classLine = "@attribute @class@ {"
-                + AbstractUseCase.label[0] + ", "
-                + AbstractUseCase.label[1] + ", "
-                + AbstractUseCase.label[2] + ", "
-                + AbstractUseCase.label[3] + ", "
-                + AbstractUseCase.label[4] + ", "
-                + AbstractUseCase.label[5] + ", "
-                + AbstractUseCase.label[6] + ", "
-                + AbstractUseCase.label[7]
+                + label[0] + ", "
+                + label[1] + ", "
+                + label[2] + ", "
+                + label[3] + ", "
+                + label[4] + ", "
+                + label[5] + ", "
+                + label[6] + ", "
+                + label[7]
                 + "}";
 
         write(classLine);
         write("@data");
     }
 
-    protected String getConsistencyFeaturesAsCSV(GooseMessage gm, ArrayList<GooseMessage> gooseMessages, double currentSVTime) {
+    private String getConsistencyFeaturesAsCSV(GooseMessage gm, ArrayList<GooseMessage> gooseMessages, double currentSVTime) {
 
 //        if (gm.getStNum() == 0) {
 //            gm.setSqNum(initialSqNum);
@@ -223,7 +226,7 @@ public class Extractor {
                 + timestampDiff + ", " + tDiff + ", " + (gm.getTimestamp() - gm.getT()) + ", " + delay;
     }
 
-    protected static String getConsistencyFeaturesAsCSV(GooseMessage gm, GooseMessage prev) {
+    private static String getConsistencyFeaturesAsCSV(GooseMessage gm, GooseMessage prev) {
 
         int stDiff = gm.getStNum() - prev.getStNum();
         int sqDiff = gm.getSqNum() - prev.getSqNum();

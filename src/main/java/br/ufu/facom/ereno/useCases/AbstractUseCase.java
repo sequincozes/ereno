@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufu.facom.ereno.usecasesExtractors;
+package br.ufu.facom.ereno.useCases;
 
 import br.ufu.facom.ereno.devices.ProtectionIED;
-import br.ufu.facom.ereno.model.GooseMessage;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -23,10 +23,6 @@ public abstract class AbstractUseCase /*extends SVFeatureComposer*/ {
     public static boolean generateSingleRound = false;
 
     ProtectionIED ied;
-    public static boolean printHeader = false;
-    boolean defaultHeader = true;
-    static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate"};//,"poisoned_high_rate_consistent"};
-    String columnsGOOSE[] = {"GooseTimestamp", "SqNum", "StNum", "cbStatus", "frameLen", "ethDst", "ethSrc", "ethType", "gooseTimeAllowedtoLive", "gooseAppid", "gooseLen", "TPID", "gocbRef", "datSet", "goID", "test", "confRev", "ndsCom", " numDatSetEntries", "APDUSize", "protocol"};
 
     static int initialStNum;
     static int initialSqNum;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufu.facom.ereno.usecasesExtractors;
+package br.ufu.facom.ereno.useCases;
 
 import br.ufu.facom.ereno.devices.ProtectionIED;
 import br.ufu.facom.ereno.model.GooseMessage;
