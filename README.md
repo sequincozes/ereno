@@ -22,6 +22,7 @@ A ferramenta possui diversas interfaces, ou módulos: </h5>
 
 Foram previstas duas formas para testar a ferramenta proposta: 
 > 1º Forma (e mais simples): Consiste no acesso ao website ereno.com.br. Nessa forma, não é necessário executar o back-end do ERENO, pois estamos rodando o mesmo em um servidor na Internet. 
+
 > 2º Forma: A segunda forma consiste na execução local. Portanto, é necessário executar o back-end do ERENO (arquivo .jar), bem como acessar a interface gráfica via localhost.
 
 <div id="preparando-o-ambiente"/>
