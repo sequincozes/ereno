@@ -1,4 +1,4 @@
-<h1 align="center"> ERENO </h1>
+<h1 align="center"> ERENO-UI </h1>
 <h5 align="left"> Ferramenta com Interface Gráfica para gerar um dataset com mensagens dos protocolos GOOSE e SV para subestações elétricas.
 A ferramenta possui diversas interfaces, ou módulos: </h5>
 
@@ -11,7 +11,7 @@ A ferramenta possui diversas interfaces, ou módulos: </h5>
 ### Índice
 
 * [Ambiente de Teste](#ambiente-de-teste)
-* [Preparando o Ambiente (Linux)](#preparando-o-ambiente)
+* [Preparando o Ambiente](#preparando-o-ambiente)
 * [Parâmetros Disponíveis](#parametros-disponiveis)
 * [Exemplo de Uso](#exemplo-de-uso)
 
