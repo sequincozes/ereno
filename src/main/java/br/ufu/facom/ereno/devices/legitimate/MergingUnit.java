@@ -1,68 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package br.ufu.facom.ereno.useCases;
+package br.ufu.facom.ereno.devices.legitimate;
 
-import br.ufu.facom.ereno.devices.ProtectionIED;
+import br.ufu.facom.ereno.devices.IED;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-/**
- * @author silvio
- */
-public abstract class AbstractUseCase /*extends SVFeatureComposer*/ {
-    public static boolean USE_OFFSET = true;
-    static float offset;
-    public static int runs = 132;
+public class MergingUnit extends IED {
     public static boolean generateSingleRound = false;
-
-    ProtectionIED ied;
-
-    static int initialStNum;
-    static int initialSqNum;
-
-    public AbstractUseCase() {
-        initialStNum = randomBetween(0, 5000);
-        initialSqNum = randomBetween(0, 5000);
-        if (USE_OFFSET) {
-            offset = randomBetween(0, 5000); // offset
-        } else {
-            offset = 0;
-        }
-    }
-
-    float restartCounters() {
-//        System.out.println("Last counters " + initialSqNum + "/" + initialStNum);
-        initialStNum = randomBetween(0, 5000);
-        initialSqNum = randomBetween(0, 5000);
-//        System.out.println("New counters " + initialSqNum + "/" + initialStNum);
-        if (USE_OFFSET) {
-            offset = randomBetween(0, 5000); // offset
-        } else {
-            offset = 0;
-        }
-        return offset;
-    }
-
-    float defineCounters(int initialStNum, int initialSqNum, float offset) {
-//        System.out.println("Last counters " + initialSqNum + "/" + initialStNum);
-        this.initialStNum = initialStNum;
-        this.initialSqNum = initialSqNum;
-//        System.out.println("New counters " + initialSqNum + "/" + initialStNum);
-        this.offset = offset;
-        return offset;
-    }
-
-    public static int randomBetween(int min, int max) {
-        return new Random(System.nanoTime()).nextInt(max - min) + min;
-    }
-
+    public static int runs = 132;
     protected String joinColumns(ArrayList<Float[]> formatedCSVFile, ArrayList<Float[]> formatedCSVFile2, String columns[], String columns2[], int line) {
         String content = "";
         for (int i = 0; i < columns.length; i++) {
@@ -134,7 +82,7 @@ public abstract class AbstractUseCase /*extends SVFeatureComposer*/ {
                                 int column = ((t + 1) / 2) - 1;
                                 if (USE_OFFSET) {
                                     if (columns[column].equalsIgnoreCase("Time")) {
-                                        feature = feature + offset;
+                                        feature = feature + initialTimestamp;
                                     }
                                 }
                                 tokenLine[column] = feature;
@@ -150,8 +98,4 @@ public abstract class AbstractUseCase /*extends SVFeatureComposer*/ {
 
         return formatedCSVFile;
     }
-
-
-
-
 }

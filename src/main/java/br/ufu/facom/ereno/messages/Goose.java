@@ -3,26 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufu.facom.ereno.model;
+package br.ufu.facom.ereno.messages;
 
 /**
  * @author silvio
  */
-public class GooseMessage implements Comparable<GooseMessage> {
+public class Goose extends EthernetFrame implements Comparable<Goose> {
 
     private int cbStatus;                   // DYNAMICALLY GENERATED 
     private int stNum;                      // DYNAMICALLY GENERATED 
     private int sqNum;                      // DYNAMICALLY GENERATED 
     private double t;                       // DYNAMICALLY GENERATED - Last Goose Change  
-    private double timestamp;               // DYNAMICALLY GENERATED  
-
+    private double timestamp;               // DYNAMICALLY GENERATED
     private int gooseTimeAllowedtoLive = 11000;
     private int numDatSetEntries = 25;
     private int confRev = 1;
-
-    //public static int APDUSize = 215;     // DYNAMICALLY GENERATED  - Use getAPDUSize()
-    //public static int gooseLen = 226;     // DYNAMICALLY GENERATED  - Use getgooseLen()
-    //public static int frameLen = 240;     // DYNAMICALLY GENERATED  - Use getFrameLen()
     public static String ethDst = "01:0c:cd:01:2f:77";
     public static String ethSrc = "01:0c:cd:01:2f:78";
     public static String ethType = "0x000088b8";
@@ -37,25 +32,12 @@ public class GooseMessage implements Comparable<GooseMessage> {
 
     public boolean isInverseReplay = false;
 
-    public GooseMessage(int cbStatus, int stNum, int sqNum, double timestamp, double t) {
+    public Goose(int cbStatus, int stNum, int sqNum, double timestamp, double t) {
         this.cbStatus = cbStatus;
         this.stNum = stNum;
         this.sqNum = sqNum;
         this.timestamp = timestamp;
         this.t = t;
-
-//        ethDst = "01:a0:f4:08:2f:77";
-//        ethSrc = "00:a0:f4:08:2f:77";
-//        ethType = "0x000088b8";
-//        gooseAppid = "0x00003001";
-//        TPID = "0x8100";
-        gocbRef = "LD/LLN0$GO$gcbA";
-        datSet = "LD/LLN0$IntLockA";
-        goID = "InterlockingA";
-        test = "FALSE";
-        ndsCom = "FALSE";
-        protocol = "GOOSE";
-
     }
 
     public int isCbStatus() {
@@ -178,8 +160,8 @@ public class GooseMessage implements Comparable<GooseMessage> {
         this.t = t;
     }
 
-    public GooseMessage copy() {
-        return new GooseMessage(cbStatus, stNum, sqNum, timestamp, t);
+    public Goose copy() {
+        return new Goose(cbStatus, stNum, sqNum, timestamp, t);
     }
 
     public int getGooseTimeAllowedtoLive() {
@@ -199,7 +181,7 @@ public class GooseMessage implements Comparable<GooseMessage> {
     }
 
     @Override
-    public int compareTo(GooseMessage gooseMessage) {
+    public int compareTo(Goose gooseMessage) {
         if (gooseMessage.getTimestamp() >= getTimestamp()) {
             return -1;
         } else {

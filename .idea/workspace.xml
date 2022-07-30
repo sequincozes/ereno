@@ -9,11 +9,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Normal use case (UC00) and random replay use case (UC01) are done.">
+    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Normal use case (UC00) and random replay use case (UC01) are done. EthSrc and EthDst were updated according to rules (must make headers consistency - only GOOSE hear was updated). Next step: refactor the architecture.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/creators/GooseCreator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/creators/MessageCreator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/IED.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/attackers/ReplayerIED.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/ProtectionIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/ProtectionIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/usecasesExtractors/AbstractUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/usecasesExtractors/AbstractUseCase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/usecasesExtractors/Extractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/extractor/Extractor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/MergingUnit.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/ProtectionIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/legitimate/ProtectionIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/extractor/Extractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/extractor/Extractor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/model/GooseMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/messages/Goose.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/useCases/AbstractUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/legitimate/MergingUnit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/useCases/UC00GooseOnly.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/useCases/UC01GooseOnly.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/creators/RandomReplayCreator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,11 +31,17 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="LogFilters">
@@ -53,7 +67,8 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/silvio/IdeaProjects/iec61850generator&quot;
+    &quot;last_opened_file_path&quot;: &quot;/home/silvio/IdeaProjects/iec61850generator&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;copyright&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -149,7 +164,9 @@
       <workItem from="1658748875480" duration="11268000" />
       <workItem from="1658804847966" duration="1180000" />
       <workItem from="1658885983984" duration="4400000" />
-      <workItem from="1658934533199" duration="835000" />
+      <workItem from="1658934533199" duration="16238000" />
+      <workItem from="1659049520998" duration="608000" />
+      <workItem from="1659186047980" duration="1204000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -172,7 +189,14 @@
       <option name="project" value="LOCAL" />
       <updated>1658886006911</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Normal use case (UC00) and random replay use case (UC01) are done. EthSrc and EthDst were updated according to rules (must make headers consistency - only GOOSE hear was updated). Next step: refactor the architecture.">
+      <created>1658938950156</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1658938950157</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -192,6 +216,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Normal use case (UC00) and random replay use case (UC01) are done." />
-    <option name="LAST_COMMIT_MESSAGE" value="Normal use case (UC00) and random replay use case (UC01) are done." />
+    <MESSAGE value="Normal use case (UC00) and random replay use case (UC01) are done. EthSrc and EthDst were updated according to rules (must make headers consistency - only GOOSE hear was updated). Next step: refactor the architecture." />
+    <option name="LAST_COMMIT_MESSAGE" value="Normal use case (UC00) and random replay use case (UC01) are done. EthSrc and EthDst were updated according to rules (must make headers consistency - only GOOSE hear was updated). Next step: refactor the architecture." />
   </component>
 </project>

@@ -1,8 +1,8 @@
 package br.ufu.facom.ereno.extractor;
 
-import br.ufu.facom.ereno.model.GooseMessage;
-import br.ufu.facom.ereno.useCases.UC00GooseOnly;
-import br.ufu.facom.ereno.useCases.UC01GooseOnly;
+import br.ufu.facom.ereno.devices.attackers.ReplayerIED;
+import br.ufu.facom.ereno.devices.legitimate.ProtectionIED;
+import br.ufu.facom.ereno.messages.Goose;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -10,39 +10,37 @@ import java.util.ArrayList;
 public class Extractor {
     static BufferedWriter bw;
     static String filename = "/home/silvio/datasets/ereno/dataset.arff";
-    double maxTime = 1000;
     static boolean replace = true;
 
     static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate"};//,"poisoned_high_rate_consistent"};
 
     public static void main(String[] args) {
-        UC00GooseOnly uc00 = new UC00GooseOnly();
-        UC01GooseOnly uc01 = new UC01GooseOnly();
+        ProtectionIED uc00 = new ProtectionIED();
+        uc00.run();
+
+        ReplayerIED uc01 = new ReplayerIED();
+        uc00.run();
+
         try {
             startWriting();
-
-            ArrayList<GooseMessage> gooseMessages = uc00.generateNormalSamples(20);
-            writeGooseMessagesToFile(gooseMessages, label[0], true);
-
-            ArrayList<GooseMessage> randomReplayMessages = uc01.generateReplayAttacksUC1(gooseMessages, 10);
-            writeGooseMessagesToFile(randomReplayMessages, label[1], false);
-
+            writeGooseMessagesToFile(uc00.getMessages(), label[0], true);
+            writeGooseMessagesToFile(uc01.getMessages(), label[1], false);
             finishWriting();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    protected static void writeGooseMessagesToFile(ArrayList<GooseMessage> gooseMessages, String attackType, boolean printHeader) throws IOException {
+    protected static void writeGooseMessagesToFile(ArrayList<Goose> gooseMessages, String attackType, boolean printHeader) throws IOException {
         /* Write Header and Columns */
         if (printHeader) {
             writeDefaulGooseHeader();
         }
 
         /* Write Payload */
-        GooseMessage prev = null;
+        Goose prev = null;
 
-        for (GooseMessage gm : gooseMessages) {
+        for (Goose gm : gooseMessages) {
             if (prev != null) {
                 write(gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + attackType);
             }
@@ -203,13 +201,8 @@ public class Extractor {
         write("@data");
     }
 
-    private String getConsistencyFeaturesAsCSV(GooseMessage gm, ArrayList<GooseMessage> gooseMessages, double currentSVTime) {
-
-//        if (gm.getStNum() == 0) {
-//            gm.setSqNum(initialSqNum);
-//            gm.setStNum(initialStNum);
-//        }
-        GooseMessage prev = getPreviousGoose(gm, gooseMessages);
+    private String getConsistencyFeaturesAsCSV(Goose gm, ProtectionIED protectionIED, double currentSVTime) {
+        Goose prev = protectionIED.getPreviousGoose(gm, protectionIED.getMessages());
         int stDiff = gm.getStNum() - prev.getStNum();
         int sqDiff = gm.getSqNum() - prev.getSqNum();
         int gooseLenghtDiff = gm.getGooseLen() - prev.getGooseLen();
@@ -226,8 +219,7 @@ public class Extractor {
                 + timestampDiff + ", " + tDiff + ", " + (gm.getTimestamp() - gm.getT()) + ", " + delay;
     }
 
-    private static String getConsistencyFeaturesAsCSV(GooseMessage gm, GooseMessage prev) {
-
+    private static String getConsistencyFeaturesAsCSV(Goose gm, Goose prev) {
         int stDiff = gm.getStNum() - prev.getStNum();
         int sqDiff = gm.getSqNum() - prev.getSqNum();
         int gooseLenghtDiff = gm.getGooseLen() - prev.getGooseLen();
@@ -241,38 +233,6 @@ public class Extractor {
         return "," + stDiff + ", " + sqDiff + ", " + gooseLenghtDiff + ", "
                 + cbStatusDiff + ", " + apduSizeDiff + ", " + frameLenthDiff + ", "
                 + timestampDiff + ", " + tDiff + ", " + (gm.getTimestamp() - gm.getT());
-    }
-
-    public GooseMessage getLastGooseFromSV(double timestamp, ArrayList<GooseMessage> gooseMessages) {
-        GooseMessage lastGooseMessage = gooseMessages.get(0);
-        for (GooseMessage gooseMessage : gooseMessages) {
-//            System.out.println("Buscando: SV "+timestamp+" em GOOSE: "+gooseMessage.getTimestamp());
-            if (gooseMessage.getTimestamp() > timestamp) {
-//                System.out.println("ACHOU: depois de "+timestamp+" veio "+gooseMessage.getTimestamp());
-//                System.exit(0);
-                return lastGooseMessage;
-            } else {
-                lastGooseMessage = gooseMessage;
-            }
-        }
-        return lastGooseMessage;
-    }
-
-    public GooseMessage getPreviousGoose(GooseMessage gooseMessage, ArrayList<GooseMessage> gooseMessages) {
-        for (int i = 0; i < gooseMessages.size(); i++) {
-            if (gooseMessage.equals(gooseMessages.get(i))) {
-                if (i == 0) {
-                    GooseMessage pseudoPast = gooseMessages.get(0).copy(); // Pseudo past
-                    double pseudoPastTimestamp = gooseMessages.get(0).getTimestamp() - maxTime;
-                    pseudoPast.setTimestamp(pseudoPastTimestamp); //Assume the last message wast sent at now - maxtime
-                    pseudoPast.setSqNum(pseudoPast.getSqNum() - 1);
-                    return pseudoPast;
-                } else {
-                    return gooseMessages.get(i - 1);
-                }
-            }
-        }
-        return null;
     }
 
 }
