@@ -1,4 +1,4 @@
-<h1 align="center"> ERENO </h1>
+<h1 align="center"> ERENO-UI </h1>
 <h5 align="left"> Ferramenta com Interface Gráfica para gerar um dataset com mensagens dos protocolos GOOSE e SV para subestações elétricas.
 A ferramenta possui diversas interfaces, ou módulos: </h5>
 
@@ -11,7 +11,7 @@ A ferramenta possui diversas interfaces, ou módulos: </h5>
 ### Índice
 
 * [Ambiente de Teste](#ambiente-de-teste)
-* [Preparando o Ambiente (Linux)](#preparando-o-ambiente)
+* [Preparando o Ambiente](#preparando-o-ambiente)
 * [Parâmetros Disponíveis](#parametros-disponiveis)
 * [Exemplo de Uso](#exemplo-de-uso)
 
@@ -21,7 +21,8 @@ A ferramenta possui diversas interfaces, ou módulos: </h5>
 ### 🖱️ Ambiente de Teste 
 
 Foram previstas duas formas para testar a ferramenta proposta: 
-> 1º Forma (e mais simples): Consiste no acesso ao website <a href="ereno.com">. Nessa forma, não é necessário executar o back-end do ERENO, pois estamos rodando o mesmo em um servidor na Internet. 
+> 1º Forma (e mais simples): Consiste no acesso ao website ereno.com.br. Nessa forma, não é necessário executar o back-end do ERENO, pois estamos rodando o mesmo em um servidor na Internet. 
+
 > 2º Forma: A segunda forma consiste na execução local. Portanto, é necessário executar o back-end do ERENO (arquivo .jar), bem como acessar a interface gráfica via localhost.
 
 <div id="preparando-o-ambiente"/>
