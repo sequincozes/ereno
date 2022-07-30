@@ -1,6 +1,4 @@
-package br.ufu.facom.ereno.devices.legitimate;
-
-import br.ufu.facom.ereno.devices.IED;
+package br.ufu.facom.ereno.standard.devices;
 
 import java.io.File;
 import java.io.FileNotFoundException;

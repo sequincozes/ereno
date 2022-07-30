@@ -10,18 +10,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Normal use case (UC00) and random replay use case (UC01) are done. EthSrc and EthDst were updated according to rules (must make headers consistency - only GOOSE hear was updated). Next step: refactor the architecture.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/creators/GooseCreator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/creators/MessageCreator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/IED.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/attackers/ReplayerIED.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/GooseFlow.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/creator/MessageCreator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/messages/EthernetFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/MergingUnit.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/ProtectionIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/legitimate/ProtectionIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/extractor/Extractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/extractor/Extractor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/model/GooseMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/messages/Goose.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/useCases/AbstractUseCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/legitimate/MergingUnit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/useCases/UC00GooseOnly.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/useCases/UC01GooseOnly.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/creators/RandomReplayCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/GooseServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SetupIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/creators/GooseCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/creator/GooseCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/creators/MessageCreator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/creators/RandomReplayCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/infected/creators/RandomReplayCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/IED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/devices/IED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/attackers/ReplayerIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/infected/devices/ReplayerIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/legitimate/MergingUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/devices/MergingUnit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/legitimate/ProtectionIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/devices/ProtectionIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/extractor/Extractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/messages/Goose.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/messages/Goose.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,13 +81,13 @@
       <recent name="br.ufu.facom.ereno" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.br.ufu.facom.ereno.extractor.Extractor">
-    <configuration name="br.ufu.facom.ereno.extractor.Extractor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="br.ufu.facom.ereno.extractor.Extractor" />
+  <component name="RunManager" selected="Application.br.ufu.facom.ereno.standard.Extractor">
+    <configuration name="Extractor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="br.ufu.facom.ereno.Extractor" />
       <module name="ERENO" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="br.ufu.facom.ereno.extractor.*" />
+          <option name="PATTERN" value="br.ufu.facom.ereno.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -146,6 +148,8 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.br.ufu.facom.ereno.usecases.uc01.UC00GooseOnly" />
+        <item itemvalue="Application.br.ufu.facom.ereno.standard.Extractor" />
         <item itemvalue="Application.br.ufu.facom.ereno.extractor.Extractor" />
         <item itemvalue="Application.br.ufu.facom.ereno.usecases.uc01.UC00GooseOnly" />
       </list>

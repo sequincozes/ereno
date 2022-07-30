@@ -3,12 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufu.facom.ereno.devices;
+package br.ufu.facom.ereno.standard.devices;
 
-import br.ufu.facom.ereno.creators.MessageCreator;
-import br.ufu.facom.ereno.devices.legitimate.ProtectionIED;
-import br.ufu.facom.ereno.messages.EthernetFrame;
-import br.ufu.facom.ereno.messages.Goose;
+import br.ufu.facom.ereno.standard.creator.MessageCreator;
+import br.ufu.facom.ereno.standard.messages.EthernetFrame;
 
 import java.util.ArrayList;
 import java.util.Random;

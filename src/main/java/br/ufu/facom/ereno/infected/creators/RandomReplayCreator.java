@@ -3,16 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufu.facom.ereno.creators;
+package br.ufu.facom.ereno.infected.creators;
 
-import br.ufu.facom.ereno.devices.IED;
-import br.ufu.facom.ereno.messages.Goose;
+import br.ufu.facom.ereno.standard.devices.IED;
+import br.ufu.facom.ereno.standard.messages.Goose;
+import br.ufu.facom.ereno.standard.creator.MessageCreator;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import static br.ufu.facom.ereno.devices.IED.randomBetween;
+import static br.ufu.facom.ereno.standard.devices.IED.randomBetween;
 
 /**
  * @author silvio

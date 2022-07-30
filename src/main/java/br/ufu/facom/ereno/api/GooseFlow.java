@@ -1,11 +1,14 @@
-package br.ufu.facom.ereno;
+package br.ufu.facom.ereno.api;
 
-import java.io.*;
-import javax.servlet.http.*;
-import javax.servlet.annotation.*;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
-@WebServlet(name = "gooseServlet", value = "/goose-servlet")
-public class GooseServlet extends HttpServlet {
+@WebServlet(name = "gooseFlow", value = "/goose-flow")
+public class GooseFlow extends HttpServlet {
     private String message;
 
     public void init() {

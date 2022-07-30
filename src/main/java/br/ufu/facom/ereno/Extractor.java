@@ -1,8 +1,8 @@
-package br.ufu.facom.ereno.extractor;
+package br.ufu.facom.ereno;
 
-import br.ufu.facom.ereno.devices.attackers.ReplayerIED;
-import br.ufu.facom.ereno.devices.legitimate.ProtectionIED;
-import br.ufu.facom.ereno.messages.Goose;
+import br.ufu.facom.ereno.infected.devices.ReplayerIED;
+import br.ufu.facom.ereno.standard.devices.ProtectionIED;
+import br.ufu.facom.ereno.standard.messages.Goose;
 
 import java.io.*;
 import java.util.ArrayList;

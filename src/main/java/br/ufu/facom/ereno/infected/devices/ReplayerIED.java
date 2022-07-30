@@ -1,9 +1,8 @@
-package br.ufu.facom.ereno.devices.attackers;
+package br.ufu.facom.ereno.infected.devices;
 
-import br.ufu.facom.ereno.devices.IED;
-import br.ufu.facom.ereno.devices.legitimate.ProtectionIED;
-import br.ufu.facom.ereno.messages.EthernetFrame;
-import br.ufu.facom.ereno.messages.Goose;
+import br.ufu.facom.ereno.standard.devices.IED;
+import br.ufu.facom.ereno.standard.messages.EthernetFrame;
+import br.ufu.facom.ereno.standard.messages.Goose;
 
 import java.util.ArrayList;
 

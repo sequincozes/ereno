@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufu.facom.ereno.devices.legitimate;
+package br.ufu.facom.ereno.standard.devices;
 
 
-import br.ufu.facom.ereno.creators.GooseCreator;
-import br.ufu.facom.ereno.devices.IED;
-import br.ufu.facom.ereno.messages.EthernetFrame;
-import br.ufu.facom.ereno.messages.Goose;
+import br.ufu.facom.ereno.standard.creator.GooseCreator;
+import br.ufu.facom.ereno.standard.messages.EthernetFrame;
+import br.ufu.facom.ereno.standard.messages.Goose;
 
 import java.util.ArrayList;
 
