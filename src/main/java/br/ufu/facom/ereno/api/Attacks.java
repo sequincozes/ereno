@@ -7,12 +7,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet(name = "setupIed", value = "/setup-ied")
+@WebServlet(name = "attacks", value = "/attacks")
 public class Attacks extends HttpServlet {
     private String message;
 
     public void init() {
-        message = "Generating Goose Messages...";
+        message = "Here is to setup the attacks...";
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

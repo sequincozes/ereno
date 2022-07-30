@@ -27,10 +27,6 @@ public class GooseCreator implements MessageCreator {
         this.protectionIED = (ProtectionIED) ied;
 
         boolean cbStatus = protectionIED.isInitialCbStatus();
-        if (protectionIED.getMessages() == null) {
-            protectionIED.setMessages(new ArrayList<>());
-        }
-
         for (int i = 0; i <= protectionIED.getNumberOfMessages(); i++) {
             Goose periodicGoose;
             try {

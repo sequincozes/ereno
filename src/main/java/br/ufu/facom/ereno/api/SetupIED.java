@@ -9,7 +9,7 @@ public class SetupIED extends HttpServlet {
     private String message;
 
     public void init() {
-        message = "Generating Goose Messages...";
+        message = "Here you can setup IEDs";
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

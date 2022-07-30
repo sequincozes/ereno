@@ -1,34 +1,51 @@
 package br.ufu.facom.ereno;
 
-import br.ufu.facom.ereno.infected.devices.ReplayerIED;
+import br.ufu.facom.ereno.standard.devices.MergingUnit;
 import br.ufu.facom.ereno.standard.devices.ProtectionIED;
 import br.ufu.facom.ereno.standard.messages.Goose;
+import br.ufu.facom.ereno.standard.messages.Sv;
 
 import java.io.*;
 import java.util.ArrayList;
 
 public class Extractor {
     static BufferedWriter bw;
-    static String filename = "/home/silvio/datasets/ereno/dataset.arff";
     static boolean replace = true;
 
     static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate"};//,"poisoned_high_rate_consistent"};
 
     public static void main(String[] args) {
-        ProtectionIED uc00 = new ProtectionIED();
-        uc00.run();
+//        ProtectionIED uc00 = new ProtectionIED();
+//        uc00.run();
+//
+//        ReplayerIED uc01 = new ReplayerIED();
+//        uc01.run();
 
-        ReplayerIED uc01 = new ReplayerIED();
-        uc00.run();
+        MergingUnit mu = new MergingUnit();
+
+        mu.setPayloadFiles(new String[]{"webapp/sv_payload_files/second_1.csv"});
+        mu.run();
 
         try {
-            startWriting();
-            writeGooseMessagesToFile(uc00.getMessages(), label[0], true);
-            writeGooseMessagesToFile(uc01.getMessages(), label[1], false);
+            startWriting("/home/silvio/datasets/ereno/dataset_mu.arff");
+            writeSvMessagesToFile(mu.getMessages(), true, "sb");
+//            writeGooseMessagesToFile(uc00.getMessages(), label[0], true);
+//            writeGooseMessagesToFile(uc01.getMessages(), label[1], false);
             finishWriting();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static void scriptForSV(String svPayload, String datasetLocation) throws IOException {
+
+        MergingUnit mu = new MergingUnit();
+
+        mu.setPayloadFiles(new String[]{svPayload});
+        mu.run();
+        startWriting(datasetLocation);
+        writeSvMessagesToFile(mu.getMessages(), true, "sb");
+        finishWriting();
     }
 
     protected static void writeGooseMessagesToFile(ArrayList<Goose> gooseMessages, String attackType, boolean printHeader) throws IOException {
@@ -47,6 +64,28 @@ public class Extractor {
             prev = gm.copy();
         }
     }
+
+    protected static void writeSvMessagesToFile(ArrayList<Sv> svMessages, boolean printHeader, String substation) throws IOException {
+        /* Write Header and Columns */
+        if (printHeader) {
+            writeDefaulSvHeader(substation);
+        }
+
+        for (Sv sv : svMessages) {
+            write(sv.toString());
+        }
+    }
+
+    private static void writeDefaulSvHeader(String substation) throws IOException {
+        write("@attribute Time numeric");// time-based 1
+        write("@attribute i" + substation + "A numeric"); //SV-related 2
+        write("@attribute i" + substation + "B numeric"); //SV-related 3
+        write("@attribute i" + substation + "C numeric"); //SV-related 4
+        write("@attribute v" + substation + "A numeric"); //SV-related 8
+        write("@attribute v" + substation + "B numeric"); //SV-related 9
+        write("@attribute v" + substation + "C numeric"); //SV-related 10
+    }
+
 
     protected void writeDefaultHeader() throws IOException {
         write("@relation compiledtraffic");
@@ -143,8 +182,13 @@ public class Extractor {
         bw.newLine();
     }
 
-    private static void startWriting() throws IOException {
+    private static void startWriting(String filename) throws IOException {
         File fout = new File(filename);
+        if (!fout.exists()) {
+//            fout.mkdir();
+            fout.getParentFile().mkdirs();
+            System.out.println("Directory created at: " + filename);
+        }
         FileOutputStream fos = new FileOutputStream(fout, !replace);
         bw = new BufferedWriter(new OutputStreamWriter(fos));
     }

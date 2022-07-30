@@ -29,6 +29,10 @@ public class ProtectionIED extends IED {
     private int numberOfPeriodicMessages = 50;
     protected ArrayList<Goose> messages;
 
+    public ProtectionIED(){
+        this.messages  = new ArrayList<Goose>();
+    }
+
     @Override
     public void enableRandomOffsets(int max) {
         super.enableRandomOffsets(max);
