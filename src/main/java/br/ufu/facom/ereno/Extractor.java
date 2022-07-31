@@ -8,9 +8,11 @@ import br.ufu.facom.ereno.standard.messages.Sv;
 import java.io.*;
 import java.util.ArrayList;
 
+import static br.ufu.facom.ereno.Util.*;
+
 public class Extractor {
-    static BufferedWriter bw;
-    static boolean replace = true;
+    public static String teste;
+
 
     static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate"};//,"poisoned_high_rate_consistent"};
 
@@ -177,25 +179,7 @@ public class Extractor {
         write("@data");
     }
 
-    protected static void write(String line) throws IOException {
-        bw.write(line);
-        bw.newLine();
-    }
 
-    private static void startWriting(String filename) throws IOException {
-        File fout = new File(filename);
-        if (!fout.exists()) {
-//            fout.mkdir();
-            fout.getParentFile().mkdirs();
-            System.out.println("Directory created at: " + filename);
-        }
-        FileOutputStream fos = new FileOutputStream(fout, !replace);
-        bw = new BufferedWriter(new OutputStreamWriter(fos));
-    }
-
-    protected static void finishWriting() throws IOException {
-        bw.close();
-    }
 
     private static void writeDefaulGooseHeader() throws IOException {
         write("@relation compiledtraffic");
