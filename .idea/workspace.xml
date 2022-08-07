@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="ArtifactsWorkspaceSettings">
     <artifacts-to-build>
       <artifact name="ERENO:war exploded" />
@@ -9,31 +12,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Normal use case (UC00) and random replay use case (UC01) are done. EthSrc and EthDst were updated according to rules (must make headers consistency - only GOOSE hear was updated). Next step: refactor the architecture.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/GooseFlow.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/creator/MessageCreator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/messages/EthernetFrame.java" afterDir="false" />
+    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Working on ERENO-UI - ECF generation and reading">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/ERENO_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/ERENO_war_exploded.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/GooseServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SetupIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/creators/GooseCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/creator/GooseCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/creators/MessageCreator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/creators/RandomReplayCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/infected/creators/RandomReplayCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/IED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/devices/IED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/attackers/ReplayerIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/infected/devices/ReplayerIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/legitimate/MergingUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/devices/MergingUnit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/devices/legitimate/ProtectionIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/devices/ProtectionIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/extractor/Extractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/messages/Goose.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/messages/Goose.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SetupIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SetupIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/ied-configs.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ied-configs.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
+        <option value="Jsp File" />
         <option value="Class" />
       </list>
     </option>
@@ -69,19 +72,26 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/silvio/IdeaProjects/iec61850generator&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;copyright&quot;
+    &quot;last_opened_file_path&quot;: &quot;/home/silvio/IdeaProjects/ERENO/src/main/webapp/assets/img&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp/assets/img" />
+      <recent name="$PROJECT_DIR$/src/main/webapp" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/sv_payload_files" />
+    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="br.ufu.facom.ereno.api" />
       <recent name="br.ufu.facom.ereno.usecases" />
       <recent name="br.ufu.facom.ereno.attacks" />
       <recent name="br.ufu.facom.ereno.controller" />
       <recent name="br.ufu.facom.ereno" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.br.ufu.facom.ereno.standard.Extractor">
+  <component name="RunManager" selected="Tomcat Server.Tomcat 9.0.64">
     <configuration name="Extractor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="br.ufu.facom.ereno.Extractor" />
       <module name="ERENO" />
@@ -108,7 +118,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ied-configs.jsp" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8080/ERENO_war_exploded/ied-configs.jsp">
+      <method v="2" />
+    </configuration>
+    <configuration name="teste.jsp" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost:8080/ERENO_war_exploded/teste.jsp">
+      <method v="2" />
+    </configuration>
     <configuration name="Tomcat 9.0.64" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.64" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
+      <option name="SHOW_DIALOG_ON_UPDATE" value="false" />
       <deployment>
         <artifact name="ERENO:war exploded">
           <settings>
@@ -124,6 +142,54 @@
       <predefined_log_file id="Tomcat Manager" />
       <predefined_log_file id="Tomcat Host Manager" />
       <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="40161" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
       <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
         <option name="USE_ENV_VARIABLES" value="true" />
         <STARTUP>
@@ -146,11 +212,19 @@
         </option>
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.br.ufu.facom.ereno.usecases.uc01.UC00GooseOnly" />
+      <item itemvalue="Application.Extractor" />
+      <item itemvalue="JavaScript Debug.ied-configs.jsp" />
+      <item itemvalue="JavaScript Debug.teste.jsp" />
+      <item itemvalue="Tomcat Server.Tomcat 9.0.64" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JavaScript Debug.ied-configs.jsp" />
+        <item itemvalue="JavaScript Debug.teste.jsp" />
+        <item itemvalue="Application.Extractor" />
         <item itemvalue="Application.br.ufu.facom.ereno.usecases.uc01.UC00GooseOnly" />
-        <item itemvalue="Application.br.ufu.facom.ereno.standard.Extractor" />
-        <item itemvalue="Application.br.ufu.facom.ereno.extractor.Extractor" />
         <item itemvalue="Application.br.ufu.facom.ereno.usecases.uc01.UC00GooseOnly" />
       </list>
     </recent_temporary>
@@ -171,6 +245,11 @@
       <workItem from="1658934533199" duration="16238000" />
       <workItem from="1659049520998" duration="608000" />
       <workItem from="1659186047980" duration="1204000" />
+      <workItem from="1659198016658" duration="19349000" />
+      <workItem from="1659281559636" duration="2090000" />
+      <workItem from="1659302975289" duration="4323000" />
+      <workItem from="1659700949018" duration="941000" />
+      <workItem from="1659838397680" duration="3133000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -200,7 +279,140 @@
       <option name="project" value="LOCAL" />
       <updated>1658938950157</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Refactoring: creating packages for normal, attacks, and api (for servlets).">
+      <created>1659190179708</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1659190179708</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Merging Unit finished; sv-samples endpoint is downloading a sv dataset.">
+      <created>1659224493300</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1659224493300</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Working on ERENO-UI - ECF generation and reading (commit of java files).">
+      <created>1659303267315</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1659303267315</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Working on ERENO-UI - ECF generation and reading (commit of jsp files).">
+      <created>1659303288190</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1659303288190</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Working on ERENO-UI - ECF generation and reading (commit of css files).">
+      <created>1659303301443</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1659303301443</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Working on ERENO-UI - ECF generation and reading (commit of css files).">
+      <created>1659303311092</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1659303311092</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Working on ERENO-UI - ECF generation and reading (commit of css files).">
+      <created>1659303316597</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1659303316597</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Working on ERENO-UI - ECF generation and reading (commit of css files).">
+      <created>1659303350841</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1659303350841</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Working on ERENO-UI - ECF generation and reading (commit of js files).">
+      <created>1659303399459</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1659303399459</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Working on ERENO-UI - ECF generation and reading (commit of bootstrap icons files).">
+      <created>1659303460320</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1659303460320</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Working on ERENO-UI - ECF generation and reading (commit of bootstrap chart files).">
+      <created>1659303542175</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1659303542175</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Working on ERENO-UI - ECF generation and reading (commit of bootstrap theme files).">
+      <created>1659303745827</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1659303745827</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Working on ERENO-UI - ECF generation and reading (commit of bootstrap theme files).">
+      <created>1659303879755</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1659303879755</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Working on ERENO-UI - ECF generation and reading (commit of bootstrap theme files).">
+      <created>1659304004670</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1659304004670</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Working on ERENO-UI - ECF generation and reading (commit of bootstrap theme files).">
+      <created>1659304985757</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1659304985757</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Working on ERENO-UI - ECF generation and reading (commit of bootstrap theme files).">
+      <created>1659305018105</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1659305018105</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Working on ERENO-UI - ECF generation and reading">
+      <created>1659305400083</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1659305400083</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Working on ERENO-UI - ECF generation and reading">
+      <created>1659324418942</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1659324418942</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Working on ERENO-UI - ECF generation and reading">
+      <created>1659324502640</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1659324502640</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -221,6 +433,21 @@
     <MESSAGE value="Initial commit" />
     <MESSAGE value="Normal use case (UC00) and random replay use case (UC01) are done." />
     <MESSAGE value="Normal use case (UC00) and random replay use case (UC01) are done. EthSrc and EthDst were updated according to rules (must make headers consistency - only GOOSE hear was updated). Next step: refactor the architecture." />
-    <option name="LAST_COMMIT_MESSAGE" value="Normal use case (UC00) and random replay use case (UC01) are done. EthSrc and EthDst were updated according to rules (must make headers consistency - only GOOSE hear was updated). Next step: refactor the architecture." />
+    <MESSAGE value="Refactoring: creating packages for normal, attacks, and api (for servlets)." />
+    <MESSAGE value="Merging Unit finished; sv-samples endpoint is downloading a sv dataset." />
+    <MESSAGE value="Working on ERENO-UI - ECF generation and reading." />
+    <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of java files)." />
+    <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of jsp files)." />
+    <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of css files)." />
+    <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of js files)." />
+    <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of bootstrap icons files)." />
+    <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of bootstrap chart files)." />
+    <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of bootstrap theme files)." />
+    <MESSAGE value="Working on ERENO-UI - ECF generation and reading" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working on ERENO-UI - ECF generation and reading" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

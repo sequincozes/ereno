@@ -260,7 +260,7 @@
 
                         <!-- General Form Elements -->
                         <%--                        <form action="goose-message.jsp" method="post">--%>
-                        <form action="setup-ied" method="post">
+                        <form action="setup-ied" method="post" accept-charset="utf-8">
                             <!-- Floating Labels Form -->
                             <div class="row">
 
@@ -274,49 +274,49 @@
 
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="gocbRef"
+                                        <input type="text" class="form-control" id="gocbRef" name="gocbRef"
                                                placeholder="LD/LLN0$GO$gcbA" value="LD/LLN0$GO$gcbA">
                                         <label for="gocbRef">Bloco de Controle (gocbRef)</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="datSet"
+                                        <input type="text" class="form-control" id="datSet" name="datSet"
                                                placeholder="LD/LLN0$GO$gcbA" value="LD/LLN0$IntLockA">
                                         <label for="datSet">Caminho do DatSet</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
-                                        <input type="number" class="form-control" id="minTime"
+                                        <input type="number" class="form-control" id="minTime" name="minTime"
                                                placeholder="4" value="4">
                                         <label for="maxTime">Intervalo Mínimo de Transmissão (MinTime)</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
-                                        <input type="number" class="form-control" id="maxTime"
+                                        <input type="number" class="form-control" id="maxTime" name="maxTime"
                                                placeholder="1000" value="1000">
                                         <label for="maxTime">Intervalo Máximo de Transmissão (MaxTime)</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
-                                        <input type="number" class="form-control" id="timestamp"
+                                        <input type="number" class="form-control" id="timestamp" name="timestamp"
                                                placeholder="0" value="0">
                                         <label for="stNum">Timestamp inicial (t)</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
-                                        <input type="number" class="form-control" id="stNum"
+                                        <input type="number" class="form-control" id="stNum" name="stNum"
                                                placeholder="0" value="0">
                                         <label for="stNum">Número de Status inicial (StNum)</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
-                                        <input type="number" class="form-control" id="sqNum"
+                                        <input type="number" class="form-control" id="sqNum" name="sqNum"
                                                placeholder="0" value="0">
                                         <label for="sqNum">Número de Sequência inicial (SqNum)</label>
                                     </div>
