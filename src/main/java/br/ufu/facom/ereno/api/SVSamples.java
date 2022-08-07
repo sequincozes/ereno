@@ -26,27 +26,32 @@ public class SVSamples extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String uploadPath = getServletContext().getRealPath("sv_payload_files");
-        File uploadDir = new File(uploadPath);
-        if (!uploadDir.exists()) uploadDir.mkdir();
-        try {
-            Logger.getLogger("Parts").info(String.valueOf(request.getParts().size()));
+        if (request.getParameter("custom") != null && request.getParameter("custom").equals("on")) {
+            String uploadPath = getServletContext().getRealPath("sv_payload_files");
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) uploadDir.mkdir();
+            try {
+                Logger.getLogger("Parts").info(String.valueOf(request.getParts().size()));
 
-            for (Part part : request.getParts()) {
-                String fileName = part.getSubmittedFileName();
-                part.write(uploadPath + File.separator + fileName);
-                Logger.getLogger(fileName).info("Uploading part...");
+                for (Part part : request.getParts()) {
+                    String fileName = part.getSubmittedFileName();
+                    part.write(uploadPath + File.separator + fileName);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            } catch (ServletException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            } catch (NullPointerException e) {
+                System.out.println("Skipped because null");
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        } catch (ServletException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
+            Logger.getLogger("SVSamples").info("SV file upload complete...");
+        } else {
+            Logger.getLogger("SVSamples").info("Skipped without upload new file for SV.");
         }
-
         response.sendRedirect(request.getContextPath() + "/attack-definitions.jsp");
-
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) {

@@ -230,7 +230,7 @@
         </li><!-- End Forms Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="index.jsp">
+            <a class="nav-link collapsed" href="download-datasets.jsp">
                 <i class="bi bi-download"></i>
                 <span>Datasets</span>
             </a>

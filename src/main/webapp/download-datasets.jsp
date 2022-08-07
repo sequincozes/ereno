@@ -1,3 +1,5 @@
+<%@ page import="java.io.File" %>
+<%@ page import="br.ufu.facom.ereno.Util" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -244,69 +246,41 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Configurações do IED</li>
                 <li class="breadcrumb-item"> Fluxo de Mensagens</li>
-                <li class="breadcrumb-item" active>Upload de Leituras</li>
+                <li class="breadcrumb-item" active><a style="color: #06c"> Upload de Leituras </a></li>
                 <li class="breadcrumb-item"> Ataques</li>
-                <li class="breadcrumb-item"> <a style="color: #06c"> Download do Dataset</a></li>
+                <li class="breadcrumb-item"> Download do Dataset</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
 
     <section class="section">
         <div class="row">
-            <form class="col-lg-6">
-
-                <form class="card">
-                    <form class="card-body">
-                        <h5 class="card-title">Upload de Amostragens Elétricas</h5>
-
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Download de Datasets</h5>
                         <!-- General Form Elements -->
-                        <form>
+                        <form method="post" action="sv-samples" enctype="multipart/form-data">
                             <!-- Floating Labels Form -->
-                            <form class="row g-3">
-
-                                <div class="col-sm-12">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="sv">
-                                        <label class="form-check-label" for="sv">Gerar mensagens SV</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="custom">
-                                        <label class="form-check-label" for="custom">Fazer upload de arquivo personalizado (do contrário, usa-se o padrão)</label>
-                                    </div>
-                                </div>
-                                <br>
+                            <div class="row g-3">
                                 <div class="col-md-12">
-                                    <div class="form-floating mb-3" style="line-height: 0.5">
-                                        <input type="file" class="form-control" id="samples"
-                                               style="min-height: 40px">
-                                        <label for="samples">Amostras de Corrente e Tensão</label>
-                                    </div>
+                                    <%= Util.listFiles(new File(application.getRealPath("/downloads"))) %>
                                 </div>
-                            </form>
+                            </div>
                         </form>
-                    </form>
 
-                    <div>
-                        <br>
-                        <button type="reset" class="btn btn-secondary"><a style="color:white ;"
-                                                                          href="goose-message.jsp">Voltar</a></button>
-                        <button type="submit" class="btn btn-primary"><a style="color:white ;"
-                                                                         href="attack-definitions.jsp">Próximo</a>
-                        </button>
                     </div>
-                </form><!-- End General Form Elements -->
-            </form>
+
+                </div><!-- End General Form Elements -->
+            </div>
         </div>
     </section>
-
 </main><!-- End #main -->
 
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
     <div class="copyright">
-        Copyright &copy; 2022 <a href="https://github.com/sequincozes/ereno">ERENO</a>
+        Copyright &copy; 2022 <a href="https://www.facom.ufu.br/~sequincozes/">ERENO</a>
         <br>
         Todos os direitos reservados.
     </div>
@@ -314,6 +288,32 @@
 
 <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
         class="bi bi-arrow-up-short"></i></a>
+
+<script>
+    var showCheckboxUpload = false;
+
+    function generateSv() {
+        if (showCheckboxUpload) {
+            document.getElementById("div-checkbox-upload").style.display = "none";
+            showCheckboxUpload = false;
+        } else {
+            document.getElementById("div-checkbox-upload").style.display = "block";
+            showCheckboxUpload = true;
+        }
+    }
+
+    var showUpload = false;
+
+    function uploadSv() {
+        if (showUpload) {
+            document.getElementById("div-upload").style.display = "none";
+            showUpload = false;
+        } else {
+            document.getElementById("div-upload").style.display = "block";
+            showUpload = true;
+        }
+    }
+</script>
 
 <!-- Vendor JS Files -->
 <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>

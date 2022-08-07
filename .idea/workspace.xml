@@ -12,14 +12,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Attacks: GET and POST done; ECF reading and writting done; JSP reading ECF.">
+    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Upload SV: uploading done. Next: javascript do hidden the field and save filename for generating attacks.">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/downloads/result.arff" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/downloads/result2.arff" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SVSamples.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SVSamples.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/attack-definitions.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/attack-definitions.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/download-datasets.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/download-datasets.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/goose-message.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/goose-message.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/ied-configs.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ied-configs.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/upload-samples.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/upload-samples.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -79,13 +81,14 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "extract.method.default.visibility": "private",
-    "last_opened_file_path": "/home/silvio/IdeaProjects/ERENO/src/main/webapp",
+    "last_opened_file_path": "/home/silvio/IdeaProjects/ERENO/src/main/webapp/downloads",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices"
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp/downloads" />
       <recent name="$PROJECT_DIR$/src/main/webapp" />
       <recent name="$PROJECT_DIR$/src/main/webapp/ecf" />
       <recent name="$PROJECT_DIR$/src/main/webapp/assets/img" />
@@ -257,7 +260,8 @@
       <workItem from="1659281559636" duration="2090000" />
       <workItem from="1659302975289" duration="4323000" />
       <workItem from="1659700949018" duration="941000" />
-      <workItem from="1659838397680" duration="21716000" />
+      <workItem from="1659838397680" duration="21916000" />
+      <workItem from="1659898346567" duration="6899000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -448,7 +452,14 @@
       <option name="project" value="LOCAL" />
       <updated>1659856906803</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Upload SV: uploading done. Next: javascript do hidden the field and save filename for generating attacks.">
+      <created>1659860664948</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1659860664948</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -485,7 +496,8 @@
     <MESSAGE value="SetupIED: GET and POST done; ECF reading and writting done; JSP reading ECF." />
     <MESSAGE value="GooseFlow: GET and POST done; ECF reading and writting done; JSP reading ECF." />
     <MESSAGE value="Attacks: GET and POST done; ECF reading and writting done; JSP reading ECF." />
-    <option name="LAST_COMMIT_MESSAGE" value="Attacks: GET and POST done; ECF reading and writting done; JSP reading ECF." />
+    <MESSAGE value="Upload SV: uploading done. Next: javascript do hidden the field and save filename for generating attacks." />
+    <option name="LAST_COMMIT_MESSAGE" value="Upload SV: uploading done. Next: javascript do hidden the field and save filename for generating attacks." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
