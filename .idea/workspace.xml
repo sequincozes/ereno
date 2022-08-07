@@ -12,11 +12,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="SetupIED: GET and POST done; ECF reading and writting done; JSP reading ECF.">
+    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="GooseFlow: GET and POST done; ECF reading and writting done; JSP reading ECF.">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/ecf/goose-flow.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/GooseFlow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/GooseFlow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/goose-message.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/goose-message.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/ied-configs.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ied-configs.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Attacks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Attacks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/attack-definitions.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/attack-definitions.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/upload-samples.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/upload-samples.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -253,7 +254,7 @@
       <workItem from="1659281559636" duration="2090000" />
       <workItem from="1659302975289" duration="4323000" />
       <workItem from="1659700949018" duration="941000" />
-      <workItem from="1659838397680" duration="14909000" />
+      <workItem from="1659838397680" duration="17960000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -430,7 +431,14 @@
       <option name="project" value="LOCAL" />
       <updated>1659849632893</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="GooseFlow: GET and POST done; ECF reading and writting done; JSP reading ECF.">
+      <created>1659853891236</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1659853891236</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -465,7 +473,8 @@
     <MESSAGE value="Working on ERENO-UI - ECF generation and reading" />
     <MESSAGE value="SetupIED: GET and POST done;" />
     <MESSAGE value="SetupIED: GET and POST done; ECF reading and writting done; JSP reading ECF." />
-    <option name="LAST_COMMIT_MESSAGE" value="SetupIED: GET and POST done; ECF reading and writting done; JSP reading ECF." />
+    <MESSAGE value="GooseFlow: GET and POST done; ECF reading and writting done; JSP reading ECF." />
+    <option name="LAST_COMMIT_MESSAGE" value="GooseFlow: GET and POST done; ECF reading and writting done; JSP reading ECF." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

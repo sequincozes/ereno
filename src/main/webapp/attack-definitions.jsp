@@ -1,3 +1,4 @@
+<%@ page import="br.ufu.facom.ereno.api.Attacks" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -221,7 +222,7 @@
                         <i class="bi bi-circle"></i><span>Upload de Leituras</span>
                     </a>
                     <a href="attack-definitions.jsp">
-                        <i class="bi bi-circle"></i><span>Ataques</span>
+                        <i class="bi bi-circle"></i><span style="color: #06c !important">Ataques</span>
                     </a>
                 </li>
             </ul>
@@ -242,91 +243,112 @@
         <h1>Configurações do Ambiente</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item">Configurações do IED </li>
-                <li class="breadcrumb-item"> Fluxo de Mensagens </li>
-                <li class="breadcrumb-item"> Upload de Leituras </li>
-                <li class="breadcrumb-item" active ><a style="color: #06c"> Ataques </a> </li>
-                <li class="breadcrumb-item"> Download do Dataset </li>
+                <li class="breadcrumb-item">Configurações do IED</li>
+                <li class="breadcrumb-item"> Fluxo de Mensagens</li>
+                <li class="breadcrumb-item"> Upload de Leituras</li>
+                <li class="breadcrumb-item" active><a style="color: #06c"> Ataques </a></li>
+                <li class="breadcrumb-item"> Download do Dataset</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
 
     <section class="section">
         <div class="row">
-            <form class="col-lg-6">
-
-                <form class="card">
-                    <form class="card-body">
-                        <h5 class="card-title">Definições de Ataques</h5>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Configurações do IED</h5>
 
                         <!-- General Form Elements -->
-                        <form>
+                        <form action="attacks" method="post" accept-charset="utf-8">
+                            <%
+                                // Loading saved values to update form
+                                Attacks attacks = new Attacks();
+                                attacks.loadConfigs(application.getRealPath("ecf/attacks.json"));
+                            %>
+
                             <!-- Floating Labels Form -->
-                            <form class="row g-3">
+                            <div class="row g-3">
                                 <div class="col-md-12">
                                     <div class="col-sm-12">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="legitimate">
-                                            <label class="form-check-label" for="legitimate">Incluir mensagens legítimas</label>
+                                            <input class="form-check-input" type="checkbox" id="legitimate"
+                                                   name="legitimate" <%=isChecked(attacks.isLegitimate())%>>
+                                            <label class="form-check-label" for="legitimate">Incluir mensagens
+                                                legítimas</label>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="random-replay">
-                                            <label class="form-check-label" for="random-replay"> Ataques de replay aleatório</label>
+                                            <input class="form-check-input" type="checkbox" id="random-replay"
+                                                   name="random-replay" <%=isChecked(attacks.isRandomReplay())%>
+                                            <label class="form-check-label" for="random-replay"> Ataques de replay
+                                                aleatório</label>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="inverse-replay">
-                                            <label class="form-check-label" for="inverse-replay"> Ataques de replay inverso</label>
+                                            <input class="form-check-input" type="checkbox" id="inverse-replay"
+                                                   name="inverse-replay" <%=isChecked(attacks.isInverseReplay())%>
+                                            <label class="form-check-label" for="inverse-replay"> Ataques de replay
+                                                inverso</label>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="masquerade-outage">
-                                            <label class="form-check-label" for="masquerade-outage"> Ataques masquerade (queda de energia)</label>
+                                            <input class="form-check-input" type="checkbox" id="masquerade-outage"
+                                                   name="masquerade-outage" <%=isChecked(attacks.isMasqueradeOutage())%>
+                                            <label class="form-check-label" for="masquerade-outage"> Ataques masquerade
+                                                (queda de energia)</label>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="masquerade-damage">
-                                            <label class="form-check-label" for="masquerade-damage"> Ataques masquerade (dano ao equipamento)</label>
+                                            <input class="form-check-input" type="checkbox" id="masquerade-damage"
+                                                   name="masquerade-damage" <%=isChecked(attacks.isMasqueradeDamage())%>
+                                            <label class="form-check-label" for="masquerade-damage"> Ataques masquerade
+                                                (dano ao equipamento)</label>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="random-injection">
-                                            <label class="form-check-label" for="random-injection"> Ataques de injeção de mensagens (aleatório)</label>
+                                            <input class="form-check-input" type="checkbox" id="random-injection"
+                                                   name="random-injection" <%=isChecked(attacks.isRandomInjection())%>
+                                            <label class="form-check-label" for="random-injection"> Ataques de injeção
+                                                de mensagens (aleatório)</label>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="high-st-num">
-                                            <label class="form-check-label" for="high-st-num"> Ataques DoS (High-StNum)</label>
+                                            <input class="form-check-input" type="checkbox" id="high-st-num"
+                                                   name="high-st-num" <%=isChecked(attacks.isHighStNum())%>>
+                                            <label class="form-check-label" for="high-st-num"> Ataques DoS
+                                                (High-StNum)</label>
                                         </div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="flooding">
-                                            <label class="form-check-label" for="flooding"> Ataques DoS (Flooding)</label>
+                                            <input class="form-check-input" type="checkbox" id="flooding"
+                                                   name="flooding" <%=isChecked(attacks.isFlooding())%>>
+                                            <label class="form-check-label" for="flooding"> Ataques DoS
+                                                (Flooding)</label>
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
+                            <div>
+                                <br>
+                                <button type="reset" class="btn btn-secondary"><a style="color:white ;"
+                                                                                  href="upload-samples.jsp">Voltar</a>
+                                </button>
+                                <button type="submit" class="btn btn-primary">Finalizar</button>
+                            </div>
                         </form>
-                    </form>
 
-                    <div>
-                        <br>
-                        <button type="reset" class="btn btn-secondary"><a style="color:white ;"
-                                                                          href="upload-samples.jsp">Voltar</a></button>
-                        <button type="submit" class="btn btn-primary"><a style="color:white ;"
-                                                                         href="download-datasets.html">Finalizar</a>
-                        </button>
                     </div>
-                </form><!-- End General Form Elements -->
-            </form>
+
+                </div><!-- End General Form Elements -->
+            </div>
         </div>
     </section>
 </main><!-- End #main -->
@@ -359,3 +381,12 @@
 </body>
 
 </html>
+<%!
+    private String isChecked(boolean isChecked) {
+        if (isChecked) {
+            return "checked";
+        } else {
+            return "";
+        }
+    }
+%>
