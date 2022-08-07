@@ -6,7 +6,7 @@ public class Util {
     static BufferedWriter bw;
     static boolean replace = true;
 
-    protected static void write(String line) throws IOException {
+    public static void write(String line) throws IOException {
         bw.write(line);
         bw.newLine();
     }
@@ -22,7 +22,7 @@ public class Util {
         bw = new BufferedWriter(new OutputStreamWriter(fos));
     }
 
-    protected static void finishWriting() throws IOException {
+    public static void finishWriting() throws IOException {
         bw.close();
     }
 }

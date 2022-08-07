@@ -1,3 +1,5 @@
+<%@ page import="br.ufu.facom.ereno.api.SetupIED" %>
+<%@ page import="java.io.PrintWriter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -212,7 +214,7 @@
             <ul id="forms-nav" class="nav-content expand " data-bs-parent="#sidebar-nav">
                 <li>
                     <a href="ied-configs.jsp">
-                        <i class="bi bi-circle"></i><span>Configurações do Ambiente</span>
+                        <i class="bi bi-circle"></i><span style="color: #06c !important">Configurações do Ambiente</span>
                     </a>
                     <a href="goose-message.jsp">
                         <i class="bi bi-circle"></i><span>Fluxos de Mensagens</span>
@@ -242,7 +244,7 @@
         <h1>Configurações do Ambiente</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item" active><a style="color: #06c">Configurações do IED</a></li>
+                <li class="breadcrumb-item" active><a style="color: #06c !important">Configurações do IED</a></li>
                 <li class="breadcrumb-item"> Fluxo de Mensagens</li>
                 <li class="breadcrumb-item"> Upload de Leituras</li>
                 <li class="breadcrumb-item"> Ataques</li>
@@ -261,13 +263,18 @@
                         <!-- General Form Elements -->
                         <%--                        <form action="goose-message.jsp" method="post">--%>
                         <form action="setup-ied" method="post" accept-charset="utf-8">
+                            <%
+                                // Loading saved values to update form
+                                SetupIED setupIED = new SetupIED();
+                                setupIED.loadConfigs(application.getRealPath("ecf/setup-ied.json"));
+                            %>
                             <!-- Floating Labels Form -->
                             <div class="row">
 
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="iedName" name="iedName"
-                                               placeholder="IED de Proteção" value="IED de Proteção">
+                                               placeholder="IED de Proteção" value="<%=setupIED.getIedName()%>">
                                         <label for="iedName">Nome do IED</label>
                                     </div>
                                 </div>
@@ -275,49 +282,49 @@
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="gocbRef" name="gocbRef"
-                                               placeholder="LD/LLN0$GO$gcbA" value="LD/LLN0$GO$gcbA">
+                                               placeholder="LD/LLN0$GO$gcbA" value="<%=setupIED.getGocbRef()%>">
                                         <label for="gocbRef">Bloco de Controle (gocbRef)</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="datSet" name="datSet"
-                                               placeholder="LD/LLN0$GO$gcbA" value="LD/LLN0$IntLockA">
+                                               placeholder="LD/LLN0$GO$gcbA" value="<%=setupIED.getDatSet()%>">
                                         <label for="datSet">Caminho do DatSet</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
                                         <input type="number" class="form-control" id="minTime" name="minTime"
-                                               placeholder="4" value="4">
+                                               placeholder="4" value="<%=setupIED.getMinTime()%>">
                                         <label for="maxTime">Intervalo Mínimo de Transmissão (MinTime)</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
                                         <input type="number" class="form-control" id="maxTime" name="maxTime"
-                                               placeholder="1000" value="1000">
+                                               placeholder="1000" value="<%=setupIED.getMaxTime()%>">
                                         <label for="maxTime">Intervalo Máximo de Transmissão (MaxTime)</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
                                         <input type="number" class="form-control" id="timestamp" name="timestamp"
-                                               placeholder="0" value="0">
+                                               placeholder="0" value="<%=setupIED.getTimestamp()%>">
                                         <label for="stNum">Timestamp inicial (t)</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
                                         <input type="number" class="form-control" id="stNum" name="stNum"
-                                               placeholder="0" value="0">
+                                               placeholder="0" value="<%=setupIED.getStNum()%>">
                                         <label for="stNum">Número de Status inicial (StNum)</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
                                         <input type="number" class="form-control" id="sqNum" name="sqNum"
-                                               placeholder="0" value="0">
+                                               placeholder="0" value="<%=setupIED.getSqNum()%>">
                                         <label for="sqNum">Número de Sequência inicial (SqNum)</label>
                                     </div>
                                 </div>
