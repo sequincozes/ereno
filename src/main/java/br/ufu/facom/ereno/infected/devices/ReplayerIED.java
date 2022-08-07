@@ -1,26 +1,39 @@
 package br.ufu.facom.ereno.infected.devices;
 
-import br.ufu.facom.ereno.standard.devices.IED;
-import br.ufu.facom.ereno.standard.messages.EthernetFrame;
-import br.ufu.facom.ereno.standard.messages.Goose;
+import br.ufu.facom.ereno.benign.devices.IED;
+import br.ufu.facom.ereno.benign.devices.ProtectionIED;
+import br.ufu.facom.ereno.benign.messages.EthernetFrame;
+import br.ufu.facom.ereno.benign.messages.Goose;
+import br.ufu.facom.ereno.infected.creators.RandomReplayCreator;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class ReplayerIED extends IED {
 
-    protected ArrayList<Goose> messages;
+    protected ArrayList<Goose> replayedMessages;
+
+    ProtectionIED legitimateIED; // ReplayerIED will replay mensagens from that legitimate device
+
+    public ReplayerIED(ProtectionIED legitimate) {
+        this.legitimateIED = legitimate;
+        replayedMessages = new ArrayList<>();
+    }
 
     @Override
     public void run() {
-
+        Logger.getLogger("ReplayerIED").info(
+                "Feeding replayer IED with " + legitimateIED.getMessages().size() + " legitimate messages");
+        messageCreator = new RandomReplayCreator(legitimateIED.getMessages(), 100); // feeds the message creator with legitimate messages
+        messageCreator.generate(this); // pass itself to receive messages from generator
     }
 
     @Override
     public void addMessage(EthernetFrame message) {
-        messages.add((Goose) message);
+        replayedMessages.add((Goose) message);
     }
 
-    public ArrayList<Goose> getMessages() {
-        return this.messages;
+    public ArrayList<Goose> getReplayedMessages() {
+        return this.replayedMessages;
     }
 }
