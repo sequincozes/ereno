@@ -371,7 +371,7 @@
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
     <div class="copyright">
-        Copyright &copy; 2022 <a href="https://www.facom.ufu.br/~sequincozes/">Silvio E. Quincozes</a>
+        Copyright &copy; 2022 <a href="https://github.com/sequincozes/ereno">ERENO</a>
         <br>
         Todos os direitos reservados.
     </div>

@@ -218,7 +218,7 @@
                         <i class="bi bi-circle"></i><span>Fluxos de Mensagens</span>
                     </a>
                     <a href="upload-samples.jsp">
-                        <i class="bi bi-circle"></i><span style="color: #06c !important">Upload de Leituras</span>
+                        <i class="bi bi-circle"></i><span>Upload de Leituras</span>
                     </a>
                     <a href="attack-definitions.jsp">
                         <i class="bi bi-circle"></i><span>Ataques</span>
@@ -228,9 +228,9 @@
         </li><!-- End Forms Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="index.jsp">
+            <a class="nav-link collapsed" href="download-datasets.jsp">
                 <i class="bi bi-download"></i>
-                <span>Datasets</span>
+                <span style="color: #06c !important">Datasets</span>
             </a>
         </li><!-- End Dashboard Nav -->
     </ul>
@@ -244,9 +244,9 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Configurações do IED</li>
                 <li class="breadcrumb-item"> Fluxo de Mensagens</li>
-                <li class="breadcrumb-item" active><a style="color: #06c"> Upload de Leituras </a></li>
+                <li class="breadcrumb-item" active>Upload de Leituras</li>
                 <li class="breadcrumb-item"> Ataques</li>
-                <li class="breadcrumb-item"> Download do Dataset</li>
+                <li class="breadcrumb-item"> <a style="color: #06c"> Download do Dataset</a></li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -306,7 +306,7 @@
 <!-- ======= Footer ======= -->
 <footer id="footer" class="footer">
     <div class="copyright">
-        Copyright &copy; 2022 <a href="https://www.facom.ufu.br/~sequincozes/">Silvio E. Quincozes</a>
+        Copyright &copy; 2022 <a href="https://github.com/sequincozes/ereno">ERENO</a>
         <br>
         Todos os direitos reservados.
     </div>

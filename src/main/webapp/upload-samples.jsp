@@ -253,54 +253,67 @@
 
     <section class="section">
         <div class="row">
-            <form class="col-lg-6">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Upload de Amostragens de Corrente e Tensão</h5>
 
-                <form class="card">
-                    <form class="card-body">
-                        <h5 class="card-title">Upload de Amostragens Elétricas</h5>
+                        <%--                        <form method="post" action="sv-samples" enctype="multipart/form-data">--%>
+                        <%--                            Choose a file: <input type="file" name="multiPartServlet" />--%>
+                        <%--                            <input type="submit" value="Upload" />--%>
+                        <%--                        </form>--%>
 
                         <!-- General Form Elements -->
-                        <form>
+                        <form method="post" action="sv-samples" enctype="multipart/form-data">
+                            <%
+                                // Loading saved values to update form
+//                                Attacks attacks = new Attacks();
+//                                attacks.loadConfigs(application.getRealPath("ecf/attacks.json"));
+                            %>
+
                             <!-- Floating Labels Form -->
-                            <form class="row g-3">
-
-                                <div class="col-sm-12">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="sv">
-                                        <label class="form-check-label" for="sv">Gerar mensagens SV</label>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="custom">
-                                        <label class="form-check-label" for="custom">Fazer upload de arquivo personalizado (do contrário, usa-se o padrão)</label>
-                                    </div>
-                                </div>
-                                <br>
+                            <div class="row g-3">
                                 <div class="col-md-12">
-                                    <div class="form-floating mb-3" style="line-height: 0.5">
-                                        <input type="file" class="form-control" id="samples"
-                                               style="min-height: 40px">
-                                        <label for="samples">Amostras de Corrente e Tensão</label>
+                                    <div class="col-sm-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="sv">
+                                            <label class="form-check-label" for="sv">Gerar mensagens SV</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" type="checkbox" id="custom">
+                                            <label class="form-check-label" for="custom">Fazer upload de arquivo
+                                                personalizado (do contrário, usa-se o padrão)</label>
+                                        </div>
+                                    </div>
+                                    <br>
+
+                                    <div class="col-md-12">
+                                        <div class="form-floating mb-3" style="line-height: 0.5">
+                                            <input type="file" class="form-control" id="samples"  name="multiPartServlet"
+                                                   style="min-height: 40px">
+                                            <label for="samples">Amostras de Corrente e Tensão</label>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <br>
+                                        <button type="reset" class="btn btn-secondary"><a style="color:white ;"
+                                                                                          href="goose-message.jsp">Voltar</a>
+                                        </button>
+                                        <input type="submit" value="Próximo" class="btn btn-primary">
+
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </form>
-                    </form>
 
-                    <div>
-                        <br>
-                        <button type="reset" class="btn btn-secondary"><a style="color:white ;"
-                                                                          href="goose-message.jsp">Voltar</a></button>
-                        <button type="submit" class="btn btn-primary"><a style="color:white ;"
-                                                                         href="attack-definitions.jsp">Próximo</a>
-                        </button>
                     </div>
-                </form><!-- End General Form Elements -->
-            </form>
+
+                </div><!-- End General Form Elements -->
+            </div>
         </div>
     </section>
-
 </main><!-- End #main -->
 
 <!-- ======= Footer ======= -->
