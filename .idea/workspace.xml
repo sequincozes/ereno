@@ -12,17 +12,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Upload SV: uploading done. Next: javascript do hidden the field and save filename for generating attacks.">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/downloads/result.arff" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/downloads/result2.arff" afterDir="false" />
+    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Upload SV: uploading done, javascript do hidden fields done; &#10;Download datasets: listing and downloading, done.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Datasets.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Attacks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Attacks.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SVSamples.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SVSamples.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/attack-definitions.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/attack-definitions.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/download-datasets.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/download-datasets.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/goose-message.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/goose-message.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/ied-configs.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ied-configs.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/upload-samples.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/upload-samples.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/infected/creators/RandomReplayCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/infected/creators/RandomReplayCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/infected/devices/ReplayerIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/infected/devices/ReplayerIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/creator/GooseCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/creator/GooseCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/creator/MessageCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/creator/MessageCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/creator/SVCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/creator/SVCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/devices/IED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/devices/IED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/devices/MergingUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/devices/MergingUnit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/devices/ProtectionIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/devices/ProtectionIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/messages/EthernetFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/messages/EthernetFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/messages/Goose.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/messages/Goose.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/standard/messages/Sv.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/messages/Sv.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/downloads/result2.arff" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -232,9 +240,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Extractor" />
         <item itemvalue="JavaScript Debug.ied-configs.jsp" />
         <item itemvalue="JavaScript Debug.teste.jsp" />
-        <item itemvalue="Application.Extractor" />
         <item itemvalue="Application.br.ufu.facom.ereno.usecases.uc01.UC00GooseOnly" />
         <item itemvalue="Application.br.ufu.facom.ereno.usecases.uc01.UC00GooseOnly" />
       </list>
@@ -261,7 +269,7 @@
       <workItem from="1659302975289" duration="4323000" />
       <workItem from="1659700949018" duration="941000" />
       <workItem from="1659838397680" duration="21916000" />
-      <workItem from="1659898346567" duration="6899000" />
+      <workItem from="1659898346567" duration="16571000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -459,7 +467,14 @@
       <option name="project" value="LOCAL" />
       <updated>1659860664948</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="Upload SV: uploading done, javascript do hidden fields done; &#10;Download datasets: listing and downloading, done.">
+      <created>1659905433567</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1659905433567</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -497,7 +512,8 @@
     <MESSAGE value="GooseFlow: GET and POST done; ECF reading and writting done; JSP reading ECF." />
     <MESSAGE value="Attacks: GET and POST done; ECF reading and writting done; JSP reading ECF." />
     <MESSAGE value="Upload SV: uploading done. Next: javascript do hidden the field and save filename for generating attacks." />
-    <option name="LAST_COMMIT_MESSAGE" value="Upload SV: uploading done. Next: javascript do hidden the field and save filename for generating attacks." />
+    <MESSAGE value="Upload SV: uploading done, javascript do hidden fields done; &#10;Download datasets: listing and downloading, done." />
+    <option name="LAST_COMMIT_MESSAGE" value="Upload SV: uploading done, javascript do hidden fields done; &#10;Download datasets: listing and downloading, done." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

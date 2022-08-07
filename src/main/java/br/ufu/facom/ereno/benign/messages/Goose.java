@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufu.facom.ereno.standard.messages;
+package br.ufu.facom.ereno.benign.messages;
 
 /**
  * @author silvio

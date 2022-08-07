@@ -5,19 +5,19 @@
  */
 package br.ufu.facom.ereno.infected.creators;
 
-import br.ufu.facom.ereno.standard.devices.IED;
-import br.ufu.facom.ereno.standard.messages.Goose;
-import br.ufu.facom.ereno.standard.creator.MessageCreator;
+import br.ufu.facom.ereno.benign.devices.IED;
+import br.ufu.facom.ereno.benign.messages.Goose;
+import br.ufu.facom.ereno.benign.creator.MessageCreator;
 
 import java.util.ArrayList;
 
-import static br.ufu.facom.ereno.standard.devices.IED.randomBetween;
+import static br.ufu.facom.ereno.benign.devices.IED.randomBetween;
 
 /**
  * @author silvio
  */
 public class RandomReplayCreator implements MessageCreator {
-    ArrayList<Goose> gooseMessages;
+    ArrayList<Goose> legitimateMessages;
     int numReplayInstances;
 
     /**
@@ -25,7 +25,7 @@ public class RandomReplayCreator implements MessageCreator {
      * @param numReplayInstances - number of attack instances
      */
     public RandomReplayCreator(ArrayList<Goose> legitimateMessages, int numReplayInstances) {
-        this.gooseMessages = legitimateMessages;
+        this.legitimateMessages = legitimateMessages;
         this.numReplayInstances = numReplayInstances;
     }
 
@@ -33,14 +33,15 @@ public class RandomReplayCreator implements MessageCreator {
     public void generate(IED ied) {
         for (int i = 0; i < numReplayInstances; i++) {
             // Pickups one old GOOSE randomly
-            Goose randomGoose = gooseMessages.get(randomBetween(0, gooseMessages.size()));
+            Goose randomGoose = legitimateMessages.get(randomBetween(0, legitimateMessages.size()));
 
             // Refresh the message timestamp
-            Goose lastLegitimateGoose = gooseMessages.get(gooseMessages.size() - 1);
+            Goose lastLegitimateGoose = legitimateMessages.get(legitimateMessages.size() - 1);
             randomGoose.setTimestamp(lastLegitimateGoose.getTimestamp() + 1);
 
-            // At the replayed message to the legitimate messages list
-            gooseMessages.add(randomGoose);
+            // Send back the random replayed message to ReplayerIED
+            ied.addMessage(randomGoose);
+
         }
 
     }

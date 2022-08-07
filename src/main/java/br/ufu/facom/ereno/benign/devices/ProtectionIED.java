@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufu.facom.ereno.standard.devices;
+package br.ufu.facom.ereno.benign.devices;
 
 
-import br.ufu.facom.ereno.standard.creator.GooseCreator;
-import br.ufu.facom.ereno.standard.messages.EthernetFrame;
-import br.ufu.facom.ereno.standard.messages.Goose;
+import br.ufu.facom.ereno.benign.creator.GooseCreator;
+import br.ufu.facom.ereno.benign.messages.EthernetFrame;
+import br.ufu.facom.ereno.benign.messages.Goose;
 
 import java.util.ArrayList;
 
@@ -19,7 +19,7 @@ public class ProtectionIED extends IED {
 
     private int initialStNum = 0;
     private int initialSqNum = 0;
-    private double[] burstingInterval; // timestam to p (in seconds)
+    private double[] burstingInterval = {0.5, 0.6}; // timestam to p (in seconds)
     double delayFromEvent = 0.01659;
     double firstGooseTime = 6.33000000000011f; // IED processing time
     double currentGooseTime = 0.00631;
@@ -29,8 +29,8 @@ public class ProtectionIED extends IED {
     private int numberOfPeriodicMessages = 50;
     protected ArrayList<Goose> messages;
 
-    public ProtectionIED(){
-        this.messages  = new ArrayList<Goose>();
+    public ProtectionIED() {
+        this.messages = new ArrayList<Goose>();
     }
 
     @Override

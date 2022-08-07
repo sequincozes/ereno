@@ -1,15 +1,10 @@
-package br.ufu.facom.ereno.standard.devices;
+package br.ufu.facom.ereno.benign.devices;
 
-import br.ufu.facom.ereno.standard.creator.GooseCreator;
-import br.ufu.facom.ereno.standard.creator.SVCreator;
-import br.ufu.facom.ereno.standard.messages.EthernetFrame;
-import br.ufu.facom.ereno.standard.messages.Sv;
+import br.ufu.facom.ereno.benign.creator.SVCreator;
+import br.ufu.facom.ereno.benign.messages.EthernetFrame;
+import br.ufu.facom.ereno.benign.messages.Sv;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Scanner;
-import java.util.StringTokenizer;
 
 public class MergingUnit extends IED {
     protected ArrayList<Sv> messages;
@@ -17,8 +12,9 @@ public class MergingUnit extends IED {
 
     String payloadFiles[];
 
-    public MergingUnit() {
-        this.messages = new ArrayList<Sv>();
+    public MergingUnit(String[] payloadFiles) {
+        this.messages = new ArrayList<>();
+        this.payloadFiles = payloadFiles;
     }
 
     @Override

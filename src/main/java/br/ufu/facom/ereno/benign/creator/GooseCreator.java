@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufu.facom.ereno.standard.creator;
+package br.ufu.facom.ereno.benign.creator;
 
-import br.ufu.facom.ereno.standard.devices.IED;
-import br.ufu.facom.ereno.standard.devices.ProtectionIED;
-import br.ufu.facom.ereno.standard.messages.Goose;
-
-import java.util.ArrayList;
+import br.ufu.facom.ereno.benign.devices.IED;
+import br.ufu.facom.ereno.benign.devices.ProtectionIED;
+import br.ufu.facom.ereno.benign.messages.Goose;
 
 /**
  * @author silvio

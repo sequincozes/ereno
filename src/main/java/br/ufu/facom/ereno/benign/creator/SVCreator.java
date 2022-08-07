@@ -1,12 +1,11 @@
-package br.ufu.facom.ereno.standard.creator;
+package br.ufu.facom.ereno.benign.creator;
 
-import br.ufu.facom.ereno.standard.devices.IED;
-import br.ufu.facom.ereno.standard.devices.MergingUnit;
-import br.ufu.facom.ereno.standard.messages.Sv;
+import br.ufu.facom.ereno.benign.devices.IED;
+import br.ufu.facom.ereno.benign.devices.MergingUnit;
+import br.ufu.facom.ereno.benign.messages.Sv;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 

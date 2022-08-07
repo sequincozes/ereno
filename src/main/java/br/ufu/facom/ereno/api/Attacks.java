@@ -46,40 +46,41 @@ public class Attacks extends HttpServlet {
             this.legitimate = request.getParameter("legitimate").equals("on");
         }
 
-        if (request.getParameter("randomInjection") == null) {
-            this.randomInjection = false;
-        } else {
-            this.randomInjection = request.getParameter("randomInjection").equals("on");
-        }
-
-        if (request.getParameter("masqueradeOutage") == null) {
-            this.masqueradeOutage = false;
-        } else {
-            this.masqueradeOutage = request.getParameter("masqueradeOutage").equals("on");
-        }
-
-        if (request.getParameter("masqueradeDamage") == null) {
-            this.masqueradeDamage = false;
-        } else {
-            this.masqueradeDamage = request.getParameter("masqueradeDamage").equals("on");
-        }
-
-        if (request.getParameter("randomReplay") == null) {
+        if (request.getParameter("random-replay") == null) {
             this.randomReplay = false;
         } else {
-            this.randomReplay = request.getParameter("randomReplay").equals("on");
+            this.randomReplay = request.getParameter("random-replay").equals("on");
         }
 
-        if (request.getParameter("inverseReplay") == null) {
+
+        if (request.getParameter("random-injection") == null) {
+            this.randomInjection = false;
+        } else {
+            this.randomInjection = request.getParameter("random-injection").equals("on");
+        }
+
+        if (request.getParameter("masquerade-outage") == null) {
+            this.masqueradeOutage = false;
+        } else {
+            this.masqueradeOutage = request.getParameter("masquerade-outage").equals("on");
+        }
+
+        if (request.getParameter("masquerade-damage") == null) {
+            this.masqueradeDamage = false;
+        } else {
+            this.masqueradeDamage = request.getParameter("masquerade-damage").equals("on");
+        }
+
+        if (request.getParameter("inverse-replay") == null) {
             this.inverseReplay = false;
         } else {
-            this.inverseReplay = request.getParameter("inverseReplay").equals("on");
+            this.inverseReplay = request.getParameter("inverse-replay").equals("on");
         }
 
-        if (request.getParameter("highStNum") == null) {
+        if (request.getParameter("inverse-replay") == null) {
             this.highStNum = false;
         } else {
-            this.highStNum = request.getParameter("highStNum").equals("on");
+            this.highStNum = request.getParameter("inverse-replay").equals("on");
         }
 
         if (request.getParameter("flooding") == null) {
@@ -102,7 +103,8 @@ public class Attacks extends HttpServlet {
             out.println("}");
         }
         writeConfigs("attacks");
-        response.sendRedirect(request.getContextPath() + "/download-datasets.jsp");
+        response.sendRedirect(request.getContextPath() + "/datasets");
+//        response.sendRedirect(request.getContextPath() + "/download-datasets.jsp");
     }
 
 

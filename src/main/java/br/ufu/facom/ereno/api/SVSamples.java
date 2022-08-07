@@ -54,27 +54,6 @@ public class SVSamples extends HttpServlet {
         response.sendRedirect(request.getContextPath() + "/attack-definitions.jsp");
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) {
-
-        response.setContentType("text/html");
-
-        // Hello
-        PrintWriter out = null;
-        try {
-            out = response.getWriter();
-            out.println("<html><body>");
-            out.println("<h1>" + message + "</h1>");
-            String svPayload = getServletContext().getRealPath("sv_payload_files/second_1.csv");
-            String datasetLocation = getServletContext().getRealPath("downloads/result.arff");
-            Extractor.scriptForSV(svPayload, datasetLocation);
-            out.println("<h1>" + "Done: download it <a href=\"downloads/result.arff\"> here</a>!" + "</h1>");
-
-        } catch (IOException e) {
-            out.println("<h1>" + "Error! " + e.getMessage());
-            e.printStackTrace();
-        }
-        out.println("</body></html>");
-    }
 
     public void destroy() {
     }
