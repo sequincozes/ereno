@@ -1,4 +1,5 @@
 <%@ page import="java.io.PrintWriter" %>
+<%@ page import="br.ufu.facom.ereno.api.GooseFlow" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -216,7 +217,7 @@
                         <i class="bi bi-circle"></i><span>Configurações do Ambiente</span>
                     </a>
                     <a href="goose-message.jsp">
-                        <i class="bi bi-circle"></i><span>Fluxos de Mensagens</span>
+                        <i class="bi bi-circle"></i><span style="color: #06c !important">Fluxos de Mensagens</span>
                     </a>
                     <a href="upload-samples.jsp">
                         <i class="bi bi-circle"></i><span>Upload de Leituras</span>
@@ -244,87 +245,96 @@
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">Configurações do IED</li>
-                <li class="breadcrumb-item" active ><a style="color: #06c"> Fluxo de Mensagens </a> </li>
-                <li class="breadcrumb-item"> Upload de Leituras </li>
-                <li class="breadcrumb-item"> Ataques </li>
-                <li class="breadcrumb-item"> Download do Dataset </li>
+                <li class="breadcrumb-item" active><a style="color: #06c"> Fluxo de Mensagens </a></li>
+                <li class="breadcrumb-item"> Upload de Leituras</li>
+                <li class="breadcrumb-item"> Ataques</li>
+                <li class="breadcrumb-item"> Download do Dataset</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
 
     <section class="section">
         <div class="row">
-            <form class="col-lg-6">
-
-                <form class="card">
-                    <form class="card-body">
-                        <h5 class="card-title">Fluxo de Mensagens GOOSE <%  response.getWriter().println(request.getParameter("iedName"));%></h5>
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Configurações do IED</h5>
 
                         <!-- General Form Elements -->
-                        <form>
+                        <form action="goose-flow" method="post" accept-charset="utf-8">
+                            <%
+                                // Loading saved values to update form
+                                GooseFlow gooseFlow = new GooseFlow();
+                                gooseFlow.loadConfigs(application.getRealPath("ecf/goose-flow.json"));
+                            %>
                             <!-- Floating Labels Form -->
-                            <form class="row g-3">
+                            <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="goID"
-                                               placeholder="IntLockA" value="IntLockA">
+                                        <input type="text" class="form-control" id="goID" name="goID"
+                                               placeholder="IntLockA" value="<%=gooseFlow.getGoID()%>">
                                         <label for="goID">Identificação do Fluxo GOOSE</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="numberOfMessages"
-                                               placeholder="Número de Mensagens Periódicas" value="50">
+                                               name="numberOfMessages"
+                                               placeholder="Número de Mensagens Periódicas"
+                                               value="<%=gooseFlow.getNumberOfMessages()%>">
                                         <label for="numberOfMessages">Número de Mensagens Periódicas</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="ethSrc"
-                                               placeholder="01:0c:cd:01:2f:78" value="01:0c:cd:01:2f:78">
+                                        <input type="text" class="form-control" id="ethSrc" name="ethSrc"
+                                               placeholder="01:0c:cd:01:2f:78" value="<%=gooseFlow.getEthSrc()%>">
                                         <label for="ethSrc">Endereço MAC de Origem</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="ethDst"
-                                               placeholder="01:0c:cd:01:2f:77" value="01:0c:cd:01:2f:77">
+                                        <input type="text" class="form-control" id="ethDst" name="ethDst"
+                                               placeholder="01:0c:cd:01:2f:77" value="<%=gooseFlow.getEthDst()%>">
                                         <label for="ethDst">Endereço MAC de Destino</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="ethType"
-                                               placeholder="0x88B8" value="0x88B8">
+                                        <input type="text" class="form-control" id="ethType" name="ethType"
+                                               placeholder="0x88B8" value="<%=gooseFlow.getEthType()%>">
                                         <label for="ethDst">EtherType</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="gooseAppid"
-                                               placeholder="0x00003001" value="0x00003001">
+                                        <input type="text" class="form-control" id="gooseAppid" name="gooseAppid"
+                                               placeholder="0x00003001" value="<%=gooseFlow.getGooseAppid()%>">
                                         <label for="gooseAppid">Identificação da Aplicação GOOSE (AppID)</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="TPID"
-                                               placeholder="0x00003001" value="0x8100">
+                                        <input type="text" class="form-control" id="TPID" name="TPID"
+                                               placeholder="0x00003001" value="<%=gooseFlow.getTPID()%>">
                                         <label for="TPID">Tag de Identificação de Aplicação (TPID)</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-sm-10">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="ndsCom">
-                                            <label class="form-check-label" for="ndsCom">Precisa de comissionamento?</label>
+                                            <input class="form-check-input" type="checkbox" id="ndsCom"
+                                                   name="ndsCom" <%=isChecked(gooseFlow.isNdsCom())%>>
+                                            <label class="form-check-label" for="ndsCom">Precisa de
+                                                comissionamento?</label>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="col-sm-10">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="test">
+                                            <input class="form-check-input" type="checkbox" id="test"
+                                                   name="test" <%=isChecked(gooseFlow.isTest())%>>
                                             <label class="form-check-label" for="test">É um fluxo de teste?</label>
                                         </div>
                                     </div>
@@ -332,26 +342,27 @@
                                 <div class="col-md-12">
                                     <div class="col-sm-10">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="cbstatus">
-                                            <label class="form-check-label" for="cbstatus">O disjuntor está aberto (cBStatus)?</label>
+                                            <input class="form-check-input" type="checkbox" id="cbstatus"
+                                                   name="cbstatus" <%=isChecked(gooseFlow.isCbstatus())%>>
+                                            <label class="form-check-label" for="cbstatus">O disjuntor está aberto
+                                                (cBStatus)?</label>
                                         </div>
                                     </div>
                                 </div>
 
-                            </form>
-                        </form>
-                    </form>
+                                <div>
+                                    <button type="reset" class="btn btn-secondary"><a style="color:white ;"
+                                                                                      href="ied-configs.jsp">Voltar</a>
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">Próximo</button>
+                                </div>
+                            </div>
 
-                    <div>
-                        <br>
-                        <button type="reset" class="btn btn-secondary"><a style="color:white ;"
-                                                                          href="ied-configs.jsp">Voltar</a></button>
-                        <button type="submit" class="btn btn-primary"><a style="color:white ;"
-                                                                         href="upload-samples.jsp">Próximo</a>
-                        </button>
+                        </form>
                     </div>
-                </form><!-- End General Form Elements -->
-            </form>
+
+                </div><!-- End General Form Elements -->
+            </div>
         </div>
     </section>
 
@@ -385,3 +396,12 @@
 </body>
 
 </html>
+<%!
+    private String isChecked(boolean isChecked) {
+        if (isChecked) {
+            return "checked";
+        } else {
+            return "";
+        }
+    }
+%>

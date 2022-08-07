@@ -261,7 +261,6 @@
                         <h5 class="card-title">Configurações do IED</h5>
 
                         <!-- General Form Elements -->
-                        <%--                        <form action="goose-message.jsp" method="post">--%>
                         <form action="setup-ied" method="post" accept-charset="utf-8">
                             <%
                                 // Loading saved values to update form
@@ -270,7 +269,6 @@
                             %>
                             <!-- Floating Labels Form -->
                             <div class="row">
-
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="iedName" name="iedName"
@@ -278,7 +276,6 @@
                                         <label for="iedName">Nome do IED</label>
                                     </div>
                                 </div>
-
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="gocbRef" name="gocbRef"
