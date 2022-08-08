@@ -1,8 +1,7 @@
 <h1 align="center"> Bem-vindo ao ERENO-UI! </h1>
-<h5 align="left"> Ferramenta com Interface Gráfica para 
-A ferramenta possui diversas interfaces, ou módulos: </h5>
+<h5 align="left"> O ERENO-UI é uma ferramenta com interface gráfica que permite gerar datasets com mensagens dos protocolos GOOSE e SV para subestações elétricas. Dentre os módulos existentes, destacam-se quatro: o de configuração de parâmetros, definição de ataques, definição de corrente e tensão e de download do dataset final.
+ </h5>
 
-O ERENO-UI é uma ferramenta com interface gráfica que permite gerar datasets com mensagens dos protocolos GOOSE e SV para subestações elétricas. Dentre os módulos existentes, destacam-se quatro: o de configuração de parâmetros, definição de ataques, definição de corrente e tensão e de download do dataset final.
 
 
 ### Índice
