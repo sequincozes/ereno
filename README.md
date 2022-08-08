@@ -20,13 +20,15 @@ A ferramenta possui diversas interfaces, ou módulos: </h5>
 
 ### 🖱️ Ambiente de Teste - Execução Local
 
-Configurações do Computador
-```
-Sistema Operacional: Windows 10
-Processador: Intel(R) Core(TM) i5-10300H CPU @ 2.50GHz 2.50 GHz
-Memória RAM: 16 GB
-Sistema Operacional de 64 bits
-```
+Executamos a ferramenta em dois computadores com configurações distintas:Configurações do Computador
+
+|              |  Cliente       |   
+| :---:        |     :---:      | 
+| Sistema Operacional (SO):   | Windows 10 | Ubuntu 20.04.3 LTS |
+| Processador:  | Intel(R) Core(TM) i5-10300H CPU @ 2.50GHz 2.50 GHz  | Intel(R) Core(TM) i5-10300H CPU @ 2.50GHz 2.50 GHz |
+| Memória RAM:   | 16 GB | 16 GB |
+| bits do SO:  | 64 bits    | 86 bits |
+
 
 Ambiente de desenvolvimento
 ```
