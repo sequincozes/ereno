@@ -38,12 +38,12 @@ VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o.
 ```
 
 Requisitos
-```
+A ferramenta usa dois utilitários para execução: Java SE Development Kit para executar arquivos java, e Apache Tomcat para executar um servidor web Java, mais especificamente um container de servlets. Na Tabela abaixo são apresentadas as versões dos utilitários utilizados.
+
 |  Utilitários   |  Versão Testada     |
 | :---:        |     :---:      |  
 | Java SE Development Kit:   | 8 | 
 | Apache Tomcat:  | 9.0.65 |
-```
 
 <div id="preparando-o-ambiente"/>
 
