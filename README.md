@@ -58,7 +58,7 @@ Entre na pasta principal do projeto clonado e dê permissões para os arquivos.
 cd ereno
 ``` -->
 
-<div id="parametros-disponiveis"/>
+<!-- <div id="parametros-disponiveis"/>
 
 ### 📌 Parâmetros disponíveis:
 
@@ -66,7 +66,8 @@ cd ereno
 max_time;
 min_time;
 etc..
-```
+``` 
+-->
 
 <div id="exemplo-de-uso"/>
 
