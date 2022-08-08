@@ -37,12 +37,13 @@ Runtime version: 17.0.3+7-b469.32 amd64
 VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o.
 ```
 
-Ferramentas
+Requisitos
 ```
-Java SE JDK 11.0.16
-Apache Tomcat 9.0.65
+|  Utilitários   |  Versão Testada     |
+| :---:        |     :---:      |  
+| Java SE Development Kit:   | 8 | 
+| Apache Tomcat:  | 9.0.65 |
 ```
-
 
 <div id="preparando-o-ambiente"/>
 
