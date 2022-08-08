@@ -37,14 +37,14 @@ VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o.
 
 Ferramentas
 ```
-Java SE JDK 11.0.16 <a href="https://www.oracle.com/br/java/technologies/javase/jdk11-archive-downloads.html"> download </a>
-Apache Tomcat 9.0.65 (<a href="https://tomcat.apache.org/download-90.cgi"> download </a>)
+Java SE JDK 11.0.16
+Apache Tomcat 9.0.65
 ```
 
 
 <div id="preparando-o-ambiente"/>
 
-### ⚙️Preparando o ambiente
+<!-- ### ⚙️Preparando o ambiente
 Instalação do Git
 ```
 sudo apt-get install git -y
@@ -56,11 +56,7 @@ git clone https://github.com/sequincozes/ereno.git
 Entre na pasta principal do projeto clonado e dê permissões para os arquivos.
 ```
 cd ereno
-```
-Instale os software necessários utilizando os comandos:
-```
-- sudo snap install wamp
-```
+``` -->
 
 <div id="parametros-disponiveis"/>
 
@@ -75,8 +71,9 @@ etc..
 <div id="exemplo-de-uso"/>
 
 ### 👨‍💻 Exemplo de uso
-Entre no diretório principal:
 ```
-cd ereno
-run ereno
+Após clonar o projeto, configure um servidor Tomcat pelo IntelliJ (ou em ambiente de sua preferência). 
+Execute o projeto com o servidor Tomcat (tecle Alt+Shift+F10 no IntelliJ)
+Acesse a url: http://localhost:8080/ERENO_war/
+As interfaces do ERENO-UI devem ser exibidas.
 ```
