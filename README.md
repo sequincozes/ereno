@@ -18,12 +18,28 @@ A ferramenta possui diversas interfaces, ou módulos: </h5>
 <div id="ambiente-de-teste"/>
 
 
-### 🖱️ Ambiente de Teste 
+### 🖱️ Ambiente de Teste - Execução Local
 
-Foram previstas duas formas para testar a ferramenta proposta: 
-> 1º Forma (e mais simples): Consiste no acesso ao website ereno.com.br. Nessa forma, não é necessário executar o back-end do ERENO, pois estamos rodando o mesmo em um servidor na Internet. 
+Configurações do Computador
+```
+Sistema Operacional: Windows 10
+Processador: Intel(R) Core(TM) i5-10300H CPU @ 2.50GHz 2.50 GHz
+Memória RAM: 16 GB
+Sistema Operacional de 64 bits
 
-> 2º Forma: A segunda forma consiste na execução local. Portanto, é necessário executar o back-end do ERENO (arquivo .jar), bem como acessar a interface gráfica via localhost.
+Ambiente de desenvolvimento
+```
+IntelliJ IDEA 2022.2 (Ultimate Edition)
+Runtime version: 17.0.3+7-b469.32 amd64
+VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o.
+```
+
+Ferramentas
+```
+Java SE JDK 11.0.16 <a href="https://www.oracle.com/br/java/technologies/javase/jdk11-archive-downloads.html"> download </a>
+Apache Tomcat 9.0.65 (<a href="https://tomcat.apache.org/download-90.cgi"> download </a>)
+```
+
 
 <div id="preparando-o-ambiente"/>
 
