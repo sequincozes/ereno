@@ -26,6 +26,7 @@ Sistema Operacional: Windows 10
 Processador: Intel(R) Core(TM) i5-10300H CPU @ 2.50GHz 2.50 GHz
 Memória RAM: 16 GB
 Sistema Operacional de 64 bits
+```
 
 Ambiente de desenvolvimento
 ```
