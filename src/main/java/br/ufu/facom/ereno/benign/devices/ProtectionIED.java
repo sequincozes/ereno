@@ -26,11 +26,11 @@ public class ProtectionIED extends IED {
     double minTime = 4;
     public static long maxTime = 1000;
     private boolean initialCbStatus = false;
-    private int numberOfPeriodicMessages = 50;
+    private int numberOfPeriodicMessages = 10;
     protected ArrayList<Goose> messages;
 
     public ProtectionIED() {
-        this.messages = new ArrayList<Goose>();
+        this.messages = new ArrayList<>();
     }
 
     @Override
@@ -49,8 +49,8 @@ public class ProtectionIED extends IED {
         messageCreator = new GooseCreator(numberOfPeriodicMessages);
         messageCreator.generate(this);
         GooseCreator gc = (GooseCreator) messageCreator;
-        gc.reportEventAt(firstEvent);
-        gc.reportEventAt(secondEvent);
+//        gc.reportEventAt(firstEvent);
+//        gc.reportEventAt(secondEvent);
     }
 
     @Override

@@ -14,20 +14,17 @@ public class Extractor {
 
     public static void main(String[] args) throws IOException {
 //        scriptForGoose("webapp/download/goose.arff");
+
+        // Load setup file
+        Attacks.loadConfigs();
+        scriptForGoose("/home/silvio/datasets/goose.arff");
     }
 
     /**
      * Below you can write your scripts for data generation
      * (e.g., you can specify which devices and how they will interate each other)
      */
-
-
-    public static void scriptForGoose(String datasetLocation, Attacks attacks) throws IOException { // Generates only GOOSE data
-        // Load setup file
-//        attacks.loadConfigs("webapp/ecf/attacks.json");
-
-//        datasetLocation = "webapp/downloads/results4.arff";
-
+    public static void scriptForGoose(String datasetLocation) throws IOException { // Generates only GOOSE data
         // Start writting
         Logger.getLogger("Extractor").info(datasetLocation + " writting...");
         startWriting(datasetLocation);
@@ -35,13 +32,13 @@ public class Extractor {
 
         // Generate and write samples for legitimate and attacks choosen in attacks.json
         ProtectionIED uc00 = null;
-        if (attacks.isLegitimate()) {
-             uc00 = new ProtectionIED();
+        if (Attacks.ECF.legitimate) {
+            uc00 = new ProtectionIED();
             uc00.run();
             writeGooseMessagesToFile(uc00.getMessages(), label[0], true);
         }
 
-        if (attacks.isRandomReplay()) {
+        if (Attacks.ECF.randomReplay) {
             ReplayerIED uc01 = new ReplayerIED(uc00);
             uc01.run();
             writeGooseMessagesToFile(uc01.getReplayedMessages(), label[1], false);

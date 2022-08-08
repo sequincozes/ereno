@@ -264,7 +264,8 @@
                             <%
                                 // Loading saved values to update form
                                 Attacks attacks = new Attacks();
-                                attacks.loadConfigs(application.getRealPath("ecf/attacks.json"));
+//                                attacks.loadConfigs(application.getRealPath("ecf/attacks.json"));
+                                attacks.loadConfigs(application);
                             %>
 
                             <!-- Floating Labels Form -->
@@ -273,7 +274,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="legitimate"
-                                                   name="legitimate" <%=isChecked(attacks.isLegitimate())%>>
+                                                   name="legitimate" <%=isChecked(Attacks.ECF.legitimate)%>>
                                             <label class="form-check-label" for="legitimate">Incluir mensagens
                                                 legítimas</label>
                                         </div>
@@ -281,7 +282,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="random-replay"
-                                                   name="random-replay" <%=isChecked(attacks.isRandomReplay())%>
+                                                   name="random-replay" <%=isChecked(Attacks.ECF.randomReplay)%>
                                             <label class="form-check-label" for="random-replay"> Ataques de replay
                                                 aleatório</label>
                                         </div>
@@ -289,7 +290,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="inverse-replay"
-                                                   name="inverse-replay" <%=isChecked(attacks.isInverseReplay())%>
+                                                   name="inverse-replay" <%=isChecked(Attacks.ECF.inverseReplay)%>
                                             <label class="form-check-label" for="inverse-replay"> Ataques de replay
                                                 inverso</label>
                                         </div>
@@ -297,7 +298,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="masquerade-outage"
-                                                   name="masquerade-outage" <%=isChecked(attacks.isMasqueradeOutage())%>
+                                                   name="masquerade-outage" <%=isChecked(Attacks.ECF.masqueradeOutage)%>
                                             <label class="form-check-label" for="masquerade-outage"> Ataques masquerade
                                                 (queda de energia)</label>
                                         </div>
@@ -305,7 +306,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="masquerade-damage"
-                                                   name="masquerade-damage" <%=isChecked(attacks.isMasqueradeDamage())%>
+                                                   name="masquerade-damage" <%=isChecked(Attacks.ECF.masqueradeDamage)%>
                                             <label class="form-check-label" for="masquerade-damage"> Ataques masquerade
                                                 (dano ao equipamento)</label>
                                         </div>
@@ -313,7 +314,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="random-injection"
-                                                   name="random-injection" <%=isChecked(attacks.isRandomInjection())%>
+                                                   name="random-injection" <%=isChecked(Attacks.ECF.randomInjection)%>
                                             <label class="form-check-label" for="random-injection"> Ataques de injeção
                                                 de mensagens (aleatório)</label>
                                         </div>
@@ -321,7 +322,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="high-st-num"
-                                                   name="high-st-num" <%=isChecked(attacks.isHighStNum())%>>
+                                                   name="high-st-num" <%=isChecked(Attacks.ECF.highStNum)%>>
                                             <label class="form-check-label" for="high-st-num"> Ataques DoS
                                                 (High-StNum)</label>
                                         </div>
@@ -329,7 +330,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="flooding"
-                                                   name="flooding" <%=isChecked(attacks.isFlooding())%>>
+                                                   name="flooding" <%=isChecked(Attacks.ECF.flooding)%>>
                                             <label class="form-check-label" for="flooding"> Ataques DoS
                                                 (Flooding)</label>
                                         </div>

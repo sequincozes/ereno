@@ -70,7 +70,6 @@ public class Util {
     }
 
     protected void writeDefaultHeader() throws IOException {
-        write("@relation compiledtraffic");
         write("@attribute Time numeric");// time-based 1
         write("@attribute isbA numeric"); //SV-related 2
         write("@attribute isbB numeric"); //SV-related 3
@@ -160,7 +159,6 @@ public class Util {
     }
 
     private static void writeDefaulGooseHeader() throws IOException {
-        write("@relation compiledtraffic");
         write("@attribute t numeric"); // time-based  38
         write("@attribute GooseTimestamp numeric"); // time-based 39
         write("@attribute SqNum numeric"); // Status-based 40

@@ -9,6 +9,8 @@ import br.ufu.facom.ereno.benign.devices.IED;
 import br.ufu.facom.ereno.benign.devices.ProtectionIED;
 import br.ufu.facom.ereno.benign.messages.Goose;
 
+import java.util.logging.Logger;
+
 /**
  * @author silvio
  */
@@ -78,10 +80,14 @@ public class GooseCreator implements MessageCreator {
     }
 
     public void removeMessagesBeforeThan(double timestamp) {
-        double lastTimestamp = protectionIED.getMessages().get(protectionIED.getMessages().size() - 1).getTimestamp();
-        if (lastTimestamp > timestamp) {
-            protectionIED.getMessages().remove(protectionIED.getMessages().size() - 1);
-            removeMessagesBeforeThan(timestamp);
+        if (protectionIED.getMessages().size() > 1) {
+            double lastTimestamp = protectionIED.getMessages().get(protectionIED.getMessages().size() - 1).getTimestamp();
+            if (lastTimestamp > timestamp) {
+                protectionIED.getMessages().remove(protectionIED.getMessages().size() - 1);
+                removeMessagesBeforeThan(timestamp);
+            }
+        } else {
+            Logger.getLogger("NoGooseMessages").warning("There are no GOOSE messages.");
         }
     }
 

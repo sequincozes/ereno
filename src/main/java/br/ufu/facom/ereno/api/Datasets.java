@@ -15,8 +15,8 @@ public class Datasets extends HttpServlet {
         Logger.getLogger("dataset").info("Generating dataset... ");
         response.setContentType("text/html");
         Attacks attacks = new Attacks();
-        attacks.loadConfigs(getServletContext().getRealPath("ecf/attacks.json"));
-        Extractor.scriptForGoose(getServletContext().getRealPath("downloads/dataset.arff"), attacks);
+        attacks.loadConfigs(getServletContext());
+        Extractor.scriptForGoose(getServletContext().getRealPath("downloads/dataset.arff"));
         response.sendRedirect(request.getContextPath() + "/download-datasets.jsp");
     }
 
