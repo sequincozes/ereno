@@ -1,21 +1,25 @@
-<h1 align="center"> Bem-vindo ao ERENO-UI! </h1>
-<h4 align="left"> O ERENO-UI é uma ferramenta com interface gráfica que permite a geração de datasets com mensagens dos protocolos GOOSE e SV para subestações elétricas. Dentre os módulos existentes, destacam-se quatro: o de configuração de parâmetros, definição de ataques, definição de corrente e tensão e, por fim, o de download do dataset final. </h4>
+<h1 align="center"> 📌 Bem-vindo ao ERENO-UI! 📌 </h1>
+<h4 align="left"> ✔️ O ERENO-UI é uma ferramenta com interface gráfica que permite a geração de datasets com mensagens dos protocolos GOOSE e SV para subestações elétricas. Dentre os módulos existentes, destacam-se quatro: o de configuração de parâmetros, definição de ataques, definição de corrente e tensão e, por fim, o de download do dataset final. </h4>
 
 
 
 ### Índice
 
-* [Ambiente de Teste](#ambiente-de-teste)
-* [Preparando o Ambiente](#preparando-o-ambiente)
-* [Parâmetros Disponíveis](#parametros-disponiveis)
+* [Ambiente de Teste](#ambiente-teste)
+* [Requisitos](#requisitos)
+* [Ambiente de Desenvolvimento](#ambiente-desenvolvimento)
 * [Exemplo de Uso](#exemplo-de-uso)
 
 <div id="ambiente-de-teste"/>
 
+### **🏷️ Nota** 
+Nesta implementação, utilizamos o Java SE Development Kit 8 para executar arquivos java, o Apache Tomcat para executar um servidor web Java (mais especificamente um container de servlets) e a IDE IntelliJ IDEA 2022.2 (Ultimate Edition). Na sequência os ambientes de execução são detalhados e as versões dos utilitários são apresentadas.
 
-### 🖱️ Ambiente de Teste - Execução Local
+<div id="ambiente-teste"/>
 
-Executamos a ferramenta em dois computadores com configurações distintas:
+### 🖱️ Ambientes de Testes
+
+Para fins de testes locais, executamos a ferramenta em dois computadores com configurações distintas:
 
 |  Configurações   |  Computador I       |    Computador II |
 | :---:        |     :---:      |    :---:      |
@@ -24,55 +28,37 @@ Executamos a ferramenta em dois computadores com configurações distintas:
 | Memória RAM:   | 16 GB | 16 GB |
 | bits do SO:  | 64 bits    | 86 bits |
 
+<div id="requisitos"/>
 
-Ambiente de desenvolvimento
-```
-IntelliJ IDEA 2022.2 (Ultimate Edition)
-Runtime version: 17.0.3+7-b469.32 amd64
-VM: OpenJDK 64-Bit Server VM by JetBrains s.r.o.
-```
+## 📝 Requisitos
 
-Requisitos
-A ferramenta usa dois utilitários para execução: Java SE Development Kit para executar arquivos java, e Apache Tomcat para executar um servidor web Java, mais especificamente um container de servlets. Na Tabela abaixo são apresentadas as versões dos utilitários utilizados.
+A ferramenta usa dois utilitários para execução. Na Tabela abaixo são apresentadas as versões dos utilitários utilizados.
 
 |  Utilitários   |  Versão Testada     |
 | :---:        |     :---:      |  
 | Java SE Development Kit:   | 8 | 
 | Apache Tomcat:  | 9.0.65 |
 
-<div id="preparando-o-ambiente"/>
 
-<!-- ### ⚙️Preparando o ambiente
-Instalação do Git
-```
-sudo apt-get install git -y
-```
-Clone o Repositório
-```
-git clone https://github.com/sequincozes/ereno.git
-```
-Entre na pasta principal do projeto clonado e dê permissões para os arquivos.
-```
-cd ereno
-``` -->
+<div id="ambiente-desenvolvimento"/>
 
-<!-- <div id="parametros-disponiveis"/>
+## ⚙️ Ambiente de Desenvolvimento Integrado
 
-### 📌 Parâmetros disponíveis:
+|  Ferramenta  |  Versão Testada     | Versão Runtime | VM |
+| :---:        |     :---:      |  :---:      |  :---:      |
+| IntelliJ IDEA   | 2022.2 (Ultimate Edition) | 17.0.3+7-b469.32 amd64 | OpenJDK 64-Bit Server VM by JetBrains s.r.o. |
 
-```
-max_time;
-min_time;
-etc..
-``` 
--->
+
 
 <div id="exemplo-de-uso"/>
 
-### 👨‍💻 Exemplo de uso
+### 👨‍💻 Exemplo de uso com IntelliJ
+A seguir, descrevemos os passos necessários para executar a ferramenta no IntelliJ. Vale ressaltar que você pode usar o ambiente de desenvolvimento que preferir, desde que o mesmo dê suporte à Java Web. 
+
 ```
-Após clonar o projeto, configure um servidor Tomcat pelo IntelliJ (ou em ambiente de sua preferência). 
-Execute o projeto com o servidor Tomcat (tecle Alt+Shift+F10 no IntelliJ)
-Acesse a url: http://localhost:8080/ERENO_war/
-As interfaces do ERENO-UI devem ser exibidas.
+1. Clone o projeto ERENO-UI inserindo a url: https://github.com/sequincozes/ereno.git
+2. Configure um servidor Tomcat no IntelliJ. 
+3. Execute o projeto no IntelliJ (Alt+Shift+F10). Automaticamente o servidor Tomcat será executado.
+4. Acesse a url: http://localhost:8080/ERENO_war/
+5. As interfaces do ERENO-UI devem ser exibidas.
 ```
