@@ -22,8 +22,8 @@ A ferramenta possui diversas interfaces, ou módulos: </h5>
 
 Executamos a ferramenta em dois computadores com configurações distintas:Configurações do Computador
 
-|              |  Cliente       |   
-| :---:        |     :---:      | 
+|  Configurações   |  Computador I       |    Computador II |
+| :---:        |     :---:      |    :---:      |
 | Sistema Operacional (SO):   | Windows 10 | Ubuntu 20.04.3 LTS |
 | Processador:  | Intel(R) Core(TM) i5-10300H CPU @ 2.50GHz 2.50 GHz  | Intel(R) Core(TM) i5-10300H CPU @ 2.50GHz 2.50 GHz |
 | Memória RAM:   | 16 GB | 16 GB |
