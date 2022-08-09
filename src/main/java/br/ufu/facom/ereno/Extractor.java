@@ -26,6 +26,7 @@ public class Extractor {
      * (e.g., you can specify which devices and how they will interate each other)
      */
     public static void scriptForGoose(String datasetLocation) throws IOException { // Generates only GOOSE data
+        long beginTime = System.currentTimeMillis();
         // Start writting
         Logger.getLogger("Extractor").info(datasetLocation + " writting...");
         startWriting(datasetLocation);
@@ -35,17 +36,25 @@ public class Extractor {
         ProtectionIED uc00 = null;
         if (Attacks.ECF.legitimate) {
             uc00 = new ProtectionIED();
+            uc00.setNumberOfPeriodicMessages(90000);
             uc00.run();
             writeGooseMessagesToFile(uc00.getMessages(), label[0], true);
         }
 
+        ReplayerIED uc01 = null;
+        Attacks.ECF.randomReplay = true;
         if (Attacks.ECF.randomReplay) {
-            ReplayerIED uc01 = new ReplayerIED(uc00);
+            uc01 = new ReplayerIED(uc00);
+            uc01.setNumReplayMessages(10000);
             uc01.run();
             writeGooseMessagesToFile(uc01.getReplayedMessages(), label[1], false);
         }
 
         finishWriting();
+        long endTime = System.currentTimeMillis();
+        Logger.getLogger("Time").info("Tempo gasto para gerar "
+                + Integer.valueOf(uc00.getMessages().size() + uc01.getReplayedMessages().size()) + " mensagens: "
+                + (endTime - beginTime));
 
     }
 

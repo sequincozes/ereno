@@ -15,6 +15,10 @@ public class ReplayerIED extends IED {
 
     ProtectionIED legitimateIED; // ReplayerIED will replay mensagens from that legitimate device
 
+
+
+    private int numReplayMessages;
+
     public ReplayerIED(ProtectionIED legitimate) {
         this.legitimateIED = legitimate;
         replayedMessages = new ArrayList<>();
@@ -24,7 +28,7 @@ public class ReplayerIED extends IED {
     public void run() {
         Logger.getLogger("ReplayerIED").info(
                 "Feeding replayer IED with " + legitimateIED.getMessages().size() + " legitimate messages");
-        messageCreator = new RandomReplayCreator(legitimateIED.getMessages(), 100); // feeds the message creator with legitimate messages
+        messageCreator = new RandomReplayCreator(legitimateIED.getMessages(), getNumReplayMessages()); // feeds the message creator with legitimate messages
         messageCreator.generate(this); // pass itself to receive messages from generator
     }
 
@@ -35,5 +39,13 @@ public class ReplayerIED extends IED {
 
     public ArrayList<Goose> getReplayedMessages() {
         return this.replayedMessages;
+    }
+
+    public int getNumReplayMessages() {
+        return numReplayMessages;
+    }
+
+    public void setNumReplayMessages(int numReplayMessages) {
+        this.numReplayMessages = numReplayMessages;
     }
 }
