@@ -2,6 +2,7 @@ package br.ufu.facom.ereno.api;
 
 import br.ufu.facom.ereno.Util;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
@@ -14,6 +15,7 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.logging.Logger;
 
 @WebServlet(name = "attacks", value = "/attacks")
 public class Attacks extends HttpServlet {
@@ -26,10 +28,81 @@ public class Attacks extends HttpServlet {
         public static boolean inverseReplay;
         public static boolean highStNum;
         public static boolean flooding;
+
+        public static void loadConfigs() { // Used outside the servlet contexts
+            GsonBuilder gsonBuilder  = new GsonBuilder();
+            // This is for reading static fields
+            gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
+            Gson gson = gsonBuilder.create();
+
+            try {
+//                Reader reader = Files.newBufferedReader(
+//                        Path.of(System.getProperty("user.dir") +
+//                                "/src/main/webapp/ecf/attacks.json"));
+                Reader reader = Files.newBufferedReader(
+                        Path.of("/home/silvio/datasets/attacks.json"));
+                ECF ecf = gson.fromJson(reader, ECF.class);
+                Logger logger = Logger.getLogger("ECF");
+                logger.info("Attacks.ECF.legitimate: " + ecf.legitimate);
+                logger.info("Attacks.ECF.randomReplay: " + ecf.randomReplay);
+                logger.info("Attacks.ECF.inverseReplay: " + ecf.inverseReplay);
+                logger.info("Attacks.ECF.masqueradeOutage: " + ecf.masqueradeOutage);
+                logger.info("Attacks.ECF.masqueradeDamage: " + ecf.masqueradeDamage);
+                logger.info("Attacks.ECF.highStNum: " + ecf.highStNum);
+                logger.info("Attacks.ECF.flooding: " + ecf.flooding);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+
+        public static void writeConfigs() {
+            GsonBuilder gsonBuilder  = new GsonBuilder();
+            // This is for reading static fields
+            gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
+            Gson gson = gsonBuilder.create();
+            try {
+                Util.startWriting("/home/silvio/datasets/attacks.json");
+                Util.write(gson.toJson(new ECF(), Attacks.ECF.class));
+                Util.finishWriting();
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+
+        public static void writeConfigs(ServletContext servletContext) {
+            GsonBuilder gsonBuilder  = new GsonBuilder();
+            // This is for reading static fields
+            gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
+            Gson gson = gsonBuilder.create();
+            try {
+                Util.startWriting(servletContext.getRealPath("ecf/attacks.json"));
+                Util.write(gson.toJson(new ECF(), Attacks.ECF.class));
+                Util.finishWriting();
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+        public static void loadConfigs(ServletContext servletContext) { // used within servlet contexts
+            GsonBuilder gsonBuilder  = new GsonBuilder();
+            // This is for reading static fields
+            gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
+            Gson gson = gsonBuilder.create();
+            try {
+                Reader reader = Files.newBufferedReader(Path.of(servletContext.getRealPath("ecf/attacks.json")));
+                gson.fromJson(reader, ECF.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        loadConfigs(getServletContext());
+        ECF.loadConfigs(getServletContext());
         request.setCharacterEncoding("UTF-8");
         String json = new Gson().toJson(this);
         response.setContentType("application/json");
@@ -103,44 +176,10 @@ public class Attacks extends HttpServlet {
             out.println("}");
         }
 
-        writeConfigs("attacks");
+        ECF.writeConfigs(getServletContext());
         response.sendRedirect(request.getContextPath() + "/datasets");
     }
 
-
-    public void writeConfigs(String name) {
-        Gson gson = new Gson();
-        try {
-            Util.startWriting(getServletContext().getRealPath("ecf/" + name + ".json"));
-            Util.write(gson.toJson(this, Attacks.class));
-            Util.finishWriting();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void loadConfigs(ServletContext servletContext) { // used within servlet contexts
-        Gson gson = new Gson();
-        try {
-            Reader reader = Files.newBufferedReader(Path.of(servletContext.getRealPath("ecf/attacks.json")));
-            gson.fromJson(reader, ECF.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public static void loadConfigs() { // Used outside the servlet contexts
-        Gson gson = new Gson();
-        try {
-            Reader reader = Files.newBufferedReader(Path.of("webapp/ecf/attacks.json"));
-            gson.fromJson(reader, ECF.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
 
     public void destroy() {
     }

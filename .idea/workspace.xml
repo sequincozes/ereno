@@ -13,7 +13,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Inner class for ECF file: attacks done;">
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Folha de assinatura Banca Examinadora.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Attacks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Attacks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Datasets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Datasets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/attack-definitions.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/attack-definitions.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/ecf/attacks.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ecf/attacks.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +42,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="ecf_files_static_classes" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -63,27 +68,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/silvio/IdeaProjects/ERENO/src/main/webapp/downloads&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "extract.method.default.visibility": "private",
+    "last_opened_file_path": "/home/silvio/IdeaProjects/ERENO/target/ERENO-1.0-SNAPSHOT/ecf",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/target/ERENO-1.0-SNAPSHOT/ecf" />
       <recent name="$PROJECT_DIR$/src/main/webapp/downloads" />
       <recent name="$PROJECT_DIR$/src/main/webapp" />
       <recent name="$PROJECT_DIR$/src/main/webapp/ecf" />
       <recent name="$PROJECT_DIR$/src/main/webapp/assets/img" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/sv_payload_files" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="br.ufu.facom.ereno.api" />
@@ -224,10 +229,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Extractor" />
-        <item itemvalue="JavaScript Debug.ied-configs.jsp" />
         <item itemvalue="JavaScript Debug.teste.jsp" />
+        <item itemvalue="JavaScript Debug.ied-configs.jsp" />
         <item itemvalue="Application.br.ufu.facom.ereno.usecases.uc01.UC00GooseOnly" />
-        <item itemvalue="Application.br.ufu.facom.ereno.usecases.uc01.UC00GooseOnly" />
+        <item itemvalue="Application.Extractor" />
       </list>
     </recent_temporary>
   </component>

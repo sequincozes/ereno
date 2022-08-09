@@ -1,1 +1,10 @@
-{"legitimate":true,"randomReplay":false,"masqueradeOutage":false,"masqueradeDamage":false,"randomInjection":false,"inverseReplay":false,"highStNum":false,"flooding":true}
+{
+  "legitimate": true,
+  "randomReplay": false,
+  "masqueradeOutage": false,
+  "masqueradeDamage": false,
+  "randomInjection": false,
+  "inverseReplay": false,
+  "highStNum": false,
+  "flooding": false
+}

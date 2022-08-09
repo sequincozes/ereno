@@ -16,7 +16,8 @@ public class Extractor {
 //        scriptForGoose("webapp/download/goose.arff");
 
         // Load setup file
-        Attacks.loadConfigs();
+        Attacks.ECF.loadConfigs();
+
         scriptForGoose("/home/silvio/datasets/goose.arff");
     }
 

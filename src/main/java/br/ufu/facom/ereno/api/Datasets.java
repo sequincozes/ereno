@@ -14,8 +14,7 @@ public class Datasets extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Logger.getLogger("dataset").info("Generating dataset... ");
         response.setContentType("text/html");
-        Attacks attacks = new Attacks();
-        attacks.loadConfigs(getServletContext());
+        Attacks.ECF.loadConfigs(getServletContext());
         Extractor.scriptForGoose(getServletContext().getRealPath("downloads/dataset.arff"));
         response.sendRedirect(request.getContextPath() + "/download-datasets.jsp");
     }

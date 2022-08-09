@@ -1,4 +1,5 @@
 <%@ page import="br.ufu.facom.ereno.api.Attacks" %>
+<%@ page import="br.ufu.facom.ereno.Extractor" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -263,9 +264,12 @@
                         <form action="attacks" method="post" accept-charset="utf-8">
                             <%
                                 // Loading saved values to update form
-                                Attacks attacks = new Attacks();
-//                                attacks.loadConfigs(application.getRealPath("ecf/attacks.json"));
-                                attacks.loadConfigs(application);
+                                try {
+                                    Attacks.ECF.loadConfigs(application);
+                                } catch (Exception exep) {
+                                    exep.printStackTrace();
+                                    response.getWriter().write(exep.getLocalizedMessage());
+                                }
                             %>
 
                             <!-- Floating Labels Form -->
