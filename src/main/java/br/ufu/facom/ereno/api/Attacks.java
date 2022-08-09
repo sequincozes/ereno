@@ -30,7 +30,7 @@ public class Attacks extends HttpServlet {
         public static boolean flooding;
 
         public static void loadConfigs() { // Used outside the servlet contexts
-            GsonBuilder gsonBuilder  = new GsonBuilder();
+            GsonBuilder gsonBuilder = new GsonBuilder();
             // This is for reading static fields
             gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
             Gson gson = gsonBuilder.create();
@@ -57,7 +57,7 @@ public class Attacks extends HttpServlet {
         }
 
         public static void writeConfigs() {
-            GsonBuilder gsonBuilder  = new GsonBuilder();
+            GsonBuilder gsonBuilder = new GsonBuilder();
             // This is for reading static fields
             gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
             Gson gson = gsonBuilder.create();
@@ -72,7 +72,7 @@ public class Attacks extends HttpServlet {
         }
 
         public static void writeConfigs(ServletContext servletContext) {
-            GsonBuilder gsonBuilder  = new GsonBuilder();
+            GsonBuilder gsonBuilder = new GsonBuilder();
             // This is for reading static fields
             gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
             Gson gson = gsonBuilder.create();
@@ -85,8 +85,9 @@ public class Attacks extends HttpServlet {
                 throw new RuntimeException(e);
             }
         }
+
         public static void loadConfigs(ServletContext servletContext) { // used within servlet contexts
-            GsonBuilder gsonBuilder  = new GsonBuilder();
+            GsonBuilder gsonBuilder = new GsonBuilder();
             // This is for reading static fields
             gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
             Gson gson = gsonBuilder.create();
@@ -179,7 +180,6 @@ public class Attacks extends HttpServlet {
         ECF.writeConfigs(getServletContext());
         response.sendRedirect(request.getContextPath() + "/datasets");
     }
-
 
     public void destroy() {
     }
