@@ -2,11 +2,11 @@ package br.ufu.facom.ereno.api;
 
 import br.ufu.facom.ereno.Util;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import javax.servlet.http.*;
@@ -15,23 +15,89 @@ import javax.servlet.annotation.*;
 @WebServlet(name = "setupIed", value = "/setup-ied")
 public class SetupIED extends HttpServlet {
 
-    private String iedName;
-    private String gocbRef;
-    private String datSet;
-    private String minTime;
-    private String maxTime;
-    private String timestamp;
-    private String stNum;
-    private String sqNum;
+    public static class ECF { // ERENO Configurarion File (ECF)
+        public static String iedName;
+        public static String gocbRef;
+        public static String datSet;
+        public static String minTime;
+        public static String maxTime;
+        public static String timestamp;
+        public static String stNum;
+        public static String sqNum;
+
+
+        public static void loadConfigs() { // Used outside the servlet contexts
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            // This is for reading static fields
+            gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
+            Gson gson = gsonBuilder.create();
+
+            try {
+                Reader reader = Files.newBufferedReader(
+                        Path.of(System.getProperty("user.dir") +
+                                "/src/main/webapp/ecf/setup-ied.json"));
+                gson.fromJson(reader, ECF.class);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+
+        public static void writeConfigs() { // Used outside the servlet contexts
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            // This is for reading static fields
+            gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
+            Gson gson = gsonBuilder.create();
+            try {
+                Util.startWriting(System.getProperty("user.dir") +
+                        "/src/main/webapp/ecf/setup-ied.json");
+                Util.write(gson.toJson(new ECF(), ECF.class));
+                Util.finishWriting();
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+
+        public static void writeConfigs(ServletContext servletContext) {
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            // This is for reading static fields
+            gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
+            Gson gson = gsonBuilder.create();
+            try {
+                Util.startWriting(servletContext.getRealPath("ecf/setup-ied.json"));
+                Util.write(gson.toJson(new ECF(), ECF.class));
+                Util.finishWriting();
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+
+        public static String loadConfigs(ServletContext servletContext) { // used within servlet contexts
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            // This is for reading static fields
+            gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
+            Gson gson = gsonBuilder.create();
+            try {
+                Reader reader = Files.newBufferedReader(Path.of(servletContext.getRealPath("ecf/setup-ied.json")));
+                gson.fromJson(reader, ECF.class);
+                return gson.toJson(new ECF());
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
 
     public void init() {
 
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        loadConfigs("setup-ied");
+        String json = ECF.loadConfigs(getServletContext());
         request.setCharacterEncoding("UTF-8");
-        String json = new Gson().toJson(this);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(json);
@@ -42,115 +108,31 @@ public class SetupIED extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         if (request.getParameter("iedName") == null) { // handles the JSON body (e.g., from API)
-            SetupIED setupIED = new Gson().fromJson(request.getReader(), SetupIED.class);
-            updateConfigs(setupIED);
-
+            new Gson().fromJson(request.getReader(), ECF.class);
             out.println("{");
             out.println("   \"message\" : \"Novo ERENO Configuration File (ECL) recebido!\"");
             out.println("}");
         } else { // handles the parameters from header (e.g., from HTML form)
-            iedName = request.getParameter("iedName");
-            gocbRef = request.getParameter("gocbRef");
-            datSet = request.getParameter("datSet");
-            minTime = request.getParameter("minTime");
-            maxTime = request.getParameter("maxTime");
-            timestamp = request.getParameter("timestamp");
-            stNum = request.getParameter("stNum");
-            sqNum = request.getParameter("sqNum");
+            ECF.iedName = request.getParameter("iedName");
+            ECF.gocbRef = request.getParameter("gocbRef");
+            ECF.datSet = request.getParameter("datSet");
+            ECF.minTime = request.getParameter("minTime");
+            ECF.maxTime = request.getParameter("maxTime");
+            ECF.timestamp = request.getParameter("timestamp");
+            ECF.stNum = request.getParameter("stNum");
+            ECF.sqNum = request.getParameter("sqNum");
 
             out.println("<body><html>");
-            out.println("<h2> Clique para baixar o ECL do IED <a href=\"setup-ied\" download>" + iedName + "</a></h2>");
+            out.println("<h2> Clique para baixar o ECL do IED <a href=\"setup-ied\" download>" + ECF.iedName + "</a></h2>");
             out.println("<h1>" + "Done!" + "</h1>");
             out.println("</body></html>");
 
             response.sendRedirect(request.getContextPath() + "/goose-message.jsp");
 
         }
-        Logger.getLogger("SetupIED").info("updating IED " + iedName + "...");
-        writeConfigs("setup-ied");
-        Logger.getLogger("SetupIED").info("IED " + iedName + " updated.");
-    }
-
-    public void writeConfigs(String name) {
-        Gson gson = new Gson();
-        try {
-            Util.startWriting(getServletContext().getRealPath("ecf/" + name + ".json"));
-            Util.write(gson.toJson(this, SetupIED.class));
-            Util.finishWriting();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void loadConfigs(String name) {
-        Gson gson = new Gson();
-        try {
-            Reader reader = Files.newBufferedReader(Path.of(getServletContext().getRealPath("ecf/" + name + ".json")));
-            SetupIED setupIED = gson.fromJson(reader, SetupIED.class);
-            Logger.getLogger("IEDName").info("Loading setup for " + setupIED.iedName);
-            updateConfigs(setupIED);
-        } catch (NullPointerException n) {
-            try {
-                Reader reader = Files.newBufferedReader(Path.of( name ));
-                SetupIED setupIED = gson.fromJson(reader, SetupIED.class);
-                Logger.getLogger("IEDName").info("Loading setup for " + setupIED.iedName);
-                updateConfigs(setupIED);
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
-    }
-
-    private void updateConfigs(SetupIED setupIED) {
-        this.iedName = setupIED.iedName;
-        this.gocbRef = setupIED.gocbRef;
-        this.datSet = setupIED.datSet;
-        this.minTime = setupIED.minTime;
-        this.maxTime = setupIED.maxTime;
-        this.timestamp = setupIED.timestamp;
-        this.stNum = setupIED.stNum;
-        this.sqNum = setupIED.sqNum;
-    }
-
-    public void destroy() {
-    }
-
-
-    public String getIedName() {
-        return iedName;
-    }
-
-    public String getGocbRef() {
-        return gocbRef;
-    }
-
-    public String getDatSet() {
-        return datSet;
-    }
-
-    public String getMinTime() {
-        return minTime;
-    }
-
-    public String getMaxTime() {
-        return maxTime;
-    }
-
-    public String getTimestamp() {
-        return timestamp;
-    }
-
-    public String getStNum() {
-        return stNum;
-    }
-
-    public String getSqNum() {
-        return sqNum;
+        Logger.getLogger("SetupIED").info("updating IED " + ECF.iedName + "...");
+        ECF.writeConfigs(getServletContext());
+        Logger.getLogger("SetupIED").info("IED " + ECF.iedName + " updated.");
     }
 
 }

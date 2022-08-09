@@ -4,7 +4,6 @@ import br.ufu.facom.ereno.Util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,11 +35,9 @@ public class Attacks extends HttpServlet {
             Gson gson = gsonBuilder.create();
 
             try {
-//                Reader reader = Files.newBufferedReader(
-//                        Path.of(System.getProperty("user.dir") +
-//                                "/src/main/webapp/ecf/attacks.json"));
                 Reader reader = Files.newBufferedReader(
-                        Path.of("/home/silvio/datasets/attacks.json"));
+                        Path.of(System.getProperty("user.dir") +
+                                "/src/main/webapp/ecf/attacks.json"));
                 ECF ecf = gson.fromJson(reader, ECF.class);
                 Logger logger = Logger.getLogger("ECF");
                 logger.info("Attacks.ECF.legitimate: " + ecf.legitimate);
@@ -56,13 +53,14 @@ public class Attacks extends HttpServlet {
             }
         }
 
-        public static void writeConfigs() {
+        public static void writeConfigs() { // Used outside the servlet contexts
             GsonBuilder gsonBuilder = new GsonBuilder();
             // This is for reading static fields
             gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
             Gson gson = gsonBuilder.create();
             try {
-                Util.startWriting("/home/silvio/datasets/attacks.json");
+                Util.startWriting(System.getProperty("user.dir") +
+                        "/src/main/webapp/ecf/attacks.json");
                 Util.write(gson.toJson(new ECF(), Attacks.ECF.class));
                 Util.finishWriting();
             } catch (IOException e) {
@@ -86,7 +84,7 @@ public class Attacks extends HttpServlet {
             }
         }
 
-        public static void loadConfigs(ServletContext servletContext) { // used within servlet contexts
+        public static String loadConfigs(ServletContext servletContext) { // used within servlet contexts
             GsonBuilder gsonBuilder = new GsonBuilder();
             // This is for reading static fields
             gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
@@ -94,6 +92,7 @@ public class Attacks extends HttpServlet {
             try {
                 Reader reader = Files.newBufferedReader(Path.of(servletContext.getRealPath("ecf/attacks.json")));
                 gson.fromJson(reader, ECF.class);
+                return gson.toJson(new ECF());
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -103,9 +102,8 @@ public class Attacks extends HttpServlet {
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        ECF.loadConfigs(getServletContext());
+        String json = ECF.loadConfigs(getServletContext());
         request.setCharacterEncoding("UTF-8");
-        String json = new Gson().toJson(this);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(json);

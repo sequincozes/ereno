@@ -264,15 +264,14 @@
                         <form action="goose-flow" method="post" accept-charset="utf-8">
                             <%
                                 // Loading saved values to update form
-                                GooseFlow gooseFlow = new GooseFlow();
-                                gooseFlow.loadConfigs(application.getRealPath("ecf/goose-flow.json"));
+                                GooseFlow.ECF.loadConfigs(application);
                             %>
                             <!-- Floating Labels Form -->
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="goID" name="goID"
-                                               placeholder="IntLockA" value="<%=gooseFlow.getGoID()%>">
+                                               placeholder="IntLockA" value="<%=GooseFlow.ECF.goID%>">
                                         <label for="goID">Identificação do Fluxo GOOSE</label>
                                     </div>
                                 </div>
@@ -281,42 +280,42 @@
                                         <input type="text" class="form-control" id="numberOfMessages"
                                                name="numberOfMessages"
                                                placeholder="Número de Mensagens Periódicas"
-                                               value="<%=gooseFlow.getNumberOfMessages()%>">
+                                               value="<%=GooseFlow.ECF.numberOfMessages%>">
                                         <label for="numberOfMessages">Número de Mensagens Periódicas</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="ethSrc" name="ethSrc"
-                                               placeholder="01:0c:cd:01:2f:78" value="<%=gooseFlow.getEthSrc()%>">
+                                               placeholder="01:0c:cd:01:2f:78" value="<%=GooseFlow.ECF.ethSrc%>">
                                         <label for="ethSrc">Endereço MAC de Origem</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="ethDst" name="ethDst"
-                                               placeholder="01:0c:cd:01:2f:77" value="<%=gooseFlow.getEthDst()%>">
+                                               placeholder="01:0c:cd:01:2f:77" value="<%=GooseFlow.ECF.ethDst%>">
                                         <label for="ethDst">Endereço MAC de Destino</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control" id="ethType" name="ethType"
-                                               placeholder="0x88B8" value="<%=gooseFlow.getEthType()%>">
+                                        <input class="form-control" id="ethType" name="ethType" placeholder="0x88B8"
+                                               type="text" value="<%=GooseFlow.ECF.ethType%>">
                                         <label for="ethDst">EtherType</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="gooseAppid" name="gooseAppid"
-                                               placeholder="0x00003001" value="<%=gooseFlow.getGooseAppid()%>">
+                                               placeholder="0x00003001" value="<%=GooseFlow.ECF.gooseAppid%>">
                                         <label for="gooseAppid">Identificação da Aplicação GOOSE (AppID)</label>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control" id="TPID" name="TPID"
-                                               placeholder="0x00003001" value="<%=gooseFlow.getTPID()%>">
+                                               placeholder="0x00003001" value="<%=GooseFlow.ECF.TPID%>">
                                         <label for="TPID">Tag de Identificação de Aplicação (TPID)</label>
                                     </div>
                                 </div>
@@ -324,7 +323,7 @@
                                     <div class="col-sm-10">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="ndsCom"
-                                                   name="ndsCom" <%=isChecked(gooseFlow.isNdsCom())%>>
+                                                   name="ndsCom" <%=isChecked(GooseFlow.ECF.ndsCom)%>>
                                             <label class="form-check-label" for="ndsCom">Precisa de
                                                 comissionamento?</label>
                                         </div>
@@ -334,7 +333,7 @@
                                     <div class="col-sm-10">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="test"
-                                                   name="test" <%=isChecked(gooseFlow.isTest())%>>
+                                                   name="test" <%=isChecked(GooseFlow.ECF.test)%>>
                                             <label class="form-check-label" for="test">É um fluxo de teste?</label>
                                         </div>
                                     </div>
@@ -343,7 +342,7 @@
                                     <div class="col-sm-10">
                                         <div class="form-check form-switch">
                                             <input class="form-check-input" type="checkbox" id="cbstatus"
-                                                   name="cbstatus" <%=isChecked(gooseFlow.isCbstatus())%>>
+                                                   name="cbstatus" <%=isChecked(GooseFlow.ECF.cbstatus)%>>
                                             <label class="form-check-label" for="cbstatus">O disjuntor está aberto
                                                 (cBStatus)?</label>
                                         </div>
