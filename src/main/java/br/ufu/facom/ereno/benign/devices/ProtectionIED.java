@@ -6,6 +6,8 @@
 package br.ufu.facom.ereno.benign.devices;
 
 
+import br.ufu.facom.ereno.api.GooseFlow;
+import br.ufu.facom.ereno.api.SetupIED;
 import br.ufu.facom.ereno.benign.creator.GooseCreator;
 import br.ufu.facom.ereno.benign.messages.EthernetFrame;
 import br.ufu.facom.ereno.benign.messages.Goose;
@@ -17,17 +19,17 @@ import java.util.ArrayList;
  */
 public class ProtectionIED extends IED {
 
-    private int initialStNum = 0;
-    private int initialSqNum = 0;
+    private int initialStNum = Integer.parseInt(SetupIED.ECF.stNum);
+    private int initialSqNum = Integer.parseInt(SetupIED.ECF.sqNum);
     private double[] burstingInterval = {0.5, 0.6}; // timestam to p (in seconds)
     double delayFromEvent = 0.01659;
     double firstGooseTime = 6.33000000000011f; // IED processing time
     double currentGooseTime = 0.00631;
-    double minTime = 4;
-    public static long maxTime = 1000;
-    private boolean initialCbStatus = false;
+    double minTime = Integer.parseInt(SetupIED.ECF.minTime);
+    public static long maxTime = Integer.parseInt(SetupIED.ECF.maxTime);
+    private boolean initialCbStatus = GooseFlow.ECF.cbstatus;
 
-    private int numberOfPeriodicMessages = 50;
+    private int numberOfPeriodicMessages = GooseFlow.ECF.numberOfMessages;
     protected ArrayList<Goose> messages;
 
     public ProtectionIED() {

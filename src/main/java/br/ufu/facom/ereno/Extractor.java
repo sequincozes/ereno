@@ -1,10 +1,13 @@
 package br.ufu.facom.ereno;
 
 import br.ufu.facom.ereno.api.Attacks;
+import br.ufu.facom.ereno.api.GooseFlow;
+import br.ufu.facom.ereno.api.SetupIED;
 import br.ufu.facom.ereno.benign.devices.MergingUnit;
 import br.ufu.facom.ereno.benign.devices.ProtectionIED;
 import br.ufu.facom.ereno.infected.devices.ReplayerIED;
 
+import javax.servlet.ServletContext;
 import java.io.*;
 import java.util.logging.Logger;
 
@@ -17,6 +20,8 @@ public class Extractor {
 
         // Load setup file
         Attacks.ECF.loadConfigs();
+        GooseFlow.ECF.loadConfigs();
+        SetupIED.ECF.loadConfigs();
 
         scriptForGoose("/home/silvio/datasets/goose.arff");
     }
@@ -27,6 +32,7 @@ public class Extractor {
      */
     public static void scriptForGoose(String datasetLocation) throws IOException { // Generates only GOOSE data
         long beginTime = System.currentTimeMillis();
+
         // Start writting
         Logger.getLogger("Extractor").info(datasetLocation + " writting...");
         startWriting(datasetLocation);
@@ -36,7 +42,6 @@ public class Extractor {
         ProtectionIED uc00 = null;
         if (Attacks.ECF.legitimate) {
             uc00 = new ProtectionIED();
-            uc00.setNumberOfPeriodicMessages(90000);
             uc00.run();
             writeGooseMessagesToFile(uc00.getMessages(), label[0], true);
         }
