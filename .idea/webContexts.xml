@@ -3,6 +3,7 @@
   <component name="WebContextManager">
     <option name="state">
       <map>
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/en/ied-configs.jsp" value="file://$PROJECT_DIR$/src/main/webapp/en" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/goose-message.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
       </map>
     </option>
