@@ -9,8 +9,8 @@ package br.ufu.facom.ereno.benign.devices;
 import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.api.SetupIED;
 import br.ufu.facom.ereno.benign.creator.GooseCreator;
-import br.ufu.facom.ereno.benign.messages.EthernetFrame;
-import br.ufu.facom.ereno.benign.messages.Goose;
+import br.ufu.facom.ereno.messages.EthernetFrame;
+import br.ufu.facom.ereno.messages.Goose;
 
 import java.util.ArrayList;
 
@@ -31,6 +31,7 @@ public class ProtectionIED extends IED {
 
     private int numberOfPeriodicMessages = GooseFlow.ECF.numberOfMessages;
     protected ArrayList<Goose> messages;
+    private String label = "normal";
 
     public ProtectionIED() {
         this.messages = new ArrayList<>();
@@ -49,7 +50,7 @@ public class ProtectionIED extends IED {
         double secondEvent = initialTimestamp + numberOfPeriodicMessages + 0.6;
 
         // Here we set the GooseCreator for creating GOOSE messages for ProtectionIED
-        messageCreator = new GooseCreator(numberOfPeriodicMessages);
+        messageCreator = new GooseCreator(numberOfPeriodicMessages, label);
         messageCreator.generate(this);
         GooseCreator gc = (GooseCreator) messageCreator;
 //        for (int i = 0; i <= 1000; i++) {

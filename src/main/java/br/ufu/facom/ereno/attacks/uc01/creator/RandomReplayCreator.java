@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufu.facom.ereno.infected.creators;
+package br.ufu.facom.ereno.attacks.uc01.creator;
 
 import br.ufu.facom.ereno.benign.devices.IED;
-import br.ufu.facom.ereno.benign.messages.Goose;
+import br.ufu.facom.ereno.messages.Goose;
 import br.ufu.facom.ereno.benign.creator.MessageCreator;
 
 import java.util.ArrayList;
@@ -19,6 +19,7 @@ import static br.ufu.facom.ereno.benign.devices.IED.randomBetween;
 public class RandomReplayCreator implements MessageCreator {
     ArrayList<Goose> legitimateMessages;
     int numReplayInstances;
+    private final int timeTakenByAttacker = 1;
 
     /**
      * @param legitimateMessages - previously generated legitimate messages
@@ -37,7 +38,7 @@ public class RandomReplayCreator implements MessageCreator {
 
             // Refresh the message timestamp
             Goose lastLegitimateGoose = legitimateMessages.get(legitimateMessages.size() - 1);
-            randomGoose.setTimestamp(lastLegitimateGoose.getTimestamp() + 1);
+            randomGoose.setTimestamp(lastLegitimateGoose.getTimestamp() + timeTakenByAttacker);
 
             // Send back the random replayed message to ReplayerIED
             ied.addMessage(randomGoose);

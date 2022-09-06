@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufu.facom.ereno.benign.messages;
+package br.ufu.facom.ereno.messages;
 
 /**
  * @author silvio
@@ -30,14 +30,15 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
     public static String ndsCom = "FALSE";
     public static String protocol = "GOOSE";
 
-    public boolean isInverseReplay = false;
+    public static String label;
 
-    public Goose(int cbStatus, int stNum, int sqNum, double timestamp, double t) {
+    public Goose(int cbStatus, int stNum, int sqNum, double timestamp, double t, String label) {
         this.cbStatus = cbStatus;
         this.stNum = stNum;
         this.sqNum = sqNum;
         this.timestamp = timestamp;
         this.t = t;
+        this.label = label;
     }
 
     public int isCbStatus() {
@@ -161,7 +162,7 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
     }
 
     public Goose copy() {
-        return new Goose(cbStatus, stNum, sqNum, timestamp, t);
+        return new Goose(cbStatus, stNum, sqNum, timestamp, t, label);
     }
 
     public int getGooseTimeAllowedtoLive() {
@@ -188,4 +189,7 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
             return 1;
         }
     }
+
+
+
 }

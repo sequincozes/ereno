@@ -7,7 +7,7 @@ package br.ufu.facom.ereno.benign.creator;
 
 import br.ufu.facom.ereno.benign.devices.IED;
 import br.ufu.facom.ereno.benign.devices.ProtectionIED;
-import br.ufu.facom.ereno.benign.messages.Goose;
+import br.ufu.facom.ereno.messages.Goose;
 
 import java.util.logging.Logger;
 
@@ -17,9 +17,11 @@ import java.util.logging.Logger;
 public class GooseCreator implements MessageCreator {
     int count;
     private ProtectionIED protectionIED;
+    private String label;
 
-    public GooseCreator(int numberOfPeriodicMessages) {
+    public GooseCreator(int numberOfPeriodicMessages, String label) {
         this.count = numberOfPeriodicMessages;
+        this.label = label;
     }
 
     @Override
@@ -33,14 +35,15 @@ public class GooseCreator implements MessageCreator {
                 // Already exists some messages
                 Goose previousGoose = protectionIED.getMessages().get(protectionIED.getMessages().size() - 1);
                 periodicGoose = new Goose(previousGoose.getCbStatus(), previousGoose.getStNum(), previousGoose.getSqNum() + 1,
-                        previousGoose.getTimestamp() + 1, previousGoose.getT());
+                        previousGoose.getTimestamp() + 1, previousGoose.getT(), this.label);
             } catch (IndexOutOfBoundsException e) {
                 // These will be the first messages
                 periodicGoose = new Goose(protectionIED.toInt(cbStatus),
                         protectionIED.getInitialStNum(),
                         protectionIED.getInitialSqNum(),
                         protectionIED.getFirstGooseTime(),
-                        protectionIED.getFirstGooseTime());
+                        protectionIED.getFirstGooseTime(),
+                        this.label);
             }
             protectionIED.addMessage(periodicGoose);
             protectionIED.setInitialSqNum(protectionIED.getInitialSqNum() + 1);
@@ -71,7 +74,8 @@ public class GooseCreator implements MessageCreator {
                     protectionIED.getInitialStNum(), // same stNum
                     sqNum++, // increase sqNum
                     timestamp, // current timestamp
-                    t // timestamp of last st change
+                    t, // timestamp of last st change
+                    label
             );
 
             timestamp = timestamp + interval;

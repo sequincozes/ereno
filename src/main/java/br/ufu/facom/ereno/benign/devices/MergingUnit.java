@@ -1,8 +1,8 @@
 package br.ufu.facom.ereno.benign.devices;
 
 import br.ufu.facom.ereno.benign.creator.SVCreator;
-import br.ufu.facom.ereno.benign.messages.EthernetFrame;
-import br.ufu.facom.ereno.benign.messages.Sv;
+import br.ufu.facom.ereno.messages.EthernetFrame;
+import br.ufu.facom.ereno.messages.Sv;
 
 import java.util.ArrayList;
 

@@ -2,7 +2,7 @@ package br.ufu.facom.ereno.benign.creator;
 
 import br.ufu.facom.ereno.benign.devices.IED;
 import br.ufu.facom.ereno.benign.devices.MergingUnit;
-import br.ufu.facom.ereno.benign.messages.Sv;
+import br.ufu.facom.ereno.messages.Sv;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -42,15 +42,15 @@ public class SVCreator implements MessageCreator {
                     String data = myReader.nextLine();
                     if (data.length() > 1) {
                         StringTokenizer stringTokenizer = new StringTokenizer(data, ",", true);
-                        int t = 0;
+                        int tokenCount = 0;
                         Float[] tokenLine = new Float[columns.length];
                         while (stringTokenizer.hasMoreTokens()) {
-                            t++;
+                            tokenCount++;
                             String next = stringTokenizer.nextToken();
                             if (!next.contains(",")) {
                                 if (!next.equals("normal") && !next.equals("fault")) {
                                     float token = Float.valueOf(next) * scale;
-                                    int column = ((t + 1) / 2) - 1;
+                                    int column = ((tokenCount + 1) / 2) - 1;
                                     tokenLine[column] = token;
                                 }
                             }

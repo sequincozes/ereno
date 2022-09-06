@@ -1,19 +1,18 @@
 package br.ufu.facom.ereno;
 
 import br.ufu.facom.ereno.benign.devices.ProtectionIED;
-import br.ufu.facom.ereno.benign.messages.Goose;
-import br.ufu.facom.ereno.benign.messages.Sv;
+import br.ufu.facom.ereno.messages.Goose;
+import br.ufu.facom.ereno.messages.Sv;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 public class Util {
     static BufferedWriter bw;
     static boolean replace = true;
-    static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate"};//,"poisoned_high_rate_consistent"};
+    public static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate"};//,"poisoned_high_rate_consistent"};
 
 
     public static void write(String line) throws IOException {
@@ -31,7 +30,7 @@ public class Util {
         bw = new BufferedWriter(new OutputStreamWriter(fos));
     }
 
-    protected static void writeGooseMessagesToFile(ArrayList<Goose> gooseMessages, String attackType, boolean printHeader) throws IOException {
+    protected static void writeGooseMessagesToFile(ArrayList<Goose> gooseMessages, boolean printHeader) throws IOException {
         /* Write Header and Columns */
         if (printHeader) {
             writeDefaulGooseHeader();
@@ -42,7 +41,7 @@ public class Util {
 
         for (Goose gm : gooseMessages) {
             if (prev != null) {
-                write(gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + attackType);
+                write(gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.getLabel());
             }
             prev = gm.copy();
         }

@@ -5,9 +5,8 @@ import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.api.SetupIED;
 import br.ufu.facom.ereno.benign.devices.MergingUnit;
 import br.ufu.facom.ereno.benign.devices.ProtectionIED;
-import br.ufu.facom.ereno.infected.devices.ReplayerIED;
+import br.ufu.facom.ereno.attacks.uc01.devices.ReplayerIED;
 
-import javax.servlet.ServletContext;
 import java.io.*;
 import java.util.logging.Logger;
 
@@ -43,7 +42,7 @@ public class Extractor {
         if (Attacks.ECF.legitimate) {
             uc00 = new ProtectionIED();
             uc00.run();
-            writeGooseMessagesToFile(uc00.getMessages(), label[0], true);
+            writeGooseMessagesToFile(uc00.getMessages(), true);
         }
 
         ReplayerIED uc01 = null;
@@ -52,7 +51,7 @@ public class Extractor {
             uc01 = new ReplayerIED(uc00);
             uc01.setNumReplayMessages(10000);
             uc01.run();
-            writeGooseMessagesToFile(uc01.getReplayedMessages(), label[1], false);
+            writeGooseMessagesToFile(uc01.getReplayedMessages(), false);
         }
 
         finishWriting();

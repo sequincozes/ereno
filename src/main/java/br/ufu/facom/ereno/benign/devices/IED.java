@@ -6,7 +6,7 @@
 package br.ufu.facom.ereno.benign.devices;
 
 import br.ufu.facom.ereno.benign.creator.MessageCreator;
-import br.ufu.facom.ereno.benign.messages.EthernetFrame;
+import br.ufu.facom.ereno.messages.EthernetFrame;
 
 import java.util.ArrayList;
 import java.util.Random;

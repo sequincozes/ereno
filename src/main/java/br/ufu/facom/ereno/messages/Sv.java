@@ -1,4 +1,4 @@
-package br.ufu.facom.ereno.benign.messages;
+package br.ufu.facom.ereno.messages;
 
 public class Sv extends EthernetFrame {
     float time;

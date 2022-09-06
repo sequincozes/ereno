@@ -1,10 +1,12 @@
-package br.ufu.facom.ereno.infected.devices;
+package br.ufu.facom.ereno.attacks.uc02.devices;
 
+import br.ufu.facom.ereno.attacks.uc01.creator.RandomReplayCreator;
+import br.ufu.facom.ereno.attacks.uc02.creator.InverseReplayCretor;
 import br.ufu.facom.ereno.benign.devices.IED;
+import br.ufu.facom.ereno.benign.devices.MergingUnit;
 import br.ufu.facom.ereno.benign.devices.ProtectionIED;
-import br.ufu.facom.ereno.benign.messages.EthernetFrame;
-import br.ufu.facom.ereno.benign.messages.Goose;
-import br.ufu.facom.ereno.infected.creators.RandomReplayCreator;
+import br.ufu.facom.ereno.messages.EthernetFrame;
+import br.ufu.facom.ereno.messages.Goose;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -14,8 +16,6 @@ public class ReplayerIED extends IED {
     protected ArrayList<Goose> replayedMessages;
 
     ProtectionIED legitimateIED; // ReplayerIED will replay mensagens from that legitimate device
-
-
 
     private int numReplayMessages;
 
@@ -28,7 +28,7 @@ public class ReplayerIED extends IED {
     public void run() {
         Logger.getLogger("ReplayerIED").info(
                 "Feeding replayer IED with " + legitimateIED.getMessages().size() + " legitimate messages");
-        messageCreator = new RandomReplayCreator(legitimateIED.getMessages(), getNumReplayMessages()); // feeds the message creator with legitimate messages
+        messageCreator = new InverseReplayCretor(getNumReplayMessages(), legitimateIED.getMessages()); // feeds the message creator with legitimate messages
         messageCreator.generate(this); // pass itself to receive messages from generator
     }
 
