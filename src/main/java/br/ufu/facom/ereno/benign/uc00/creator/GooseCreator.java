@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufu.facom.ereno.benign.creator;
+package br.ufu.facom.ereno.benign.uc00.creator;
 
-import br.ufu.facom.ereno.benign.devices.IED;
-import br.ufu.facom.ereno.benign.devices.ProtectionIED;
+import br.ufu.facom.ereno.benign.uc00.devices.IED;
+import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
 import br.ufu.facom.ereno.messages.Goose;
 
 import java.util.logging.Logger;
@@ -19,17 +19,17 @@ public class GooseCreator implements MessageCreator {
     private ProtectionIED protectionIED;
     private String label;
 
-    public GooseCreator(int numberOfPeriodicMessages, String label) {
-        this.count = numberOfPeriodicMessages;
+    public GooseCreator(String label) {
         this.label = label;
     }
 
     @Override
-    public void generate(IED ied) {
+    public void generate(IED ied, int numberOfPeriodicMessages) {
         this.protectionIED = (ProtectionIED) ied;
+        this.count = numberOfPeriodicMessages;
 
         boolean cbStatus = protectionIED.isInitialCbStatus();
-        for (int i = 0; i <= protectionIED.getNumberOfMessages(); i++) {
+        for (int i = 0; i <= numberOfPeriodicMessages; i++) {
             Goose periodicGoose;
             try {
                 // Already exists some messages
@@ -47,14 +47,12 @@ public class GooseCreator implements MessageCreator {
             }
             protectionIED.addMessage(periodicGoose);
             protectionIED.setInitialSqNum(protectionIED.getInitialSqNum() + 1);
-
         }
-
-
     }
 
     public void reportEventAt(double eventTimestamp) {
-        removeMessagesBeforeThan(eventTimestamp);
+        removeMessagesAfterEvent(eventTimestamp); // cancel programmed messages to replace them by a bursting
+
         protectionIED.setFirstGooseTime(
                 protectionIED.getMessages().get(protectionIED.getMessages().size() - 1).getTimestamp()
         );
@@ -66,7 +64,6 @@ public class GooseCreator implements MessageCreator {
         int sqNum = 1;
         double t = eventTimestamp + protectionIED.getDelayFromEvent(); // new t
         double timestamp = t; // timestamp
-        System.out.println(t);
 
         for (double interval : protectionIED.getBurstingInterval()) { // GOOSE BURST MODE
             Goose gm = new Goose(
@@ -83,12 +80,13 @@ public class GooseCreator implements MessageCreator {
         }
     }
 
-    public void removeMessagesBeforeThan(double timestamp) {
+    public void removeMessagesAfterEvent(double eventTimestamp) {
         if (protectionIED.getMessages().size() > 1) {
             double lastTimestamp = protectionIED.getMessages().get(protectionIED.getMessages().size() - 1).getTimestamp();
-            if (lastTimestamp > timestamp) {
+            if (lastTimestamp > eventTimestamp) {
+                // Remove messages after the repported event
                 protectionIED.getMessages().remove(protectionIED.getMessages().size() - 1);
-                removeMessagesBeforeThan(timestamp);
+                removeMessagesAfterEvent(eventTimestamp);
             }
         } else {
             Logger.getLogger("NoGooseMessages").warning("There are no GOOSE messages.");

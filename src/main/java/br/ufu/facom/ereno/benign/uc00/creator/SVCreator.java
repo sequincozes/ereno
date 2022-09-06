@@ -1,7 +1,7 @@
-package br.ufu.facom.ereno.benign.creator;
+package br.ufu.facom.ereno.benign.uc00.creator;
 
-import br.ufu.facom.ereno.benign.devices.IED;
-import br.ufu.facom.ereno.benign.devices.MergingUnit;
+import br.ufu.facom.ereno.benign.uc00.devices.IED;
+import br.ufu.facom.ereno.benign.uc00.devices.MergingUnit;
 import br.ufu.facom.ereno.messages.Sv;
 
 import java.io.*;
@@ -19,16 +19,22 @@ public class SVCreator implements MessageCreator {
             "ismA", "ismB", "ismC",  // Current substation Serra da mesa
             "vsbA", "vsbB", "vsbC",  // Voltage Samambaia
             "vsmA", "vsmB", "vsmC"}; // Voltage substation Serra da mesa
-     public SVCreator(String payloadFile) {
+
+    public SVCreator(String payloadFile) {
         this.payloadFile = payloadFile;
     }
 
     @Override
-    public void generate(IED ied) {
+    public void generate(IED ied, int numberOfSVMessages) {
         this.mu = (MergingUnit) ied;
         this.allElectricalMeassures = consumeFloat(payloadFile, 1, columnsTitle);
+        int messageCount = 0;
         for (Float[] line : allElectricalMeassures) {
-            mu.addMessage(new Sv(line[0], line[1], line[2], line[3], line[7], line[8], line[9]));
+            if (messageCount < numberOfSVMessages) {
+                mu.addMessage(new Sv(line[0], line[1], line[2], line[3], line[7], line[8], line[9]));
+            } else {
+                break;
+            }
         }
     }
 

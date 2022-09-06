@@ -1,6 +1,6 @@
-package br.ufu.facom.ereno.benign.devices;
+package br.ufu.facom.ereno.benign.uc00.devices;
 
-import br.ufu.facom.ereno.benign.creator.SVCreator;
+import br.ufu.facom.ereno.benign.uc00.creator.SVCreator;
 import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Sv;
 
@@ -18,10 +18,10 @@ public class MergingUnit extends IED {
     }
 
     @Override
-    public void run() {
+    public void run(int numberOfSVMessages) {
         for (String payloadFile : payloadFiles) {
             messageCreator = new SVCreator(payloadFile);
-            messageCreator.generate(this);
+            messageCreator.generate(this, numberOfSVMessages);
         }
     }
 

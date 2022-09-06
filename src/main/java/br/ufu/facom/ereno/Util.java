@@ -1,6 +1,6 @@
 package br.ufu.facom.ereno;
 
-import br.ufu.facom.ereno.benign.devices.ProtectionIED;
+import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
 import br.ufu.facom.ereno.messages.Goose;
 import br.ufu.facom.ereno.messages.Sv;
 
@@ -41,7 +41,7 @@ public class Util {
 
         for (Goose gm : gooseMessages) {
             if (prev != null) {
-                write(gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.getLabel());
+                write(gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.label);
             }
             prev = gm.copy();
         }

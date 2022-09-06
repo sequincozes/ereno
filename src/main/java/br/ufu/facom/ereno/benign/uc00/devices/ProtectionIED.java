@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufu.facom.ereno.benign.devices;
+package br.ufu.facom.ereno.benign.uc00.devices;
 
 
 import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.api.SetupIED;
-import br.ufu.facom.ereno.benign.creator.GooseCreator;
+import br.ufu.facom.ereno.benign.uc00.creator.GooseCreator;
 import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
 
@@ -45,18 +45,19 @@ public class ProtectionIED extends IED {
     }
 
     @Override
-    public void run() {
+    public void run(int numberOfPeriodicMessages) {
         double firstEvent = initialTimestamp + numberOfPeriodicMessages + 0.5;
         double secondEvent = initialTimestamp + numberOfPeriodicMessages + 0.6;
 
         // Here we set the GooseCreator for creating GOOSE messages for ProtectionIED
-        messageCreator = new GooseCreator(numberOfPeriodicMessages, label);
-        messageCreator.generate(this);
+        messageCreator = new GooseCreator(label);
+        messageCreator.generate(this, numberOfPeriodicMessages);
+        System.out.println(messages.size());
         GooseCreator gc = (GooseCreator) messageCreator;
-//        for (int i = 0; i <= 1000; i++) {
-//            gc.reportEventAt(firstEvent);
-//            gc.reportEventAt(secondEvent);
-//        }
+        for (int i = 0; i <= numberOfPeriodicMessages; i++) {
+            gc.reportEventAt(firstEvent);
+            gc.reportEventAt(secondEvent);
+        }
     }
 
     @Override
@@ -191,10 +192,6 @@ public class ProtectionIED extends IED {
 
     }
 
-    public int getNumberOfMessages() {
-        return this.numberOfPeriodicMessages;
-    }
-
     public ArrayList<Goose> getMessages() {
         return this.messages;
     }
@@ -239,4 +236,7 @@ public class ProtectionIED extends IED {
         this.numberOfPeriodicMessages = numberOfPeriodicMessages;
     }
 
+    public int getNumberOfMessages() {
+        return getMessages().size();
+    }
 }

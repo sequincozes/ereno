@@ -5,13 +5,14 @@
  */
 package br.ufu.facom.ereno.attacks.uc01.creator;
 
-import br.ufu.facom.ereno.benign.devices.IED;
+import br.ufu.facom.ereno.Util;
+import br.ufu.facom.ereno.benign.uc00.devices.IED;
 import br.ufu.facom.ereno.messages.Goose;
-import br.ufu.facom.ereno.benign.creator.MessageCreator;
+import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 
 import java.util.ArrayList;
 
-import static br.ufu.facom.ereno.benign.devices.IED.randomBetween;
+import static br.ufu.facom.ereno.benign.uc00.devices.IED.randomBetween;
 
 /**
  * @author silvio
@@ -23,18 +24,23 @@ public class RandomReplayCreator implements MessageCreator {
 
     /**
      * @param legitimateMessages - previously generated legitimate messages
-     * @param numReplayInstances - number of attack instances
      */
-    public RandomReplayCreator(ArrayList<Goose> legitimateMessages, int numReplayInstances) {
+    public RandomReplayCreator(ArrayList<Goose> legitimateMessages) {
         this.legitimateMessages = legitimateMessages;
-        this.numReplayInstances = numReplayInstances;
     }
 
+    /**
+     * @param ied - IED that will receive the generated messages
+     * @param numReplayInstances - number of attack instances
+     */
     @Override
-    public void generate(IED ied) {
+    public void generate(IED ied, int numReplayInstances) {
+        this.numReplayInstances = numReplayInstances;
+
         for (int i = 0; i < numReplayInstances; i++) {
             // Pickups one old GOOSE randomly
             Goose randomGoose = legitimateMessages.get(randomBetween(0, legitimateMessages.size()));
+            randomGoose.label = Util.label[1]; // label it as random replay (uc01)
 
             // Refresh the message timestamp
             Goose lastLegitimateGoose = legitimateMessages.get(legitimateMessages.size() - 1);
