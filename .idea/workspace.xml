@@ -12,24 +12,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Refactoring legacy UC02 to novel architecture.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/creator/MaqueradeFakeFaultCreator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/devices/FakeFaultMasqueratorIED.java" afterDir="false" />
+    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Refactoring legacy UC03 to novel architecture.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/creator/RandomReplayCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/creator/RandomReplayCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/devices/ReplayerIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/devices/RandomReplayerIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/creator/InverseReplayCretor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/creator/InverseReplayCretor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/devices/ReplayerIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/devices/InverseReplayerIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/creator/GooseCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/GooseCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/creator/MessageCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/MessageCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/creator/SVCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/SVCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/devices/IED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/IED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/devices/MergingUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/MergingUnit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/devices/ProtectionIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/ProtectionIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/ecf/attacks.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ecf/attacks.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/ecf/goose-flow.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ecf/goose-flow.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/creator/MaqueradeFakeFaultCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/creator/MaqueradeFakeFaultCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/devices/FakeFaultMasqueratorIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/devices/FakeFaultMasqueratorIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/ProtectionIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/ProtectionIED.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +41,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="uc02" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -278,7 +266,7 @@
       <workItem from="1661811151617" duration="8135000" />
       <workItem from="1661875306075" duration="620000" />
       <workItem from="1661975923876" duration="661000" />
-      <workItem from="1662465370924" duration="20430000" />
+      <workItem from="1662465370924" duration="23645000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -525,7 +513,21 @@
       <option name="project" value="LOCAL" />
       <updated>1662473619689</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Refactoring legacy UC02 to novel architecture (updates on UC00 and UC01).">
+      <created>1662490577746</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1662490577746</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Refactoring legacy UC03 to novel architecture.">
+      <created>1662490620826</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1662490620826</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -544,8 +546,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Initial commit" />
-    <MESSAGE value="Normal use case (UC00) and random replay use case (UC01) are done." />
     <MESSAGE value="Normal use case (UC00) and random replay use case (UC01) are done. EthSrc and EthDst were updated according to rules (must make headers consistency - only GOOSE hear was updated). Next step: refactor the architecture." />
     <MESSAGE value="Refactoring: creating packages for normal, attacks, and api (for servlets)." />
     <MESSAGE value="Merging Unit finished; sv-samples endpoint is downloading a sv dataset." />
@@ -569,7 +569,9 @@
     <MESSAGE value="Inner class for ECF file: done for all files." />
     <MESSAGE value="Creating english version; &#10;UIs done (/en); &#10;Todo: save in the session the selected language and redirect the servlet to the corresponding page languages." />
     <MESSAGE value="Refactoring legacy UC02 to novel architecture." />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactoring legacy UC02 to novel architecture." />
+    <MESSAGE value="Refactoring legacy UC02 to novel architecture (updates on UC00 and UC01)." />
+    <MESSAGE value="Refactoring legacy UC03 to novel architecture." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactoring legacy UC03 to novel architecture." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

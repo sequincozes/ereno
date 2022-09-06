@@ -1,6 +1,7 @@
 package br.ufu.facom.ereno.attacks.uc03.devices;
 
 import br.ufu.facom.ereno.attacks.uc03.creator.MaqueradeFakeFaultCreator;
+import br.ufu.facom.ereno.benign.uc00.devices.IED;
 import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
 import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
@@ -8,13 +9,11 @@ import br.ufu.facom.ereno.messages.Goose;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-public class FakeFaultMasqueratorIED extends ProtectionIED { // Masquerade attacks assume the attacker have full knowledge about the victim ProtectionIED
+public class FakeFaultMasqueratorIED extends IED { // Masquerade attacks assume the attacker have full knowledge about the victim ProtectionIED
 
     protected ArrayList<Goose> masqueradeMessages; // The generated masquerade messages will be stored here
 
     ProtectionIED legitimateIED; // MasqueratorIED will replay messages from that legitimate device
-
-    private int numMasqueradeMessages;
 
     public FakeFaultMasqueratorIED(ProtectionIED legitimate) {
         this.legitimateIED = legitimate;
@@ -38,11 +37,7 @@ public class FakeFaultMasqueratorIED extends ProtectionIED { // Masquerade attac
         return this.masqueradeMessages;
     }
 
-    public int getNumMasqueradeMessages() {
-        return numMasqueradeMessages;
-    }
-
-    public void setNumMasqueradeMessages(int numMasqueradeMessages) {
-        this.numMasqueradeMessages = numMasqueradeMessages;
+    public int getNumberOfMessages() {
+        return masqueradeMessages.size();
     }
 }

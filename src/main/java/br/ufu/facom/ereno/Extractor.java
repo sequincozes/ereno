@@ -61,7 +61,7 @@ public class Extractor {
 
         InverseReplayerIED uc02;
         Attacks.ECF.inverseReplay = true;
-        if (Attacks.ECF.randomReplay) {
+        if (Attacks.ECF.inverseReplay) {
             uc02 = new InverseReplayerIED(uc00);
             uc02.run(GooseFlow.ECF.numberOfMessages);
             writeGooseMessagesToFile(uc02.getReplayedMessages(), false);
@@ -69,13 +69,12 @@ public class Extractor {
         }
 
         FakeFaultMasqueratorIED uc03;
-        Attacks.ECF.randomReplay = true;
+        Attacks.ECF.masqueradeOutage = true;
         if (Attacks.ECF.randomReplay) {
             uc03 = new FakeFaultMasqueratorIED(uc00);
             uc03.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc03.getMessages(), false);
+            writeGooseMessagesToFile(uc03.getMasqueradeMessages(), false);
             totalMessageCount = totalMessageCount + uc03.getNumberOfMessages();
-            System.out.println(uc03.getNumberOfMessages() + "<<<");
         }
 
         finishWriting();
@@ -83,7 +82,6 @@ public class Extractor {
         Logger.getLogger("Time").info("Tempo gasto para gerar "
                 + Integer.valueOf(totalMessageCount) + " mensagens: "
                 + (endTime - beginTime));
-
     }
 
     public static void scriptForSV(String[] svData, String datasetLocation) throws IOException { // Generates only SV data

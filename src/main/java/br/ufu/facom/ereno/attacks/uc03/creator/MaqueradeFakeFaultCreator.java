@@ -4,6 +4,7 @@ import br.ufu.facom.ereno.Util;
 import br.ufu.facom.ereno.attacks.uc03.devices.FakeFaultMasqueratorIED;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;
+import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
 import br.ufu.facom.ereno.messages.Goose;
 
 import java.util.ArrayList;
@@ -30,7 +31,16 @@ public class MaqueradeFakeFaultCreator implements MessageCreator {
 
             // Step 2 - Reports a fake fault after the last transmitted message
             ArrayList<Goose> gooseMessages = reportFakeEventAt((FakeFaultMasqueratorIED) ied, masqueradeGoose);
+
+            for (Goose masquerade : gooseMessages) {
+                ied.addMessage(masquerade);
+            }
+
+            if (((FakeFaultMasqueratorIED) ied).getNumberOfMessages() >= 1000) {
+                break;
+            }
         }
+
     }
 
     public ArrayList<Goose> reportFakeEventAt(FakeFaultMasqueratorIED fakeFaultMasqueratorIED, Goose lastLegitimateMessage) {
@@ -40,10 +50,10 @@ public class MaqueradeFakeFaultCreator implements MessageCreator {
         int fakeCBStatus = 1;
         int fakeIncreasedStNum = lastLegitimateMessage.getStNum() + 1;
         int fakeIncreasingSqNum = 1;
-        double t = fakeEventTimestamp + fakeFaultMasqueratorIED.getDelayFromEvent(); // new t
+        double t = fakeEventTimestamp + ProtectionIED.delayFromEvent; // new t
         double timestamp = t; // timestamp has the same value as the last change (t) because it simulates an status change
 
-        for (double interval : fakeFaultMasqueratorIED.getBurstingInterval()) { // GOOSE BURST MODE
+        for (double interval : ProtectionIED.getBurstingInterval()) { // GOOSE BURST MODE
             Goose masqueratedGooseMessage = new Goose(
                     fakeCBStatus, // current status
                     fakeIncreasedStNum, // same stNum

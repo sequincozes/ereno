@@ -21,15 +21,14 @@ public class ProtectionIED extends IED {
 
     private int initialStNum = Integer.parseInt(SetupIED.ECF.stNum);
     private int initialSqNum = Integer.parseInt(SetupIED.ECF.sqNum);
-    private double[] burstingInterval = {0.5, 0.6}; // timestam to p (in seconds)
-    double delayFromEvent = 0.01659;
+    static double[] burstingInterval = {0.5, 0.6}; // timestam to p (in seconds)
+    public static double delayFromEvent = 0.01659;
     double firstGooseTime = 6.33000000000011f; // IED processing time
     double currentGooseTime = 0.00631;
     double minTime = Integer.parseInt(SetupIED.ECF.minTime);
     public static long maxTime = Integer.parseInt(SetupIED.ECF.maxTime);
     private boolean initialCbStatus = GooseFlow.ECF.cbstatus;
 
-    private int numberOfPeriodicMessages = GooseFlow.ECF.numberOfMessages;
     protected ArrayList<Goose> messages;
     private String label = "normal";
 
@@ -52,7 +51,6 @@ public class ProtectionIED extends IED {
         // Here we set the GooseCreator for creating GOOSE messages for ProtectionIED
         messageCreator = new GooseCreator(label);
         messageCreator.generate(this, numberOfPeriodicMessages);
-        System.out.println(messages.size());
         GooseCreator gc = (GooseCreator) messageCreator;
         for (int i = 0; i <= numberOfPeriodicMessages; i++) {
             gc.reportEventAt(firstEvent);
@@ -65,8 +63,8 @@ public class ProtectionIED extends IED {
         this.messages.add((Goose) periodicGoose);
     }
 
-    public double[] getBurstingInterval() {
-        return this.burstingInterval;
+    public static double[] getBurstingInterval() {
+        return burstingInterval;
     }
 
     public double[] exponentialBackoff(long minTime, long maxTime, double intervalMultiplier) {
@@ -117,7 +115,6 @@ public class ProtectionIED extends IED {
     public void setBurstingInterval(double[] burstingInterval) {
         this.burstingInterval = burstingInterval;
     }
-
 
     public void setMessages(ArrayList<Goose> gooseMessages) {
         this.messages = gooseMessages;
@@ -228,13 +225,6 @@ public class ProtectionIED extends IED {
         return lastGooseMessage;
     }
 
-    public int getNumberOfPeriodicMessages() {
-        return numberOfPeriodicMessages;
-    }
-
-    public void setNumberOfPeriodicMessages(int numberOfPeriodicMessages) {
-        this.numberOfPeriodicMessages = numberOfPeriodicMessages;
-    }
 
     public int getNumberOfMessages() {
         return getMessages().size();
