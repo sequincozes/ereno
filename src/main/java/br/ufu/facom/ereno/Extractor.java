@@ -51,7 +51,7 @@ public class Extractor {
         }
 
         RandomReplayerIED uc01;
-        Attacks.ECF.randomReplay = true;
+        Attacks.ECF.randomReplay = false;
         if (Attacks.ECF.randomReplay) {
             uc01 = new RandomReplayerIED(uc00);
             uc01.run(GooseFlow.ECF.numberOfMessages);
@@ -60,7 +60,7 @@ public class Extractor {
         }
 
         InverseReplayerIED uc02;
-        Attacks.ECF.inverseReplay = true;
+        Attacks.ECF.inverseReplay = false;
         if (Attacks.ECF.inverseReplay) {
             uc02 = new InverseReplayerIED(uc00);
             uc02.run(GooseFlow.ECF.numberOfMessages);
@@ -70,7 +70,7 @@ public class Extractor {
 
         FakeFaultMasqueratorIED uc03;
         Attacks.ECF.masqueradeOutage = true;
-        if (Attacks.ECF.randomReplay) {
+        if (Attacks.ECF.masqueradeOutage) {
             uc03 = new FakeFaultMasqueratorIED(uc00);
             uc03.run(GooseFlow.ECF.numberOfMessages);
             writeGooseMessagesToFile(uc03.getMasqueradeMessages(), false);

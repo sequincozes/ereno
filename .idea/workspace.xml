@@ -12,12 +12,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Refactoring legacy UC03 to novel architecture.">
+    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Refactoring legacy UC04 to novel architecture.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc04/creator/MaqueradeFakeNormalCreator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc04/devices/FakeNormalMasqueratorIED.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/creator/MaqueradeFakeFaultCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/creator/MaqueradeFakeFaultCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/devices/FakeFaultMasqueratorIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/devices/FakeFaultMasqueratorIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/ProtectionIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/ProtectionIED.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,11 +93,11 @@
       <recent name="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="br.ufu.facom.ereno.attacks.uc04.devices" />
+      <recent name="br.ufu.facom.ereno.attacks.uc04.creator" />
       <recent name="br.ufu.facom.ereno.attacks.uc03.devices" />
       <recent name="br.ufu.facom.ereno.attacks.uc02.devices" />
       <recent name="br.ufu.facom.ereno.api" />
-      <recent name="br.ufu.facom.ereno.usecases" />
-      <recent name="br.ufu.facom.ereno.attacks" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Extractor">
@@ -266,7 +266,7 @@
       <workItem from="1661811151617" duration="8135000" />
       <workItem from="1661875306075" duration="620000" />
       <workItem from="1661975923876" duration="661000" />
-      <workItem from="1662465370924" duration="23645000" />
+      <workItem from="1662465370924" duration="25614000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -527,7 +527,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662490620826</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Refactoring legacy UC04 to novel architecture.">
+      <created>1662493686128</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1662493686128</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -546,7 +553,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Normal use case (UC00) and random replay use case (UC01) are done. EthSrc and EthDst were updated according to rules (must make headers consistency - only GOOSE hear was updated). Next step: refactor the architecture." />
     <MESSAGE value="Refactoring: creating packages for normal, attacks, and api (for servlets)." />
     <MESSAGE value="Merging Unit finished; sv-samples endpoint is downloading a sv dataset." />
     <MESSAGE value="Working on ERENO-UI - ECF generation and reading." />
@@ -571,7 +577,8 @@
     <MESSAGE value="Refactoring legacy UC02 to novel architecture." />
     <MESSAGE value="Refactoring legacy UC02 to novel architecture (updates on UC00 and UC01)." />
     <MESSAGE value="Refactoring legacy UC03 to novel architecture." />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactoring legacy UC03 to novel architecture." />
+    <MESSAGE value="Refactoring legacy UC04 to novel architecture." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactoring legacy UC04 to novel architecture." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
