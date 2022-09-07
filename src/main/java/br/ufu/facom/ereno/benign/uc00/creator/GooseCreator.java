@@ -9,6 +9,7 @@ import br.ufu.facom.ereno.benign.uc00.devices.IED;
 import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
 import br.ufu.facom.ereno.messages.Goose;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 /**
@@ -28,17 +29,22 @@ public class GooseCreator implements MessageCreator {
         this.protectionIED = (ProtectionIED) ied;
         this.count = numberOfPeriodicMessages;
 
-        boolean cbStatus = protectionIED.isInitialCbStatus();
         for (int i = 0; i <= numberOfPeriodicMessages; i++) {
             Goose periodicGoose;
             try {
                 // Already exists some messages
                 Goose previousGoose = protectionIED.getMessages().get(protectionIED.getMessages().size() - 1);
-                periodicGoose = new Goose(previousGoose.getCbStatus(), previousGoose.getStNum(), previousGoose.getSqNum() + 1,
-                        previousGoose.getTimestamp() + 1, previousGoose.getT(), this.label);
+                periodicGoose = new Goose(
+                        previousGoose.getCbStatus(),
+                        previousGoose.getStNum(),
+                        previousGoose.getSqNum() + 1,
+                        previousGoose.getTimestamp() + 1,
+                        previousGoose.getT(),
+                        this.label);
             } catch (IndexOutOfBoundsException e) {
-                // These will be the first messages
-                periodicGoose = new Goose(protectionIED.toInt(cbStatus),
+                // This will be the first messages
+                periodicGoose = new Goose(
+                        protectionIED.toInt(protectionIED.isInitialCbStatus()),
                         protectionIED.getInitialStNum(),
                         protectionIED.getInitialSqNum(),
                         protectionIED.getFirstGooseTime(),
@@ -51,7 +57,7 @@ public class GooseCreator implements MessageCreator {
     }
 
     public void reportEventAt(double eventTimestamp) {
-        removeMessagesAfterEvent(eventTimestamp); // cancel programmed messages to replace them by a bursting
+//        removeMessagesAfterEvent(eventTimestamp); // cancel programmed messages to replace them by a bursting
 
         protectionIED.setFirstGooseTime(
                 protectionIED.getMessages().get(protectionIED.getMessages().size() - 1).getTimestamp()
@@ -65,7 +71,10 @@ public class GooseCreator implements MessageCreator {
         double t = eventTimestamp + protectionIED.getDelayFromEvent(); // new t
         double timestamp = t; // timestamp
 
-        for (double interval : protectionIED.getBurstingInterval()) { // GOOSE BURST MODE
+
+        double[] burstingIntervals = protectionIED.exponentialBackoff((long) protectionIED.getMinTime(), protectionIED.getMaxTime(), protectionIED.getFirstGooseTime());
+        for (double interval : burstingIntervals) { // GOOSE BURST MODE
+            System.out.println(interval);
             Goose gm = new Goose(
                     protectionIED.toInt(protectionIED.isInitialCbStatus()), // current status
                     protectionIED.getInitialStNum(), // same stNum
@@ -92,5 +101,6 @@ public class GooseCreator implements MessageCreator {
             Logger.getLogger("NoGooseMessages").warning("There are no GOOSE messages.");
         }
     }
+
 
 }

@@ -41,7 +41,8 @@ public class Util {
 
         for (Goose gm : gooseMessages) {
             if (prev != null) {
-                write(gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.label);
+//                write(gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.label);
+                write(gm.label + ","+gm.asCSVCompact());
             }
             prev = gm.copy();
         }

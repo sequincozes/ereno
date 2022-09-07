@@ -19,7 +19,6 @@ import static br.ufu.facom.ereno.benign.uc00.devices.IED.randomBetween;
  */
 public class RandomReplayCreator implements MessageCreator {
     ArrayList<Goose> legitimateMessages;
-    int numReplayInstances;
     private final int timeTakenByAttacker = 1;
 
     /**
@@ -35,7 +34,6 @@ public class RandomReplayCreator implements MessageCreator {
      */
     @Override
     public void generate(IED ied, int numReplayInstances) {
-        this.numReplayInstances = numReplayInstances;
 
         for (int i = 0; i < numReplayInstances; i++) {
             // Pickups one old GOOSE randomly

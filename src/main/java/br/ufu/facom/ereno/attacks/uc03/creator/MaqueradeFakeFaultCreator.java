@@ -59,7 +59,12 @@ public class MaqueradeFakeFaultCreator implements MessageCreator {
         double t = fakeEventTimestamp + ProtectionIED.delayFromEvent; // new t
         double timestamp = t; // timestamp has the same value as the last change (t) because it simulates an status change
 
-        for (double interval : ProtectionIED.getBurstingInterval()) { // GOOSE BURST MODE
+        double[] burstingIntervals = fakeFaultMasqueratorIED.getLegitimateIED().exponentialBackoff(
+                (long) fakeFaultMasqueratorIED.getLegitimateIED().getMinTime(),
+                fakeFaultMasqueratorIED.getLegitimateIED().getMaxTime(),
+                fakeFaultMasqueratorIED.getLegitimateIED().getFirstGooseTime());
+        
+        for (double interval : burstingIntervals) { // GOOSE BURST MODE
             Goose masqueratedGooseMessage = new Goose(
                     fakeCBStatus, // current status
                     fakeIncreasedStNum, // same stNum

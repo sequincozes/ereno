@@ -21,7 +21,7 @@ public class ProtectionIED extends IED {
 
     private int initialStNum = Integer.parseInt(SetupIED.ECF.stNum);
     private int initialSqNum = Integer.parseInt(SetupIED.ECF.sqNum);
-    static double[] burstingInterval = {0.5, 0.6}; // timestam to p (in seconds)
+//    static double[] burstingInterval = {0.5, 0.6}; // timestam to p (in seconds)
     public static double delayFromEvent = 0.01659;
     double firstGooseTime = 6.33000000000011f; // IED processing time
     double currentGooseTime = 0.00631;
@@ -50,12 +50,14 @@ public class ProtectionIED extends IED {
 
         // Here we set the GooseCreator for creating GOOSE messages for ProtectionIED
         messageCreator = new GooseCreator(label);
-        messageCreator.generate(this, numberOfPeriodicMessages);
+//        messageCreator.setupEventAt(firstEvent);
+//        messageCreator.setupEventAt(secondEvent);
+        messageCreator.generate(this, 1);
+
+        // This cannot be placed here (after the periodic messages)
         GooseCreator gc = (GooseCreator) messageCreator;
-        for (int i = 0; i <= numberOfPeriodicMessages; i++) {
-            gc.reportEventAt(firstEvent);
-            gc.reportEventAt(secondEvent);
-        }
+        gc.reportEventAt(firstEvent);
+//        gc.reportEventAt(secondEvent);
     }
 
     @Override
@@ -63,9 +65,6 @@ public class ProtectionIED extends IED {
         this.messages.add((Goose) periodicGoose);
     }
 
-    public static double[] getBurstingInterval() {
-        return burstingInterval;
-    }
 
     public double[] exponentialBackoff(long minTime, long maxTime, double intervalMultiplier) {
         long retryIntervalMs = minTime;
@@ -110,10 +109,6 @@ public class ProtectionIED extends IED {
 
     public void setInitialSqNum(int initialSqNum) {
         this.initialSqNum = initialSqNum;
-    }
-
-    public void setBurstingInterval(double[] burstingInterval) {
-        this.burstingInterval = burstingInterval;
     }
 
     public void setMessages(ArrayList<Goose> gooseMessages) {

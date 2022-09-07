@@ -40,4 +40,8 @@ public class FakeNormalMasqueratorIED extends IED { // Masquerade attacks assume
     public int getNumberOfMessages() {
         return masqueradeMessages.size();
     }
+
+    public ProtectionIED getLegitimateIED() {
+        return this.legitimateIED;
+    }
 }

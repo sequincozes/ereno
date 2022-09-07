@@ -1,6 +1,7 @@
 package br.ufu.facom.ereno.attacks.uc04.creator;
 
 import br.ufu.facom.ereno.Util;
+import br.ufu.facom.ereno.attacks.uc03.devices.FakeFaultMasqueratorIED;
 import br.ufu.facom.ereno.attacks.uc04.devices.FakeNormalMasqueratorIED;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;
@@ -36,7 +37,7 @@ public class MaqueradeFakeNormalCreator implements MessageCreator {
             }
 
             // Step 2 - Reports a fake fault (CBStatus = 1)
-            ArrayList<Goose> gooseMessages = reportFakeEventAt(lastLegitimateGoose);
+            ArrayList<Goose> gooseMessages = reportFakeEventAt((FakeNormalMasqueratorIED) ied, lastLegitimateGoose);
             for (Goose masquerade : gooseMessages) {
                 ied.addMessage(masquerade);
             }
@@ -48,7 +49,7 @@ public class MaqueradeFakeNormalCreator implements MessageCreator {
 
     }
 
-    public ArrayList<Goose> reportFakeEventAt(Goose lastLegitimateMessage) {
+    public ArrayList<Goose> reportFakeEventAt(FakeNormalMasqueratorIED fakeNormalMasqueratorIED, Goose lastLegitimateMessage) {
         ArrayList<Goose> masqueratedGooseMessages = new ArrayList<>();
         double fakeEventTimestamp = lastLegitimateMessage.getTimestamp() + timeTakenByAttacker; // the masquerade messages will be transmitted immediately after this message
         String label = Util.label[4];  // label it as masquerade fake fault (uc03)
@@ -58,7 +59,12 @@ public class MaqueradeFakeNormalCreator implements MessageCreator {
         double t = fakeEventTimestamp + ProtectionIED.delayFromEvent; // new t
         double timestamp = t; // timestamp has the same value as the last change (t) because it simulates an status change
 
-        for (double interval : ProtectionIED.getBurstingInterval()) { // GOOSE BURST MODE
+        double[] burstingIntervals = fakeNormalMasqueratorIED.getLegitimateIED().exponentialBackoff(
+                (long) fakeNormalMasqueratorIED.getLegitimateIED().getMinTime(),
+                fakeNormalMasqueratorIED.getLegitimateIED().getMaxTime(),
+                fakeNormalMasqueratorIED.getLegitimateIED().getFirstGooseTime());
+
+        for (double interval : burstingIntervals) { // GOOSE BURST MODE
             Goose masqueratedGooseMessage = new Goose(
                     fakeCBStatus, // current status
                     fakeIncreasedStNum, // same stNum
@@ -73,5 +79,6 @@ public class MaqueradeFakeNormalCreator implements MessageCreator {
         }
         return masqueratedGooseMessages;
     }
+
 
 }
