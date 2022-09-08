@@ -12,19 +12,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Refactoring legacy UC04 to novel architecture.">
-      <change afterPath="$PROJECT_DIR$/webapp/downloads/dataset_mu.arff" afterDir="false" />
+    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Refactoring legacy UC05 to novel architecture and bug fix on UC00.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc05/devices/InjectorIED.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/creator/MaqueradeFakeFaultCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/creator/MaqueradeFakeFaultCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc04/creator/MaqueradeFakeNormalCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc04/creator/MaqueradeFakeNormalCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/GooseCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/GooseCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/ProtectionIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/ProtectionIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/messages/Goose.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/messages/Goose.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc05/creator/InjectionCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc05/creator/InjectionCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/ecf/attacks.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ecf/attacks.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/ecf/goose-flow.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ecf/goose-flow.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/ecf/setup-ied.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ecf/setup-ied.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,11 +94,11 @@
       <recent name="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="br.ufu.facom.ereno.attacks.uc05.devices" />
       <recent name="br.ufu.facom.ereno.attacks.uc04.devices" />
       <recent name="br.ufu.facom.ereno.attacks.uc04.creator" />
       <recent name="br.ufu.facom.ereno.attacks.uc03.devices" />
       <recent name="br.ufu.facom.ereno.attacks.uc02.devices" />
-      <recent name="br.ufu.facom.ereno.api" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Extractor">
@@ -550,7 +543,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662495621307</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Refactoring legacy UC05 to novel architecture and bug fix on UC00.">
+      <created>1662616220385</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1662616220385</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -569,8 +569,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Refactoring: creating packages for normal, attacks, and api (for servlets)." />
-    <MESSAGE value="Merging Unit finished; sv-samples endpoint is downloading a sv dataset." />
     <MESSAGE value="Working on ERENO-UI - ECF generation and reading." />
     <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of java files)." />
     <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of jsp files)." />
@@ -594,7 +592,9 @@
     <MESSAGE value="Refactoring legacy UC02 to novel architecture (updates on UC00 and UC01)." />
     <MESSAGE value="Refactoring legacy UC03 to novel architecture." />
     <MESSAGE value="Refactoring legacy UC04 to novel architecture." />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactoring legacy UC04 to novel architecture." />
+    <MESSAGE value="Refactoring legacy UC05 to novel architecture." />
+    <MESSAGE value="Refactoring legacy UC05 to novel architecture and bug fix on UC00." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactoring legacy UC05 to novel architecture and bug fix on UC00." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

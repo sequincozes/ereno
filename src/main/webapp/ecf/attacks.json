@@ -3,7 +3,7 @@
   "randomReplay": false,
   "masqueradeOutage": false,
   "masqueradeDamage": false,
-  "randomInjection": false,
+  "randomInjection": true,
   "inverseReplay": false,
   "highStNum": false,
   "flooding": false

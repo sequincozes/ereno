@@ -33,16 +33,20 @@ public class InjectionCreator implements MessageCreator {
             int confRev = randomBetween(0, 100);
 
             // Last Goose Message from the random time
-            Goose gm = new Goose(cbStatus, stNum, sqNum, timestamp, t, Util.label[5]);
-            gm.setSqNum(sqNum);
-            gm.setStNum(stNum);
-            gm.setCbStatus(cbStatus);
-            gm.setConfRev(confRev);
-            gm.setGooseTimeAllowedtoLive(timeAllowedToLive);
+            Goose injectionMessage = new Goose(cbStatus, stNum, sqNum, timestamp, t, Util.label[5]);
+            injectionMessage.setSqNum(sqNum);
+            injectionMessage.setStNum(stNum);
+            injectionMessage.setCbStatus(cbStatus);
+            injectionMessage.setConfRev(confRev);
+            injectionMessage.setGooseTimeAllowedtoLive(timeAllowedToLive);
 
             String[] legitimateMacAddress = {"FF:FF:FF:FF:FF:11", "FF:FF:FF:FF:FF:22", "FF:FF:FF:FF:FF:33", "FF:FF:FF:FF:FF:44", "FF:FF:FF:FF:FF:55", "FF:FF:FF:FF:FF:66", "FF:FF:FF:FF:FF:FF", "FF:FF:FF:FF:FF:77", "FF:FF:FF:FF:FF:AA", "FF:FF:FF:FF:FF:BB", "FF:FF:FF:FF:FF:CC", "FF:FF:FF:FF:FF:DD", "FF:FF:FF:FF:FF:EE", "FF:FF:FF:FF:FF:AB", "FF:FF:FF:FF:FF:AC"};
             Goose.ethDst = legitimateMacAddress[randomBetween(0, legitimateMacAddress.length - 1)];
             Goose.ethSrc = legitimateMacAddress[randomBetween(0, legitimateMacAddress.length - 1)];
+
+            /**
+             @TODO in next versions, one can vary the parameters below (randomly, as done above)
+             */
             Goose.ethType = "0x000077b7";
             Goose.gooseAppid = "0x00003002";
             Goose.TPID = "0x7101";
@@ -52,6 +56,10 @@ public class InjectionCreator implements MessageCreator {
             Goose.test = "TRUE";
             Goose.ndsCom = "TRUE";
             Goose.protocol = "SV";
+
+            // Send the generated message to InjectorIED
+            ied.addMessage(injectionMessage);
+
         }
 
     }

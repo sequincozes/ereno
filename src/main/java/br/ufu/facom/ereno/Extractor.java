@@ -6,6 +6,7 @@ import br.ufu.facom.ereno.api.SetupIED;
 import br.ufu.facom.ereno.attacks.uc02.devices.InverseReplayerIED;
 import br.ufu.facom.ereno.attacks.uc03.devices.FakeFaultMasqueratorIED;
 import br.ufu.facom.ereno.attacks.uc04.devices.FakeNormalMasqueratorIED;
+import br.ufu.facom.ereno.attacks.uc05.devices.InjectorIED;
 import br.ufu.facom.ereno.benign.uc00.devices.MergingUnit;
 import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
 import br.ufu.facom.ereno.attacks.uc01.devices.RandomReplayerIED;
@@ -25,10 +26,10 @@ public class Extractor {
         GooseFlow.ECF.loadConfigs();
         SetupIED.ECF.loadConfigs();
 
-//        scriptForGoose("/home/silvio/datasets/goose.arff");
-         String svData[] = new String[]{"//home/silvio/datasets/Full_SV_2020/resistence_50/second_1.csv"};
-         String datasetLocation = "/home/silvio/datasets/ereno/dataset_mu.arff";
-        scriptForSV(svData,datasetLocation);
+        scriptForGoose("/home/silvio/datasets/goose.arff");
+//         String svData[] = new String[]{"//home/silvio/datasets/Full_SV_2020/resistence_50/second_1.csv"};
+//         String datasetLocation = "/home/silvio/datasets/ereno/dataset_mu.arff";
+//        scriptForSV(svData,datasetLocation);
     }
 
     /**
@@ -83,6 +84,14 @@ public class Extractor {
             uc04.run(GooseFlow.ECF.numberOfMessages);
             writeGooseMessagesToFile(uc04.getMasqueradeMessages(), false);
             totalMessageCount = totalMessageCount + uc04.getNumberOfMessages();
+        }
+
+        InjectorIED uc05;
+        if (Attacks.ECF.randomInjection) {
+            uc05 = new InjectorIED(uc00);
+            uc05.run(GooseFlow.ECF.numberOfMessages);
+            writeGooseMessagesToFile(uc05.getInjectedMessages(), false);
+            totalMessageCount = totalMessageCount + uc05.getNumberOfMessages();
         }
 
         finishWriting();
