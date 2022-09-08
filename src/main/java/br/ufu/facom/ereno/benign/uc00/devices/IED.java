@@ -28,7 +28,8 @@ public abstract class IED {
     }
 
     public static double randomBetween(double min, double max) {
-        return (Double.valueOf(new Random(System.nanoTime()).nextInt((int) (max * 10000 - min * 10000)) + min * 10000)) / 10000; // This is to avoid missing decimal values during the conversion
+//        return (new Random(System.nanoTime()).nextInt((int) (max * 10000 - min * 10000)) + min * 10000) / 10000; // This is to avoid missing decimal values during the conversion
+        return (max - min) * new Random(System.nanoTime()).nextDouble() - min;
     }
 
     abstract public void run(int messageCount);
