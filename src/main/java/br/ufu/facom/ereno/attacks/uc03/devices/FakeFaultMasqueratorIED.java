@@ -13,7 +13,7 @@ public class FakeFaultMasqueratorIED extends IED { // Masquerade attacks assume 
 
     protected ArrayList<Goose> masqueradeMessages; // The generated masquerade messages will be stored here
 
-    ProtectionIED legitimateIED; // MasqueratorIED will replay messages from that legitimate device
+    ProtectionIED legitimateIED;
 
     public FakeFaultMasqueratorIED(ProtectionIED legitimate) {
         this.legitimateIED = legitimate;

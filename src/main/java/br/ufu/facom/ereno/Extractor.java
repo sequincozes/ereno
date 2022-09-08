@@ -7,6 +7,8 @@ import br.ufu.facom.ereno.attacks.uc02.devices.InverseReplayerIED;
 import br.ufu.facom.ereno.attacks.uc03.devices.FakeFaultMasqueratorIED;
 import br.ufu.facom.ereno.attacks.uc04.devices.FakeNormalMasqueratorIED;
 import br.ufu.facom.ereno.attacks.uc05.devices.InjectorIED;
+import br.ufu.facom.ereno.attacks.uc06.devices.HighStNumInjectorIED;
+import br.ufu.facom.ereno.attacks.uc07.devices.HighRateStNumInjectorIED;
 import br.ufu.facom.ereno.benign.uc00.devices.MergingUnit;
 import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
 import br.ufu.facom.ereno.attacks.uc01.devices.RandomReplayerIED;
@@ -92,6 +94,22 @@ public class Extractor {
             uc05.run(GooseFlow.ECF.numberOfMessages);
             writeGooseMessagesToFile(uc05.getInjectedMessages(), false);
             totalMessageCount = totalMessageCount + uc05.getNumberOfMessages();
+        }
+
+        HighStNumInjectorIED uc06;
+        if (Attacks.ECF.highStNum) {
+            uc06 = new HighStNumInjectorIED(uc00);
+            uc06.run(GooseFlow.ECF.numberOfMessages);
+            writeGooseMessagesToFile(uc06.getInjectedMessages(), false);
+            totalMessageCount = totalMessageCount + uc06.getNumberOfMessages();
+        }
+
+        HighRateStNumInjectorIED uc07;
+        if (Attacks.ECF.flooding) {
+            uc07 = new HighRateStNumInjectorIED(uc00);
+            uc07.run(GooseFlow.ECF.numberOfMessages);
+            writeGooseMessagesToFile(uc07.getInjectedMessages(), false);
+            totalMessageCount = totalMessageCount + uc07.getNumberOfMessages();
         }
 
         finishWriting();

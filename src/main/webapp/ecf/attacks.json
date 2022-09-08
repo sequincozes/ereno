@@ -3,8 +3,8 @@
   "randomReplay": false,
   "masqueradeOutage": false,
   "masqueradeDamage": false,
-  "randomInjection": true,
+  "randomInjection": false,
   "inverseReplay": false,
   "highStNum": false,
-  "flooding": false
+  "flooding": true
 }
