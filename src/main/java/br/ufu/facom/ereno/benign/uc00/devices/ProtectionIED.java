@@ -21,10 +21,19 @@ public class ProtectionIED extends IED {
 
     private int initialStNum = Integer.parseInt(SetupIED.ECF.stNum);
     private int initialSqNum = Integer.parseInt(SetupIED.ECF.sqNum);
-//    static double[] burstingInterval = {0.5, 0.6}; // timestam to p (in seconds)
-    public static double delayFromEvent = 0.01659;
-    double firstGooseTime = 6.33000000000011f; // IED processing time
-    double currentGooseTime = 0.00631;
+    //    static double[] burstingInterval = {0.5, 0.6}; // timestam to p (in seconds)
+    public static double delayFromEvent = 0.00631;
+    double firstGooseTime = 0.01659;
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
+
+    double initialBackoffInterval = 6.33000000000011f; // IED processing time
     double minTime = Integer.parseInt(SetupIED.ECF.minTime);
     public static long maxTime = Integer.parseInt(SetupIED.ECF.maxTime);
     private boolean initialCbStatus = GooseFlow.ECF.cbstatus;
@@ -45,19 +54,18 @@ public class ProtectionIED extends IED {
 
     @Override
     public void run(int numberOfPeriodicMessages) {
+        numberOfPeriodicMessages = 3;
         double firstEvent = initialTimestamp + numberOfPeriodicMessages + 0.5;
         double secondEvent = initialTimestamp + numberOfPeriodicMessages + 0.6;
 
         // Here we set the GooseCreator for creating GOOSE messages for ProtectionIED
         messageCreator = new GooseCreator(label);
-//        messageCreator.setupEventAt(firstEvent);
-//        messageCreator.setupEventAt(secondEvent);
-        messageCreator.generate(this, 1);
-
-        // This cannot be placed here (after the periodic messages)
+        messageCreator.generate(this, numberOfPeriodicMessages);
         GooseCreator gc = (GooseCreator) messageCreator;
         gc.reportEventAt(firstEvent);
-//        gc.reportEventAt(secondEvent);
+        messageCreator.generate(this, numberOfPeriodicMessages);
+
+        //        gc.reportEventAt(secondEvent);
     }
 
     @Override
@@ -70,14 +78,12 @@ public class ProtectionIED extends IED {
         long retryIntervalMs = minTime;
 
         ArrayList<Double> tIntervals = new ArrayList<>();
-        tIntervals.add(retryIntervalMs / 1000.0);
-
         do {
             tIntervals.add(retryIntervalMs / 1000.0);
             retryIntervalMs *= intervalMultiplier;
             if (retryIntervalMs > maxTime) {
-                intervalMultiplier = intervalMultiplier + 0.001;
-                retryIntervalMs = minTime;
+                tIntervals.add((double) maxTime);
+                break;
             } else if (retryIntervalMs == maxTime) {
                 tIntervals.add(retryIntervalMs / 1000.0);
                 break;
@@ -87,11 +93,11 @@ public class ProtectionIED extends IED {
 
         int i = 0;
         double[] arrayIntervals = new double[tIntervals.size() + 1];
-//        arrayIntervals[i++] = tIntervals.get(0); // first two retransmission are on same period
+        arrayIntervals[i++] = tIntervals.get(0); // first two retransmission are on same period
         for (double ti : tIntervals) {
             arrayIntervals[i++] = ti;
-//            System.out.println("Interval: " + ti);
         }
+
         return arrayIntervals;
     }
 
@@ -208,16 +214,21 @@ public class ProtectionIED extends IED {
     public Goose getLastGooseFromSV(double timestamp, ArrayList<Goose> gooseMessages) {
         Goose lastGooseMessage = gooseMessages.get(0);
         for (Goose goose : gooseMessages) {
-//            System.out.println("Buscando: SV "+timestamp+" em GOOSE: "+gooseMessage.getTimestamp());
             if (goose.getTimestamp() > timestamp) {
-//                System.out.println("ACHOU: depois de "+timestamp+" veio "+gooseMessage.getTimestamp());
-//                System.exit(0);
                 return lastGooseMessage;
             } else {
                 lastGooseMessage = goose;
             }
         }
         return lastGooseMessage;
+    }
+
+    public double getInitialBackoffInterval() {
+        return initialBackoffInterval;
+    }
+
+    public void setInitialBackoffInterval(double initialBackoffInterval) {
+        this.initialBackoffInterval = initialBackoffInterval;
     }
 
 

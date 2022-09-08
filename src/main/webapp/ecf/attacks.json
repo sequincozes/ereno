@@ -1,7 +1,7 @@
 {
   "legitimate": true,
-  "randomReplay": true,
-  "masqueradeOutage": true,
+  "randomReplay": false,
+  "masqueradeOutage": false,
   "masqueradeDamage": false,
   "randomInjection": false,
   "inverseReplay": false,

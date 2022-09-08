@@ -13,6 +13,9 @@ public class Util {
     static BufferedWriter bw;
     static boolean replace = true;
     public static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate"};//,"poisoned_high_rate_consistent"};
+    private static class Debug {
+        public static boolean gooseMessages = true;
+    }
 
 
     public static void write(String line) throws IOException {
@@ -41,8 +44,10 @@ public class Util {
 
         for (Goose gm : gooseMessages) {
             if (prev != null) {
-//                write(gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.label);
-                write(gm.label + ","+gm.asCSVCompact());
+                write(gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.label);
+                if(Util.Debug.gooseMessages){
+                    System.out.println(gm.label + ","+gm.asCSVCompact());
+                }
             }
             prev = gm.copy();
         }

@@ -62,7 +62,7 @@ public class MaqueradeFakeFaultCreator implements MessageCreator {
         double[] burstingIntervals = fakeFaultMasqueratorIED.getLegitimateIED().exponentialBackoff(
                 (long) fakeFaultMasqueratorIED.getLegitimateIED().getMinTime(),
                 fakeFaultMasqueratorIED.getLegitimateIED().getMaxTime(),
-                fakeFaultMasqueratorIED.getLegitimateIED().getFirstGooseTime());
+                fakeFaultMasqueratorIED.getLegitimateIED().getInitialBackoffInterval());
         
         for (double interval : burstingIntervals) { // GOOSE BURST MODE
             Goose masqueratedGooseMessage = new Goose(

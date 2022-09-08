@@ -122,11 +122,11 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
     }
 
     public String asCSVCompact() {
-        return getTimestamp() + "," + getT() + "," + getSqNum() + "," + getStNum() + "," + getCbStatus();
+        return getT() + "," + getTimestamp() + "," + getSqNum() + "," + getStNum() + "," + getCbStatus();
     }
 
     public String asCSVCompactHeader() {
-        return "timestamp,t , SqNum, StNum, cbStatus";
+        return "t,timestamp , SqNum, StNum, cbStatus";
     }
 
 

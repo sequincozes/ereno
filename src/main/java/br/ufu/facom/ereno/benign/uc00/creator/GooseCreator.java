@@ -27,7 +27,7 @@ public class GooseCreator implements MessageCreator {
     @Override
     public void generate(IED ied, int numberOfPeriodicMessages) {
         this.protectionIED = (ProtectionIED) ied;
-        this.count = numberOfPeriodicMessages;
+        this.count = numberOfPeriodicMessages + 1; // this additional message will be used as reference for consistency features and then discarded
 
         for (int i = 0; i <= numberOfPeriodicMessages; i++) {
             Goose periodicGoose;
@@ -41,16 +41,18 @@ public class GooseCreator implements MessageCreator {
                         previousGoose.getTimestamp() + 1,
                         previousGoose.getT(),
                         this.label);
+
             } catch (IndexOutOfBoundsException e) {
-                // This will be the first messages
+                // This will be the first message, for referene only (it will not be included into the dataset)
                 periodicGoose = new Goose(
                         protectionIED.toInt(protectionIED.isInitialCbStatus()),
                         protectionIED.getInitialStNum(),
                         protectionIED.getInitialSqNum(),
-                        protectionIED.getFirstGooseTime(),
+                        protectionIED.getFirstGooseTime() -1, // simulates a previous message timestamp
                         protectionIED.getFirstGooseTime(),
                         this.label);
             }
+
             protectionIED.addMessage(periodicGoose);
             protectionIED.setInitialSqNum(protectionIED.getInitialSqNum() + 1);
         }
@@ -72,9 +74,12 @@ public class GooseCreator implements MessageCreator {
         double timestamp = t; // timestamp
 
 
-        double[] burstingIntervals = protectionIED.exponentialBackoff((long) protectionIED.getMinTime(), protectionIED.getMaxTime(), protectionIED.getFirstGooseTime());
+        double[] burstingIntervals = protectionIED.exponentialBackoff(
+                (long) protectionIED.getMinTime(),
+                protectionIED.getMaxTime(),
+                protectionIED.getInitialBackoffInterval());
+
         for (double interval : burstingIntervals) { // GOOSE BURST MODE
-            System.out.println(interval);
             Goose gm = new Goose(
                     protectionIED.toInt(protectionIED.isInitialCbStatus()), // current status
                     protectionIED.getInitialStNum(), // same stNum

@@ -25,7 +25,10 @@ public class Extractor {
         GooseFlow.ECF.loadConfigs();
         SetupIED.ECF.loadConfigs();
 
-        scriptForGoose("/home/silvio/datasets/goose.arff");
+//        scriptForGoose("/home/silvio/datasets/goose.arff");
+         String svData[] = new String[]{"//home/silvio/datasets/Full_SV_2020/resistence_50/second_1.csv"};
+         String datasetLocation = "/home/silvio/datasets/ereno/dataset_mu.arff";
+        scriptForSV(svData,datasetLocation);
     }
 
     /**
@@ -43,14 +46,6 @@ public class Extractor {
 
         // Generate and write samples for legitimate and attacks choosen in attacks.json
         ProtectionIED uc00 = null;
-        GooseFlow.ECF.numberOfMessages = 5;
-        Attacks.ECF.legitimate = true;
-        Attacks.ECF.randomReplay = false;
-        Attacks.ECF.inverseReplay = false;
-        Attacks.ECF.masqueradeOutage = false;
-        Attacks.ECF.masqueradeDamage = false;
-
-
         if (Attacks.ECF.legitimate) {
             uc00 = new ProtectionIED();
             uc00.run(GooseFlow.ECF.numberOfMessages);
