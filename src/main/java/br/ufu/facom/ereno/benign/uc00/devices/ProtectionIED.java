@@ -54,18 +54,18 @@ public class ProtectionIED extends IED {
 
     @Override
     public void run(int numberOfPeriodicMessages) {
-        numberOfPeriodicMessages = 3;
-        double firstEvent = initialTimestamp + numberOfPeriodicMessages + 0.5;
-        double secondEvent = initialTimestamp + numberOfPeriodicMessages + 0.6;
+//        numberOfPeriodicMessages = 3;
+        double firstEvent = initialTimestamp + numberOfPeriodicMessages - 1 + 0.5;
+        double secondEvent = initialTimestamp + numberOfPeriodicMessages - 1 + 0.6;
 
         // Here we set the GooseCreator for creating GOOSE messages for ProtectionIED
         messageCreator = new GooseCreator(label);
         messageCreator.generate(this, numberOfPeriodicMessages);
         GooseCreator gc = (GooseCreator) messageCreator;
         gc.reportEventAt(firstEvent);
-        messageCreator.generate(this, numberOfPeriodicMessages);
+        gc.reportEventAt(secondEvent);
+//        messageCreator.generate(this, numberOfPeriodicMessages);
 
-        //        gc.reportEventAt(secondEvent);
     }
 
     @Override

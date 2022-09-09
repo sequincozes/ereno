@@ -14,8 +14,14 @@
   <component name="ChangeListManager">
     <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Refactoring legacy UC06 and UC07 to novel architecture .">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Datasets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Datasets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/GooseCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/GooseCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/IED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/IED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/ProtectionIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/ProtectionIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/messages/Goose.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/messages/Goose.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/ecf/attacks.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ecf/attacks.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/ecf/goose-flow.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ecf/goose-flow.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/ecf/setup-ied.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ecf/setup-ied.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +105,7 @@
       <recent name="br.ufu.facom.ereno.attacks.uc05.devices" />
     </key>
   </component>
-  <component name="RunManager" selected="Tomcat Server.Tomcat 9.0.64">
+  <component name="RunManager" selected="Application.Extractor">
     <configuration name="Extractor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="br.ufu.facom.ereno.Extractor" />
       <module name="ERENO" />
@@ -267,6 +273,7 @@
       <workItem from="1661975923876" duration="661000" />
       <workItem from="1662465370924" duration="28453000" />
       <workItem from="1662573560308" duration="8099000" />
+      <workItem from="1662660036782" duration="2924000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -562,7 +569,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662620223924</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Refactoring legacy UC06 and UC07 to novel architecture .">
+      <created>1662621365567</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1662621365567</updated>
+    </task>
+    <option name="localTasksCounter" value="44" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

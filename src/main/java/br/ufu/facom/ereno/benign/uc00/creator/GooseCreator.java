@@ -5,11 +5,13 @@
  */
 package br.ufu.facom.ereno.benign.uc00.creator;
 
+import br.ufu.facom.ereno.Util;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;
 import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
 import br.ufu.facom.ereno.messages.Goose;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -48,7 +50,7 @@ public class GooseCreator implements MessageCreator {
                         protectionIED.toInt(protectionIED.isInitialCbStatus()),
                         protectionIED.getInitialStNum(),
                         protectionIED.getInitialSqNum(),
-                        protectionIED.getFirstGooseTime() -1, // simulates a previous message timestamp
+                        protectionIED.getFirstGooseTime() - 1, // simulates a previous message timestamp
                         protectionIED.getFirstGooseTime(),
                         this.label);
             }
@@ -59,8 +61,11 @@ public class GooseCreator implements MessageCreator {
     }
 
     public void reportEventAt(double eventTimestamp) {
-//        removeMessagesAfterEvent(eventTimestamp); // cancel programmed messages to replace them by a bursting
+        removeMessagesAfterEvent(eventTimestamp); // cancel programmed messages to replace them by a bursting
 
+        if (Util.Debug.gooseMessages) {
+            Logger.getLogger("GooseCreator").log(Level.INFO, "Reporting an event at " + eventTimestamp + "!");
+        }
         protectionIED.setFirstGooseTime(
                 protectionIED.getMessages().get(protectionIED.getMessages().size() - 1).getTimestamp()
         );

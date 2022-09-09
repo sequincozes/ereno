@@ -16,7 +16,7 @@ import java.util.Random;
  */
 public abstract class IED {
     //    private ArrayList<EthernetFrame> messages;
-    static protected float initialTimestamp = 0;
+    static protected float initialTimestamp;
     protected MessageCreator messageCreator;
 
     public void enableRandomOffsets(int max) {
