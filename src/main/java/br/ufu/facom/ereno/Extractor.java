@@ -28,7 +28,7 @@ public class Extractor {
         GooseFlow.ECF.loadConfigs();
         SetupIED.ECF.loadConfigs();
 
-        scriptForGoose("/home/silvio/datasets/goose.arff");
+        scriptForGoose("/home/silvio/datasets/" + SetupIED.ECF.iedName + ".arff");
 //         String svData[] = new String[]{"//home/silvio/datasets/Full_SV_2020/resistence_50/second_1.csv"};
 //         String datasetLocation = "/home/silvio/datasets/ereno/dataset_mu.arff";
 //        scriptForSV(svData,datasetLocation);

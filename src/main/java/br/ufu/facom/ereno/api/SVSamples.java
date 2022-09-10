@@ -1,6 +1,7 @@
 package br.ufu.facom.ereno.api;
 
 import br.ufu.facom.ereno.Extractor;
+import br.ufu.facom.ereno.Util;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -28,6 +29,7 @@ public class SVSamples extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (request.getParameter("custom") != null && request.getParameter("custom").equals("on")) {
             String uploadPath = getServletContext().getRealPath("sv_payload_files");
+            Logger.getLogger("Upload foler").info(uploadPath);
             File uploadDir = new File(uploadPath);
             if (!uploadDir.exists()) uploadDir.mkdir();
             try {
@@ -51,7 +53,12 @@ public class SVSamples extends HttpServlet {
         } else {
             Logger.getLogger("SVSamples").info("Skipped without upload new file for SV.");
         }
-        response.sendRedirect(request.getContextPath() + "/attack-definitions.jsp");
+
+        if (Util.english) {
+            response.sendRedirect(request.getContextPath() + "/en/attack-definitions.jsp");
+        } else {
+            response.sendRedirect(request.getContextPath() + "/attack-definitions.jsp");
+        }
     }
 
 

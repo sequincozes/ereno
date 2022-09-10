@@ -157,7 +157,12 @@ public class GooseFlow extends HttpServlet {
             out.println("<h1>" + "Done!" + "</h1>");
             out.println("</body></html>");
 
-            response.sendRedirect(request.getContextPath() + "/upload-samples.jsp");
+
+            if (Util.english) {
+                response.sendRedirect(request.getContextPath() + "/en/upload-samples.jsp");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/upload-samples.jsp");
+            }
 
         }
         Logger.getLogger("GooseFlow").info("updating Goose Flow " + ECF.goID + "...");

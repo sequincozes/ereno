@@ -127,7 +127,11 @@ public class SetupIED extends HttpServlet {
             out.println("<h1>" + "Done!" + "</h1>");
             out.println("</body></html>");
 
-            response.sendRedirect(request.getContextPath() + "/goose-message.jsp");
+            if (Util.english) {
+                response.sendRedirect(request.getContextPath() + "/en/goose-message.jsp");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/goose-message.jsp");
+            }
 
         }
         Logger.getLogger("SetupIED").info("updating IED " + ECF.iedName + "...");

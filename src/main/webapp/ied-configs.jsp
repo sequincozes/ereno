@@ -1,5 +1,6 @@
 <%@ page import="br.ufu.facom.ereno.api.SetupIED" %>
 <%@ page import="java.io.PrintWriter" %>
+<%@ page import="br.ufu.facom.ereno.Util" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -144,8 +145,10 @@
             <li class="nav-item dropdown pe-3">
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="en/" >
-                    <img src="https://play-lh.googleusercontent.com/WHo5tJuIhgclGBdDa7s_om0oMGreiJE1RVd4ic4axBqttXjp7fpsC_Djbmy1Yki83A" alt="Profile" class="rounded-circle">
-<%--                    <span class="d-none d-md-block dropdown-toggle ps-2">Silvio</span>--%>
+                    <img src="assets/img/en-pt.png" alt="Profile" class="rounded-circle">
+                    <div style="display: none;"><%=Util.english = false%>
+                    <%--
+    <span class="d-none d-md-block dropdown-toggle ps-2">Silvio</span>--%>
                 </a><!-- End Profile Iamge Icon -->
 
 <%--                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">--%>
@@ -243,7 +246,7 @@
 <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1>Configurações do Ambiente</h1>
+        <h1>Configurações</h1>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item" active><a style="color: #06c !important">Configurações do IED</a></li>

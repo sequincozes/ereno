@@ -11,8 +11,10 @@ import java.util.ArrayList;
 
 public class Util {
     static BufferedWriter bw;
+    public static boolean english = false;
     static boolean replace = true;
     public static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate"};//,"poisoned_high_rate_consistent"};
+
     public static class Debug {
         public static boolean gooseMessages = true;
     }
@@ -45,8 +47,8 @@ public class Util {
         for (Goose gm : gooseMessages) {
             if (prev != null) {
                 write(gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.label);
-                if(Util.Debug.gooseMessages){
-                    System.out.println(gm.label + ","+gm.asCSVCompact());
+                if (Util.Debug.gooseMessages) {
+                    System.out.println(gm.label + "," + gm.asCSVCompact());
                 }
             }
             prev = gm.copy();
@@ -219,11 +221,16 @@ public class Util {
 
         for (File f : file.listFiles()) {
             String downloadLink = "downloads" + "/" + f.getName();
+            System.out.println(downloadLink);
             float filesize = Files.size(f.toPath());
             DecimalFormat df = new DecimalFormat("#.#");
 
             html = html + "<li> ";
-            html = html + "<a download href=\"" + downloadLink + "\">";
+            if (Util.english) {
+                html = html + "<a download href=\"../" + downloadLink + "\">";
+            } else {
+                html = html + "<a download href=\"" + downloadLink + "\">";
+            }
             html = html + f.getName() + "<a/>";
             if (filesize > 1) {
                 html = html + " (" + df.format(filesize / 1024) + " KB)";

@@ -19,6 +19,8 @@ import java.util.logging.Logger;
 @WebServlet(name = "attacks", value = "/attacks")
 public class Attacks extends HttpServlet {
     public static class ECF { // ERENO Configurarion File (ECF)
+        public static String datasetName;
+
         public static boolean legitimate;
         public static boolean randomReplay;
         public static boolean masqueradeOutage;
@@ -114,6 +116,8 @@ public class Attacks extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         // handles the parameters from header (e.g., from HTML form)
+        ECF.datasetName = request.getParameter("datasetName");
+
         if (request.getParameter("legitimate") == null) {
             ECF.legitimate = false;
         } else {
@@ -176,7 +180,9 @@ public class Attacks extends HttpServlet {
         }
 
         ECF.writeConfigs(getServletContext());
+
         response.sendRedirect(request.getContextPath() + "/datasets");
+
     }
 
     public void destroy() {

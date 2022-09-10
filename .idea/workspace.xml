@@ -12,10 +12,26 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Minor adjusts in UC01.">
+    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="English and portuguese support.">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/assets/img/en-pt.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Attacks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Attacks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Datasets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Datasets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/GooseFlow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/GooseFlow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SVSamples.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SVSamples.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SetupIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SetupIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/attack-definitions.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/attack-definitions.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/download-datasets.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/download-datasets.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/en/attack-definitions.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/en/attack-definitions.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/en/download-datasets.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/en/download-datasets.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/en/goose-message.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/en/goose-message.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/en/ied-configs.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/en/ied-configs.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/en/upload-samples.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/en/upload-samples.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/goose-message.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/goose-message.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/ied-configs.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ied-configs.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/upload-samples.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/upload-samples.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,7 +55,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="uc03" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -47,8 +63,8 @@
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
     <option name="FILTER_WARNINGS" value="false" />
-    <option name="FILTER_INFO" value="true" />
-    <option name="FILTER_DEBUG" value="true" />
+    <option name="FILTER_INFO" value="false" />
+    <option name="FILTER_DEBUG" value="false" />
     <option name="CUSTOM_FILTER" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -220,20 +236,60 @@
         </option>
       </method>
     </configuration>
+    <configuration name="index.jsp" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" temporary="true" APPLICATION_SERVER_NAME="Tomcat 9.0.64" ALTERNATIVE_JRE_ENABLED="false">
+      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/en/index.jsp" />
+      <deployment>
+        <artifact name="ERENO:war">
+          <settings>
+            <option name="CONTEXT_PATH" value="/ERENO_war" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="67eccbbe-6dc9-4c76-9c0d-81cd7e3299c0" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="ERENO:war" />
+        </option>
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.br.ufu.facom.ereno.usecases.uc01.UC00GooseOnly" />
       <item itemvalue="Application.Extractor" />
       <item itemvalue="JavaScript Debug.ied-configs.jsp" />
       <item itemvalue="JavaScript Debug.teste.jsp" />
       <item itemvalue="Tomcat Server.Tomcat 9.0.64" />
+      <item itemvalue="Tomcat Server.index.jsp" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Tomcat Server.index.jsp" />
         <item itemvalue="Application.Extractor" />
         <item itemvalue="JavaScript Debug.teste.jsp" />
         <item itemvalue="JavaScript Debug.ied-configs.jsp" />
         <item itemvalue="Application.br.ufu.facom.ereno.usecases.uc01.UC00GooseOnly" />
-        <item itemvalue="Application.Extractor" />
       </list>
     </recent_temporary>
   </component>
@@ -269,7 +325,7 @@
       <workItem from="1662573560308" duration="8099000" />
       <workItem from="1662660036782" duration="2924000" />
       <workItem from="1662691486607" duration="3938000" />
-      <workItem from="1662775274752" duration="323000" />
+      <workItem from="1662775274752" duration="8270000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -579,7 +635,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662691573743</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="English and portuguese support.">
+      <created>1662775630511</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1662775630511</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -598,7 +661,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of css files)." />
     <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of js files)." />
     <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of bootstrap icons files)." />
     <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of bootstrap chart files)." />
@@ -623,19 +685,20 @@
     <MESSAGE value="Refactoring legacy UC05 to novel architecture ." />
     <MESSAGE value="Refactoring legacy UC06 and UC07 to novel architecture ." />
     <MESSAGE value="Minor adjusts in UC01." />
-    <option name="LAST_COMMIT_MESSAGE" value="Minor adjusts in UC01." />
+    <MESSAGE value="English and portuguese support." />
+    <option name="LAST_COMMIT_MESSAGE" value="English and portuguese support." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/webapp/ied-configs.jsp</url>
-          <line>287</line>
+          <line>290</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/webapp/ied-configs.jsp</url>
-          <line>74</line>
+          <line>75</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>

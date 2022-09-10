@@ -1,6 +1,7 @@
 package br.ufu.facom.ereno.api;
 
 import br.ufu.facom.ereno.Extractor;
+import br.ufu.facom.ereno.Util;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,8 +19,13 @@ public class Datasets extends HttpServlet {
         GooseFlow.ECF.loadConfigs(getServletContext());
         SetupIED.ECF.loadConfigs(getServletContext());
 
-        Extractor.scriptForGoose(getServletContext().getRealPath("downloads/dataset-2.arff"));
-        response.sendRedirect(request.getContextPath() + "/download-datasets.jsp");
+        Extractor.scriptForGoose(getServletContext().getRealPath("downloads/" + Attacks.ECF.datasetName + ".arff"));
+
+        if (Util.english) {
+            response.sendRedirect(request.getContextPath() + "/en/download-datasets.jsp");
+        } else {
+            response.sendRedirect(request.getContextPath() + "/download-datasets.jsp");
+        }
     }
 
 }
