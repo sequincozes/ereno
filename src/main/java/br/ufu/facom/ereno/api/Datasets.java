@@ -19,7 +19,7 @@ public class Datasets extends HttpServlet {
         GooseFlow.ECF.loadConfigs(getServletContext());
         SetupIED.ECF.loadConfigs(getServletContext());
 
-        Extractor.scriptForGoose(getServletContext().getRealPath("downloads/" + Attacks.ECF.datasetName + ".arff"));
+        Extractor.scriptForGooseAndSV(getServletContext().getRealPath("downloads/" + Attacks.ECF.datasetName + ".arff"), SVSamples.generateSV);
 
         if (Util.english) {
             response.sendRedirect(request.getContextPath() + "/en/download-datasets.jsp");

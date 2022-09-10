@@ -142,7 +142,7 @@
 
                             <div class="col-md-12">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="datasetName" name="datasetName"
+                                    <input type="text" class="form-control" id="datasetName" name="datasetName" required
                                            placeholder="IED de Proteção" value="<%=Attacks.ECF.datasetName%>">
                                     <label for="datasetName">Nome do Dataset</label>
                                 </div>
@@ -153,7 +153,7 @@
                                 <div class="col-md-12">
                                     <div class="col-sm-12">
                                         <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="legitimate"
+                                            <input class="form-check-input" type="checkbox" id="legitimate" required
                                                    name="legitimate" <%=isChecked(Attacks.ECF.legitimate)%>>
                                             <label class="form-check-label" for="legitimate">Incluir mensagens
                                                 legítimas</label>

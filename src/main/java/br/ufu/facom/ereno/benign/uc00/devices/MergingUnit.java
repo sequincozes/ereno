@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 public class MergingUnit extends IED {
     protected ArrayList<Sv> messages;
-    public static boolean generateSingleRound = false;
 
     String payloadFiles[];
 

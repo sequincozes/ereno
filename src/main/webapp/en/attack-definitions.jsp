@@ -145,7 +145,7 @@
                                 <div class="col-md-12">
                                     <div class="col-md-12">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="datasetName" name="datasetName"
+                                            <input type="text" class="form-control" id="datasetName" name="datasetName" required
                                                    placeholder="IED de Proteção" value="<%=Attacks.ECF.datasetName%>">
                                             <label for="datasetName">Dataset Name</label>
                                         </div>

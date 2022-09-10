@@ -20,6 +20,8 @@ import java.util.logging.Logger;
         maxRequestSize = 1024 * 1024 * 5 * 5)
 @WebServlet(name = "svSamples", value = "/sv-samples")
 public class SVSamples extends HttpServlet {
+
+    public static boolean generateSV;
     private String message;
 
     public void init() {
@@ -27,6 +29,10 @@ public class SVSamples extends HttpServlet {
     }
 
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if (request.getParameter("sv") != null && request.getParameter("sv").equals("on")) {
+            generateSV = true;
+        }
+
         if (request.getParameter("custom") != null && request.getParameter("custom").equals("on")) {
             String uploadPath = getServletContext().getRealPath("sv_payload_files");
             Logger.getLogger("Upload foler").info(uploadPath);

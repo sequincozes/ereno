@@ -28,7 +28,7 @@ public class Extractor {
         GooseFlow.ECF.loadConfigs();
         SetupIED.ECF.loadConfigs();
 
-        scriptForGoose("/home/silvio/datasets/" + SetupIED.ECF.iedName + ".arff");
+        Extractor.scriptForGooseAndSV("/home/silvio/datasets/" + SetupIED.ECF.iedName + ".arff", false);
 //         String svData[] = new String[]{"//home/silvio/datasets/Full_SV_2020/resistence_50/second_1.csv"};
 //         String datasetLocation = "/home/silvio/datasets/ereno/dataset_mu.arff";
 //        scriptForSV(svData,datasetLocation);
@@ -38,7 +38,7 @@ public class Extractor {
      * Below you can write your scripts for data generation
      * (e.g., you can specify which devices and how they will interate each other)
      */
-    public static void scriptForGoose(String datasetOutputLocation) throws IOException { // Generates only GOOSE data
+    public static void scriptForGooseAndSV(String datasetOutputLocation, boolean generateSV) throws IOException { // Generates only GOOSE data
         long beginTime = System.currentTimeMillis();
 
         // Start writting
