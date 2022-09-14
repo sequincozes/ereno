@@ -14,12 +14,6 @@
   <component name="ChangeListManager">
     <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="English and portuguese support.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Datasets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Datasets.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SVSamples.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SVSamples.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/MergingUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/MergingUnit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/attack-definitions.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/attack-definitions.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/en/attack-definitions.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/en/attack-definitions.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -314,6 +308,8 @@
       <workItem from="1662660036782" duration="2924000" />
       <workItem from="1662691486607" duration="3938000" />
       <workItem from="1662775274752" duration="8270000" />
+      <workItem from="1662813692840" duration="2096000" />
+      <workItem from="1663175525281" duration="1232000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -630,7 +626,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662775630511</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="English and portuguese support.">
+      <created>1662785402481</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1662785402481</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
