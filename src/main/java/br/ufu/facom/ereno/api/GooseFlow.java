@@ -1,6 +1,7 @@
 package br.ufu.facom.ereno.api;
 
 import br.ufu.facom.ereno.Util;
+import br.ufu.facom.ereno.messages.Goose;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -86,14 +87,16 @@ public class GooseFlow extends HttpServlet {
             gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
             Gson gson = gsonBuilder.create();
             try {
+                System.out.println("ECF GoID: " + ECF.goID);
+
                 Reader reader = Files.newBufferedReader(Path.of(servletContext.getRealPath("ecf/goose-flow.json")));
-                gson.fromJson(reader, ECF.class);
+                ECF ecf = gson.fromJson(reader, ECF.class);
+                System.out.println("ECF GoID: " + ecf.goID);
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
             }
         }
-
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {

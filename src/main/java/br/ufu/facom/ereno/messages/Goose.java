@@ -5,6 +5,8 @@
  */
 package br.ufu.facom.ereno.messages;
 
+import br.ufu.facom.ereno.api.GooseFlow;
+
 /**
  * @author silvio
  */
@@ -33,12 +35,39 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
     public static String label;
 
     public Goose(int cbStatus, int stNum, int sqNum, double timestamp, double t, String label) {
+        readECF();
         this.cbStatus = cbStatus;
         this.stNum = stNum;
         this.sqNum = sqNum;
         this.timestamp = timestamp;
         this.t = t;
         this.label = label;
+    }
+
+    private void readECF() {
+        ethDst = GooseFlow.ECF.ethDst;
+        ethSrc = GooseFlow.ECF.ethSrc;
+        ethType = GooseFlow.ECF.ethType;
+        gooseAppid = GooseFlow.ECF.gooseAppid;
+        TPID = GooseFlow.ECF.TPID;
+
+        if (GooseFlow.ECF.ndsCom) {
+            ndsCom = "TRUE";
+        } else {
+            ndsCom = "FALSE";
+        }
+
+        if (GooseFlow.ECF.cbstatus) {
+            cbStatus = 1;
+        } else {
+            cbStatus = 0;
+        }
+
+        if (GooseFlow.ECF.test) {
+            test = "TRUE";
+        } else {
+            test = "FALSE";
+        }
     }
 
     public int isCbStatus() {
@@ -189,7 +218,6 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
             return 1;
         }
     }
-
 
 
 }

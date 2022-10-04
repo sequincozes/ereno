@@ -12,8 +12,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="English and portuguese support.">
+    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="GOOSE and SV">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/GooseFlow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/GooseFlow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/messages/Goose.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/messages/Goose.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +39,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="goose_and_sv" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -309,7 +311,7 @@
       <workItem from="1662691486607" duration="3938000" />
       <workItem from="1662775274752" duration="8270000" />
       <workItem from="1662813692840" duration="2096000" />
-      <workItem from="1663175525281" duration="1232000" />
+      <workItem from="1663175525281" duration="2397000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -633,7 +635,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662785402481</updated>
     </task>
-    <option name="localTasksCounter" value="47" />
+    <task id="LOCAL-00047" summary="GOOSE and SV">
+      <created>1663177012644</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1663177012644</updated>
+    </task>
+    <option name="localTasksCounter" value="48" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -652,7 +661,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of js files)." />
     <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of bootstrap icons files)." />
     <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of bootstrap chart files)." />
     <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of bootstrap theme files)." />
@@ -677,7 +685,8 @@
     <MESSAGE value="Refactoring legacy UC06 and UC07 to novel architecture ." />
     <MESSAGE value="Minor adjusts in UC01." />
     <MESSAGE value="English and portuguese support." />
-    <option name="LAST_COMMIT_MESSAGE" value="English and portuguese support." />
+    <MESSAGE value="GOOSE and SV" />
+    <option name="LAST_COMMIT_MESSAGE" value="GOOSE and SV" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
