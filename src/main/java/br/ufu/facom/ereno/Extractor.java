@@ -28,7 +28,11 @@ public class Extractor {
         GooseFlow.ECF.loadConfigs();
         SetupIED.ECF.loadConfigs();
 
-        Extractor.scriptForGooseAndSV("/home/silvio/datasets/" + SetupIED.ECF.iedName + ".arff", false);
+        System.out.println("gocbRef: " + SetupIED.ECF.gocbRef);
+//        Extractor.scriptForGooseAndSV("/home/silvio/datasets/" + SetupIED.ECF.iedName + ".arff", false);
+        Extractor.scriptForGooseAndSV("/home/silvio/IdeaProjects/ERENO/target/ERENO-1.0-SNAPSHOT/ecf/test.arff", false);
+
+
 //         String svData[] = new String[]{"//home/silvio/datasets/Full_SV_2020/resistence_50/second_1.csv"};
 //         String datasetLocation = "/home/silvio/datasets/ereno/dataset_mu.arff";
 //        scriptForSV(svData,datasetLocation);

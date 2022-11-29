@@ -16,7 +16,8 @@ public class Util {
     public static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate"};//,"poisoned_high_rate_consistent"};
 
     public static class Debug {
-        public static boolean gooseMessages = true;
+        public static boolean gooseMessages = false;
+        private static boolean printSignatures = true;
     }
 
 
@@ -46,7 +47,11 @@ public class Util {
 
         for (Goose gm : gooseMessages) {
             if (prev != null) {
-                write(gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.label);
+                String gooseString = gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.label;
+                if(Util.Debug.printSignatures){
+                    System.out.println(gooseString);
+                }
+                write(gooseString);
                 if (Util.Debug.gooseMessages) {
                     System.out.println(gm.label + "," + gm.asCSVCompact());
                 }
