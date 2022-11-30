@@ -91,14 +91,12 @@ In this implementation, we use the Java SE Development Kit 8 to run java files, 
 
 For local testing purposes, we ran the tool on two computers with different configurations:
 
-🇧🇷 Settings | Computer I | Computer II |
-🇧🇷 🇧🇷 🇧🇷 🇧🇷
-🇧🇷 Operating System (OS): | Windows 10 | Ubuntu 20.04.3 LTS |
-🇧🇷 Processor: | Intel(R) Core(TM) 
-i5-10300H CPU @ 2.50GHz 2.50GHz | Intel(R) Core(TM) 
-i5-10300H CPU @ 2.50GHz 2.50GHz |
-🇧🇷 RAM Memory: | 16 GB | 16 GB |
-🇧🇷 OS bits: | 64 bit | 86 bit |
+|  Settings   |  Computer I       |    Computer II |
+| :---:        |     :---:      |    :---:      |
+|  Operating System (OS):   | Windows 10 | Ubuntu 20.04.3 LTS |
+| Processor:  | Intel(R) Core(TM) <br> i5-10300H CPU @ 2.50GHz 2.50 GHz  | Intel(R) Core(TM) <br> i5-10300H CPU @ 2.50GHz 2.50 GHz |
+| RAM Memory:   | 16 GB | 16 GB |
+| Architecture:  | 64 bits    | 86 bits |
 
 
    
@@ -108,22 +106,23 @@ i5-10300H CPU @ 2.50GHz 2.50GHz |
 
 The tool uses two utilities to run. The table below shows the versions of the utilities used.
 
-🇧🇷 Utilities | Tested Version |
-🇧🇷 🇧🇷 🇧🇷  
-🇧🇷 Java SE Development Kit: | 8 |
-🇧🇷 Apache Tomcat: | 9.0.65 |
 
+|  Utilities   |  Tested Version     |
+| :---:        |     :---:      |  
+| Java SE Development Kit:   | 8 | 
+| Apache Tomcat:  | 9.0.65 |
 
 
    
 
 <div id="development-environment"/>
 
-## ⚙️ Integrated Development Environment
+## ⚙️ Integrated Development Environment (IDE)
 
-<br> Tool | Tested Version | Runtime version | VM |
-<br><br><br><br>
-<br> IntelliJ IDEA | 2022.2 (Ultimate Edition) | 17.0.3+7-b469.32 amd64 | OpenJDK 64-Bit Server VM by JetBrains sro |
+|  Tool  |   Tested Version     | Runtime Version | VM |
+| :---:        |     :---:      |  :---:      |  :---:      |
+| IntelliJ IDEA   | 2022.2 (Ultimate Edition) | 17.0.3+7-b469.32 amd64 | OpenJDK 64-Bit Server VM by JetBrains s.r.o. |
+
 
 
 
