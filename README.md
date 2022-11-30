@@ -1,4 +1,5 @@
 <h1 align="center"> 📌 Bem-vindo ao ERENO-UI! 📌 </h1>
+<h2 align="center">[🇺🇸 English version!](#english-version)</h2>
 <h4 align="left"> ✔️ O ERENO-UI é uma ferramenta com interface gráfica que permite a geração de datasets com mensagens dos protocolos GOOSE e SV para subestações elétricas. Dentre os módulos existentes, destacam-se quatro: o de configuração de parâmetros, definição de ataques, definição de corrente e tensão e, por fim, o de download do dataset final. </h4>
 
 
@@ -64,7 +65,7 @@ A seguir, descrevemos os passos necessários para executar a ferramenta no Intel
 ```
 
 ### ENLISH VERSION
-
+<div id="english-version"/>
 
 <h1 align="center"> 📌  Welcome to ERENO-UI! 📌 </h1>
 
