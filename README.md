@@ -10,7 +10,7 @@
 * [Ambiente de Desenvolvimento](#ambiente-desenvolvimento)
 * [Exemplo de Uso](#exemplo-de-uso)
 
-<div id="ambiente-de-teste"/>
+<div id="nota"/>
 
 ### **🏷️ Nota** 
 Nesta implementação, utilizamos o Java SE Development Kit 8 para executar arquivos java, o Apache Tomcat para executar um servidor web Java (mais especificamente um container de servlets) e a IDE IntelliJ IDEA 2022.2 (Ultimate Edition). Na sequência os ambientes de execução são detalhados e as versões dos utilitários são apresentadas.
@@ -62,3 +62,83 @@ A seguir, descrevemos os passos necessários para executar a ferramenta no Intel
 4. Acesse a url: http://localhost:8080/ERENO_war/
 5. As interfaces do ERENO-UI devem ser exibidas.
 ```
+
+### ENLISH VERSION
+
+
+<h1 align="center"> 📌  Welcome to ERENO-UI! 📌 </h1>
+
+<h4 align="left"> ✔️ERENO-UI is a tool with a graphical interface that allows the generation of datasets with GOOSE and SV protocol messages for electrical substations. Among the existing modules, four stand out: parameter configuration, attack definition, current and voltage definition and, finally, the final dataset download. </h4>
+
+### Index
+
+* [Test Environment](#test-environment)
+* [Requirements](#requirements)
+* [Development Environment](#development-environment)
+* [Example of Usage](#example-of-use)
+
+
+   
+
+
+### **🏷️ Note**
+In this implementation, we use the Java SE Development Kit 8 to run java files, Apache Tomcat to run a Java web server (more specifically a servlet container) and the IDE IntelliJ IDEA 2022.2 (Ultimate Edition). Next, the execution environments are detailed and the versions of the utilities are presented.
+
+
+   
+<div id="test-environment"/>
+### 🖱️ Test Environments
+
+For local testing purposes, we ran the tool on two computers with different configurations:
+
+🇧🇷 Settings | Computer I | Computer II |
+🇧🇷 🇧🇷 🇧🇷 🇧🇷
+🇧🇷 Operating System (OS): | Windows 10 | Ubuntu 20.04.3 LTS |
+🇧🇷 Processor: | Intel(R) Core(TM) 
+i5-10300H CPU @ 2.50GHz 2.50GHz | Intel(R) Core(TM) 
+i5-10300H CPU @ 2.50GHz 2.50GHz |
+🇧🇷 RAM Memory: | 16 GB | 16 GB |
+🇧🇷 OS bits: | 64 bit | 86 bit |
+
+
+   
+
+<div id="requirements"/>
+## 📝 Requirements
+
+The tool uses two utilities to run. The table below shows the versions of the utilities used.
+
+🇧🇷 Utilities | Tested Version |
+🇧🇷 🇧🇷 🇧🇷  
+🇧🇷 Java SE Development Kit: | 8 |
+🇧🇷 Apache Tomcat: | 9.0.65 |
+
+
+
+   
+
+<div id="development-environment"/>
+
+## ⚙️ Integrated Development Environment
+
+<br> Tool | Tested Version | Runtime version | VM |
+<br><br><br><br>
+<br> IntelliJ IDEA | 2022.2 (Ultimate Edition) | 17.0.3+7-b469.32 amd64 | OpenJDK 64-Bit Server VM by JetBrains sro |
+
+
+
+
+   
+
+<div id="example-of-use"/>
+
+### 👨‍💻 Usage example with IntelliJ
+Next, we describe the necessary steps to run the tool in IntelliJ. It is worth mentioning that you can use the development environment you prefer, as long as it supports the Java Web.
+
+1. Clone the ERENO-UI project by entering the url: https://github.com/sequincozes/ereno.git
+2. Set up a Tomcat server in IntelliJ.
+3. Run the project in IntelliJ (Alt+Shift+F10). Automatically the Tomcat server will run.
+4. Access the url: http://localhost:8080/ERENO_war/
+5. ERENO-UI interfaces should be displayed.
+🇧🇷
+
