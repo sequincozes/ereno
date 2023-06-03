@@ -13,7 +13,7 @@ public class Util {
     static BufferedWriter bw;
     public static boolean english = false;
     static boolean replace = true;
-    public static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate"};//,"poisoned_high_rate_consistent"};
+    public static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate","grayhole","stealthy_injection"};//,"poisoned_high_rate_consistent"};
 
     public static class Debug {
         public static boolean gooseMessages = false;
@@ -177,16 +177,16 @@ public class Util {
         write("@attribute StNum numeric"); // Status-based 41
         write("@attribute cbStatus numeric"); // Status-based 42
         write("@attribute frameLen numeric"); //network-based 43
-        write("@attribute ethDst {01-0c-cd-01:2f:77, FF:FF:FF:FF:FF:11, FF:FF:FF:FF:FF:22, FF:FF:FF:FF:FF:33, FF:FF:FF:FF:FF:44, FF:FF:FF:FF:FF:55, FF:FF:FF:FF:FF:66, FF:FF:FF:FF:FF:FF, FF:FF:FF:FF:FF:77, FF:FF:FF:FF:FF:AA, FF:FF:FF:FF:FF:BB, FF:FF:FF:FF:FF:CC, FF:FF:FF:FF:FF:DD, FF:FF:FF:FF:FF:EE, FF:FF:FF:FF:FF:AB, FF:FF:FF:FF:FF:AC}"); //network-based 44
-        write("@attribute ethSrc {01-0c-cd-01:2f:77, FF:FF:FF:FF:FF:11, FF:FF:FF:FF:FF:22, FF:FF:FF:FF:FF:33, FF:FF:FF:FF:FF:44, FF:FF:FF:FF:FF:55, FF:FF:FF:FF:FF:66, FF:FF:FF:FF:FF:FF, FF:FF:FF:FF:FF:77, FF:FF:FF:FF:FF:AA, FF:FF:FF:FF:FF:BB, FF:FF:FF:FF:FF:CC, FF:FF:FF:FF:FF:DD, FF:FF:FF:FF:FF:EE, FF:FF:FF:FF:FF:AB, FF:FF:FF:FF:FF:AC}"); //network-based 45
-        write("@attribute ethType {0x000077b7, 0x000088b8}"); //network-based 46
+        write("@attribute ethDst {01:0c:cd:01:2f:80, 01:0c:cd:01:2f:81, 01:0c:cd:01:2f:77, FF:FF:FF:FF:FF:11, FF:FF:FF:FF:FF:22, FF:FF:FF:FF:FF:33, FF:FF:FF:FF:FF:44, FF:FF:FF:FF:FF:55, FF:FF:FF:FF:FF:66, FF:FF:FF:FF:FF:FF, FF:FF:FF:FF:FF:77, FF:FF:FF:FF:FF:AA, FF:FF:FF:FF:FF:BB, FF:FF:FF:FF:FF:CC, FF:FF:FF:FF:FF:DD, FF:FF:FF:FF:FF:EE, FF:FF:FF:FF:FF:AB, FF:FF:FF:FF:FF:AC}"); //network-based 44
+        write("@attribute ethSrc {01:0c:cd:01:2f:80, 01:0c:cd:01:2f:81, 01:0c:cd:01:2f:77, FF:FF:FF:FF:FF:11, FF:FF:FF:FF:FF:22, FF:FF:FF:FF:FF:33, FF:FF:FF:FF:FF:44, FF:FF:FF:FF:FF:55, FF:FF:FF:FF:FF:66, FF:FF:FF:FF:FF:FF, FF:FF:FF:FF:FF:77, FF:FF:FF:FF:FF:AA, FF:FF:FF:FF:FF:BB, FF:FF:FF:FF:FF:CC, FF:FF:FF:FF:FF:DD, FF:FF:FF:FF:FF:EE, FF:FF:FF:FF:FF:AB, FF:FF:FF:FF:FF:AC}"); //network-based 45
+        write("@attribute ethType {0x88B8, 0x000077b7, 0x000088b8}"); //network-based 46
         write("@attribute gooseTimeAllowedtoLive numeric"); //IED-based 47
         write("@attribute gooseAppid {0x00003002, 0x00003001}");  //IED-based 48
         write("@attribute gooseLen numeric");  //IED-based 49
         write("@attribute TPID {0x7101, 0x8100}");  //IED-based 50
-        write("@attribute gocbRef {LD/LLN0$IntLockB, LD/LLN0$GO$gcbA}");  //IED-based 51
-        write("@attribute datSet {LD/LLN0$IntLockA, AA1C1Q01A1LD0/LLN0$InterlockingC}");  //IED-based 52
-        write("@attribute goID {InterlockingF, InterlockingA}");  //IED-based 53
+        write("@attribute gocbRef {LD/LLN0$IntLockB, LD/LLN0$GO$gcbA, LD/LLN0$GO$gcblA}");  //IED-based 51
+        write("@attribute datSet {LD/LLN0$IntLockA, AA1C1Q01A1LD0/LLN0$InterlockingC, LD/LLN0$GO$gcblA}");  //IED-based 52
+        write("@attribute goID {InterlockingF, InterlockingA, IntLockA}");  //IED-based 53
         write("@attribute test {TRUE, FALSE}");  //IED-based 54
         write("@attribute confRev numeric");  //IED-based 55
         write("@attribute ndsCom {TRUE, FALSE}");  //IED-based 56
@@ -204,13 +204,14 @@ public class Util {
         write("@attribute timeFromLastChange numeric"); // temporal consistency 68
         String classLine = "@attribute @class@ {"
                 + label[0] + ", "
-                + label[1] + ", "
-                + label[2] + ", "
-                + label[3] + ", "
-                + label[4] + ", "
-                + label[5] + ", "
-                + label[6] + ", "
-                + label[7]
+//                + label[1] + ", "
+//                + label[2] + ", "
+//                + label[3] + ", "
+//                + label[4] + ", "
+//                + label[5] + ", "
+//                + label[6] + ", "
+//                + label[7] + ", "
+                + label[8]
                 + "}";
 
         write(classLine);

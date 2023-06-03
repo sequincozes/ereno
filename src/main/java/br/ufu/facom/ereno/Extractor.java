@@ -9,6 +9,7 @@ import br.ufu.facom.ereno.attacks.uc04.devices.FakeNormalMasqueratorIED;
 import br.ufu.facom.ereno.attacks.uc05.devices.InjectorIED;
 import br.ufu.facom.ereno.attacks.uc06.devices.HighStNumInjectorIED;
 import br.ufu.facom.ereno.attacks.uc07.devices.HighRateStNumInjectorIED;
+import br.ufu.facom.ereno.attacks.uc08.devices.GrayHoleVictimIED;
 import br.ufu.facom.ereno.benign.uc00.devices.MergingUnit;
 import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
 import br.ufu.facom.ereno.attacks.uc01.devices.RandomReplayerIED;
@@ -55,7 +56,8 @@ public class Extractor {
         ProtectionIED uc00 = null;
         if (Attacks.ECF.legitimate) {
             uc00 = new ProtectionIED();
-            uc00.run(GooseFlow.ECF.numberOfMessages);
+//            uc00.run(GooseFlow.ECF.numberOfMessages);
+            uc00.run(1000);
             writeGooseMessagesToFile(uc00.getMessages(), true);
             totalMessageCount = totalMessageCount + uc00.getNumberOfMessages();
         }
@@ -114,6 +116,15 @@ public class Extractor {
             uc07.run(GooseFlow.ECF.numberOfMessages);
             writeGooseMessagesToFile(uc07.getInjectedMessages(), false);
             totalMessageCount = totalMessageCount + uc07.getNumberOfMessages();
+        }
+
+        GrayHoleVictimIED uc08;
+        if (Attacks.ECF.grayhole) {
+            uc08 = new GrayHoleVictimIED(uc00);
+//            uc08.run(GooseFlow.ECF.numberOfMessages);
+            uc08.run(20);
+            writeGooseMessagesToFile(uc08.getNonDiscardedMessages(), false);
+            totalMessageCount = totalMessageCount + uc08.getNumberOfMessages();
         }
 
         finishWriting();

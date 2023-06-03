@@ -29,6 +29,8 @@ public class Attacks extends HttpServlet {
         public static boolean inverseReplay;
         public static boolean highStNum;
         public static boolean flooding;
+        public static boolean grayhole;
+        public static boolean stealthyInjection;
 
         public static void loadConfigs() { // Used outside the servlet contexts
             GsonBuilder gsonBuilder = new GsonBuilder();
@@ -166,8 +168,20 @@ public class Attacks extends HttpServlet {
             ECF.flooding = request.getParameter("flooding").equals("on");
         }
 
+        if (request.getParameter("grayhole") == null) {
+            ECF.grayhole = false;
+        } else {
+            ECF.grayhole = request.getParameter("grayhole").equals("on");
+        }
+
+        if (request.getParameter("stealthy-injection") == null) {
+            ECF.stealthyInjection = false;
+        } else {
+            ECF.stealthyInjection = request.getParameter("stealthy-injection").equals("on");
+        }
+
         if (ECF.legitimate || ECF.randomInjection || ECF.randomReplay || ECF.inverseReplay || ECF.masqueradeDamage ||
-                ECF.masqueradeOutage || ECF.flooding || ECF.highStNum) { // it was handled parameters from header
+                ECF.masqueradeOutage || ECF.flooding || ECF.highStNum || ECF.grayhole || ECF.stealthyInjection) { // it was handled parameters from header
             out.println("<body><html>");
             out.println("<h2> Clique para baixar o ECL do fluxo <a href=\"attacks\" download> Attacks </a></h2>");
             out.println("<h1>" + "Done!" + "</h1>");
