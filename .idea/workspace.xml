@@ -13,15 +13,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Merging fixes (from UI) to master.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc08/creator/GrayHoleVictimCreator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc08/devices/GrayHoleVictimIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/ERENO_war.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/ERENO_war_exploded.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_07_08_2022_20_33__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_07_08_2022_20_33__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Attacks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Attacks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/ecf/attacks.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ecf/attacks.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/ecf/goose-flow.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ecf/goose-flow.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/ecf/setup-ied.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ecf/setup-ied.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,6 +63,9 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 1
+}]]></component>
   <component name="ProjectId" id="2CPtYoqWTQkX2ossdJkDbTOwTWw" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -83,6 +83,10 @@
     "WebServerToolWindowFactoryState": "false",
     "extract.method.default.visibility": "private",
     "last_opened_file_path": "/home/silvio/IdeaProjects/ERENO/src/main/java/br/ufu/facom/ereno/attacks/uc08/devices/devices",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "preferences.pluginManager"
@@ -326,6 +330,7 @@
       <workItem from="1668800419762" duration="21000" />
       <workItem from="1669389398393" duration="635000" />
       <workItem from="1669720344099" duration="3395000" />
+      <workItem from="1699400272743" duration="662000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -721,32 +726,32 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/webapp/ied-configs.jsp</url>
-          <line>75</line>
+          <line>76</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/webapp/ied-configs.jsp</url>
-          <line>284</line>
+          <line>287</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/webapp/ied-configs.jsp</url>
-          <line>291</line>
+          <line>294</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/webapp/ied-configs.jsp</url>
-          <line>298</line>
+          <line>301</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/webapp/ied-configs.jsp</url>
-          <line>305</line>
+          <line>308</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/webapp/ied-configs.jsp</url>
-          <line>312</line>
+          <line>315</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
