@@ -21,11 +21,16 @@ import static br.ufu.facom.ereno.Util.*;
 public class MultisourceExtractor {
     static String output = "E:\\ereno dataset\\new\\" + SetupIED.ECF.iedName + ".arff";
 
+    public static void main(String[] args) throws IOException {
+        ProtectionIED uc00 = new ProtectionIED();
+        uc00.run(1000);
+        writeGooseMessagesToFile(uc00.getMessages(), true);
+    }
+
     public static void init() {
         Attacks.ECF.loadConfigs();
         GooseFlow.ECF.loadConfigs();
         SetupIED.ECF.loadConfigs();
-
         Attacks.ECF.legitimate = true;
         Attacks.ECF.randomReplay = true;
         Attacks.ECF.masqueradeOutage = true;
@@ -35,7 +40,6 @@ public class MultisourceExtractor {
         Attacks.ECF.highStNum = true;
         Attacks.ECF.flooding = true;
         Attacks.ECF.grayhole = false;
-
     }
 
     public static void lightweightDataset() throws IOException { // Generates only GOOSE data
@@ -51,7 +55,6 @@ public class MultisourceExtractor {
         ProtectionIED uc00 = null;
         if (Attacks.ECF.legitimate) {
             uc00 = new ProtectionIED();
-//            uc00.run(GooseFlow.ECF.numberOfMessages);
             uc00.run(1000);
             writeGooseMessagesToFile(uc00.getMessages(), true);
             totalMessageCount = totalMessageCount + uc00.getNumberOfMessages();

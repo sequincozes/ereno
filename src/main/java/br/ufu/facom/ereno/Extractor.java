@@ -41,7 +41,7 @@ public class Extractor {
         Attacks.ECF.grayhole = false;
 
         Extractor.lightweightDataset("E:\\ereno dataset\\new\\" + SetupIED.ECF.iedName + ".arff", true);
-}
+    }
 
     /**
      * Below you can write your scripts for data generation

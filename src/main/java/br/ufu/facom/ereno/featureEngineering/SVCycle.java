@@ -15,6 +15,22 @@ public class SVCycle {
     private double iCSumTrapArea = 0;
     private double vASumTrapArea = 0;
 
+    private double vBSumTrapArea = 0;
+    private double vCSumTrapArea = 0;
+    private double iARMS = 0;
+    private double iBRMS = 0;
+    private double iCRMS = 0;
+    private double vARMS = 0;
+    private double vBRMS = 0;
+    double vCRMS = 0;
+
+    private double iAmean = 0.0, iAroot = 0.0;
+    private double iBmean = 0.0, iBroot = 0.0;
+    private double iCmean = 0.0, iCroot = 0.0;
+    private double vAmean = 0.0, vAroot = 0.0;
+    private double vBmean = 0.0, vBroot = 0.0;
+    private double vCmean = 0.0, vCroot = 0.0;
+
     public Sv[] getCycle() {
         return cycle;
     }
@@ -223,22 +239,6 @@ public class SVCycle {
         this.areaAccumulators = areaAccumulators;
     }
 
-    private double vBSumTrapArea = 0;
-    private double vCSumTrapArea = 0;
-    private double iARMS = 0;
-    private double iBRMS = 0;
-    private double iCRMS = 0;
-    private double vARMS = 0;
-    private double vBRMS = 0;
-    double vCRMS = 0;
-
-    private double iAmean = 0.0, iAroot = 0.0;
-    private double iBmean = 0.0, iBroot = 0.0;
-    private double iCmean = 0.0, iCroot = 0.0;
-    private double vAmean = 0.0, vAroot = 0.0;
-    private double vBmean = 0.0, vBroot = 0.0;
-    private double vCmean = 0.0, vCroot = 0.0;
-
     public SVCycle(Sv[] cycle) {
         this.cycle = cycle;
     }
@@ -337,4 +337,12 @@ public class SVCycle {
 
 
     ArrayList<Double> areaAccumulators[] = new ArrayList[]{new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>()};
+
+    public String asCsv() {
+        return iARMS + "," + iBRMS + "," + iCRMS + "," +
+                vARMS + "," + vBRMS + "," + vCRMS + "," +
+                iASumTrapArea + "," + iBSumTrapArea + "," + iCSumTrapArea + "," +
+                vASumTrapArea + "," + vBSumTrapArea + "," + vCSumTrapArea;
+
+    }
 }

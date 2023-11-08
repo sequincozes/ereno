@@ -8,7 +8,11 @@ public class Sv extends EthernetFrame {
     float vA;
     float vB;
     float vC;
-    String status; // is this SV related to a fault or normal status?
+    String status; // fault or normal
+
+    public String asCsv() {
+        return time + "," + iA + "," + iB + "," + iC + "," + vA + "," + vB + "," + vC;
+    }
 
     public Sv(float time, float iA, float iB, float iC, float vA, float vB, float vC) {
         this.time = time;
