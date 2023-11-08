@@ -36,7 +36,7 @@ public class Util {
         bw = new BufferedWriter(new OutputStreamWriter(fos));
     }
 
-    protected static void writeGooseMessagesToFile(ArrayList<Goose> gooseMessages, boolean printHeader) throws IOException {
+    public static void writeGooseMessagesToFile(ArrayList<Goose> gooseMessages, boolean printHeader) throws IOException {
         /* Write Header and Columns */
         if (printHeader) {
             writeDefaulGooseHeader();
@@ -60,7 +60,31 @@ public class Util {
         }
     }
 
-    protected static void writeSvMessagesToFile(ArrayList<Sv> svMessages, boolean printHeader, String substation) throws IOException {
+    public static void writeGooseAndSVMessagesToFile(ArrayList<Goose> gooseMessages, boolean printHeader) throws IOException {
+        /* Write Header and Columns */
+        if (printHeader) {
+            writeDefaultHeader();
+        }
+
+        /* Write Payload */
+        Goose prev = null;
+
+        for (Goose gm : gooseMessages) {
+            if (prev != null) {
+                String gooseString = gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.label;
+                if(Util.Debug.printSignatures){
+                    System.out.println(gooseString);
+                }
+                write(gooseString);
+                if (Util.Debug.gooseMessages) {
+                    System.out.println(gm.label + "," + gm.asCSVCompact());
+                }
+            }
+            prev = gm.copy();
+        }
+    }
+
+    public static void writeSvMessagesToFile(ArrayList<Sv> svMessages, boolean printHeader, String substation) throws IOException {
         /* Write Header and Columns */
         if (printHeader) {
             writeDefaulSvHeader(substation);
@@ -81,7 +105,7 @@ public class Util {
         write("@attribute v" + substation + "C numeric"); //SV-related 10
     }
 
-    protected void writeDefaultHeader() throws IOException {
+    protected static void writeDefaultHeader() throws IOException {
         write("@attribute Time numeric");// time-based 1
         write("@attribute isbA numeric"); //SV-related 2
         write("@attribute isbB numeric"); //SV-related 3

@@ -1,6 +1,5 @@
 package br.ufu.facom.ereno.api;
 
-import br.ufu.facom.ereno.Extractor;
 import br.ufu.facom.ereno.Util;
 
 import javax.servlet.ServletException;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.logging.Logger;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024,

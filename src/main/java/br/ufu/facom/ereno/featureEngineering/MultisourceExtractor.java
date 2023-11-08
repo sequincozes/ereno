@@ -1,0 +1,132 @@
+package br.ufu.facom.ereno.featureEngineering;
+
+import br.ufu.facom.ereno.api.Attacks;
+import br.ufu.facom.ereno.api.GooseFlow;
+import br.ufu.facom.ereno.api.SetupIED;
+import br.ufu.facom.ereno.attacks.uc01.devices.RandomReplayerIED;
+import br.ufu.facom.ereno.attacks.uc02.devices.InverseReplayerIED;
+import br.ufu.facom.ereno.attacks.uc03.devices.FakeFaultMasqueratorIED;
+import br.ufu.facom.ereno.attacks.uc04.devices.FakeNormalMasqueratorIED;
+import br.ufu.facom.ereno.attacks.uc05.devices.InjectorIED;
+import br.ufu.facom.ereno.attacks.uc06.devices.HighStNumInjectorIED;
+import br.ufu.facom.ereno.attacks.uc07.devices.HighRateStNumInjectorIED;
+import br.ufu.facom.ereno.attacks.uc08.devices.GrayHoleVictimIED;
+import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
+
+import java.io.IOException;
+import java.util.logging.Logger;
+
+import static br.ufu.facom.ereno.Util.*;
+
+public class MultisourceExtractor {
+    static String output = "E:\\ereno dataset\\new\\" + SetupIED.ECF.iedName + ".arff";
+
+    public static void init() {
+        Attacks.ECF.loadConfigs();
+        GooseFlow.ECF.loadConfigs();
+        SetupIED.ECF.loadConfigs();
+
+        Attacks.ECF.legitimate = true;
+        Attacks.ECF.randomReplay = true;
+        Attacks.ECF.masqueradeOutage = true;
+        Attacks.ECF.masqueradeDamage = true;
+        Attacks.ECF.randomInjection = true;
+        Attacks.ECF.inverseReplay = true;
+        Attacks.ECF.highStNum = true;
+        Attacks.ECF.flooding = true;
+        Attacks.ECF.grayhole = false;
+
+    }
+
+    public static void lightweightDataset() throws IOException { // Generates only GOOSE data
+        long beginTime = System.currentTimeMillis();
+
+        // Start writting
+        Logger.getLogger("Extractor").info(output + " writting...");
+        startWriting(output);
+        int totalMessageCount = 0;
+        write("@relation ereno_lightweight");
+
+        // Generate and write samples for legitimate and attacks choosen in attacks.json
+        ProtectionIED uc00 = null;
+        if (Attacks.ECF.legitimate) {
+            uc00 = new ProtectionIED();
+//            uc00.run(GooseFlow.ECF.numberOfMessages);
+            uc00.run(1000);
+            writeGooseMessagesToFile(uc00.getMessages(), true);
+            totalMessageCount = totalMessageCount + uc00.getNumberOfMessages();
+        }
+
+        RandomReplayerIED uc01;
+        if (Attacks.ECF.randomReplay) {
+            uc01 = new RandomReplayerIED(uc00);
+            uc01.run(GooseFlow.ECF.numberOfMessages);
+            writeGooseMessagesToFile(uc01.getReplayedMessages(), false);
+            totalMessageCount = totalMessageCount + uc01.getNumberOfMessages();
+        }
+
+        InverseReplayerIED uc02;
+        if (Attacks.ECF.inverseReplay) {
+            uc02 = new InverseReplayerIED(uc00);
+            uc02.run(GooseFlow.ECF.numberOfMessages);
+            writeGooseMessagesToFile(uc02.getReplayedMessages(), false);
+            totalMessageCount = totalMessageCount + uc02.getNumberOfMessages();
+        }
+
+        FakeFaultMasqueratorIED uc03;
+        if (Attacks.ECF.masqueradeOutage) {
+            uc03 = new FakeFaultMasqueratorIED(uc00);
+            uc03.run(GooseFlow.ECF.numberOfMessages);
+            writeGooseMessagesToFile(uc03.getMasqueradeMessages(), false);
+            totalMessageCount = totalMessageCount + uc03.getNumberOfMessages();
+        }
+
+        FakeNormalMasqueratorIED uc04;
+        if (Attacks.ECF.masqueradeDamage) {
+            uc04 = new FakeNormalMasqueratorIED(uc00);
+            uc04.run(GooseFlow.ECF.numberOfMessages);
+            writeGooseMessagesToFile(uc04.getMasqueradeMessages(), false);
+            totalMessageCount = totalMessageCount + uc04.getNumberOfMessages();
+        }
+
+        InjectorIED uc05;
+        if (Attacks.ECF.randomInjection) {
+            uc05 = new InjectorIED(uc00);
+            uc05.run(GooseFlow.ECF.numberOfMessages);
+            writeGooseMessagesToFile(uc05.getInjectedMessages(), false);
+            totalMessageCount = totalMessageCount + uc05.getNumberOfMessages();
+        }
+
+        HighStNumInjectorIED uc06;
+        if (Attacks.ECF.highStNum) {
+            uc06 = new HighStNumInjectorIED(uc00);
+            uc06.run(GooseFlow.ECF.numberOfMessages);
+            writeGooseMessagesToFile(uc06.getInjectedMessages(), false);
+            totalMessageCount = totalMessageCount + uc06.getNumberOfMessages();
+        }
+
+        HighRateStNumInjectorIED uc07;
+        if (Attacks.ECF.flooding) {
+            uc07 = new HighRateStNumInjectorIED(uc00);
+            uc07.run(GooseFlow.ECF.numberOfMessages);
+            writeGooseMessagesToFile(uc07.getInjectedMessages(), false);
+            totalMessageCount = totalMessageCount + uc07.getNumberOfMessages();
+        }
+
+        GrayHoleVictimIED uc08;
+        if (Attacks.ECF.grayhole) {
+            uc08 = new GrayHoleVictimIED(uc00);
+//            uc08.run(GooseFlow.ECF.numberOfMessages);
+            uc08.run(20);
+            writeGooseMessagesToFile(uc08.getNonDiscardedMessages(), false);
+            totalMessageCount = totalMessageCount + uc08.getNumberOfMessages();
+        }
+
+        finishWriting();
+        long endTime = System.currentTimeMillis();
+        Logger.getLogger("Time").info("Tempo gasto para gerar "
+                + Integer.valueOf(totalMessageCount) + " mensagens: "
+                + (endTime - beginTime));
+    }
+
+}

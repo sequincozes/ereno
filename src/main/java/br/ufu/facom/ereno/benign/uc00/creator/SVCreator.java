@@ -29,9 +29,9 @@ public class SVCreator implements MessageCreator {
         this.mu = (MergingUnit) ied;
         this.allElectricalMeassures = consumeFloat(payloadFile, 1, columnsTitle);
         int messageCount = 0;
-        for (Float[] line : allElectricalMeassures) {
+        for (Float[] column : allElectricalMeassures) {
             if (messageCount < numberOfSVMessages) {
-                mu.addMessage(new Sv(line[0], line[1], line[2], line[3], line[7], line[8], line[9]));
+                mu.addMessage(new Sv(column[0], column[1], column[2], column[3], column[7], column[8], column[9]));
             } else {
                 break;
             }

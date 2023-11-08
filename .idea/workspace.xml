@@ -13,12 +13,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Merging fixes (from UI) to master.">
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/ERENO_war.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/ERENO_war_exploded.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/featureEngineering/MultisourceExtractor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/featureEngineering/SVCycle.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/featureEngineering/UC00.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_07_08_2022_20_33__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_07_08_2022_20_33__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SVSamples.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SVSamples.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/SVCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/SVCreator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +48,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="uc08_grayhole" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -63,9 +66,9 @@
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 1
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2CPtYoqWTQkX2ossdJkDbTOwTWw" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -82,23 +85,24 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "extract.method.default.visibility": "private",
-    "last_opened_file_path": "/home/silvio/IdeaProjects/ERENO/src/main/java/br/ufu/facom/ereno/attacks/uc08/devices/devices",
+    "last_opened_file_path": "C:/Users/Silvio/IdeaProjects/ereno",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Silvio\IdeaProjects\ereno\src\main\java\br\ufu\facom\ereno\featureEngineering" />
       <recent name="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc08/devices/devices" />
       <recent name="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc08/devices" />
       <recent name="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc07" />
       <recent name="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc06" />
-      <recent name="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc05" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/" />
@@ -331,6 +335,9 @@
       <workItem from="1669389398393" duration="635000" />
       <workItem from="1669720344099" duration="3395000" />
       <workItem from="1699400272743" duration="662000" />
+      <workItem from="1699411320299" duration="395000" />
+      <workItem from="1699411731738" duration="22000" />
+      <workItem from="1699412035523" duration="8411000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -720,42 +727,6 @@
     <MESSAGE value="GOOSE and SV" />
     <MESSAGE value="Merging fixes (from UI) to master." />
     <option name="LAST_COMMIT_MESSAGE" value="Merging fixes (from UI) to master." />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/webapp/ied-configs.jsp</url>
-          <line>76</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/webapp/ied-configs.jsp</url>
-          <line>287</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/webapp/ied-configs.jsp</url>
-          <line>294</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/webapp/ied-configs.jsp</url>
-          <line>301</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/webapp/ied-configs.jsp</url>
-          <line>308</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/webapp/ied-configs.jsp</url>
-          <line>315</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
