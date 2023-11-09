@@ -1,5 +1,6 @@
 package br.ufu.facom.ereno.attacks.uc01.devices;
 
+import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;
 import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
 import br.ufu.facom.ereno.messages.EthernetFrame;
@@ -30,7 +31,8 @@ public class RandomReplayerIED extends IED {  // Replay attacks does not have an
 
     @Override
     public void addMessage(EthernetFrame message) {
-        replayedMessages.add((Goose) message);
+        if (GooseFlow.ECF.numberOfMessages >= replayedMessages.size())
+            replayedMessages.add((Goose) message);
     }
 
     public ArrayList<Goose> getReplayedMessages() {

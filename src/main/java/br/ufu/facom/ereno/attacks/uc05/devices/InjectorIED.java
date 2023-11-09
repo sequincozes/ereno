@@ -1,5 +1,6 @@
 package br.ufu.facom.ereno.attacks.uc05.devices;
 
+import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.attacks.uc01.creator.RandomReplayCreator;
 import br.ufu.facom.ereno.attacks.uc05.creator.InjectionCreator;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;
@@ -31,7 +32,7 @@ public class InjectorIED extends IED {
 
     @Override
     public void addMessage(EthernetFrame message) {
-        injectedMessages.add((Goose) message);
+        if(GooseFlow.ECF.numberOfMessages>=injectedMessages.size()) injectedMessages.add((Goose) message);
     }
 
     public ArrayList<Goose> getInjectedMessages() {

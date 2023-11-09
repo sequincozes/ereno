@@ -14,6 +14,10 @@ public class Sv extends EthernetFrame {
         return getTime() + "," + getiA() + "," + getiB() + "," + getiC() + "," + getvA() + "," + getvB() + "," + getvC();
     }
 
+    public String getCSVHeader(){
+        return "time, iA, iB, iC, vA, vB, vC";
+    }
+
     public Sv(float time, float iA, float iB, float iC, float vA, float vB, float vC) {
         this.time = time;
         this.iA = iA;

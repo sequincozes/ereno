@@ -1,4 +1,4 @@
-package br.ufu.facom.ereno.utils;
+package br.ufu.facom.ereno.featureEngineering;
 
 import br.ufu.facom.ereno.featureEngineering.SVCycle;
 import br.ufu.facom.ereno.messages.Goose;
@@ -30,10 +30,11 @@ public class ProtocolCorrelation {
             }
         }
 
-        Logger.getLogger("getCorrespondingSV").info("The last SV message was sent at " + svs.get(index).getTime() + ", before the GOOSE at " + goose.getTimestamp());
-
-
-        return svs.get(index); // an invalid index will be returned if no SV messages are available before the given GOOSE
+        if (index > 0) {
+            Logger.getLogger("getCorrespondingSV").info("The last SV message was sent at " + svs.get(index).getTime() + ", before the GOOSE at " + goose.getTimestamp());
+            return svs.get(index); // an invalid index will be returned if no SV messages are available before the given GOOSE
+        }
+        return null;
     }
 
     // Finds the last SV bofore the GOOSE

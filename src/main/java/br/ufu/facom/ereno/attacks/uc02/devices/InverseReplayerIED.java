@@ -1,5 +1,6 @@
 package br.ufu.facom.ereno.attacks.uc02.devices;
 
+import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.attacks.uc02.creator.InverseReplayCretor;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;
 import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class InverseReplayerIED extends IED {  // Replay attacks does not have any knowledge about the victim, thus it extends a generic IED
-
     protected ArrayList<Goose> replayedMessages;
 
     ProtectionIED legitimateIED; // ReplayerIED will replay mensagens from that legitimate device
@@ -30,7 +30,8 @@ public class InverseReplayerIED extends IED {  // Replay attacks does not have a
 
     @Override
     public void addMessage(EthernetFrame message) {
-        replayedMessages.add((Goose) message);
+        if (GooseFlow.ECF.numberOfMessages >= replayedMessages.size())
+            replayedMessages.add((Goose) message);
     }
 
     public ArrayList<Goose> getReplayedMessages() {

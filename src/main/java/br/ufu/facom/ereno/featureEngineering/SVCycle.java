@@ -16,12 +16,6 @@ public class SVCycle {
     private double vASumTrapArea = 0;
     private double vBSumTrapArea = 0;
     private double vCSumTrapArea = 0;
-    private double iARMS = 0;
-    private double iBRMS = 0;
-    private double iCRMS = 0;
-    private double vARMS = 0;
-    private double vBRMS = 0;
-    double vCRMS = 0;
     private double iAmean = 0.0, iAroot = 0.0;
     private double iBmean = 0.0, iBroot = 0.0;
     private double iCmean = 0.0, iCroot = 0.0;
@@ -83,54 +77,6 @@ public class SVCycle {
 
     public void setvCSumTrapArea(double vCSumTrapArea) {
         this.vCSumTrapArea = vCSumTrapArea;
-    }
-
-    public double getiARMS() {
-        return iARMS;
-    }
-
-    public void setiARMS(double iARMS) {
-        this.iARMS = iARMS;
-    }
-
-    public double getiBRMS() {
-        return iBRMS;
-    }
-
-    public void setiBRMS(double iBRMS) {
-        this.iBRMS = iBRMS;
-    }
-
-    public double getiCRMS() {
-        return iCRMS;
-    }
-
-    public void setiCRMS(double iCRMS) {
-        this.iCRMS = iCRMS;
-    }
-
-    public double getvARMS() {
-        return vARMS;
-    }
-
-    public void setvARMS(double vARMS) {
-        this.vARMS = vARMS;
-    }
-
-    public double getvBRMS() {
-        return vBRMS;
-    }
-
-    public void setvBRMS(double vBRMS) {
-        this.vBRMS = vBRMS;
-    }
-
-    public double getvCRMS() {
-        return vCRMS;
-    }
-
-    public void setvCRMS(double vCRMS) {
-        this.vCRMS = vCRMS;
     }
 
     public double getiAmean() {
@@ -258,14 +204,14 @@ public class SVCycle {
 
     public void computeMetrics() {
         // Initialization of square sum metrics
-        int iAsquare = 0;
-        int iBsquare = 0;
-        int iCsquare = 0;
-        int vAsquare = 0;
-        int vBsquare = 0;
-        int vCsquare = 0;
-        // End of square sum metrics
+        double iAsquare = 0;
+        double iBsquare = 0;
+        double iCsquare = 0;
+        double vAsquare = 0;
+        double vBsquare = 0;
+        double vCsquare = 0;
 
+        // End of square sum metrics
         for (int i = 0; i < cycle.length - 1; i++) {
             // Iterates through the cycle SV messages
             Sv sv = cycle[i];
@@ -324,7 +270,6 @@ public class SVCycle {
 
         // Calculate vC Root.
         vCroot = sqrt(vCmean);
-
     }
 
     private double getTrapezioArea(double x0, double x1, double fx0, double fx1) {
@@ -336,10 +281,14 @@ public class SVCycle {
     ArrayList<Double> areaAccumulators[] = new ArrayList[]{new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>()};
 
     public String asCsv() {
-        return iARMS + "," + iBRMS + "," + iCRMS + "," +
-                vARMS + "," + vBRMS + "," + vCRMS + "," +
+        return iAroot + "," + iBroot + "," + iCroot + "," +
+                vAroot + "," + vBroot + "," + vCroot + "," +
                 iASumTrapArea + "," + iBSumTrapArea + "," + iCSumTrapArea + "," +
                 vASumTrapArea + "," + vBSumTrapArea + "," + vCSumTrapArea;
 
+    }
+
+    public String getCsvHeader() {
+        return "iARMS,iBRMS,iCRMS,vARMS,vBRMS,vCRMS,iASumTrapArea,iBSumTrapArea,iCSumTrapArea,vASumTrapArea,vBSumTrapArea,vCSumTrapArea";
     }
 }

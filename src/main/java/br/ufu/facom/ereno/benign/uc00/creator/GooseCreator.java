@@ -5,12 +5,11 @@
  */
 package br.ufu.facom.ereno.benign.uc00.creator;
 
-import br.ufu.facom.ereno.Util;
+import br.ufu.facom.ereno.utils.Util;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;
 import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
 import br.ufu.facom.ereno.messages.Goose;
 
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -67,6 +66,8 @@ public class GooseCreator implements MessageCreator {
         if (Util.Debug.gooseMessages) {
             Logger.getLogger("GooseCreator").log(Level.INFO, "Reporting an event at " + eventTimestamp + "!");
         }
+
+        System.out.println("protectionIED.getMessages().size() - 1: "+ (protectionIED.getMessages().size() - 1));
         protectionIED.setFirstGooseTime(
                 protectionIED.getMessages().get(protectionIED.getMessages().size() - 1).getTimestamp()
         );

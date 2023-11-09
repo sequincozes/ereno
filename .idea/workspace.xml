@@ -13,17 +13,48 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Refactoring multisource correlation.">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/scenarios/SingleSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Attacks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Attacks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Datasets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Datasets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/GooseFlow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/GooseFlow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SVSamples.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SVSamples.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SetupIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SetupIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/creator/RandomReplayCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/creator/RandomReplayCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/devices/RandomReplayerIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/devices/RandomReplayerIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/creator/InverseReplayCretor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/creator/InverseReplayCretor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/devices/InverseReplayerIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/devices/InverseReplayerIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/creator/MaqueradeFakeFaultCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/creator/MaqueradeFakeFaultCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/devices/FakeFaultMasqueratorIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/devices/FakeFaultMasqueratorIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc04/creator/MaqueradeFakeNormalCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc04/creator/MaqueradeFakeNormalCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc04/devices/FakeNormalMasqueratorIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc04/devices/FakeNormalMasqueratorIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc05/creator/InjectionCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc05/creator/InjectionCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc05/devices/InjectorIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc05/devices/InjectorIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc06/creator/HighStNumInjectionCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc06/creator/HighStNumInjectionCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc06/devices/HighStNumInjectorIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc06/devices/HighStNumInjectorIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc07/creator/HighRateStNumInjectionCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc07/creator/HighRateStNumInjectionCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc07/devices/HighRateStNumInjectorIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc07/devices/HighRateStNumInjectorIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc08/creator/GrayHoleVictimCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc08/creator/GrayHoleVictimCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc08/devices/GrayHoleVictimIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc08/devices/GrayHoleVictimIED.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/GooseCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/GooseCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/SVCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/SVCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/featureEngineering/MultisourceExtractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/featureEngineering/MultisourceExtractor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/MergingUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/MergingUnit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/ProtectionIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/ProtectionIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/featureEngineering/MultisourceExtractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/scenarios/MultiSource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/featureEngineering/SVCycle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/featureEngineering/SVCycle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/messages/Sv.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/messages/Sv.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/ProtocolCorrelation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/ProtocolCorrelation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/ProtocolCorrelation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/featureEngineering/ProtocolCorrelation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/attack-definitions.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/attack-definitions.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/download-datasets.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/download-datasets.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/en/attack-definitions.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/en/attack-definitions.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/en/download-datasets.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/en/download-datasets.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/en/goose-message.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/en/goose-message.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/en/ied-configs.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/en/ied-configs.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/en/upload-samples.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/en/upload-samples.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/goose-message.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/goose-message.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/ied-configs.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ied-configs.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/upload-samples.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/upload-samples.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,13 +148,13 @@
       <recent name="br.ufu.facom.ereno.attacks.uc05.devices" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.MultisourceExtractor">
-    <configuration name="Extractor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="br.ufu.facom.ereno.Extractor" />
+  <component name="RunManager" selected="Application.MultiSource">
+    <configuration name="MultiSource" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="br.ufu.facom.ereno.scenarios.MultiSource" />
       <module name="ERENO" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="br.ufu.facom.ereno.*" />
+          <option name="PATTERN" value="br.ufu.facom.ereno.scenarios.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -131,12 +162,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MultisourceExtractor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="br.ufu.facom.ereno.featureEngineering.MultisourceExtractor" />
+    <configuration name="SingleSource" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="br.ufu.facom.ereno.scenarios.SingleSource" />
       <module name="ERENO" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="br.ufu.facom.ereno.featureEngineering.*" />
+          <option name="PATTERN" value="br.ufu.facom.ereno.utils.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -278,8 +309,8 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.MultisourceExtractor" />
-      <item itemvalue="Application.Extractor" />
+      <item itemvalue="Application.MultiSource" />
+      <item itemvalue="Application.SingleSource" />
       <item itemvalue="JavaScript Debug.ied-configs.jsp" />
       <item itemvalue="JavaScript Debug.teste.jsp" />
       <item itemvalue="Tomcat Server.Tomcat 9.0.64" />
@@ -287,8 +318,7 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.MultisourceExtractor" />
-        <item itemvalue="Application.Extractor" />
+        <item itemvalue="Application.MultiSource" />
         <item itemvalue="Tomcat Server.index.jsp" />
         <item itemvalue="JavaScript Debug.teste.jsp" />
         <item itemvalue="JavaScript Debug.ied-configs.jsp" />
@@ -345,7 +375,12 @@
       <workItem from="1699463978471" duration="153000" />
       <workItem from="1699464229476" duration="85000" />
       <workItem from="1699464366763" duration="11393000" />
-      <workItem from="1699496318193" duration="368000" />
+      <workItem from="1699496318193" duration="13872000" />
+      <workItem from="1699535239328" duration="127000" />
+      <workItem from="1699535858896" duration="603000" />
+      <workItem from="1699536550044" duration="85000" />
+      <workItem from="1699539594509" duration="3494000" />
+      <workItem from="1699548883412" duration="395000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -690,7 +725,7 @@
       <option name="project" value="LOCAL" />
       <updated>1685733209617</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -740,15 +775,19 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/featureEngineering/MultisourceExtractor.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/scenarios/MultiSource.java</url>
           <line>32</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/featureEngineering/MultisourceExtractor.java</url>
+          <url>file://$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/scenarios/MultiSource.java</url>
           <line>31</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.IndexOutOfBoundsException" package="java.lang" />
+          <option name="timeStamp" value="10" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

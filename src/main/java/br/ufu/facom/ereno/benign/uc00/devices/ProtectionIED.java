@@ -18,6 +18,7 @@ import java.util.ArrayList;
  * @author silvio
  */
 public class ProtectionIED extends IED {
+    public static int numMaxMessages = 10000;
 
     private int initialStNum = Integer.parseInt(SetupIED.ECF.stNum);
     private int initialSqNum = Integer.parseInt(SetupIED.ECF.sqNum);
@@ -65,12 +66,12 @@ public class ProtectionIED extends IED {
         gc.reportEventAt(firstEvent);
         gc.reportEventAt(secondEvent);
 //        messageCreator.generate(this, numberOfPeriodicMessages);
-
     }
 
     @Override
     public void addMessage(EthernetFrame periodicGoose) {
-        this.messages.add((Goose) periodicGoose);
+//        if (numMaxMessages > messages.size())
+            this.messages.add((Goose) periodicGoose);
     }
 
 

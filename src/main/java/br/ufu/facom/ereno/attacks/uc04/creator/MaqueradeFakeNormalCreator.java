@@ -1,7 +1,6 @@
 package br.ufu.facom.ereno.attacks.uc04.creator;
 
-import br.ufu.facom.ereno.Util;
-import br.ufu.facom.ereno.attacks.uc03.devices.FakeFaultMasqueratorIED;
+import br.ufu.facom.ereno.utils.Util;
 import br.ufu.facom.ereno.attacks.uc04.devices.FakeNormalMasqueratorIED;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;

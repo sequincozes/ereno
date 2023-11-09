@@ -1,6 +1,6 @@
 package br.ufu.facom.ereno.api;
 
-import br.ufu.facom.ereno.Util;
+import br.ufu.facom.ereno.utils.Util;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

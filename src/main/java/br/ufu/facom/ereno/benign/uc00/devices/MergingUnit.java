@@ -18,10 +18,8 @@ public class MergingUnit extends IED {
 
     @Override
     public void run(int numberOfSVMessages) {
-        for (String payloadFile : payloadFiles) {
-            messageCreator = new SVCreator(payloadFile);
-            messageCreator.generate(this, numberOfSVMessages);
-        }
+        messageCreator = new SVCreator(payloadFiles);
+        messageCreator.generate(this, numberOfSVMessages);
     }
 
     @Override

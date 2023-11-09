@@ -1,4 +1,4 @@
-package br.ufu.facom.ereno;
+package br.ufu.facom.ereno.scenarios;
 
 import br.ufu.facom.ereno.api.Attacks;
 import br.ufu.facom.ereno.api.GooseFlow;
@@ -17,9 +17,9 @@ import br.ufu.facom.ereno.attacks.uc01.devices.RandomReplayerIED;
 import java.io.*;
 import java.util.logging.Logger;
 
-import static br.ufu.facom.ereno.Util.*;
+import static br.ufu.facom.ereno.utils.Util.*;
 
-public class Extractor {
+public class SingleSource {
 
     public static void main(String[] args) throws IOException {
 //        scriptForGoose("webapp/download/goose.arff");
@@ -40,7 +40,7 @@ public class Extractor {
         Attacks.ECF.flooding = true;
         Attacks.ECF.grayhole = false;
 
-        Extractor.lightweightDataset("E:\\ereno dataset\\new\\" + SetupIED.ECF.iedName + ".arff", true);
+        SingleSource.lightweightDataset("E:\\ereno dataset\\new\\" + SetupIED.ECF.iedName + ".arff", true);
     }
 
     /**

@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 public class SVCreator implements MessageCreator {
     private static final boolean USE_OFFSET = true;
     private float offset = 0;
-    private final String payloadFile;
+    private final String[] payloadFiles;
     private MergingUnit mu; // This is the samambaia (sb) substation MU
     private ArrayList<Float[]> allElectricalMeassures;
     String columnsTitle[] = {
@@ -23,14 +23,14 @@ public class SVCreator implements MessageCreator {
             "vsbA", "vsbB", "vsbC",  // Voltage Samambaia
             "vsmA", "vsmB", "vsmC"}; // Voltage substation Serra da mesa
 
-    public SVCreator(String payloadFile) {
-        this.payloadFile = payloadFile;
+    public SVCreator(String[] payloadFiles) {
+        this.payloadFiles = payloadFiles;
     }
 
     @Override
     public void generate(IED ied, int numberOfSVMessages) {
         this.mu = (MergingUnit) ied;
-        this.allElectricalMeassures = consumeFloat(payloadFile, 1, columnsTitle);
+        this.allElectricalMeassures = consumeFloat(payloadFiles, 1, columnsTitle);
 
         Logger.getLogger("SVCreator.generate()").info("Generating " + numberOfSVMessages + " SV message.");
 
@@ -48,51 +48,53 @@ public class SVCreator implements MessageCreator {
         }
     }
 
-    protected ArrayList<Float[]> consumeFloat(String file, int scale, String columns[]) {
+    protected ArrayList<Float[]> consumeFloat(String files[], int scale, String columns[]) {
 //        int offset = randomBetween(0,1000);
         ArrayList<Float[]> formatedCSVFile = new ArrayList<>();
-        try {
-            File myObj = new File(file);
-            try (Scanner myReader = new Scanner(myObj)) {
-                myReader.nextLine(); // Skip blank line
-                while (myReader.hasNextLine()) {
-                    String data = myReader.nextLine();
-                    if (data.length() > 1) {
-                        while (data.charAt(0) == ' ') {
-                            data = data.substring(1, data.length());
-                        }
 
-                        while (data.trim().contains("  ")) {
-                            data = data.replace("  ", " ");
-                        }
-
-                        data = data.replace(" ", ",");
-
-                        StringTokenizer stringTokenizer = new StringTokenizer(data, ",", true);
-                        int t = 0;
-                        Float[] tokenLine = new Float[columns.length];
-                        while (stringTokenizer.hasMoreTokens()) {
-                            t++;
-                            String next = stringTokenizer.nextToken();
-                            if (!next.contains(",")) {
-                                float feature = Float.valueOf(next) * scale;
-                                int column = ((t + 1) / 2) - 1;
-                                if (USE_OFFSET) {
-                                    if (columns[column].equalsIgnoreCase("Time")) {
-                                        feature = feature + offset;
-                                    }
-                                }
-                                tokenLine[column] = feature;
+        for (String file : files) {
+            try {
+                File myObj = new File(file);
+                try (Scanner myReader = new Scanner(myObj)) {
+                    myReader.nextLine(); // Skip blank line
+                    while (myReader.hasNextLine()) {
+                        String data = myReader.nextLine();
+                        if (data.length() > 1) {
+                            while (data.charAt(0) == ' ') {
+                                data = data.substring(1, data.length());
                             }
+
+                            while (data.trim().contains("  ")) {
+                                data = data.replace("  ", " ");
+                            }
+
+                            data = data.replace(" ", ",");
+
+                            StringTokenizer stringTokenizer = new StringTokenizer(data, ",", true);
+                            int t = 0;
+                            Float[] tokenLine = new Float[columns.length];
+                            while (stringTokenizer.hasMoreTokens()) {
+                                t++;
+                                String next = stringTokenizer.nextToken();
+                                if (!next.contains(",")) {
+                                    float feature = Float.valueOf(next) * scale;
+                                    int column = ((t + 1) / 2) - 1;
+                                    if (USE_OFFSET) {
+                                        if (columns[column].equalsIgnoreCase("Time")) {
+                                            feature = feature + offset;
+                                        }
+                                    }
+                                    tokenLine[column] = feature;
+                                }
+                            }
+                            formatedCSVFile.add(tokenLine);
                         }
-                        formatedCSVFile.add(tokenLine);
                     }
                 }
+            } catch (FileNotFoundException e) {
+                System.out.println("Erro: " + e.getLocalizedMessage());
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("Erro: " + e.getLocalizedMessage());
         }
-
         return formatedCSVFile;
     }
 }

@@ -1,5 +1,6 @@
 package br.ufu.facom.ereno.attacks.uc07.devices;
 
+import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.attacks.uc07.creator.HighRateStNumInjectionCreator;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;
 import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
@@ -30,7 +31,8 @@ public class HighRateStNumInjectorIED extends IED {
 
     @Override
     public void addMessage(EthernetFrame message) {
-        injectedMessages.add((Goose) message);
+        if (GooseFlow.ECF.numberOfMessages>=injectedMessages.size() )
+            injectedMessages.add((Goose) message);
     }
 
     public ArrayList<Goose> getInjectedMessages() {

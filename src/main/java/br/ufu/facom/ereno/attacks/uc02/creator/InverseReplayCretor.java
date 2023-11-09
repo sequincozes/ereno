@@ -1,6 +1,6 @@
 package br.ufu.facom.ereno.attacks.uc02.creator;
 
-import br.ufu.facom.ereno.Util;
+import br.ufu.facom.ereno.utils.Util;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;
 import br.ufu.facom.ereno.messages.Goose;

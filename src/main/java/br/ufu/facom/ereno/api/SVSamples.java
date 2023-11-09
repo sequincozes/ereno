@@ -1,6 +1,6 @@
 package br.ufu.facom.ereno.api;
 
-import br.ufu.facom.ereno.Util;
+import br.ufu.facom.ereno.utils.Util;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;

@@ -1,4 +1,4 @@
-<%@ page import="br.ufu.facom.ereno.Util" %>
+<%@ page import="br.ufu.facom.ereno.utils.Util" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pt-br">
