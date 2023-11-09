@@ -11,6 +11,7 @@ import br.ufu.facom.ereno.attacks.uc05.devices.InjectorIED;
 import br.ufu.facom.ereno.attacks.uc06.devices.HighStNumInjectorIED;
 import br.ufu.facom.ereno.attacks.uc07.devices.HighRateStNumInjectorIED;
 import br.ufu.facom.ereno.attacks.uc08.devices.GrayHoleVictimIED;
+import br.ufu.facom.ereno.benign.uc00.devices.MergingUnit;
 import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
 
 import java.io.IOException;
@@ -22,9 +23,18 @@ public class MultisourceExtractor {
     static String output = "E:\\ereno dataset\\new\\" + SetupIED.ECF.iedName + ".arff";
 
     public static void main(String[] args) throws IOException {
+
+        init();
+
         ProtectionIED uc00 = new ProtectionIED();
-        uc00.run(1000);
-        writeGooseMessagesToFile(uc00.getMessages(), true);
+        MergingUnit mu = new MergingUnit(new String[]{"E:\\ereno dataset\\electrical-sources\\resistencia10\\SILVIO_r00001_01.out"});
+
+        uc00.run(3);
+        mu.run(4800 * 3);
+
+        startWriting("E:\\ereno dataset\\hibrid_dataset_SV.arff");
+        writeSVAndGOOSEMessagesToFile(uc00.getMessages(), mu.getMessages(), true, FOCUS.SV);
+        finishWriting();
     }
 
     public static void init() {

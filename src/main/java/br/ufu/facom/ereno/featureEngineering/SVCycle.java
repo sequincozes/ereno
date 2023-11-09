@@ -14,7 +14,6 @@ public class SVCycle {
     private double iBSumTrapArea = 0;
     private double iCSumTrapArea = 0;
     private double vASumTrapArea = 0;
-
     private double vBSumTrapArea = 0;
     private double vCSumTrapArea = 0;
     private double iARMS = 0;
@@ -23,7 +22,6 @@ public class SVCycle {
     private double vARMS = 0;
     private double vBRMS = 0;
     double vCRMS = 0;
-
     private double iAmean = 0.0, iAroot = 0.0;
     private double iBmean = 0.0, iBroot = 0.0;
     private double iCmean = 0.0, iCroot = 0.0;
@@ -334,7 +332,6 @@ public class SVCycle {
         trap = (fx1 + fx0) * (x1 - x0) / 2.00;
         return trap;
     }
-
 
     ArrayList<Double> areaAccumulators[] = new ArrayList[]{new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>()};
 

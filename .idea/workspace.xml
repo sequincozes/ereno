@@ -12,14 +12,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Refactoring">
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/ProtocolCorrelation.java" afterDir="false" />
+    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Refactoring multisource correlation.">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Extractor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/GooseCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/GooseCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/SVCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/SVCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/featureEngineering/MultisourceExtractor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/featureEngineering/MultisourceExtractor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/featureEngineering/SVCycle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/featureEngineering/SVCycle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/messages/Sv.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/messages/Sv.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/ProtocolCorrelation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/ProtocolCorrelation.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,7 +117,7 @@
       <recent name="br.ufu.facom.ereno.attacks.uc05.devices" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Extractor">
+  <component name="RunManager" selected="Application.MultisourceExtractor">
     <configuration name="Extractor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="br.ufu.facom.ereno.Extractor" />
       <module name="ERENO" />
@@ -127,12 +131,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="br.ufu.facom.ereno.usecases.uc01.UC00GooseOnly" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="br.ufu.facom.ereno.usecases.uc01.UC00GooseOnly" />
+    <configuration name="MultisourceExtractor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="br.ufu.facom.ereno.featureEngineering.MultisourceExtractor" />
       <module name="ERENO" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="br.ufu.facom.ereno.usecases.uc01.*" />
+          <option name="PATTERN" value="br.ufu.facom.ereno.featureEngineering.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -274,7 +278,7 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.br.ufu.facom.ereno.usecases.uc01.UC00GooseOnly" />
+      <item itemvalue="Application.MultisourceExtractor" />
       <item itemvalue="Application.Extractor" />
       <item itemvalue="JavaScript Debug.ied-configs.jsp" />
       <item itemvalue="JavaScript Debug.teste.jsp" />
@@ -283,11 +287,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.MultisourceExtractor" />
         <item itemvalue="Application.Extractor" />
         <item itemvalue="Tomcat Server.index.jsp" />
         <item itemvalue="JavaScript Debug.teste.jsp" />
         <item itemvalue="JavaScript Debug.ied-configs.jsp" />
-        <item itemvalue="Application.br.ufu.facom.ereno.usecases.uc01.UC00GooseOnly" />
       </list>
     </recent_temporary>
   </component>
@@ -336,7 +340,12 @@
       <workItem from="1699411320299" duration="395000" />
       <workItem from="1699411731738" duration="22000" />
       <workItem from="1699412035523" duration="8475000" />
-      <workItem from="1699446636900" duration="6436000" />
+      <workItem from="1699446636900" duration="7393000" />
+      <workItem from="1699462261097" duration="1701000" />
+      <workItem from="1699463978471" duration="153000" />
+      <workItem from="1699464229476" duration="85000" />
+      <workItem from="1699464366763" duration="11393000" />
+      <workItem from="1699496318193" duration="368000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -681,7 +690,7 @@
       <option name="project" value="LOCAL" />
       <updated>1685733209617</updated>
     </task>
-    <option name="localTasksCounter" value="51" />
+    <option name="localTasksCounter" value="52" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -700,7 +709,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of bootstrap chart files)." />
     <MESSAGE value="Working on ERENO-UI - ECF generation and reading (commit of bootstrap theme files)." />
     <MESSAGE value="Working on ERENO-UI - ECF generation and reading" />
     <MESSAGE value="SetupIED: GET and POST done;" />
@@ -725,7 +733,24 @@
     <MESSAGE value="English and portuguese support." />
     <MESSAGE value="GOOSE and SV" />
     <MESSAGE value="Merging fixes (from UI) to master." />
-    <option name="LAST_COMMIT_MESSAGE" value="Merging fixes (from UI) to master." />
+    <MESSAGE value="Refactoring multisource correlation." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactoring multisource correlation." />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/featureEngineering/MultisourceExtractor.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/featureEngineering/MultisourceExtractor.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

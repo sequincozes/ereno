@@ -232,8 +232,8 @@ public class Extractor {
     }
 
     public static void scriptForSV(String[] svData, String datasetLocation) throws IOException { // Generates only SV data
-        // String svData[] = new String[]{"webapp/sv_payload_files/second_1.csv"}
-        // String datasetLocation = new "webapp/downloads/dataset_mu.arff"
+        // String svData[] = new String[]{"E:\ereno dataset\electrical-sources"}
+        // String datasetLocation = new "E:\ereno dataset\dataset_mu.arff"
         MergingUnit mu = new MergingUnit(svData);
         mu.run(4800); // setup here how many lines will be consumed by messages SV (setting a very large number will use all available SV data)
         startWriting(datasetLocation);

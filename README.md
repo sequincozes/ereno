@@ -12,6 +12,9 @@
 * [Requirements](#requirements)
 * [Development Environment](#development-environment)
 * [Example of Usage](#example-of-use)
+* [Electrical Measures for SV Generation - Input Sample 1](https://drive.google.com/drive/folders/1rqFqKLmGaCPrxQZs4CrvXwAz7jZyVIoW?usp=drive_link)
+* [Electrical Measures for SV Generation - Input Sample 2](https://drive.google.com/drive/folders/1mZR9atDBaSVeycoZrQVfPmf8az3JIou-?usp=drive_link)
+* [Electrical Measures for SV Generation - Input Sample 3](https://drive.google.com/drive/folders/1pfzrsCty-uchb2I0uIRelmZgw80pa5ta?usp=drive_link)
 * [🇧🇷 Versão em português!](#portuguese-version)
 
 
@@ -93,7 +96,10 @@ Next, we describe the necessary steps to run the tool in IntelliJ. It is worth m
 * [Requisitos](#requisitos)
 * [Ambiente de Desenvolvimento](#ambiente-desenvolvimento)
 * [Exemplo de Uso](#exemplo-de-uso)
-* [🇺🇸 English version!](#english-version)
+* [Medidas Elétricas para geração de SV - Exemplo 1](https://drive.google.com/drive/folders/1rqFqKLmGaCPrxQZs4CrvXwAz7jZyVIoW?usp=drive_link)
+* [Medidas Elétricas para geração de SV - Exemplo 2](https://drive.google.com/drive/folders/1mZR9atDBaSVeycoZrQVfPmf8az3JIou-?usp=drive_link)
+* [Medidas Elétricas para geração de SV - Exemplo 3](https://drive.google.com/drive/folders/1pfzrsCty-uchb2I0uIRelmZgw80pa5ta?usp=drive_link)
+* [English version!](#english-version)
 
 <div id="nota"/>
 

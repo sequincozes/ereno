@@ -11,7 +11,7 @@ public class Sv extends EthernetFrame {
     String status; // fault or normal
 
     public String asCsv() {
-        return time + "," + iA + "," + iB + "," + iC + "," + vA + "," + vB + "," + vC;
+        return getTime() + "," + getiA() + "," + getiB() + "," + getiC() + "," + getvA() + "," + getvB() + "," + getvC();
     }
 
     public Sv(float time, float iA, float iB, float iC, float vA, float vB, float vC) {

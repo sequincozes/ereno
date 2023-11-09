@@ -46,6 +46,7 @@ public class GooseCreator implements MessageCreator {
 
             } catch (IndexOutOfBoundsException e) {
                 // This will be the first message, for referene only (it will not be included into the dataset)
+                // @TODO Refactore all UCs to remove this. It should be handled at the feature generation process rather than in message generation.
                 periodicGoose = new Goose(
                         protectionIED.toInt(protectionIED.isInitialCbStatus()),
                         protectionIED.getInitialStNum(),

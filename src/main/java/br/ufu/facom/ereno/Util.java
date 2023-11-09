@@ -1,6 +1,5 @@
 package br.ufu.facom.ereno;
 
-import br.ufu.facom.ereno.benign.uc00.devices.IED;
 import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
 import br.ufu.facom.ereno.messages.Goose;
 import br.ufu.facom.ereno.messages.Sv;
@@ -62,7 +61,7 @@ public class Util {
         }
     }
 
-    enum FOCUS {SV, GOOSE}
+    public enum FOCUS {SV, GOOSE}
 
     public static void writeSVAndGOOSEMessagesToFile(ArrayList<Goose> gooseMessages, ArrayList<Sv> svMessages, boolean printHeader, FOCUS focus) throws IOException {
         /* Write Header and Columns */
@@ -72,15 +71,15 @@ public class Util {
 
         if (focus == FOCUS.GOOSE) { // focus on GOOSE messages and only those related SV ones
             /* Write Payload */
-            Goose prev = null;
+
+            // Handling the pseudo previous message
+            Goose prev = gooseMessages.get(0).copy();
+            prev.setTimestamp(gooseMessages.get(0).getTimestamp() + ProtectionIED.maxTime);
+            prev.setSqNum(gooseMessages.get(0).getSqNum() + 1);
+            gooseMessages.remove(0); // removing the pseudo previous message
 
             for (Goose gm : gooseMessages) {
                 Sv sv = ProtocolCorrelation.getCorrespondingSV(svMessages, gm);
-                if (prev == null) {
-                    prev = gm.copy();
-                    prev.setTimestamp(gm.getTimestamp() + ProtectionIED.maxTime);
-                    prev.setSqNum(gm.getSqNum() + 1);
-                }
                 String svString = sv.asCsv();
                 String cycleStrig = ProtocolCorrelation.getCorrespondingSVCycle(svMessages, gm, 80).asCsv();
                 String gooseString = gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.label;
@@ -89,20 +88,24 @@ public class Util {
             }
         } else {
             Goose prev;
+//            gooseMessages.remove(0);
             for (Sv sv : svMessages) {
                 int correspondingGooseIndex = ProtocolCorrelation.getCorrespondingGoose(gooseMessages, sv);
-                Goose gm = gooseMessages.get(correspondingGooseIndex);
-                if (correspondingGooseIndex > 1) {
-                    prev = gooseMessages.get(correspondingGooseIndex - 1);
-                } else {
-                    prev = gm.copy();
-                    prev.setTimestamp(gm.getTimestamp() + ProtectionIED.maxTime);
-                    prev.setSqNum(gm.getSqNum() + 1);
+                if (correspondingGooseIndex > 0) {
+                    Goose gm = gooseMessages.get(correspondingGooseIndex);
+                    if (correspondingGooseIndex > 1) {
+                        prev = gooseMessages.get(correspondingGooseIndex - 1);
+                    } else {
+                        prev = gm.copy();
+                        prev.setTimestamp(gm.getTimestamp() + ProtectionIED.maxTime);
+                        prev.setSqNum(gm.getSqNum() + 1);
+                    }
+                    String svString = sv.asCsv();
+                    String cycleStrig = ProtocolCorrelation.getCorrespondingSVCycle(svMessages, gm, 80).asCsv();
+                    String gooseString = gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.label;
+//                write(svString + "," + cycleStrig + "," + gooseString + "," + gm.label);
+                    write(gm.getTimestamp() + "|" + sv.getTime() + "| CBStatus");
                 }
-                String svString = sv.asCsv();
-                String cycleStrig = ProtocolCorrelation.getCorrespondingSVCycle(svMessages, gm, 80).asCsv();
-                String gooseString = gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.label;
-                write(svString + "," + cycleStrig + "," + gooseString + "," + gm.label);
             }
         }
     }
