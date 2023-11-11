@@ -23,8 +23,8 @@ public class HighStNumInjectorIED extends IED {
     @Override
     public void run(int injectionMessages) {
         Logger.getLogger("HighStNumInjectionIED").info(
-                "Feeding HighStNumInjection IED with " + legitimateIED.getMessages().size() + " legitimate messages");
-        messageCreator = new HighStNumInjectionCreator(legitimateIED.getMessages()); // feeds the message creator with legitimate messages
+                "Feeding HighStNumInjection IED with " + legitimateIED.copyMessages().size() + " legitimate messages");
+        messageCreator = new HighStNumInjectionCreator(legitimateIED.copyMessages()); // feeds the message creator with legitimate messages
         messageCreator.generate(this, injectionMessages); // pass itself to receive messages from generator
     }
 

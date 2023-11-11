@@ -5,7 +5,7 @@
  */
 package br.ufu.facom.ereno.attacks.uc01.creator;
 
-import br.ufu.facom.ereno.utils.Util;
+import br.ufu.facom.ereno.utils.DatasetWritter;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;
 import br.ufu.facom.ereno.messages.Goose;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
@@ -38,7 +38,7 @@ public class RandomReplayCreator implements MessageCreator {
         for (int i = 0; i < numReplayInstances; i++) {
             // Pickups one old GOOSE randomly
             Goose randomGoose = legitimateMessages.get(randomBetween(0, legitimateMessages.size()));
-            randomGoose.label = Util.label[1]; // label it as random replay (uc01)
+            randomGoose.label = DatasetWritter.label[1]; // label it as random replay (uc01)
 
             // Refresh the message timestamp
             Goose lastLegitimateGoose = legitimateMessages.get(legitimateMessages.size() - 1);

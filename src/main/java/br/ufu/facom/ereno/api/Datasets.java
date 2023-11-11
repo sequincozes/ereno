@@ -1,7 +1,7 @@
 package br.ufu.facom.ereno.api;
 
-import br.ufu.facom.ereno.scenarios.SingleSource;
-import br.ufu.facom.ereno.utils.Util;
+import br.ufu.facom.ereno.SingleSource;
+import br.ufu.facom.ereno.utils.DatasetWritter;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -21,7 +21,7 @@ public class Datasets extends HttpServlet {
 
         SingleSource.scriptForGooseAndSV(getServletContext().getRealPath("downloads/" + Attacks.ECF.datasetName + ".arff"), SVSamples.generateSV);
 
-        if (Util.english) {
+        if (DatasetWritter.english) {
             response.sendRedirect(request.getContextPath() + "/en/download-datasets.jsp");
         } else {
             response.sendRedirect(request.getContextPath() + "/download-datasets.jsp");

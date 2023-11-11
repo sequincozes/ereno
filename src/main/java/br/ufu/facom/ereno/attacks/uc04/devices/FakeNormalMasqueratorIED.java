@@ -23,8 +23,8 @@ public class FakeNormalMasqueratorIED extends IED { // Masquerade attacks assume
     @Override
     public void run(int numMasqueradeInstances) {
         Logger.getLogger("MasqueratorIED").info(
-                "Feeding Masquerator IED with " + legitimateIED.getMessages().size() + " legitimate messages to generate " + numMasqueradeInstances + " masquerade fake normal.");
-        messageCreator = new MaqueradeFakeNormalCreator(legitimateIED.getMessages()); // feeds the message creator with legitimate messages
+                "Feeding Masquerator IED with " + legitimateIED.copyMessages().size() + " legitimate messages to generate " + numMasqueradeInstances + " masquerade fake normal.");
+        messageCreator = new MaqueradeFakeNormalCreator(legitimateIED.copyMessages()); // feeds the message creator with legitimate messages
         messageCreator.generate(this, numMasqueradeInstances); // pass itself to receive messages from generator
     }
 

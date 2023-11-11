@@ -5,7 +5,7 @@
  */
 package br.ufu.facom.ereno.benign.uc00.creator;
 
-import br.ufu.facom.ereno.utils.Util;
+import br.ufu.facom.ereno.utils.DatasetWritter;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;
 import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
 import br.ufu.facom.ereno.messages.Goose;
@@ -28,13 +28,13 @@ public class GooseCreator implements MessageCreator {
     @Override
     public void generate(IED ied, int numberOfPeriodicMessages) {
         this.protectionIED = (ProtectionIED) ied;
-        this.count = numberOfPeriodicMessages + 1; // this additional message will be used as reference for consistency features and then discarded
+        this.count = numberOfPeriodicMessages;
+        Goose previousGoose = null;
+        Goose periodicGoose;
 
         for (int i = 0; i <= numberOfPeriodicMessages; i++) {
-            Goose periodicGoose;
-            try {
+            if (previousGoose != null) {
                 // Already exists some messages
-                Goose previousGoose = protectionIED.getMessages().get(protectionIED.getMessages().size() - 1);
                 periodicGoose = new Goose(
                         previousGoose.getCbStatus(),
                         previousGoose.getStNum(),
@@ -42,34 +42,37 @@ public class GooseCreator implements MessageCreator {
                         previousGoose.getTimestamp() + 1,
                         previousGoose.getT(),
                         this.label);
+                protectionIED.addMessage(periodicGoose);
+                previousGoose = periodicGoose.copy();
+//                System.out.println(i + " - GOOSE sq(" + periodicGoose.getSqNum() + "/st" + periodicGoose.getStNum() + ") em " + periodicGoose.getTimestamp() + "(T: " + periodicGoose.getT() + ")");
 
-            } catch (IndexOutOfBoundsException e) {
-                // This will be the first message, for referene only (it will not be included into the dataset)
-                // @TODO Refactore all UCs to remove this. It should be handled at the feature generation process rather than in message generation.
-                periodicGoose = new Goose(
+            } else if (protectionIED.getNumberOfMessages() > 0) {
+                previousGoose = protectionIED.copyMessages().get(protectionIED.getNumberOfMessages() - 1).copy();
+            } else {
+                previousGoose = new Goose(
                         protectionIED.toInt(protectionIED.isInitialCbStatus()),
                         protectionIED.getInitialStNum(),
-                        protectionIED.getInitialSqNum(),
+                        protectionIED.getInitialSqNum() - 1,
                         protectionIED.getFirstGooseTime() - 1, // simulates a previous message timestamp
                         protectionIED.getFirstGooseTime(),
                         this.label);
+                Logger.getLogger("GooseCreator").info("Skipping pseudo-GOOSE");
             }
-
-            protectionIED.addMessage(periodicGoose);
-            protectionIED.setInitialSqNum(protectionIED.getInitialSqNum() + 1);
         }
     }
 
     public void reportEventAt(double eventTimestamp) {
-        removeMessagesAfterEvent(eventTimestamp); // cancel programmed messages to replace them by a bursting
+//        System.out.println("WILL REPORT EVENT");
+        // I think this will not be more necessary because I'm removing additional messages manually
+//        removeMessagesAfterEvent(eventTimestamp); // cancel programmed messages to replace them by a bursting
 
-        if (Util.Debug.gooseMessages) {
+        if (DatasetWritter.Debug.gooseMessages) {
             Logger.getLogger("GooseCreator").log(Level.INFO, "Reporting an event at " + eventTimestamp + "!");
         }
 
-        System.out.println("protectionIED.getMessages().size() - 1: "+ (protectionIED.getMessages().size() - 1));
+//        System.out.println("protectionIED.getMessages().size() - 1: " + (protectionIED.getMessages().size() - 1));
         protectionIED.setFirstGooseTime(
-                protectionIED.getMessages().get(protectionIED.getMessages().size() - 1).getTimestamp()
+                protectionIED.copyMessages().get(protectionIED.copyMessages().size() - 1).getTimestamp()
         );
 
         // Status change
@@ -99,14 +102,16 @@ public class GooseCreator implements MessageCreator {
             timestamp = timestamp + interval;
             protectionIED.addMessage(gm);
         }
+
+//        System.out.println("ALREADY REPORTED");
     }
 
     public void removeMessagesAfterEvent(double eventTimestamp) {
-        if (protectionIED.getMessages().size() > 1) {
-            double lastTimestamp = protectionIED.getMessages().get(protectionIED.getMessages().size() - 1).getTimestamp();
+        if (protectionIED.copyMessages().size() > 1) {
+            double lastTimestamp = protectionIED.copyMessages().get(protectionIED.copyMessages().size() - 1).getTimestamp();
             if (lastTimestamp > eventTimestamp) {
                 // Remove messages after the repported event
-                protectionIED.getMessages().remove(protectionIED.getMessages().size() - 1);
+                protectionIED.getMessages().remove(protectionIED.copyMessages().size() - 1);
                 removeMessagesAfterEvent(eventTimestamp);
             }
         } else {

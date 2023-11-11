@@ -6,6 +6,7 @@
 package br.ufu.facom.ereno.benign.uc00.devices;
 
 
+import br.ufu.facom.ereno.MultiSource;
 import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.api.SetupIED;
 import br.ufu.facom.ereno.benign.uc00.creator.GooseCreator;
@@ -13,12 +14,15 @@ import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * @author silvio
  */
 public class ProtectionIED extends IED {
-    public static int numMaxMessages = 10000;
+    public ProtectionIED() {
+        messages = new ArrayList<>();
+    }
 
     private int initialStNum = Integer.parseInt(SetupIED.ECF.stNum);
     private int initialSqNum = Integer.parseInt(SetupIED.ECF.sqNum);
@@ -42,10 +46,6 @@ public class ProtectionIED extends IED {
     protected ArrayList<Goose> messages;
     private String label = "normal";
 
-    public ProtectionIED() {
-        this.messages = new ArrayList<>();
-    }
-
     @Override
     public void enableRandomOffsets(int max) {
         super.enableRandomOffsets(max);
@@ -55,23 +55,25 @@ public class ProtectionIED extends IED {
 
     @Override
     public void run(int numberOfPeriodicMessages) {
-//        numberOfPeriodicMessages = 3;
-        double firstEvent = initialTimestamp + numberOfPeriodicMessages - 1 + 0.5;
-        double secondEvent = initialTimestamp + numberOfPeriodicMessages - 1 + 0.6;
-
         // Here we set the GooseCreator for creating GOOSE messages for ProtectionIED
         messageCreator = new GooseCreator(label);
-        messageCreator.generate(this, numberOfPeriodicMessages);
+        messageCreator.generate(this, numberOfPeriodicMessages / 2);
         GooseCreator gc = (GooseCreator) messageCreator;
-        gc.reportEventAt(firstEvent);
-        gc.reportEventAt(secondEvent);
-//        messageCreator.generate(this, numberOfPeriodicMessages);
+        double lastPeriodicMessage = copyMessages().get(getNumberOfMessages() - 1).getTimestamp();
+        gc.reportEventAt(lastPeriodicMessage + 0.5); // fault at middle of the second
+        copyMessages().remove(getNumberOfMessages() - 1); // need to remove the message after 100ms
+        gc.reportEventAt(lastPeriodicMessage + 0.6); // fault recovery 100ms later
+        messageCreator.generate(this, numberOfPeriodicMessages / 2);
     }
 
     @Override
     public void addMessage(EthernetFrame periodicGoose) {
-//        if (numMaxMessages > messages.size())
-            this.messages.add((Goose) periodicGoose);
+//        System.out.println("Adding GOOSE with timestamp " + ((Goose) periodicGoose).getTimestamp() + "(SqNum: " + ((Goose) periodicGoose).getSqNum() + " / StNum: " + ((Goose) periodicGoose).getStNum() + ")");
+        if (((Goose) periodicGoose).getTimestamp() < 0) {
+            System.out.println("CULPADO: " + MultiSource.run);
+            throw new IllegalArgumentException("The GOOSE message has a negative timestamp");
+        }
+        this.messages.add((Goose) periodicGoose);
     }
 
 
@@ -191,6 +193,20 @@ public class ProtectionIED extends IED {
 
     }
 
+    public ArrayList<Goose> copyMessages() {
+        Logger.getLogger("copyMessage").info("Copying "+messages.size() + " messages.");
+        ArrayList<Goose> copied = new ArrayList<>();
+        for (Goose originalGoose : messages) {
+            copied.add(originalGoose.copy());
+        }
+//        copied.remove(0);
+        if (messages.equals(copied)) {
+//            throw new IllegalArgumentException("Messages are not copied! Message 0 timestamp (messages):" + messages.get(0).getTimestamp() + " == (copied):" + copied.get(0).getTimestamp());
+            throw new IllegalArgumentException("Messages are not copied! Message 0 timestamp (messages):" + messages + " == (copied):" + copied);
+        }
+        return copied;
+    }
+
     public ArrayList<Goose> getMessages() {
         return this.messages;
     }
@@ -232,8 +248,8 @@ public class ProtectionIED extends IED {
         this.initialBackoffInterval = initialBackoffInterval;
     }
 
-
     public int getNumberOfMessages() {
-        return getMessages().size();
+        return messages.size();
     }
+
 }

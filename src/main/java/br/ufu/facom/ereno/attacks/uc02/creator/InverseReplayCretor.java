@@ -1,6 +1,6 @@
 package br.ufu.facom.ereno.attacks.uc02.creator;
 
-import br.ufu.facom.ereno.utils.Util;
+import br.ufu.facom.ereno.utils.DatasetWritter;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;
 import br.ufu.facom.ereno.messages.Goose;
@@ -26,7 +26,7 @@ public class InverseReplayCretor implements MessageCreator {
             // Step 1 - Pickups one old GOOSE randomly
             int randomIndex = randomBetween(0, legitimateMessages.size());
             Goose replayMessage = legitimateMessages.get(randomIndex);
-            replayMessage.label = Util.label[2];  // label it as inverse replay (uc02)
+            replayMessage.label = DatasetWritter.label[2];  // label it as inverse replay (uc02)
 
             // Wait until the status changes
             for (int nextLegitimateIndex = randomIndex + 1; nextLegitimateIndex < legitimateMessages.size(); nextLegitimateIndex++) {

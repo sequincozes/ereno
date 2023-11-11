@@ -1,6 +1,6 @@
 package br.ufu.facom.ereno.attacks.uc04.creator;
 
-import br.ufu.facom.ereno.utils.Util;
+import br.ufu.facom.ereno.utils.DatasetWritter;
 import br.ufu.facom.ereno.attacks.uc04.devices.FakeNormalMasqueratorIED;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;
@@ -51,7 +51,7 @@ public class MaqueradeFakeNormalCreator implements MessageCreator {
     public ArrayList<Goose> reportFakeEventAt(FakeNormalMasqueratorIED fakeNormalMasqueratorIED, Goose lastLegitimateMessage) {
         ArrayList<Goose> masqueratedGooseMessages = new ArrayList<>();
         double fakeEventTimestamp = lastLegitimateMessage.getTimestamp() + timeTakenByAttacker; // the masquerade messages will be transmitted immediately after this message
-        String label = Util.label[4];  // label it as masquerade fake fault (uc03)
+        String label = DatasetWritter.label[4];  // label it as masquerade fake fault (uc03)
         int fakeCBStatus = 0;
         int fakeIncreasedStNum = lastLegitimateMessage.getStNum() + 1;
         int fakeIncreasingSqNum = 1;

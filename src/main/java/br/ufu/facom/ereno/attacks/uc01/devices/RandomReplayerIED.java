@@ -24,8 +24,8 @@ public class RandomReplayerIED extends IED {  // Replay attacks does not have an
     @Override
     public void run(int numberOfReplayMessages) {
         Logger.getLogger("ReplayerIED").info(
-                "Feeding replayer IED with " + legitimateIED.getMessages().size() + " legitimate messages");
-        messageCreator = new RandomReplayCreator(legitimateIED.getMessages()); // feeds the message creator with legitimate messages
+                "Feeding replayer IED with " + legitimateIED.copyMessages().size() + " legitimate messages");
+        messageCreator = new RandomReplayCreator(legitimateIED.copyMessages()); // feeds the message creator with legitimate messages
         messageCreator.generate(this, numberOfReplayMessages); // pass itself to receive messages from generator
     }
 

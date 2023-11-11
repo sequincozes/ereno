@@ -1,6 +1,6 @@
 package br.ufu.facom.ereno.api;
 
-import br.ufu.facom.ereno.utils.Util;
+import br.ufu.facom.ereno.utils.DatasetWritter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -55,10 +55,10 @@ public class GooseFlow extends HttpServlet {
             gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
             Gson gson = gsonBuilder.create();
             try {
-                Util.startWriting(System.getProperty("user.dir") +
+                DatasetWritter.startWriting(System.getProperty("user.dir") +
                         "/src/main/webapp/ecf/goose-flow.json");
-                Util.write(gson.toJson(new ECF(), ECF.class));
-                Util.finishWriting();
+                DatasetWritter.write(gson.toJson(new ECF(), ECF.class));
+                DatasetWritter.finishWriting();
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -71,9 +71,9 @@ public class GooseFlow extends HttpServlet {
             gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
             Gson gson = gsonBuilder.create();
             try {
-                Util.startWriting(servletContext.getRealPath("ecf/goose-flow.json"));
-                Util.write(gson.toJson(new ECF(), ECF.class));
-                Util.finishWriting();
+                DatasetWritter.startWriting(servletContext.getRealPath("ecf/goose-flow.json"));
+                DatasetWritter.write(gson.toJson(new ECF(), ECF.class));
+                DatasetWritter.finishWriting();
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -160,7 +160,7 @@ public class GooseFlow extends HttpServlet {
             out.println("</body></html>");
 
 
-            if (Util.english) {
+            if (DatasetWritter.english) {
                 response.sendRedirect(request.getContextPath() + "/en/upload-samples.jsp");
             } else {
                 response.sendRedirect(request.getContextPath() + "/upload-samples.jsp");

@@ -1,4 +1,4 @@
-package br.ufu.facom.ereno.scenarios;
+package br.ufu.facom.ereno;
 
 import br.ufu.facom.ereno.api.Attacks;
 import br.ufu.facom.ereno.api.GooseFlow;
@@ -17,7 +17,7 @@ import br.ufu.facom.ereno.attacks.uc01.devices.RandomReplayerIED;
 import java.io.*;
 import java.util.logging.Logger;
 
-import static br.ufu.facom.ereno.utils.Util.*;
+import static br.ufu.facom.ereno.utils.DatasetWritter.*;
 
 public class SingleSource {
 
@@ -63,7 +63,7 @@ public class SingleSource {
             uc00 = new ProtectionIED();
 //            uc00.run(GooseFlow.ECF.numberOfMessages);
             uc00.run(1000);
-            writeGooseMessagesToFile(uc00.getMessages(), true);
+            writeGooseMessagesToFile(uc00.copyMessages(), true);
             totalMessageCount = totalMessageCount + uc00.getNumberOfMessages();
         }
 
@@ -155,7 +155,7 @@ public class SingleSource {
             uc00 = new ProtectionIED();
 //            uc00.run(GooseFlow.ECF.numberOfMessages);
             uc00.run(1000);
-            writeGooseMessagesToFile(uc00.getMessages(), true);
+            writeGooseMessagesToFile(uc00.copyMessages(), true);
             totalMessageCount = totalMessageCount + uc00.getNumberOfMessages();
         }
 

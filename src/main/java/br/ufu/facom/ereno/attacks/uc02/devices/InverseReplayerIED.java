@@ -23,8 +23,8 @@ public class InverseReplayerIED extends IED {  // Replay attacks does not have a
     @Override
     public void run(int numReplayMessages) {
         Logger.getLogger("ReplayerIED").info(
-                "Feeding replayer IED with " + legitimateIED.getMessages().size() + " legitimate messages");
-        messageCreator = new InverseReplayCretor(legitimateIED.getMessages()); // feeds the message creator with legitimate messages
+                "Feeding replayer IED with " + legitimateIED.copyMessages().size() + " legitimate messages");
+        messageCreator = new InverseReplayCretor(new ArrayList<>(legitimateIED.copyMessages())); // feeds the message creator with legitimate messages
         messageCreator.generate(this, numReplayMessages); // pass itself to receive messages from generator
     }
 

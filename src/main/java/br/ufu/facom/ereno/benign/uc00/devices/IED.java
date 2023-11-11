@@ -15,7 +15,6 @@ import java.util.Random;
  * @author silvio
  */
 public abstract class IED {
-    //    private ArrayList<EthernetFrame> messages;
     static protected float initialTimestamp;
     protected MessageCreator messageCreator;
 
@@ -23,13 +22,23 @@ public abstract class IED {
         this.initialTimestamp = randomBetween(0, max);
     }
 
-    public static int randomBetween(int min, int max) {
-        return new Random(System.nanoTime()).nextInt(max - min) + min;
+    public static int randomBetween(int lowerLimit, int upperLimit) {
+        if (lowerLimit >= upperLimit) {
+            throw new IllegalArgumentException("The lower limit (" + lowerLimit + ") must be less than the upper limit (" + upperLimit + ").");
+        }
+
+        return new Random(System.nanoTime()).nextInt(upperLimit - lowerLimit) + lowerLimit;
     }
 
-    public static double randomBetween(double min, double max) {
-//        return (new Random(System.nanoTime()).nextInt((int) (max * 10000 - min * 10000)) + min * 10000) / 10000; // This is to avoid missing decimal values during the conversion
-        return (max - min) * new Random(System.nanoTime()).nextDouble() - min;
+
+    public static double randomBetween(double lowerLimit, double upperLimit) {
+        if (lowerLimit >= upperLimit) {
+            throw new IllegalArgumentException("The lower limit (" + lowerLimit + ") must be less than the upper limit (" + upperLimit + ").");
+        }
+
+        Random random = new Random();
+        double randomNumber = lowerLimit + (upperLimit - lowerLimit) * random.nextDouble();
+        return randomNumber;
     }
 
     abstract public void run(int messageCount);
