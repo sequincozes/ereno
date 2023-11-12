@@ -12,13 +12,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Adding randomness to UC00, done.">
+    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="BUG FIX - UC01 was repeating the same messages because there was a bug on the random number generatiom.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/creator/RandomReplayCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/creator/RandomReplayCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/IED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/IED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/ProtectionIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/ProtectionIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/DatasetWritter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/DatasetWritter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -353,7 +350,7 @@
       <workItem from="1699579476796" duration="629000" />
       <workItem from="1699627093031" duration="1566000" />
       <workItem from="1699670017971" duration="12391000" />
-      <workItem from="1699724901434" duration="11021000" />
+      <workItem from="1699724901434" duration="11822000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -698,7 +695,7 @@
       <option name="project" value="LOCAL" />
       <updated>1685733209617</updated>
     </task>
-    <option name="localTasksCounter" value="57" />
+    <option name="localTasksCounter" value="58" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -717,7 +714,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="GooseFlow: GET and POST done; ECF reading and writting done; JSP reading ECF." />
     <MESSAGE value="Attacks: GET and POST done; ECF reading and writting done; JSP reading ECF." />
     <MESSAGE value="Upload SV: uploading done. Next: javascript do hidden the field and save filename for generating attacks." />
     <MESSAGE value="Upload SV: uploading done, javascript do hidden fields done; &#10;Download datasets: listing and downloading, done." />
@@ -742,7 +738,8 @@
     <MESSAGE value="Bug fix: arrayList copy by reference." />
     <MESSAGE value="Stable version. Improving attacker strategy for UC01. Adding randomness to UC00." />
     <MESSAGE value="Adding randomness to UC00, done." />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding randomness to UC00, done." />
+    <MESSAGE value="BUG FIX - UC01 was repeating the same messages because there was a bug on the random number generatiom." />
+    <option name="LAST_COMMIT_MESSAGE" value="BUG FIX - UC01 was repeating the same messages because there was a bug on the random number generatiom." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

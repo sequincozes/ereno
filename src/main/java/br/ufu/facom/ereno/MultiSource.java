@@ -26,9 +26,9 @@ public class MultiSource {
 
     public static void main(String[] args) throws Exception {
         init();
-        numberOfMessages = 100;
+        numberOfMessages = 1000;
         twoDevices("train", numberOfMessages);
-        numberOfMessages = 100;
+        numberOfMessages = 10000;
         twoDevices("test", numberOfMessages);
         DatasetEval.runWithoutCV();
 
