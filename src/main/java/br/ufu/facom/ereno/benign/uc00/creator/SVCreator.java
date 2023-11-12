@@ -11,7 +11,6 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 public class SVCreator implements MessageCreator {
-    private static final boolean USE_OFFSET = true;
     private float offset = 0;
     private final String[] payloadFiles;
     private MergingUnit mu; // This is the samambaia (sb) substation MU
@@ -84,9 +83,9 @@ public class SVCreator implements MessageCreator {
                                 if (!next.contains(",")) {
                                     float feature = Float.valueOf(next) * scale;
                                     int column = ((t + 1) / 2) - 1;
-                                    if (USE_OFFSET) {
+                                    if (mu.getInitialTimestamp()>0) {
                                         if (columns[column].equalsIgnoreCase("Time")) {
-                                            feature = feature + offset;
+                                            feature = feature + mu.getInitialTimestamp();
                                         }
                                     }
                                     tokenLine[column] = feature;

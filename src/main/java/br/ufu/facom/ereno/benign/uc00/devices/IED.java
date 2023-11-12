@@ -10,6 +10,7 @@ import br.ufu.facom.ereno.messages.EthernetFrame;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Logger;
 
 /**
  * @author silvio
@@ -20,6 +21,7 @@ public abstract class IED {
 
     public void enableRandomOffsets(int max) {
         this.initialTimestamp = randomBetween(0, max);
+        Logger.getLogger("enableRandomOffsets("+max+")").info("Random offset: "+initialTimestamp);
     }
 
     public static int randomBetween(int lowerLimit, int upperLimit) {

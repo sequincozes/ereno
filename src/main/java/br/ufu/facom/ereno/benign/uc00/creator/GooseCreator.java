@@ -55,7 +55,7 @@ public class GooseCreator implements MessageCreator {
                         protectionIED.toInt(protectionIED.isInitialCbStatus()),
                         protectionIED.getInitialStNum(),
                         protectionIED.getInitialSqNum() - 1,
-                        protectionIED.getFirstGooseTime() - 1, // simulates a previous message timestamp
+                        protectionIED.getFirstGooseTime() + protectionIED.getInitialTimestamp() - 1, // simulates a previous message timestamp
                         protectionIED.getFirstGooseTime(),
                         this.label);
                 Logger.getLogger("GooseCreator").info("Skipping pseudo-GOOSE");

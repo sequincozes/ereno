@@ -14,6 +14,7 @@ import br.ufu.facom.ereno.attacks.uc07.devices.HighRateStNumInjectorIED;
 import br.ufu.facom.ereno.attacks.uc08.devices.GrayHoleVictimIED;
 import br.ufu.facom.ereno.benign.uc00.devices.MergingUnit;
 import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
+import br.ufu.facom.ereno.evaluation.DatasetEval;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -25,11 +26,11 @@ public class MultiSource {
 
     public static void main(String[] args) throws Exception {
         init();
-        numberOfMessages = 17;
+        numberOfMessages = 1000;
         twoDevices("train", numberOfMessages);
-//        numberOfMessages = 10000;
-//        twoDevices("test", numberOfMessages);
-//        DatasetEval.runWithoutCV();
+        numberOfMessages = 10000;
+        twoDevices("test", numberOfMessages);
+        DatasetEval.runWithoutCV();
 
     }
 
@@ -47,13 +48,13 @@ public class MultiSource {
         System.out.println("-----------------");
         MultiSource.run = "runUC01";
         runUC01(protectionIED, mu);
-//        runUC02(protectionIED, mu);
-//        runUC03(protectionIED, mu);
-//        runUC04(protectionIED, mu);
-//        runUC05(protectionIED, mu);
-//        runUC06(protectionIED, mu);
-//        runUC07(protectionIED, mu);
-//        runUC08(protectionIED, mu);
+        runUC02(protectionIED, mu);
+        runUC03(protectionIED, mu);
+        runUC04(protectionIED, mu);
+        runUC05(protectionIED, mu);
+        runUC06(protectionIED, mu);
+        runUC07(protectionIED, mu);
+        runUC08(protectionIED, mu);
 
         finishWriting();
 
@@ -62,13 +63,14 @@ public class MultiSource {
     public static MergingUnit runMU() {
 //        MergingUnit mu = new MergingUnit(Input.electricalSourceFiles);
         MergingUnit mu = new MergingUnit(Input.singleElectricalSourceFile);
+        mu.enableRandomOffsets(numberOfMessages);
         mu.run(numberOfMessages * 4763);
         return mu;
     }
 
     public static ProtectionIED runUC00(MergingUnit mu) throws IOException {
         ProtectionIED uc00 = new ProtectionIED();
-//        uc00.setInitialTimestamp(mu.getInitialTimestamp());
+        uc00.setInitialTimestamp(mu.getInitialTimestamp());
         Logger.getLogger("RunUC00").info("mu.getOffset(): "+mu.getInitialTimestamp());
         uc00.run(numberOfMessages);
         int qtdNormal00 = writeGOOSEwithSVNormalToFile(uc00.copyMessages(), mu.getMessages(), true);
@@ -125,8 +127,9 @@ public class MultiSource {
         Logger.getLogger("MultiSource").info("Writting " + qtdInjection07 + " injected (UC07) messages to dataset.");
     }
 
-    public static void runUC08(MergingUnit mu, ProtectionIED uc00) throws IOException {
+    public static void runUC08(ProtectionIED uc00, MergingUnit mu) throws IOException {
         ProtectionIED uc00forGrayhole = new ProtectionIED();
+        uc00forGrayhole.setInitialTimestamp(mu.getInitialTimestamp());
         uc00forGrayhole.run((int) (numberOfMessages * 1.2)); // generate more because it discards
         GrayHoleVictimIED uc08 = new GrayHoleVictimIED(uc00forGrayhole);
         uc08.run(80);

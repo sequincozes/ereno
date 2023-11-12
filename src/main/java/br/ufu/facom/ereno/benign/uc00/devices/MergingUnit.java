@@ -20,9 +20,7 @@ public class MergingUnit extends IED {
     @Override
     public void run(int numberOfSVMessages) {
         messageCreator = new SVCreator(payloadFiles);
-        super.setInitialTimestamp(randomBetween(0, (numberOfSVMessages / 4763)));
         Logger.getLogger("SVCreator").info("Initial Timestamp: "+ getInitialTimestamp());
-
         messageCreator.generate(this, numberOfSVMessages);
     }
 
