@@ -102,7 +102,7 @@ public class DatasetWritter {
         for (Goose gm : gooseMessages) {
             if (prev != null) { // skips the first message
                 Sv sv = ProtocolCorrelation.getCorrespondingSV(svMessages, gm);
-                writeToDataset(svMessages, prev, gm, sv, gm);
+                writeToDataset(svMessages, prev, gm, sv);
                 messagesWritten += 1;
             }
             prev = gm.copy();
@@ -110,23 +110,22 @@ public class DatasetWritter {
         return messagesWritten;
     }
 
-    public static int writeGOOSEAtkWithSVToFile(ArrayList<Goose> legitimateMessages, ArrayList<Goose> attackMessages, ArrayList<Sv> svMessages, boolean printHeader) throws IOException {
+    public static int writeGOOSEAtkWithSVToFile(ProtectionIED legitimateIED, ArrayList<Goose> attackMessages, ArrayList<Sv> svMessages, boolean printHeader) throws IOException {
         /* Write Header and Columns */
         if (printHeader) {
             writeTwoDevicesHeader();
         }
 
         /* Write Payload */
-        Goose prev = null;
 
         for (int i = 0; i < attackMessages.size(); i++) {
             Goose attack = attackMessages.get(i);
+            Goose prev = legitimateIED.getLastGooseFromTime(attackMessages.get(i).getTimestamp());
             Sv sv;
             if (i <= numberOfMessages) {
                 if (prev != null) { // skips the first message
-                    Goose legitimate = legitimateMessages.get(i);
-                    sv = ProtocolCorrelation.getCorrespondingSV(svMessages, legitimate);
-                    writeToDataset(svMessages, prev, attack, sv, legitimate);
+                    sv = ProtocolCorrelation.getCorrespondingSV(svMessages, attack);
+                    writeToDataset(svMessages, prev, attack, sv);
                 }
                 prev = attack.copy();
             } else {
@@ -158,12 +157,13 @@ public class DatasetWritter {
         }
     }
 
-    private static void writeToDataset(ArrayList<Sv> svMessages, Goose prev, Goose attack, Sv sv, Goose legitimate) throws IOException {
+    private static void writeToDataset(ArrayList<Sv> svMessages, Goose prev, Goose attack, Sv sv) throws IOException {
         String svString = sv.asCsv();
-        String cycleStrig = ProtocolCorrelation.getCorrespondingSVCycle(svMessages, legitimate, 80).asCsv();
+        String cycleStrig = ProtocolCorrelation.getCorrespondingSVCycle(svMessages, attack, 80).asCsv();
         String gooseString = attack.asCSVFull() + getConsistencyFeaturesAsCSV(attack, prev);
         double delay = attack.getTimestamp() - sv.getTime();
         write(svString + "," + cycleStrig + "," + gooseString + "," + delay + "," + attack.label);
+//        write(sv.getTime() + "|" + attack.getTimestamp() + "|" + attack.getT());
     }
 
     public static void writeSvMessagesToFile(ArrayList<Sv> svMessages, boolean printHeader, String substation) throws IOException {

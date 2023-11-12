@@ -68,9 +68,7 @@ public class ProtectionIED extends IED {
 
     @Override
     public void addMessage(EthernetFrame periodicGoose) {
-//        System.out.println("Adding GOOSE with timestamp " + ((Goose) periodicGoose).getTimestamp() + "(SqNum: " + ((Goose) periodicGoose).getSqNum() + " / StNum: " + ((Goose) periodicGoose).getStNum() + ")");
         if (((Goose) periodicGoose).getTimestamp() < 0) {
-            System.out.println("CULPADO: " + MultiSource.run);
             throw new IllegalArgumentException("The GOOSE message has a negative timestamp");
         }
         this.messages.add((Goose) periodicGoose);
@@ -240,6 +238,17 @@ public class ProtectionIED extends IED {
         return lastGooseMessage;
     }
 
+    public Goose getLastGooseFromTime(double timestamp) {
+        Goose lastGooseMessage = getMessages().get(0);
+        for (Goose goose : getMessages()) {
+            if (goose.getTimestamp() > timestamp) {
+                return lastGooseMessage;
+            } else {
+                lastGooseMessage = goose;
+            }
+        }
+        return lastGooseMessage;
+    }
     public double getInitialBackoffInterval() {
         return initialBackoffInterval;
     }
@@ -251,5 +260,6 @@ public class ProtectionIED extends IED {
     public int getNumberOfMessages() {
         return messages.size();
     }
+
 
 }

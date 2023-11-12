@@ -5,6 +5,7 @@
  */
 package br.ufu.facom.ereno.benign.uc00.creator;
 
+import br.ufu.facom.ereno.evaluation.support.Util;
 import br.ufu.facom.ereno.utils.DatasetWritter;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;
 import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
@@ -35,11 +36,12 @@ public class GooseCreator implements MessageCreator {
         for (int i = 0; i <= numberOfPeriodicMessages; i++) {
             if (previousGoose != null) {
                 // Already exists some messages
+                double networkDelay;
                 periodicGoose = new Goose(
                         previousGoose.getCbStatus(),
                         previousGoose.getStNum(),
                         previousGoose.getSqNum() + 1,
-                        previousGoose.getTimestamp() + 1,
+                        previousGoose.getTimestamp() + protectionIED.getMaxTime()/1000 + getNetworkDelay(),
                         previousGoose.getT(),
                         this.label);
                 protectionIED.addMessage(periodicGoose);
@@ -59,6 +61,10 @@ public class GooseCreator implements MessageCreator {
                 Logger.getLogger("GooseCreator").info("Skipping pseudo-GOOSE");
             }
         }
+    }
+
+    private double getNetworkDelay() {
+        return IED.randomBetween(0.001,0.031);
     }
 
     public void reportEventAt(double eventTimestamp) {
@@ -118,6 +124,5 @@ public class GooseCreator implements MessageCreator {
             Logger.getLogger("NoGooseMessages").warning("There are no GOOSE messages.");
         }
     }
-
 
 }

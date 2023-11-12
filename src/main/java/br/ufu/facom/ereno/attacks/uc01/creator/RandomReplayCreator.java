@@ -19,7 +19,7 @@ import static br.ufu.facom.ereno.benign.uc00.devices.IED.randomBetween;
  */
 public class RandomReplayCreator implements MessageCreator {
     ArrayList<Goose> legitimateMessages;
-    private final int timeTakenByAttacker = 1;
+    private int timeTakenByAttacker = 1;
 
     /**
      * @param legitimateMessages - previously generated legitimate messages
@@ -41,8 +41,13 @@ public class RandomReplayCreator implements MessageCreator {
             randomGoose.label = DatasetWritter.label[1]; // label it as random replay (uc01)
 
             // Refresh the message timestamp
-            Goose lastLegitimateGoose = legitimateMessages.get(legitimateMessages.size() - 1);
-            randomGoose.setTimestamp(lastLegitimateGoose.getTimestamp() + timeTakenByAttacker);
+//            Goose lastLegitimateGoose = legitimateMessages.get(legitimateMessages.size() - 1);
+
+            // Randomize the time taken by an attacker
+            timeTakenByAttacker = randomBetween(100,1000)/1000;
+
+            // Other strategy: assumes the random replay was close to the original one:
+            randomGoose.setTimestamp(randomGoose.getTimestamp() + timeTakenByAttacker);
 
             // Send back the random replayed message to ReplayerIED
             ied.addMessage(randomGoose);

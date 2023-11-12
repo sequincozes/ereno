@@ -5,6 +5,7 @@ import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Sv;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 public class MergingUnit extends IED {
     protected ArrayList<Sv> messages;
@@ -19,6 +20,9 @@ public class MergingUnit extends IED {
     @Override
     public void run(int numberOfSVMessages) {
         messageCreator = new SVCreator(payloadFiles);
+        super.setInitialTimestamp(randomBetween(0, (numberOfSVMessages / 4763)));
+        Logger.getLogger("SVCreator").info("Initial Timestamp: "+ getInitialTimestamp());
+
         messageCreator.generate(this, numberOfSVMessages);
     }
 

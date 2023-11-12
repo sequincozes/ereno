@@ -12,59 +12,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Full integration of GOOSE and SV; Focus on GOOSE/SV; Use Cases 00 to 08 (gruyhole) working.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/Input.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/DatasetEval.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/support/ClassifierExtended.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/support/FeatureAvaliada.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/support/GeneralParameters.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/support/GenericClassifiers.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/support/GenericEvaluation.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/support/GenericResultado.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/support/Util.java" afterDir="false" />
+    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Bug fix: arrayList copy by reference.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Attacks.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Attacks.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Datasets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/Datasets.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/GooseFlow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/GooseFlow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SVSamples.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SVSamples.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SetupIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/api/SetupIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/creator/RandomReplayCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/creator/RandomReplayCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/devices/RandomReplayerIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/devices/RandomReplayerIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/creator/InverseReplayCretor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/creator/InverseReplayCretor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/devices/InverseReplayerIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/devices/InverseReplayerIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/creator/MaqueradeFakeFaultCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/creator/MaqueradeFakeFaultCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/devices/FakeFaultMasqueratorIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/devices/FakeFaultMasqueratorIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc04/creator/MaqueradeFakeNormalCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc04/creator/MaqueradeFakeNormalCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc04/devices/FakeNormalMasqueratorIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc04/devices/FakeNormalMasqueratorIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc05/creator/InjectionCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc05/creator/InjectionCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc05/devices/InjectorIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc05/devices/InjectorIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc06/creator/HighStNumInjectionCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc06/creator/HighStNumInjectionCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc06/devices/HighStNumInjectorIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc06/devices/HighStNumInjectorIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc07/creator/HighRateStNumInjectionCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc07/creator/HighRateStNumInjectionCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc07/devices/HighRateStNumInjectorIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc07/devices/HighRateStNumInjectorIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc08/creator/GrayHoleVictimCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc08/creator/GrayHoleVictimCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc08/devices/GrayHoleVictimIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc08/devices/GrayHoleVictimIED.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/GooseCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/GooseCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/SVCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/SVCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/IED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/IED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/MergingUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/MergingUnit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/ProtectionIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/ProtectionIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/scenarios/MultiSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/scenarios/SingleSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/SingleSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/DatasetWritter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/attack-definitions.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/attack-definitions.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/download-datasets.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/download-datasets.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/ecf/goose-flow.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ecf/goose-flow.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/ecf/original_goose-flow.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ecf/original_goose-flow.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/ecf/original_setup-ied.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ecf/original_setup-ied.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/ecf/setup-ied.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ecf/setup-ied.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/en/attack-definitions.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/en/attack-definitions.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/en/download-datasets.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/en/download-datasets.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/en/goose-message.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/en/goose-message.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/en/ied-configs.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/en/ied-configs.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/en/upload-samples.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/en/upload-samples.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/goose-message.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/goose-message.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/ied-configs.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ied-configs.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/upload-samples.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/upload-samples.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/DatasetEval.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/DatasetEval.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/DatasetWritter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/DatasetWritter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,26 +78,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "extract.method.default.visibility": "private",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/Users/Silvio/IdeaProjects/ereno/src/main/java/br/ufu/facom/ereno/datasetEvaluation/abstractclassification",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Silvio/IdeaProjects/ereno/src/main/java/br/ufu/facom/ereno/datasetEvaluation/abstractclassification&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\Silvio\IdeaProjects\ereno\src\main\java\br\ufu\facom\ereno\datasetEvaluation\abstractclassification" />
@@ -398,7 +356,8 @@
       <workItem from="1699548883412" duration="21846000" />
       <workItem from="1699579476796" duration="629000" />
       <workItem from="1699627093031" duration="1566000" />
-      <workItem from="1699670017971" duration="3295000" />
+      <workItem from="1699670017971" duration="12391000" />
+      <workItem from="1699724901434" duration="3981000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -743,7 +702,7 @@
       <option name="project" value="LOCAL" />
       <updated>1685733209617</updated>
     </task>
-    <option name="localTasksCounter" value="54" />
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -762,7 +721,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Working on ERENO-UI - ECF generation and reading" />
     <MESSAGE value="SetupIED: GET and POST done;" />
     <MESSAGE value="SetupIED: GET and POST done; ECF reading and writting done; JSP reading ECF." />
     <MESSAGE value="GooseFlow: GET and POST done; ECF reading and writting done; JSP reading ECF." />
@@ -787,20 +745,16 @@
     <MESSAGE value="Merging fixes (from UI) to master." />
     <MESSAGE value="Refactoring multisource correlation." />
     <MESSAGE value="Full integration of GOOSE and SV; Focus on GOOSE/SV; Use Cases 00 to 08 (gruyhole) working." />
-    <option name="LAST_COMMIT_MESSAGE" value="Full integration of GOOSE and SV; Focus on GOOSE/SV; Use Cases 00 to 08 (gruyhole) working." />
+    <MESSAGE value="Bug fix: arrayList copy by reference." />
+    <option name="LAST_COMMIT_MESSAGE" value="Bug fix: arrayList copy by reference." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java</url>
-          <line>63</line>
+          <line>62</line>
           <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/ProtectionIED.java</url>
-          <line>70</line>
-          <option name="timeStamp" value="18" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">
           <properties class="java.lang.IndexOutOfBoundsException" package="java.lang" />

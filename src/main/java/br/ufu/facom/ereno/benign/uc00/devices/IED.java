@@ -15,7 +15,7 @@ import java.util.Random;
  * @author silvio
  */
 public abstract class IED {
-    static protected float initialTimestamp;
+    protected float initialTimestamp;
     protected MessageCreator messageCreator;
 
     public void enableRandomOffsets(int max) {
@@ -45,4 +45,11 @@ public abstract class IED {
 
     public abstract void addMessage(EthernetFrame message);
 
+    public float getInitialTimestamp() {
+        return initialTimestamp;
+    }
+
+    public void setInitialTimestamp(float initialTimestamp) {
+        this.initialTimestamp = initialTimestamp;
+    }
 }

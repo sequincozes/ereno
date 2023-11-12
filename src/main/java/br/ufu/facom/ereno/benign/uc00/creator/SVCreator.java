@@ -30,12 +30,19 @@ public class SVCreator implements MessageCreator {
     @Override
     public void generate(IED ied, int numberOfSVMessages) {
         this.mu = (MergingUnit) ied;
-        this.allElectricalMeassures = consumeFloat(payloadFiles, 1, columnsTitle);
+
+        this.allElectricalMeassures = consumeFloatFiles(payloadFiles, 1, columnsTitle);
 
         Logger.getLogger("SVCreator.generate()").info("Generating " + numberOfSVMessages + " SV message.");
-
+        Logger.getLogger("SVCreator.generate()").info(+allElectricalMeassures.size() + " lines available.");
+        int countMessages = 0;
         while (mu.getMessages().size() < numberOfSVMessages) {
             for (Float[] lines : allElectricalMeassures) {
+                countMessages = countMessages + 1;
+                if (countMessages % 4763 == 0) {
+                    offset = offset + 1;
+                    Logger.getLogger(" ").info(+countMessages+" messages SV. Finished one electrical file: 4763 multiple: " + countMessages / 4763);
+                }
                 if (mu.getMessages().size() < numberOfSVMessages) {
                     mu.addMessage(new Sv(offset + lines[0], lines[1], lines[2], lines[3], lines[7], lines[8], lines[9]));
                 } else {
@@ -43,13 +50,11 @@ public class SVCreator implements MessageCreator {
                     break;
                 }
             }
-            offset = offset + 1;
 
         }
     }
 
-    protected ArrayList<Float[]> consumeFloat(String files[], int scale, String columns[]) {
-//        int offset = randomBetween(0,1000);
+    protected ArrayList<Float[]> consumeFloatFiles(String files[], int scale, String columns[]) {
         ArrayList<Float[]> formatedCSVFile = new ArrayList<>();
 
         for (String file : files) {
@@ -97,4 +102,5 @@ public class SVCreator implements MessageCreator {
         }
         return formatedCSVFile;
     }
+
 }

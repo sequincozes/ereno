@@ -11,11 +11,13 @@ public class DatasetEval {
     }
 
     public static void runWithoutCV() throws Exception {
+//        GeneralParameters.DATASET = "E:\\ereno dataset\\hibrid_dataset_GOOSE_train_binary.arff";
         GeneralParameters.DATASET = "E:\\ereno dataset\\hibrid_dataset_GOOSE_train.arff";
         Instances train = Util.loadSingleFile(false);
         train.setClassIndex(train.numAttributes() - 1);
 
 //        System.out.println("Agora vem o segundo");
+//        GeneralParameters.DATASET = "E:\\ereno dataset\\hibrid_dataset_GOOSE_test_binary.arff";
         GeneralParameters.DATASET = "E:\\ereno dataset\\hibrid_dataset_GOOSE_test.arff";
         Instances test = Util.loadSingleFile(false);
         test.setClassIndex(test.numAttributes() - 1);
