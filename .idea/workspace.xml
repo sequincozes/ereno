@@ -12,14 +12,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Stable version. Improving attacker strategy for UC01. Adding randomness to UC00.">
+    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Adding randomness to UC00, done.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/GooseCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/GooseCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/SVCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/SVCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/creator/RandomReplayCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/creator/RandomReplayCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/IED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/IED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/MergingUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/MergingUnit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/support/GenericEvaluation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/support/GenericEvaluation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/ProtectionIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/ProtectionIED.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/DatasetWritter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/DatasetWritter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -117,7 +116,7 @@
       <recent name="br.ufu.facom.ereno.attacks.uc06.devices" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.DatasetEval">
+  <component name="RunManager" selected="Application.MultiSource">
     <configuration name="DatasetEval" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="br.ufu.facom.ereno.evaluation.DatasetEval" />
       <module name="ERENO" />
@@ -287,8 +286,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.DatasetEval" />
         <item itemvalue="Application.MultiSource" />
+        <item itemvalue="Application.DatasetEval" />
         <item itemvalue="Tomcat Server.index.jsp" />
         <item itemvalue="JavaScript Debug.teste.jsp" />
         <item itemvalue="JavaScript Debug.ied-configs.jsp" />
@@ -354,7 +353,7 @@
       <workItem from="1699579476796" duration="629000" />
       <workItem from="1699627093031" duration="1566000" />
       <workItem from="1699670017971" duration="12391000" />
-      <workItem from="1699724901434" duration="5219000" />
+      <workItem from="1699724901434" duration="11021000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -699,7 +698,7 @@
       <option name="project" value="LOCAL" />
       <updated>1685733209617</updated>
     </task>
-    <option name="localTasksCounter" value="56" />
+    <option name="localTasksCounter" value="57" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -718,7 +717,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="SetupIED: GET and POST done; ECF reading and writting done; JSP reading ECF." />
     <MESSAGE value="GooseFlow: GET and POST done; ECF reading and writting done; JSP reading ECF." />
     <MESSAGE value="Attacks: GET and POST done; ECF reading and writting done; JSP reading ECF." />
     <MESSAGE value="Upload SV: uploading done. Next: javascript do hidden the field and save filename for generating attacks." />
@@ -743,7 +741,8 @@
     <MESSAGE value="Full integration of GOOSE and SV; Focus on GOOSE/SV; Use Cases 00 to 08 (gruyhole) working." />
     <MESSAGE value="Bug fix: arrayList copy by reference." />
     <MESSAGE value="Stable version. Improving attacker strategy for UC01. Adding randomness to UC00." />
-    <option name="LAST_COMMIT_MESSAGE" value="Stable version. Improving attacker strategy for UC01. Adding randomness to UC00." />
+    <MESSAGE value="Adding randomness to UC00, done." />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding randomness to UC00, done." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

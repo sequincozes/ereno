@@ -29,7 +29,10 @@ public abstract class IED {
             throw new IllegalArgumentException("The lower limit (" + lowerLimit + ") must be less than the upper limit (" + upperLimit + ").");
         }
 
-        return new Random(System.nanoTime()).nextInt(upperLimit - lowerLimit) + lowerLimit;
+        Random random = new Random(System.currentTimeMillis());
+        int randomNumber = lowerLimit + random.nextInt(upperLimit - lowerLimit + 1);
+
+        return randomNumber;
     }
 
 
@@ -38,7 +41,7 @@ public abstract class IED {
             throw new IllegalArgumentException("The lower limit (" + lowerLimit + ") must be less than the upper limit (" + upperLimit + ").");
         }
 
-        Random random = new Random();
+        Random random = new Random(System.nanoTime());
         double randomNumber = lowerLimit + (upperLimit - lowerLimit) * random.nextDouble();
         return randomNumber;
     }

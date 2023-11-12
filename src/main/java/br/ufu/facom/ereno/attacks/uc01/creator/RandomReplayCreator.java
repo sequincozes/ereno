@@ -11,6 +11,7 @@ import br.ufu.facom.ereno.messages.Goose;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import static br.ufu.facom.ereno.benign.uc00.devices.IED.randomBetween;
 
@@ -19,7 +20,7 @@ import static br.ufu.facom.ereno.benign.uc00.devices.IED.randomBetween;
  */
 public class RandomReplayCreator implements MessageCreator {
     ArrayList<Goose> legitimateMessages;
-    private int timeTakenByAttacker = 1;
+    private float timeTakenByAttacker = 1;
 
     /**
      * @param legitimateMessages - previously generated legitimate messages
@@ -29,7 +30,7 @@ public class RandomReplayCreator implements MessageCreator {
     }
 
     /**
-     * @param ied - IED that will receive the generated messages
+     * @param ied                - IED that will receive the generated messages
      * @param numReplayInstances - number of attack instances
      */
     @Override
@@ -37,20 +38,24 @@ public class RandomReplayCreator implements MessageCreator {
 
         for (int i = 0; i < numReplayInstances; i++) {
             // Pickups one old GOOSE randomly
-            Goose randomGoose = legitimateMessages.get(randomBetween(0, legitimateMessages.size()));
+            int randomIndex = randomBetween(0, legitimateMessages.size()-1);
+            Goose randomGoose = legitimateMessages.get(randomIndex).copy();
+            Logger.getLogger("RandomReplayCreator").info("Captured the legitimate message at " + randomGoose.getTimestamp());
             randomGoose.label = DatasetWritter.label[1]; // label it as random replay (uc01)
 
             // Refresh the message timestamp
 //            Goose lastLegitimateGoose = legitimateMessages.get(legitimateMessages.size() - 1);
 
             // Randomize the time taken by an attacker
-            timeTakenByAttacker = randomBetween(100,1000)/1000;
+            timeTakenByAttacker = randomBetween(100, 1000) / 1000;
 
             // Other strategy: assumes the random replay was close to the original one:
             randomGoose.setTimestamp(randomGoose.getTimestamp() + timeTakenByAttacker);
+            Logger.getLogger("RandomReplayCreator").info("Sent the replay message at " + randomGoose.getTimestamp() + "(time taken by attaker: " + timeTakenByAttacker + ")");
 
             // Send back the random replayed message to ReplayerIED
-            ied.addMessage(randomGoose);
+            ied.addMessage(randomGoose.copy()
+            );
 
         }
 

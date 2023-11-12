@@ -57,13 +57,23 @@ public class ProtectionIED extends IED {
     public void run(int numberOfPeriodicMessages) {
         // Here we set the GooseCreator for creating GOOSE messages for ProtectionIED
         messageCreator = new GooseCreator(label);
-        messageCreator.generate(this, numberOfPeriodicMessages / 2);
         GooseCreator gc = (GooseCreator) messageCreator;
-        double lastPeriodicMessage = copyMessages().get(getNumberOfMessages() - 1).getTimestamp();
-        gc.reportEventAt(lastPeriodicMessage + 0.5); // fault at middle of the second
-        copyMessages().remove(getNumberOfMessages() - 1); // need to remove the message after 100ms
-        gc.reportEventAt(lastPeriodicMessage + 0.6); // fault recovery 100ms later
-        messageCreator.generate(this, numberOfPeriodicMessages / 2);
+
+        int faultRate = randomBetween(10, 50);
+        Logger.getLogger("ProtectionIED.run()").info("faultRate = " + (faultRate));
+        for (int i = 0; i <= faultRate; i++) {
+            messageCreator.generate(this, numberOfPeriodicMessages / faultRate);
+            double lastPeriodicMessage = copyMessages().get(getNumberOfMessages() - 1).getTimestamp();
+            gc.reportEventAt(lastPeriodicMessage + 0.5); // fault at middle of the second
+            Logger.getLogger("ProtectionIED.run()").info("Reporting fault at " + lastPeriodicMessage + 0.5);
+            copyMessages().remove(getNumberOfMessages() - 1); // need to remove the message after 100ms
+            gc.reportEventAt(lastPeriodicMessage + 0.6); // fault recovery 100ms later
+            Logger.getLogger("ProtectionIED.run()").info("Reporting normal operation at " + lastPeriodicMessage + 0.5);
+        }
+
+        while (messages.size()-1 > numberOfPeriodicMessages) {
+            messages.remove(messages.size()-1);
+        }
     }
 
     @Override
@@ -192,7 +202,7 @@ public class ProtectionIED extends IED {
     }
 
     public ArrayList<Goose> copyMessages() {
-        Logger.getLogger("copyMessage").info("Copying "+messages.size() + " messages.");
+        Logger.getLogger("copyMessage").info("Copying " + messages.size() + " messages.");
         ArrayList<Goose> copied = new ArrayList<>();
         for (Goose originalGoose : messages) {
             copied.add(originalGoose.copy());
@@ -249,6 +259,7 @@ public class ProtectionIED extends IED {
         }
         return lastGooseMessage;
     }
+
     public double getInitialBackoffInterval() {
         return initialBackoffInterval;
     }

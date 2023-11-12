@@ -163,7 +163,17 @@ public class DatasetWritter {
         String gooseString = attack.asCSVFull() + getConsistencyFeaturesAsCSV(attack, prev);
         double delay = attack.getTimestamp() - sv.getTime();
         write(svString + "," + cycleStrig + "," + gooseString + "," + delay + "," + attack.label);
-//        write(sv.getTime() + "|" + attack.getTimestamp() + "|" + attack.getT());
+
+//        System.out.println("SqNum: "+attack.getSqNum() + " / Label: "+attack.label);
+
+        // debug
+//        int stdiff = (attack.getStNum() - prev.getStNum());
+//        int sqDiff = (attack.getSqNum() - prev.getSqNum());
+//        int cbStatusDiff = (attack.isCbStatus() - prev.isCbStatus());
+//        write(
+//                "stDiff = " + stdiff + "sqDiff = " + sqDiff +
+//                        "cbStatusDiff = " + cbStatusDiff
+//        );
     }
 
     public static void writeSvMessagesToFile(ArrayList<Sv> svMessages, boolean printHeader, String substation) throws IOException {
