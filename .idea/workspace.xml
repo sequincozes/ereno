@@ -16,6 +16,11 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/creator/RandomReplayCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/creator/RandomReplayCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/creator/InverseReplayCretor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/creator/InverseReplayCretor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/DatasetEval.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/DatasetEval.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/support/GeneralParameters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/support/GeneralParameters.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/support/GenericEvaluation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/support/GenericEvaluation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/DatasetWritter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/DatasetWritter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -350,7 +355,10 @@
       <workItem from="1699579476796" duration="629000" />
       <workItem from="1699627093031" duration="1566000" />
       <workItem from="1699670017971" duration="12391000" />
-      <workItem from="1699724901434" duration="11822000" />
+      <workItem from="1699724901434" duration="13361000" />
+      <workItem from="1699847953220" duration="1363000" />
+      <workItem from="1699903756465" duration="4348000" />
+      <workItem from="1699919810200" duration="1079000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -695,7 +703,7 @@
       <option name="project" value="LOCAL" />
       <updated>1685733209617</updated>
     </task>
-    <option name="localTasksCounter" value="58" />
+    <option name="localTasksCounter" value="59" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

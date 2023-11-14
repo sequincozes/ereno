@@ -12,10 +12,10 @@ import static br.ufu.facom.ereno.benign.uc00.devices.IED.randomBetween;
 public class InverseReplayCretor implements MessageCreator {
 
 
-    private final int timeTakenByAttacker = 1;
+    private float timeTakenByAttacker = 1;
     private final ArrayList<Goose> legitimateMessages;
 
-    public InverseReplayCretor(                               ArrayList<Goose> legitimateMessages) {
+    public InverseReplayCretor(ArrayList<Goose> legitimateMessages) {
         this.legitimateMessages = legitimateMessages;
     }
 
@@ -23,18 +23,19 @@ public class InverseReplayCretor implements MessageCreator {
     public void generate(IED ied, int numReplayInstances) {
         for (int replayMessageIndex = 0; replayMessageIndex <= numReplayInstances; replayMessageIndex++) {
 
-            // Step 1 - Pickups one old GOOSE randomly
-            int randomIndex = randomBetween(0, legitimateMessages.size());
-            Goose replayMessage = legitimateMessages.get(randomIndex);
+            // Pickups one old GOOSE randomly
+            int randomIndex = randomBetween(0, legitimateMessages.size() - 1);
+            Goose replayMessage = legitimateMessages.get(randomIndex).copy();
             replayMessage.label = DatasetWritter.label[2];  // label it as inverse replay (uc02)
 
             // Wait until the status changes
             for (int nextLegitimateIndex = randomIndex + 1; nextLegitimateIndex < legitimateMessages.size(); nextLegitimateIndex++) {
-                if (replayMessage.getCbStatus() != legitimateMessages.get(nextLegitimateIndex).getCbStatus()) {
+                if (replayMessage.getCbStatus() != legitimateMessages.get(nextLegitimateIndex).copy().getCbStatus()) {
                     // transmit the malicious message at an inverse status, after the next legitimate message
-                    Goose nextLegitimateGoose = legitimateMessages.get(nextLegitimateIndex);
-                    replayMessage.setTimestamp(nextLegitimateGoose.getTimestamp() + timeTakenByAttacker);
-                    ied.addMessage(replayMessage);
+                    Goose nextLegitimateGoose = legitimateMessages.get(nextLegitimateIndex).copy();
+
+                    replayMessage.setTimestamp(nextLegitimateGoose.getTimestamp());
+                    ied.addMessage(replayMessage.copy());
                 }
             }
         }

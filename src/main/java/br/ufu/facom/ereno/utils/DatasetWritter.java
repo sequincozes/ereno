@@ -444,7 +444,10 @@ public class DatasetWritter {
         int stDiff = gm.getStNum() - prev.getStNum();
         int sqDiff = gm.getSqNum() - prev.getSqNum();
         int gooseLenghtDiff = gm.getGooseLen() - prev.getGooseLen();
-        int cbStatusDiff = gm.isCbStatus() - prev.isCbStatus();
+        int cbStatusDiff = 0;
+        if (gm.isCbStatus() != prev.isCbStatus()) {
+            cbStatusDiff = 1; // has a status change
+        }
         int apduSizeDiff = gm.getApduSize() - prev.getApduSize();
         int frameLenthDiff = gm.getFrameLen() - prev.getFrameLen();
         double timestampDiff = gm.getTimestamp() - prev.getTimestamp();

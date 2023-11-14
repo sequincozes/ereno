@@ -26,9 +26,9 @@ public class MultiSource {
 
     public static void main(String[] args) throws Exception {
         init();
-        numberOfMessages = 1000;
+        numberOfMessages = 100;
         twoDevices("train", numberOfMessages);
-        numberOfMessages = 10000;
+        numberOfMessages = 100;
         twoDevices("test", numberOfMessages);
         DatasetEval.runWithoutCV();
 
@@ -48,7 +48,7 @@ public class MultiSource {
         System.out.println("-----------------");
         MultiSource.run = "runUC01";
         runUC01(protectionIED, mu);
-//        runUC02(protectionIED, mu);
+//        runUC02(protectionIED, mu); // parei aqui
 //        runUC03(protectionIED, mu);
 //        runUC04(protectionIED, mu);
 //        runUC05(protectionIED, mu);

@@ -112,7 +112,7 @@ public class GeneralParameters {
             GenericClassifiers.RANDOM_FOREST
     };
 
-    public static ClassifierExtended SINGLE_CLASSIFIER_MODE = GenericClassifiers.J48;
+    public static ClassifierExtended SINGLE_CLASSIFIER_MODE = GenericClassifiers.NAIVE_BAYES;
 
     public static final boolean VERBOSO = true;
 

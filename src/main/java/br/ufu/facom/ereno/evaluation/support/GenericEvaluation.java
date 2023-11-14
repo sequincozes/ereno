@@ -129,6 +129,7 @@ public class GenericEvaluation {
     }
 
     public static GenericResultado runSingleClassifierJ48(Instances train, Instances test) throws Exception {
+        GeneralParameters.SINGLE_CLASSIFIER_MODE = GenericClassifiers.J48;
         ClassifierExtended classififer = GeneralParameters.SINGLE_CLASSIFIER_MODE;
         GenericResultado r = testaEssaGaleraJ48(classififer, train, test);
 

@@ -38,7 +38,7 @@ public class RandomReplayCreator implements MessageCreator {
 
         for (int i = 0; i < numReplayInstances; i++) {
             // Pickups one old GOOSE randomly
-            int randomIndex = randomBetween(0, legitimateMessages.size()-1);
+            int randomIndex = randomBetween(0, legitimateMessages.size() - 1);
             Goose randomGoose = legitimateMessages.get(randomIndex).copy();
             Logger.getLogger("RandomReplayCreator").info("Captured the legitimate message at " + randomGoose.getTimestamp());
             randomGoose.label = DatasetWritter.label[1]; // label it as random replay (uc01)
@@ -47,16 +47,14 @@ public class RandomReplayCreator implements MessageCreator {
 //            Goose lastLegitimateGoose = legitimateMessages.get(legitimateMessages.size() - 1);
 
             // Randomize the time taken by an attacker
-            timeTakenByAttacker = (float) (randomBetween(100F, 10000F) / 1000);
+            timeTakenByAttacker = (float) (randomBetween(100F, 100000F) / 1000);
 
             // Other strategy: assumes the random replay was close to the original one:
             randomGoose.setTimestamp(randomGoose.getTimestamp() + timeTakenByAttacker);
             Logger.getLogger("RandomReplayCreator").info("Sent the replay message at " + randomGoose.getTimestamp() + "(time taken by attaker: " + timeTakenByAttacker + ")");
 
             // Send back the random replayed message to ReplayerIED
-            ied.addMessage(randomGoose.copy()
-            );
-
+            ied.addMessage(randomGoose.copy());
         }
 
     }

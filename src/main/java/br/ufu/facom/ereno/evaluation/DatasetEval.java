@@ -1,6 +1,7 @@
 package br.ufu.facom.ereno.evaluation;
 
 import br.ufu.facom.ereno.evaluation.support.GeneralParameters;
+import br.ufu.facom.ereno.evaluation.support.GenericClassifiers;
 import br.ufu.facom.ereno.evaluation.support.GenericEvaluation;
 import br.ufu.facom.ereno.evaluation.support.Util;
 import weka.core.Instances;
@@ -23,5 +24,7 @@ public class DatasetEval {
         test.setClassIndex(test.numAttributes() - 1);
 
         GenericEvaluation.runSingleClassifierJ48(train, train);
+//        GeneralParameters.SINGLE_CLASSIFIER_MODE = GenericClassifiers.J48;
+//    GenericEvaluation.runSingleClassifier(train, test);
     }
 }
