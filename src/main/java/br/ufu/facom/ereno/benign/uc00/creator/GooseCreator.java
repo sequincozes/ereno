@@ -21,6 +21,7 @@ public class GooseCreator implements MessageCreator {
     private ProtectionIED protectionIED;
     private Goose previousGoose;
     private String label;
+    private Goose seedMessage;
 
     public GooseCreator(String label) {
         this.label = label;
@@ -31,7 +32,7 @@ public class GooseCreator implements MessageCreator {
         this.protectionIED = (ProtectionIED) ied;
         this.count = normalMessages;
 
-        int faultprobability = 5;
+        int faultProbability = 5;
 
         // Generating the default seed message (it will not be written to dataset)
         generateSeedGoose();
@@ -39,7 +40,7 @@ public class GooseCreator implements MessageCreator {
         // Generate faults and normal randomly
         while (((ProtectionIED) ied).getMessages().size() < normalMessages) {
             int percentage = ied.randomBetween(1, 100); // decide whether it will be fault or normal
-            if (percentage > faultprobability) {
+            if (percentage > faultProbability) {
                 generateNormalGoose();
             } else { // Generates fault and recovery events
                 generateFaultAndRecovery();
@@ -49,13 +50,11 @@ public class GooseCreator implements MessageCreator {
 
     private void generateFaultAndRecovery() {
         double lastPeriodicMessage = protectionIED.getMessages().get(protectionIED.getNumberOfMessages() - 1).getTimestamp();
-        reportEventAt(lastPeriodicMessage + 0.5); // fault at middle of the second
-        System.out.println("Reportou uma falta em " + lastPeriodicMessage + 0.5);
+        reportEventAt(((int) lastPeriodicMessage) + 0.5); // fault at middle of the second
         Logger.getLogger("ProtectionIED.run()").info("Reporting fault at " + lastPeriodicMessage + 0.5);
         protectionIED.getMessages().remove(protectionIED.getNumberOfMessages() - 1); // need to remove the message after 100ms
-        reportEventAt(lastPeriodicMessage + 0.6); // fault recovery 100ms later
-        System.out.println("Reportou uma reestabelecimento em " + lastPeriodicMessage + 0.5);
-        Logger.getLogger("ProtectionIED.run()").info("Reporting normal operation at " + lastPeriodicMessage + 0.5);
+        reportEventAt(((int) lastPeriodicMessage) + 0.6); // fault recovery 100ms later
+        Logger.getLogger("ProtectionIED.run()").info("Reporting normal operation at " + (((int) lastPeriodicMessage) + 0.6));
     }
 
     private void generateNormalGoose() {
@@ -70,18 +69,13 @@ public class GooseCreator implements MessageCreator {
                     this.label);
             protectionIED.addMessage(periodicGoose);
             previousGoose = periodicGoose.copy();
-//                System.out.println(i + " - GOOSE sq(" + periodicGoose.getSqNum() + "/st" + periodicGoose.getStNum() + ") em " + periodicGoose.getTimestamp() + "(T: " + periodicGoose.getT() + ")");
-
-        } else if (protectionIED.getNumberOfMessages() > 0) {
-            previousGoose = protectionIED.copyMessages().get(protectionIED.getNumberOfMessages() - 1).copy();
         } else {
             throw new IllegalArgumentException("There must be a pseudo message. Please call generateSeedGoose() before.");
         }
-        System.out.println("Initial CBStatus: " + protectionIED.isInitialCbStatus());
     }
 
     private void generateSeedGoose() {
-        System.out.println("protectionIED.isInitialCbStatus(): "+protectionIED.isInitialCbStatus());
+        System.out.println("protectionIED.isInitialCbStatus(): " + protectionIED.isInitialCbStatus());
         previousGoose = new Goose(
                 protectionIED.toInt(protectionIED.isInitialCbStatus()),
                 protectionIED.getInitialStNum(),
@@ -89,8 +83,7 @@ public class GooseCreator implements MessageCreator {
                 protectionIED.getFirstGooseTime() + protectionIED.getInitialTimestamp() - 1, // simulates a previous message timestamp
                 protectionIED.getFirstGooseTime(),
                 this.label);
-        System.out.println("Seed=> StNum: " + previousGoose.getStNum() + " / " + previousGoose.getCbStatus());
-        System.exit(0);
+        seedMessage = previousGoose.copy();
     }
 
     private double getNetworkDelay() {
@@ -110,7 +103,7 @@ public class GooseCreator implements MessageCreator {
         protectionIED.setInitialCbStatus(!protectionIED.isInitialCbStatus());
         protectionIED.setInitialStNum(protectionIED.getInitialStNum() + 1);
 
-        int sqNum = 0;
+        int sqNum = 1;
         double t = eventTimestamp + protectionIED.getDelayFromEvent(); // new t
         double timestamp = t; // timestamp
 
@@ -150,4 +143,7 @@ public class GooseCreator implements MessageCreator {
         }
     }
 
+    public Goose getSeedMessage() {
+        return this.seedMessage;
+    }
 }

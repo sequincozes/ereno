@@ -44,9 +44,11 @@ public class MultiSource {
         // Generating SV messages
         MergingUnit mu = runMU();
         LegitimateProtectionIED protectionIED = runUC00(mu);
+
         // Generating GOOSE attacks
         System.out.println("-----------------");
         runUC01(protectionIED, mu);
+
 //        runUC02(protectionIED, mu);
 //        runUC03(protectionIED, mu); // parei aqui
 //        runUC04(protectionIED, mu);
@@ -72,7 +74,7 @@ public class MultiSource {
         uc00.setInitialTimestamp(mu.getInitialTimestamp());
         Logger.getLogger("RunUC00").info("mu.getOffset(): " + mu.getInitialTimestamp());
         uc00.run(numberOfMessages);
-        int qtdNormal00 = writeNormal(uc00.copyMessages(), mu.getMessages(), true);
+        int qtdNormal00 = writeNormal(uc00.getSeedMessage(), uc00.copyMessages(), mu.getMessages(), true);
         Logger.getLogger("MultiSource").info("Writting " + qtdNormal00 + " legitimate (UC00) messages to dataset.");
         return uc00;
     }
@@ -95,7 +97,7 @@ public class MultiSource {
         FakeFaultMasqueratorIED uc03 = new FakeFaultMasqueratorIED(uc00);
         uc03.run(numberOfMessages);
 //        int qtdMarquerade03 = writeGOOSEAtkWithSVToFile(uc00, uc03.getMasqueradeMessages(), mu.getMessages(), false);
-        int qtdMarquerade03 = writeNormal(uc03.getMessages(), mu.getMessages(), false);
+        int qtdMarquerade03 = writeMasquerade(uc03.getMessages(), mu.getMessages(), false);
         Logger.getLogger("MultiSource").info("Writting " + qtdMarquerade03 + "  masquerade (UC03)  messages to dataset.");
     }
 

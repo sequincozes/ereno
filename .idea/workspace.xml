@@ -12,14 +12,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Masquerade fake fault has periodic messages too. Randomizing the previous message between the two halves (top and bottom) to better balance the moment where the attack takes place.">
+    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="Adjusts in normal use case (uc00);">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/GooseCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/creator/GooseCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/LegitimateProtectionIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/LegitimateProtectionIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/general/ProtectionIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/general/ProtectionIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/ecf/goose-flow.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ecf/goose-flow.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/ecf/original_attacks.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/ecf/original_attacks.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/GSVDatasetWritter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/GSVDatasetWritter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -361,7 +359,7 @@
       <workItem from="1699997821760" duration="6000" />
       <workItem from="1700017423021" duration="1515000" />
       <workItem from="1700020812617" duration="11189000" />
-      <workItem from="1700063585615" duration="5685000" />
+      <workItem from="1700063585615" duration="9217000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -706,7 +704,7 @@
       <option name="project" value="LOCAL" />
       <updated>1685733209617</updated>
     </task>
-    <option name="localTasksCounter" value="63" />
+    <option name="localTasksCounter" value="64" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -725,7 +723,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Inner class for ECF file: done for all files." />
     <MESSAGE value="Creating english version; &#10;UIs done (/en); &#10;Todo: save in the session the selected language and redirect the servlet to the corresponding page languages." />
     <MESSAGE value="Refactoring legacy UC02 to novel architecture." />
     <MESSAGE value="Refactoring legacy UC02 to novel architecture (updates on UC00 and UC01)." />
@@ -750,14 +747,15 @@
     <MESSAGE value="UC02 Tested and Checked. Testing UC03." />
     <MESSAGE value="All attacker devices are now extending a ProtectionIED.java." />
     <MESSAGE value="Masquerade fake fault has periodic messages too. Randomizing the previous message between the two halves (top and bottom) to better balance the moment where the attack takes place." />
-    <option name="LAST_COMMIT_MESSAGE" value="Masquerade fake fault has periodic messages too. Randomizing the previous message between the two halves (top and bottom) to better balance the moment where the attack takes place." />
+    <MESSAGE value="Adjusts in normal use case (uc00);" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adjusts in normal use case (uc00);" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java</url>
-          <line>62</line>
+          <line>64</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">

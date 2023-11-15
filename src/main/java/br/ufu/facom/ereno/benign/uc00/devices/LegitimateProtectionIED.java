@@ -32,21 +32,12 @@ public class LegitimateProtectionIED extends ProtectionIED {
     public static double delayFromEvent = 0.00631;
     double firstGooseTime = 0.01659;
 
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
     double initialBackoffInterval = 6.33000000000011f; // IED processing time
     double minTime = Integer.parseInt(SetupIED.ECF.minTime);
     long maxTime = Integer.parseInt(SetupIED.ECF.maxTime);
     private boolean initialCbStatus = GooseFlow.ECF.cbstatus;
 
     protected ArrayList<Goose> messages;
-    private String label = "normal";
 
     @Override
     public void enableRandomOffsets(int max) {
@@ -58,7 +49,7 @@ public class LegitimateProtectionIED extends ProtectionIED {
     @Override
     public void run(int normalMessages) {
         // Here we set the GooseCreator for creating GOOSE messages for ProtectionIED
-        messageCreator = new GooseCreator(label);
+        messageCreator = new GooseCreator(getLabel());
         messageCreator.generate(this, normalMessages);
     }
 
@@ -191,9 +182,8 @@ public class LegitimateProtectionIED extends ProtectionIED {
         for (Goose originalGoose : messages) {
             copied.add(originalGoose.copy());
         }
-//        copied.remove(0);
+
         if (messages.equals(copied)) {
-//            throw new IllegalArgumentException("Messages are not copied! Message 0 timestamp (messages):" + messages.get(0).getTimestamp() + " == (copied):" + copied.get(0).getTimestamp());
             throw new IllegalArgumentException("Messages are not copied! Message 0 timestamp (messages):" + messages + " == (copied):" + copied);
         }
         return copied;
@@ -257,4 +247,7 @@ public class LegitimateProtectionIED extends ProtectionIED {
     }
 
 
+    public Goose getSeedMessage() {
+       return ((GooseCreator) messageCreator).getSeedMessage();
+    }
 }
