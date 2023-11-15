@@ -10,14 +10,12 @@ import br.ufu.facom.ereno.messages.Goose;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-public class HighStNumInjectorIED extends IED {
-    protected ArrayList<Goose> injectedMessages; // The generated messages will be stored here
-
+public class HighStNumInjectorIED extends ProtectionIED {
     ProtectionIED legitimateIED; // injector IED will inject messages between the legitimate ones
 
     public HighStNumInjectorIED(ProtectionIED legitimate) {
+        super();
         this.legitimateIED = legitimate;
-        injectedMessages = new ArrayList<>();
     }
 
     @Override
@@ -28,16 +26,4 @@ public class HighStNumInjectorIED extends IED {
         messageCreator.generate(this, injectionMessages); // pass itself to receive messages from generator
     }
 
-    @Override
-    public void addMessage(EthernetFrame message) {
-        if(GooseFlow.ECF.numberOfMessages>=injectedMessages.size())injectedMessages.add((Goose) message);
-    }
-
-    public ArrayList<Goose> getInjectedMessages() {
-        return this.injectedMessages;
-    }
-
-    public int getNumberOfMessages() {
-        return getInjectedMessages().size();
-    }
 }

@@ -1,17 +1,14 @@
 package br.ufu.facom.ereno.utils;
 
 import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
+import br.ufu.facom.ereno.featureEngineering.ProtocolCorrelation;
 import br.ufu.facom.ereno.messages.Goose;
 import br.ufu.facom.ereno.messages.Sv;
-import br.ufu.facom.ereno.featureEngineering.ProtocolCorrelation;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.logging.Logger;
-
-import static br.ufu.facom.ereno.api.GooseFlow.ECF.numberOfMessages;
 
 public class DatasetWritter {
     static BufferedWriter bw;
@@ -88,52 +85,6 @@ public class DatasetWritter {
 //                    write(gm.getTimestamp() + "|" + sv.getTime() + "| CBStatus");
             }
         }
-    }
-
-    public static int writeGOOSEwithSVNormalToFile(ArrayList<Goose> gooseMessages, ArrayList<Sv> svMessages, boolean printHeader) throws IOException {
-        /* Write Header and Columns */
-        if (printHeader) {
-            writeTwoDevicesHeader();
-        }
-
-        /* Write Payload */
-        Goose prev = null;
-        int messagesWritten = 0;
-        for (Goose gm : gooseMessages) {
-            if (prev != null) { // skips the first message
-                Sv sv = ProtocolCorrelation.getCorrespondingSV(svMessages, gm);
-                writeToDataset(svMessages, prev, gm, sv);
-                messagesWritten += 1;
-            }
-            prev = gm.copy();
-        }
-        return messagesWritten;
-    }
-
-    public static int writeGOOSEAtkWithSVToFile(ProtectionIED legitimateIED, ArrayList<Goose> attackMessages, ArrayList<Sv> svMessages, boolean printHeader) throws IOException {
-        /* Write Header and Columns */
-        if (printHeader) {
-            writeTwoDevicesHeader();
-        }
-
-        /* Write Payload */
-
-        for (int i = 0; i < attackMessages.size(); i++) {
-            Goose attack = attackMessages.get(i);
-            Goose prev = legitimateIED.getLastGooseFromTime(attackMessages.get(i).getTimestamp());
-            Sv sv;
-            if (i <= numberOfMessages) {
-                if (prev != null) { // skips the first message
-                    sv = ProtocolCorrelation.getCorrespondingSV(svMessages, attack);
-                    writeToDataset(svMessages, prev, attack, sv);
-                }
-                prev = attack.copy();
-            } else {
-                Logger.getLogger("Util").warning("Skipping " + (attackMessages.size() - numberOfMessages) + " malicious messages to make it balanced with normal class.");
-                return i;
-            }
-        }
-        return attackMessages.size();
     }
 
     public void writeSVWithGOOSEAtkToFile(ArrayList<Goose> legitimateMessages, ArrayList<Goose> attackMessages, ArrayList<Sv> svMessages, boolean printHeader) throws IOException {

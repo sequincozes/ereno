@@ -17,7 +17,7 @@ import br.ufu.facom.ereno.attacks.uc01.devices.RandomReplayerIED;
 import java.io.*;
 import java.util.logging.Logger;
 
-import static br.ufu.facom.ereno.utils.DatasetWritter.*;
+import static br.ufu.facom.ereno.utils.GSVDatasetWritter.*;
 
 public class SingleSource {
 
@@ -71,7 +71,7 @@ public class SingleSource {
         if (Attacks.ECF.randomReplay) {
             uc01 = new RandomReplayerIED(uc00);
             uc01.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc01.getReplayedMessages(), false);
+            writeGooseMessagesToFile(uc01.getMessages(), false);
             totalMessageCount = totalMessageCount + uc01.getNumberOfMessages();
         }
 
@@ -79,7 +79,7 @@ public class SingleSource {
         if (Attacks.ECF.inverseReplay) {
             uc02 = new InverseReplayerIED(uc00);
             uc02.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc02.getReplayedMessages(), false);
+            writeGooseMessagesToFile(uc02.getMessages(), false);
             totalMessageCount = totalMessageCount + uc02.getNumberOfMessages();
         }
 
@@ -87,7 +87,7 @@ public class SingleSource {
         if (Attacks.ECF.masqueradeOutage) {
             uc03 = new FakeFaultMasqueratorIED(uc00);
             uc03.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc03.getMasqueradeMessages(), false);
+            writeGooseMessagesToFile(uc03.getMessages(), false);
             totalMessageCount = totalMessageCount + uc03.getNumberOfMessages();
         }
 
@@ -95,7 +95,7 @@ public class SingleSource {
         if (Attacks.ECF.masqueradeDamage) {
             uc04 = new FakeNormalMasqueratorIED(uc00);
             uc04.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc04.getMasqueradeMessages(), false);
+            writeGooseMessagesToFile(uc04.getMessages(), false);
             totalMessageCount = totalMessageCount + uc04.getNumberOfMessages();
         }
 
@@ -103,7 +103,7 @@ public class SingleSource {
         if (Attacks.ECF.randomInjection) {
             uc05 = new InjectorIED(uc00);
             uc05.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc05.getInjectedMessages(), false);
+            writeGooseMessagesToFile(uc05.getMessages(), false);
             totalMessageCount = totalMessageCount + uc05.getNumberOfMessages();
         }
 
@@ -111,7 +111,7 @@ public class SingleSource {
         if (Attacks.ECF.highStNum) {
             uc06 = new HighStNumInjectorIED(uc00);
             uc06.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc06.getInjectedMessages(), false);
+            writeGooseMessagesToFile(uc06.getMessages(), false);
             totalMessageCount = totalMessageCount + uc06.getNumberOfMessages();
         }
 
@@ -119,7 +119,7 @@ public class SingleSource {
         if (Attacks.ECF.flooding) {
             uc07 = new HighRateStNumInjectorIED(uc00);
             uc07.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc07.getInjectedMessages(), false);
+            writeGooseMessagesToFile(uc07.getMessages(), false);
             totalMessageCount = totalMessageCount + uc07.getNumberOfMessages();
         }
 
@@ -128,7 +128,7 @@ public class SingleSource {
             uc08 = new GrayHoleVictimIED(uc00);
 //            uc08.run(GooseFlow.ECF.numberOfMessages);
             uc08.run(20);
-            writeGooseMessagesToFile(uc08.getNonDiscardedMessages(), false);
+            writeGooseMessagesToFile(uc08.getMessages(), false);
             totalMessageCount = totalMessageCount + uc08.getNumberOfMessages();
         }
 
@@ -163,7 +163,7 @@ public class SingleSource {
         if (Attacks.ECF.randomReplay) {
             uc01 = new RandomReplayerIED(uc00);
             uc01.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc01.getReplayedMessages(), false);
+            writeGooseMessagesToFile(uc01.getMessages(), false);
             totalMessageCount = totalMessageCount + uc01.getNumberOfMessages();
         }
 
@@ -171,7 +171,7 @@ public class SingleSource {
         if (Attacks.ECF.inverseReplay) {
             uc02 = new InverseReplayerIED(uc00);
             uc02.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc02.getReplayedMessages(), false);
+            writeGooseMessagesToFile(uc02.getMessages(), false);
             totalMessageCount = totalMessageCount + uc02.getNumberOfMessages();
         }
 
@@ -179,7 +179,7 @@ public class SingleSource {
         if (Attacks.ECF.masqueradeOutage) {
             uc03 = new FakeFaultMasqueratorIED(uc00);
             uc03.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc03.getMasqueradeMessages(), false);
+            writeGooseMessagesToFile(uc03.getMessages(), false);
             totalMessageCount = totalMessageCount + uc03.getNumberOfMessages();
         }
 
@@ -187,7 +187,7 @@ public class SingleSource {
         if (Attacks.ECF.masqueradeDamage) {
             uc04 = new FakeNormalMasqueratorIED(uc00);
             uc04.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc04.getMasqueradeMessages(), false);
+            writeGooseMessagesToFile(uc04.getMessages(), false);
             totalMessageCount = totalMessageCount + uc04.getNumberOfMessages();
         }
 
@@ -195,7 +195,7 @@ public class SingleSource {
         if (Attacks.ECF.randomInjection) {
             uc05 = new InjectorIED(uc00);
             uc05.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc05.getInjectedMessages(), false);
+            writeGooseMessagesToFile(uc05.getMessages(), false);
             totalMessageCount = totalMessageCount + uc05.getNumberOfMessages();
         }
 
@@ -203,7 +203,7 @@ public class SingleSource {
         if (Attacks.ECF.highStNum) {
             uc06 = new HighStNumInjectorIED(uc00);
             uc06.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc06.getInjectedMessages(), false);
+            writeGooseMessagesToFile(uc06.getMessages(), false);
             totalMessageCount = totalMessageCount + uc06.getNumberOfMessages();
         }
 
@@ -211,7 +211,7 @@ public class SingleSource {
         if (Attacks.ECF.flooding) {
             uc07 = new HighRateStNumInjectorIED(uc00);
             uc07.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc07.getInjectedMessages(), false);
+            writeGooseMessagesToFile(uc07.getMessages(), false);
             totalMessageCount = totalMessageCount + uc07.getNumberOfMessages();
         }
 
@@ -220,7 +220,7 @@ public class SingleSource {
             uc08 = new GrayHoleVictimIED(uc00);
 //            uc08.run(GooseFlow.ECF.numberOfMessages);
             uc08.run(20);
-            writeGooseMessagesToFile(uc08.getNonDiscardedMessages(), false);
+            writeGooseMessagesToFile(uc08.getMessages(), false);
             totalMessageCount = totalMessageCount + uc08.getNumberOfMessages();
         }
 

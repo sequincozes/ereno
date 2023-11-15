@@ -6,7 +6,6 @@
 package br.ufu.facom.ereno.benign.uc00.devices;
 
 
-import br.ufu.facom.ereno.MultiSource;
 import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.api.SetupIED;
 import br.ufu.facom.ereno.benign.uc00.creator.GooseCreator;
@@ -71,17 +70,15 @@ public class ProtectionIED extends IED {
             Logger.getLogger("ProtectionIED.run()").info("Reporting normal operation at " + lastPeriodicMessage + 0.5);
         }
 
-        while (messages.size()-1 > numberOfPeriodicMessages) {
-            messages.remove(messages.size()-1);
+        while (messages.size() - 1 > numberOfPeriodicMessages) {
+            messages.remove(messages.size() - 1);
         }
     }
 
     @Override
     public void addMessage(EthernetFrame periodicGoose) {
-        if (((Goose) periodicGoose).getTimestamp() < 0) {
-            throw new IllegalArgumentException("The GOOSE message has a negative timestamp");
-        }
-        this.messages.add((Goose) periodicGoose);
+        if (GooseFlow.ECF.numberOfMessages >= messages.size())
+            this.messages.add((Goose) periodicGoose);
     }
 
 

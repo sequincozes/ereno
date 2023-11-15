@@ -1,6 +1,6 @@
 <%@ page import="br.ufu.facom.ereno.api.Attacks" %>
 <%@ page import="br.ufu.facom.ereno.SingleSource" %>
-<%@ page import="br.ufu.facom.ereno.utils.DatasetWritter" %>
+<%@ page import="br.ufu.facom.ereno.utils.GSVDatasetWritter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -62,7 +62,7 @@
             <li class="nav-item dropdown pe-3">
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="en/attack-definitions.jsp">
                     <img src="assets/img/en-pt.png" alt="Language" class="rounded-circle">
-                    <div style="display: none;"><%=DatasetWritter.english = false%>
+                    <div style="display: none;"><%=GSVDatasetWritter.english = false%>
                     </div>
                 </a>
             </li><!-- End Profile Nav -->

@@ -5,8 +5,7 @@
  */
 package br.ufu.facom.ereno.benign.uc00.creator;
 
-import br.ufu.facom.ereno.evaluation.support.Util;
-import br.ufu.facom.ereno.utils.DatasetWritter;
+import br.ufu.facom.ereno.utils.GSVDatasetWritter;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;
 import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
 import br.ufu.facom.ereno.messages.Goose;
@@ -72,7 +71,7 @@ public class GooseCreator implements MessageCreator {
         // I think this will not be more necessary because I'm removing additional messages manually
 //        removeMessagesAfterEvent(eventTimestamp); // cancel programmed messages to replace them by a bursting
 
-        if (DatasetWritter.Debug.gooseMessages) {
+        if (GSVDatasetWritter.Debug.gooseMessages) {
             Logger.getLogger("GooseCreator").log(Level.INFO, "Reporting an event at " + eventTimestamp + "!");
         }
 

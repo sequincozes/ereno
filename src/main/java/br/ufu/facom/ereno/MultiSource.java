@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 import static br.ufu.facom.ereno.api.GooseFlow.ECF.numberOfMessages;
-import static br.ufu.facom.ereno.utils.DatasetWritter.*;
+import static br.ufu.facom.ereno.utils.GSVDatasetWritter.*;
 
 public class MultiSource {
 
@@ -68,9 +68,9 @@ public class MultiSource {
     public static ProtectionIED runUC00(MergingUnit mu) throws IOException {
         ProtectionIED uc00 = new ProtectionIED();
         uc00.setInitialTimestamp(mu.getInitialTimestamp());
-        Logger.getLogger("RunUC00").info("mu.getOffset(): "+mu.getInitialTimestamp());
+        Logger.getLogger("RunUC00").info("mu.getOffset(): " + mu.getInitialTimestamp());
         uc00.run(numberOfMessages);
-        int qtdNormal00 = writeGOOSEwithSVNormalToFile(uc00.copyMessages(), mu.getMessages(), true);
+        int qtdNormal00 = writeNormal(uc00.copyMessages(), mu.getMessages(), true);
         Logger.getLogger("MultiSource").info("Writting " + qtdNormal00 + " legitimate (UC00) messages to dataset.");
         return uc00;
     }
@@ -78,49 +78,50 @@ public class MultiSource {
     public static void runUC01(ProtectionIED uc00, MergingUnit mu) throws IOException {
         RandomReplayerIED uc01 = new RandomReplayerIED(uc00);
         uc01.run(numberOfMessages);
-        int qtdReplay01 = writeGOOSEAtkWithSVToFile(uc00, uc01.getReplayedMessages(), mu.getMessages(), false);
+        int qtdReplay01 = writeAttack(uc00, uc01, mu, false);
         Logger.getLogger("MultiSource").info("Writting " + qtdReplay01 + " replayed (UC01) messages to dataset.");
     }
 
     public static void runUC02(ProtectionIED uc00, MergingUnit mu) throws IOException {
         InverseReplayerIED uc02 = new InverseReplayerIED(uc00);
         uc02.run(numberOfMessages);
-        int qtdReplay02 = writeGOOSEAtkWithSVToFile(uc00, uc02.getReplayedMessages(), mu.getMessages(), false);
+        int qtdReplay02 = writeAttack(uc00, uc02, mu, false);
         Logger.getLogger("MultiSource").info("Writting " + qtdReplay02 + "  replayed (UC02) messages to dataset.");
     }
 
     public static void runUC03(ProtectionIED uc00, MergingUnit mu) throws IOException {
         FakeFaultMasqueratorIED uc03 = new FakeFaultMasqueratorIED(uc00);
         uc03.run(numberOfMessages - 1);
-        int qtdMarquerade03 = writeGOOSEAtkWithSVToFile(uc00, uc03.getMasqueradeMessages(), mu.getMessages(), false);
+//        int qtdMarquerade03 = writeGOOSEAtkWithSVToFile(uc00, uc03.getMasqueradeMessages(), mu.getMessages(), false);
+        int qtdMarquerade03 = writeNormal(uc03.getMessages(), mu.getMessages(), false);
         Logger.getLogger("MultiSource").info("Writting " + qtdMarquerade03 + "  masquerade (UC03)  messages to dataset.");
     }
 
     public static void runUC04(ProtectionIED uc00, MergingUnit mu) throws IOException {
         FakeNormalMasqueratorIED uc04 = new FakeNormalMasqueratorIED(uc00);
         uc04.run(numberOfMessages - 1);
-        int qtdMarquerade04 = writeGOOSEAtkWithSVToFile(uc00, uc04.getMasqueradeMessages(), mu.getMessages(), false);
+        int qtdMarquerade04 = writeAttack(uc00, uc04, mu, false);
         Logger.getLogger("MultiSource").info("Writting " + qtdMarquerade04 + " masquerade (UC04) messages to dataset.");
     }
 
     public static void runUC05(ProtectionIED uc00, MergingUnit mu) throws IOException {
         InjectorIED uc05 = new InjectorIED(uc00);
         uc05.run(numberOfMessages);
-        int qtdInjection05 = writeGOOSEAtkWithSVToFile(uc00, uc05.getInjectedMessages(), mu.getMessages(), false);
+        int qtdInjection05 = writeAttack(uc00, uc05, mu, false);
         Logger.getLogger("MultiSource").info("Writting " + qtdInjection05 + " injected (UC05) messages to dataset.");
     }
 
     public static void runUC06(ProtectionIED uc00, MergingUnit mu) throws IOException {
         HighStNumInjectorIED uc06 = new HighStNumInjectorIED(uc00);
         uc06.run(numberOfMessages);
-        int qtdInjection06 = writeGOOSEAtkWithSVToFile(uc00, uc06.getInjectedMessages(), mu.getMessages(), false);
+        int qtdInjection06 = writeAttack(uc00, uc06, mu, false);
         Logger.getLogger("MultiSource").info("Writting " + qtdInjection06 + " injected (UC06) messages to dataset.");
     }
 
     public static void runUC07(ProtectionIED uc00, MergingUnit mu) throws IOException {
         HighRateStNumInjectorIED uc07 = new HighRateStNumInjectorIED(uc00);
         uc07.run(numberOfMessages);
-        int qtdInjection07 = writeGOOSEAtkWithSVToFile(uc00, uc07.getInjectedMessages(), mu.getMessages(), false);
+        int qtdInjection07 = writeAttack(uc00, uc07, mu, false);
         Logger.getLogger("MultiSource").info("Writting " + qtdInjection07 + " injected (UC07) messages to dataset.");
     }
 
@@ -130,7 +131,7 @@ public class MultiSource {
         uc00forGrayhole.run((int) (numberOfMessages * 1.2)); // generate more because it discards
         GrayHoleVictimIED uc08 = new GrayHoleVictimIED(uc00forGrayhole);
         uc08.run(80);
-        int qtdGrayhole08 = writeGOOSEAtkWithSVToFile(uc00, uc08.getNonDiscardedMessages(), mu.getMessages(), false);
+        int qtdGrayhole08 = writeAttack(uc00, uc08, mu, false);
         Logger.getLogger("MultiSource").info("Writting " + qtdGrayhole08 + " gryhole (UC08) messages to dataset.");
     }
 

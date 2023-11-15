@@ -1,6 +1,6 @@
 <%@ page import="br.ufu.facom.ereno.api.SetupIED" %>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="br.ufu.facom.ereno.utils.DatasetWritter" %>
+<%@ page import="br.ufu.facom.ereno.utils.GSVDatasetWritter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -146,7 +146,7 @@
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="en/" >
                     <img src="assets/img/en-pt.png" alt="Profile" class="rounded-circle">
-                    <div style="display: none;"><%=DatasetWritter.english = false%>
+                    <div style="display: none;"><%=GSVDatasetWritter.english = false%>
                     <%--
     <span class="d-none d-md-block dropdown-toggle ps-2">Silvio</span>--%>
                 </a><!-- End Profile Iamge Icon -->

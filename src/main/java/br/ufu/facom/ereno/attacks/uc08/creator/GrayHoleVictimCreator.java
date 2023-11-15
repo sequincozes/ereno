@@ -5,7 +5,7 @@
  */
 package br.ufu.facom.ereno.attacks.uc08.creator;
 
-import br.ufu.facom.ereno.utils.DatasetWritter;
+import br.ufu.facom.ereno.utils.GSVDatasetWritter;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;
 import br.ufu.facom.ereno.messages.Goose;
@@ -19,24 +19,15 @@ import static br.ufu.facom.ereno.benign.uc00.devices.IED.randomBetween;
  */
 public class GrayHoleVictimCreator implements MessageCreator {
     ArrayList<Goose> legitimateMessages;
-    private final int timeTakenByAttacker = 1;
-
-    /**
-     * @param legitimateMessages - previously generated legitimate messages
-     */
     public GrayHoleVictimCreator(ArrayList<Goose> legitimateMessages) {
         this.legitimateMessages = legitimateMessages;
     }
 
-    /**
-     * @param ied           - IED that will receive the generated messages
-     * @param selectionRate - rate of selective message discarding
-     */
     @Override
     public void generate(IED ied, int selectionRate) {
         for (Goose goose : legitimateMessages) {
             if (randomBetween(0, 100) < selectionRate) { // avoid this message to being discarded
-                goose.label = DatasetWritter.label[8]; // label it as gray hole attack (uc08)
+                goose.label = GSVDatasetWritter.label[8]; // label it as gray hole attack (uc08)
                 ied.addMessage(goose);
             }
         }

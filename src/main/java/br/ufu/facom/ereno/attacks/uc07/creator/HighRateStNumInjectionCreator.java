@@ -1,6 +1,6 @@
 package br.ufu.facom.ereno.attacks.uc07.creator;
 
-import br.ufu.facom.ereno.utils.DatasetWritter;
+import br.ufu.facom.ereno.utils.GSVDatasetWritter;
 import br.ufu.facom.ereno.api.SetupIED;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;
@@ -50,7 +50,7 @@ public class HighRateStNumInjectionCreator implements MessageCreator {
             timestamp = timestamp + randomDelay;
             stNum = stNum + 1;
             // Send the generated message to InjectorIED
-            ied.addMessage(new Goose(cbStatus, stNum, sqNum, timestamp, t, DatasetWritter.label[7]));
+            ied.addMessage(new Goose(cbStatus, stNum, sqNum, timestamp, t, GSVDatasetWritter.label[7]));
         }
 
     }

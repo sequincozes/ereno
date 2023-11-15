@@ -7,6 +7,7 @@ package br.ufu.facom.ereno.benign.uc00.devices;
 
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 import br.ufu.facom.ereno.messages.EthernetFrame;
+import br.ufu.facom.ereno.messages.Goose;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -57,4 +58,5 @@ public abstract class IED {
     public void setInitialTimestamp(float initialTimestamp) {
         this.initialTimestamp = initialTimestamp;
     }
+
 }

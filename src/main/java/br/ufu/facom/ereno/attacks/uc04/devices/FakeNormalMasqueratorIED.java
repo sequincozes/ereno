@@ -10,14 +10,12 @@ import br.ufu.facom.ereno.messages.Goose;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-public class FakeNormalMasqueratorIED extends IED { // Masquerade attacks assume the attacker have full knowledge about the victim ProtectionIED
-    protected ArrayList<Goose> masqueradeMessages; // The generated masquerade messages will be stored here
-
+public class FakeNormalMasqueratorIED extends ProtectionIED { // Masquerade attacks assume the attacker have full knowledge about the victim ProtectionIED
     ProtectionIED legitimateIED;
 
     public FakeNormalMasqueratorIED(ProtectionIED legitimate) {
+        super();
         this.legitimateIED = legitimate;
-        masqueradeMessages = new ArrayList<>();
     }
 
     @Override
@@ -28,18 +26,6 @@ public class FakeNormalMasqueratorIED extends IED { // Masquerade attacks assume
         messageCreator.generate(this, numMasqueradeInstances); // pass itself to receive messages from generator
     }
 
-    @Override
-    public void addMessage(EthernetFrame message) {
-        if(GooseFlow.ECF.numberOfMessages>=masqueradeMessages.size())masqueradeMessages.add((Goose) message);
-    }
-
-    public ArrayList<Goose> getMasqueradeMessages() {
-        return this.masqueradeMessages;
-    }
-
-    public int getNumberOfMessages() {
-        return masqueradeMessages.size();
-    }
 
     public ProtectionIED getLegitimateIED() {
         return this.legitimateIED;

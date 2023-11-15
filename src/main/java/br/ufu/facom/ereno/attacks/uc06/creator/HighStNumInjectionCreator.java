@@ -1,6 +1,6 @@
 package br.ufu.facom.ereno.attacks.uc06.creator;
 
-import br.ufu.facom.ereno.utils.DatasetWritter;
+import br.ufu.facom.ereno.utils.GSVDatasetWritter;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 import br.ufu.facom.ereno.benign.uc00.devices.IED;
 import br.ufu.facom.ereno.messages.Goose;
@@ -10,12 +10,10 @@ import java.util.ArrayList;
 import static br.ufu.facom.ereno.benign.uc00.devices.IED.randomBetween;
 
 public class HighStNumInjectionCreator implements MessageCreator {
-    ArrayList<Goose> legitimateMessages;
+    private final ArrayList<Goose> legitimateMessages;
 
-    /**
-     * @param legitimateMessages - previously generated legitimate messages
-     */
     public HighStNumInjectionCreator(ArrayList<Goose> legitimateMessages) {
+        super();
         this.legitimateMessages = legitimateMessages;
     }
 
@@ -33,7 +31,7 @@ public class HighStNumInjectionCreator implements MessageCreator {
             int confRev = randomBetween(0, 100);
 
             // Last Goose Message from the random time
-            Goose injectionMessage = new Goose(cbStatus, stNum, sqNum, timestamp, t, DatasetWritter.label[6]);
+            Goose injectionMessage = new Goose(cbStatus, stNum, sqNum, timestamp, t, GSVDatasetWritter.label[6]);
             injectionMessage.setSqNum(sqNum);
             injectionMessage.setStNum(stNum);
             injectionMessage.setCbStatus(cbStatus);

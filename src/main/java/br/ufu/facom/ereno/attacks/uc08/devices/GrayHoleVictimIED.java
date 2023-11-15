@@ -10,14 +10,14 @@ import br.ufu.facom.ereno.messages.Goose;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-public class GrayHoleVictimIED extends IED {  // Gray hole attackers does not have any knowledge about the victim, thus it extends a generic IED
+public class GrayHoleVictimIED extends ProtectionIED {  // Gray hole attackers does not have any knowledge about the victim, thus it extends a generic IED
 
     protected ArrayList<Goose> nonDiscardedMessages; // The messages which are not dicarded will be stored here
     ProtectionIED legitimateIED; // GrayHoleVictimIED will discard mensagens from that legitimate device
 
     public GrayHoleVictimIED(ProtectionIED legitimate) {
+        super();
         this.legitimateIED = legitimate;
-        nonDiscardedMessages = new ArrayList<>();
     }
 
     @Override
@@ -28,17 +28,4 @@ public class GrayHoleVictimIED extends IED {  // Gray hole attackers does not ha
         messageCreator.generate(this, discardingRate); // pass itself to receive messages from generator
     }
 
-    @Override
-    public void addMessage(EthernetFrame message) {
-        if (GooseFlow.ECF.numberOfMessages>=nonDiscardedMessages.size())
-            nonDiscardedMessages.add((Goose) message);
-    }
-
-    public ArrayList<Goose> getNonDiscardedMessages() {
-        return this.nonDiscardedMessages;
-    }
-
-    public int getNumberOfMessages() {
-        return getNonDiscardedMessages().size();
-    }
 }

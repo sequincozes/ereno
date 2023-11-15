@@ -1,5 +1,5 @@
 <%@ page import="java.io.File" %>
-<%@ page import="br.ufu.facom.ereno.utils.DatasetWritter" %>
+<%@ page import="br.ufu.facom.ereno.utils.GSVDatasetWritter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -61,7 +61,7 @@
             <li class="nav-item dropdown pe-3">
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="en/download-datasets.jsp">
                     <img src="assets/img/en-pt.png" alt="Language" class="rounded-circle">
-                    <div style="display: none;"><%=DatasetWritter.english = false%>
+                    <div style="display: none;"><%=GSVDatasetWritter.english = false%>
                     </div>
                 </a>
             </li><!-- End Profile Nav -->
@@ -131,7 +131,7 @@
                             <!-- Floating Labels Form -->
                             <div class="row g-3">
                                 <div class="col-md-12">
-                                    <%= DatasetWritter.listFiles(new File(application.getRealPath("/downloads"))) %>
+                                    <%= GSVDatasetWritter.listFiles(new File(application.getRealPath("/downloads"))) %>
                                 </div>
                             </div>
                         </form>
