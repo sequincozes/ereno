@@ -46,9 +46,12 @@ public class RandomReplayCreator implements MessageCreator {
             // Refresh the message timestamp
 //            Goose lastLegitimateGoose = legitimateMessages.get(legitimateMessages.size() - 1);
 
-            // Randomize the time taken by an attacker
-            timeTakenByAttacker = (float) (randomBetween(100F, 100000F) / 1000);
-
+            // Randomize the time taken by an attacker (50% chance of taking less time)
+            if (i % 2 == 0) {
+                timeTakenByAttacker = (float) (randomBetween(100F, 10000F) / 1000);
+            } else {
+                timeTakenByAttacker = (float) (randomBetween(10F, 1000F) / 1000);
+            }
             // Other strategy: assumes the random replay was close to the original one:
             randomGoose.setTimestamp(randomGoose.getTimestamp() + timeTakenByAttacker);
             Logger.getLogger("RandomReplayCreator").info("Sent the replay message at " + randomGoose.getTimestamp() + "(time taken by attaker: " + timeTakenByAttacker + ")");

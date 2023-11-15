@@ -40,10 +40,15 @@ public class GooseCreator implements MessageCreator {
         // Generate faults and normal randomly
         while (((ProtectionIED) ied).getMessages().size() < normalMessages) {
             int percentage = ied.randomBetween(1, 100); // decide whether it will be fault or normal
-            if (percentage > faultProbability) {
+            if (((ProtectionIED) ied).getMessages().size() > 0) {
+                if (percentage > faultProbability) {
+                    generateNormalGoose();
+                } else { // Generates fault and recovery events
+                    generateFaultAndRecovery();
+                }
+            } else {
+                // First message must be normal
                 generateNormalGoose();
-            } else { // Generates fault and recovery events
-                generateFaultAndRecovery();
             }
         }
     }
