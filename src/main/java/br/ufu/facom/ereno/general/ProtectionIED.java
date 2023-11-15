@@ -23,7 +23,6 @@ public class ProtectionIED extends IED {
         this.label = label;
         messages = new ArrayList<>();
     }
-
     private int initialStNum = Integer.parseInt(SetupIED.ECF.stNum);
     private int initialSqNum = Integer.parseInt(SetupIED.ECF.sqNum);
     //    static double[] burstingInterval = {0.5, 0.6}; // timestam to p (in seconds)
@@ -78,8 +77,9 @@ public class ProtectionIED extends IED {
 
     @Override
     public void addMessage(EthernetFrame periodicGoose) {
-        if (GooseFlow.ECF.numberOfMessages >= messages.size())
+        if (GooseFlow.ECF.numberOfMessages >= messages.size()){
             this.messages.add((Goose) periodicGoose);
+        }
     }
 
 
@@ -191,10 +191,10 @@ public class ProtectionIED extends IED {
     }
 
     public int toInt(boolean cbStatus) {
-        if (!cbStatus) {
-            return 0;
-        } else {
+        if (cbStatus) {
             return 1;
+        } else {
+            return 0;
         }
 
     }

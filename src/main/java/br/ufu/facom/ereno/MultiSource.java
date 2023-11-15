@@ -28,9 +28,9 @@ public class MultiSource {
 
     public static void main(String[] args) throws Exception {
         init();
-        numberOfMessages = 1000;
+        numberOfMessages = 100;
         twoDevices("train", numberOfMessages);
-        numberOfMessages = 1000;
+        numberOfMessages = 100;
         twoDevices("test", numberOfMessages);
         DatasetEval.runWithoutCV();
 
@@ -47,21 +47,21 @@ public class MultiSource {
         // Generating GOOSE attacks
         System.out.println("-----------------");
         runUC01(protectionIED, mu);
-        runUC02(protectionIED, mu);
-        runUC03(protectionIED, mu); // parei aqui
-        runUC04(protectionIED, mu);
-        runUC05(protectionIED, mu);
-        runUC06(protectionIED, mu);
-        runUC07(protectionIED, mu);
-        runUC08(protectionIED, mu);
+//        runUC02(protectionIED, mu);
+//        runUC03(protectionIED, mu); // parei aqui
+//        runUC04(protectionIED, mu);
+//        runUC05(protectionIED, mu);
+//        runUC06(protectionIED, mu);
+//        runUC07(protectionIED, mu);
+//        runUC08(protectionIED, mu);
 
         finishWriting();
 
     }
 
     public static MergingUnit runMU() {
-        MergingUnit mu = new MergingUnit(Input.electricalSourceFiles);
-//        MergingUnit mu = new MergingUnit(Input.singleElectricalSourceFile);
+//        MergingUnit mu = new MergingUnit(Input.electricalSourceFiles);
+        MergingUnit mu = new MergingUnit(Input.singleElectricalSourceFile);
         mu.enableRandomOffsets(numberOfMessages);
         mu.run(numberOfMessages * 4763);
         return mu;

@@ -7,6 +7,6 @@
   "gooseAppid": "0x00003001",
   "TPID": "0x8100",
   "ndsCom": false,
-  "test": true,
-  "cbstatus": true
+  "test": false,
+  "cbstatus": false
 }

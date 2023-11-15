@@ -6,5 +6,6 @@
   "randomInjection": false,
   "inverseReplay": false,
   "highStNum": false,
-  "flooding": false
+  "flooding": false,
+  "grayhole": false
 }

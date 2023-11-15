@@ -56,26 +56,10 @@ public class LegitimateProtectionIED extends ProtectionIED {
     }
 
     @Override
-    public void run(int numberOfPeriodicMessages) {
+    public void run(int normalMessages) {
         // Here we set the GooseCreator for creating GOOSE messages for ProtectionIED
         messageCreator = new GooseCreator(label);
-        GooseCreator gc = (GooseCreator) messageCreator;
-
-        int faultRate = randomBetween(10, 50);
-        Logger.getLogger("ProtectionIED.run()").info("faultRate = " + (faultRate));
-        for (int i = 0; i <= faultRate; i++) {
-            messageCreator.generate(this, numberOfPeriodicMessages / faultRate);
-            double lastPeriodicMessage = copyMessages().get(getNumberOfMessages() - 1).getTimestamp();
-            gc.reportEventAt(lastPeriodicMessage + 0.5); // fault at middle of the second
-            Logger.getLogger("ProtectionIED.run()").info("Reporting fault at " + lastPeriodicMessage + 0.5);
-            copyMessages().remove(getNumberOfMessages() - 1); // need to remove the message after 100ms
-            gc.reportEventAt(lastPeriodicMessage + 0.6); // fault recovery 100ms later
-            Logger.getLogger("ProtectionIED.run()").info("Reporting normal operation at " + lastPeriodicMessage + 0.5);
-        }
-
-        while (messages.size() - 1 > numberOfPeriodicMessages) {
-            messages.remove(messages.size() - 1);
-        }
+        messageCreator.generate(this, normalMessages);
     }
 
     @Override
