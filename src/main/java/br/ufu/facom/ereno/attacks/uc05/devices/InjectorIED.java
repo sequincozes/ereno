@@ -1,14 +1,9 @@
 package br.ufu.facom.ereno.attacks.uc05.devices;
 
-import br.ufu.facom.ereno.MultiSource;
-import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.attacks.uc05.creator.InjectionCreator;
-import br.ufu.facom.ereno.benign.uc00.devices.IED;
-import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
-import br.ufu.facom.ereno.messages.EthernetFrame;
-import br.ufu.facom.ereno.messages.Goose;
+import br.ufu.facom.ereno.general.ProtectionIED;
+import br.ufu.facom.ereno.utils.GSVDatasetWritter;
 
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class InjectorIED extends ProtectionIED {
@@ -16,7 +11,7 @@ public class InjectorIED extends ProtectionIED {
     ProtectionIED legitimateIED; // injector IED will inject messages between the legitimate ones
 
     public InjectorIED(ProtectionIED legitimate) {
-        super();
+        super(GSVDatasetWritter.label[5]);
         this.legitimateIED = legitimate;
     }
 

@@ -6,11 +6,13 @@
 package br.ufu.facom.ereno.benign.uc00.devices;
 
 
+import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.api.SetupIED;
 import br.ufu.facom.ereno.benign.uc00.creator.GooseCreator;
 import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
+import br.ufu.facom.ereno.utils.DatasetWritter;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -18,8 +20,9 @@ import java.util.logging.Logger;
 /**
  * @author silvio
  */
-public class ProtectionIED extends IED {
-    public ProtectionIED() {
+public class LegitimateProtectionIED extends ProtectionIED {
+    public LegitimateProtectionIED() {
+        super(DatasetWritter.label[0]);
         messages = new ArrayList<>();
     }
 
@@ -39,7 +42,7 @@ public class ProtectionIED extends IED {
 
     double initialBackoffInterval = 6.33000000000011f; // IED processing time
     double minTime = Integer.parseInt(SetupIED.ECF.minTime);
-    public static long maxTime = Integer.parseInt(SetupIED.ECF.maxTime);
+    long maxTime = Integer.parseInt(SetupIED.ECF.maxTime);
     private boolean initialCbStatus = GooseFlow.ECF.cbstatus;
 
     protected ArrayList<Goose> messages;
@@ -216,17 +219,17 @@ public class ProtectionIED extends IED {
         return this.messages;
     }
 
-    public Goose getPreviousGoose(Goose goose, ArrayList<Goose> gooseMessages) {
-        for (int i = 0; i < gooseMessages.size(); i++) {
-            if (goose.equals(gooseMessages.get(i))) {
+    public Goose getPreviousGoose(Goose goose, LegitimateProtectionIED ied) {
+        for (int i = 0; i < ied.getMessages().size(); i++) {
+            if (goose.equals(ied.getMessages().get(i))) {
                 if (i == 0) {
-                    Goose pseudoPast = gooseMessages.get(0).copy(); // Pseudo past
-                    double pseudoPastTimestamp = gooseMessages.get(0).getTimestamp() - ProtectionIED.maxTime;
+                    Goose pseudoPast = ied.getMessages().get(0).copy(); // Pseudo past
+                    double pseudoPastTimestamp = ied.getMessages().get(0).getTimestamp() - maxTime;
                     pseudoPast.setTimestamp(pseudoPastTimestamp); //Assume the last message wast sent at now - maxtime
                     pseudoPast.setSqNum(pseudoPast.getSqNum() - 1);
                     return pseudoPast;
                 } else {
-                    return gooseMessages.get(i - 1);
+                    return ied.getMessages().get(i - 1);
                 }
             }
         }

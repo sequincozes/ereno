@@ -1,6 +1,6 @@
 package br.ufu.facom.ereno.benign.uc00.creator;
 
-import br.ufu.facom.ereno.benign.uc00.devices.IED;
+import br.ufu.facom.ereno.general.IED;
 import br.ufu.facom.ereno.benign.uc00.devices.MergingUnit;
 import br.ufu.facom.ereno.messages.Sv;
 

@@ -1,7 +1,8 @@
 package br.ufu.facom.ereno.attacks.uc02.devices;
 
 import br.ufu.facom.ereno.attacks.uc02.creator.InverseReplayCretor;
-import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
+import br.ufu.facom.ereno.general.ProtectionIED;
+import br.ufu.facom.ereno.utils.GSVDatasetWritter;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -10,7 +11,7 @@ public class InverseReplayerIED extends ProtectionIED {  // Replay attacks does 
     ProtectionIED legitimateIED; // ReplayerIED will replay mensagens from that legitimate device
 
     public InverseReplayerIED(ProtectionIED legitimate) {
-        super();
+        super(GSVDatasetWritter.label[2]);
         this.legitimateIED = legitimate;
     }
 

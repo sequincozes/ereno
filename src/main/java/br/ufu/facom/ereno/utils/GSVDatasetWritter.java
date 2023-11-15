@@ -1,7 +1,7 @@
 package br.ufu.facom.ereno.utils;
 
 import br.ufu.facom.ereno.benign.uc00.devices.MergingUnit;
-import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
+import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.messages.Goose;
 import br.ufu.facom.ereno.messages.Sv;
 import br.ufu.facom.ereno.featureEngineering.ProtocolCorrelation;
@@ -67,7 +67,7 @@ public class GSVDatasetWritter extends DatasetWritter{
         String cycleStrig = ProtocolCorrelation.getCorrespondingSVCycle(svMessages, attack, 80).asCsv();
         String gooseString = attack.asCSVFull() + getConsistencyFeaturesAsCSV(attack, prev);
         double delay = attack.getTimestamp() - sv.getTime();
-        write(svString + "," + cycleStrig + "," + gooseString + "," + delay + "," + attack.label);
+        write(svString + "," + cycleStrig + "," + gooseString + "," + delay + "," + attack.getLabel());
 
 //        System.out.println("SqNum: "+attack.getSqNum() + " / Label: "+attack.label);
 

@@ -1,6 +1,6 @@
 package br.ufu.facom.ereno.utils;
 
-import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
+import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.featureEngineering.ProtocolCorrelation;
 import br.ufu.facom.ereno.messages.Goose;
 import br.ufu.facom.ereno.messages.Sv;
@@ -47,13 +47,13 @@ public class DatasetWritter {
 
         for (Goose gm : gooseMessages) {
             if (prev != null) {
-                String gooseString = gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.label;
+                String gooseString = gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.getLabel();
                 if (DatasetWritter.Debug.printSignatures) {
                     System.out.println(gooseString);
                 }
                 write(gooseString);
                 if (DatasetWritter.Debug.gooseMessages) {
-                    System.out.println(gm.label + "," + gm.asCSVCompact());
+                    System.out.println(gm.getLabel() + "," + gm.asCSVCompact());
                 }
             }
             prev = gm.copy();
@@ -62,32 +62,32 @@ public class DatasetWritter {
 
     public enum FOCUS {SV, GOOSE}
 
-    public static void writeSVwithGOOSENormalToFile(ArrayList<Goose> gooseMessages, ArrayList<Sv> svMessages, boolean printHeader) throws IOException {
+    public static void writeSVwithGOOSENormalToFile(ProtectionIED ied, ArrayList<Sv> svMessages, boolean printHeader) throws IOException {
         Goose prev;
 //            gooseMessages.remove(0);
         for (Sv sv : svMessages) {
-            int correspondingGooseIndex = ProtocolCorrelation.getCorrespondingGoose(gooseMessages, sv);
+            int correspondingGooseIndex = ProtocolCorrelation.getCorrespondingGoose(ied.getMessages(), sv);
             if (correspondingGooseIndex > 0) {
-                Goose gm = gooseMessages.get(correspondingGooseIndex);
+                Goose gm = ied.getMessages().get(correspondingGooseIndex);
                 if (correspondingGooseIndex > 1) {
-                    prev = gooseMessages.get(correspondingGooseIndex - 1);
+                    prev = ied.getMessages().get(correspondingGooseIndex - 1);
                 } else {
                     prev = gm.copy();
-                    prev.setTimestamp(gm.getTimestamp() + ProtectionIED.maxTime);
+                    prev.setTimestamp(gm.getTimestamp() + ied.getMaxTime());
                     prev.setSqNum(gm.getSqNum() + 1);
                 }
                 String svString = sv.asCsv();
                 String cycleStrig = ProtocolCorrelation.getCorrespondingSVCycle(svMessages, gm, 80).asCsv();
-                String gooseString = gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.label;
+                String gooseString = gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.getLabel();
                 double delay = gm.getTimestamp() - sv.getTime();
-                write(svString + "," + cycleStrig + "," + gooseString + "," + delay + "," + gm.label);
+                write(svString + "," + cycleStrig + "," + gooseString + "," + delay + "," + gm.getLabel());
 
 //                    write(gm.getTimestamp() + "|" + sv.getTime() + "| CBStatus");
             }
         }
     }
 
-    public void writeSVWithGOOSEAtkToFile(ArrayList<Goose> legitimateMessages, ArrayList<Goose> attackMessages, ArrayList<Sv> svMessages, boolean printHeader) throws IOException {
+    public void writeSVWithGOOSEAtkToFile(ProtectionIED ied, ArrayList<Goose> attackMessages, ArrayList<Sv> svMessages, boolean printHeader) throws IOException {
         Goose prev;
         for (Sv sv : svMessages) { //@TODO: maybe it will be necessary to update the below code accoridng to the above to skip the first GOOSE message
             int correspondingGooseIndex = ProtocolCorrelation.getCorrespondingGoose(attackMessages, sv);
@@ -97,13 +97,13 @@ public class DatasetWritter {
                     prev = attackMessages.get(correspondingGooseIndex - 1);
                 } else {
                     prev = gm.copy();
-                    prev.setTimestamp(gm.getTimestamp() + ProtectionIED.maxTime);
+                    prev.setTimestamp(gm.getTimestamp() + ied.getMaxTime());
                     prev.setSqNum(gm.getSqNum() + 1);
                 }
                 String svString = sv.asCsv();
                 String cycleStrig = ProtocolCorrelation.getCorrespondingSVCycle(svMessages, gm, 80).asCsv();
-                String gooseString = gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.label;
-                write(svString + "," + cycleStrig + "," + gooseString + "," + gm.label);
+                String gooseString = gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.getLabel();
+                write(svString + "," + cycleStrig + "," + gooseString + "," + gm.getLabel());
             }
         }
     }
@@ -113,7 +113,7 @@ public class DatasetWritter {
         String cycleStrig = ProtocolCorrelation.getCorrespondingSVCycle(svMessages, attack, 80).asCsv();
         String gooseString = attack.asCSVFull() + getConsistencyFeaturesAsCSV(attack, prev);
         double delay = attack.getTimestamp() - sv.getTime();
-        write(svString + "," + cycleStrig + "," + gooseString + "," + delay + "," + attack.label);
+        write(svString + "," + cycleStrig + "," + gooseString + "," + delay + "," + attack.getLabel());
 
 //        System.out.println("SqNum: "+attack.getSqNum() + " / Label: "+attack.label);
 
@@ -376,7 +376,7 @@ public class DatasetWritter {
 
     @Deprecated
     private String getConsistencyFeaturesAsCSV(Goose gm, ProtectionIED protectionIED, double currentSVTime) {
-        Goose prev = protectionIED.getPreviousGoose(gm, protectionIED.copyMessages());
+        Goose prev = protectionIED.getPreviousGoose(gm, protectionIED);
         int stDiff = gm.getStNum() - prev.getStNum();
         int sqDiff = gm.getSqNum() - prev.getSqNum();
         int gooseLenghtDiff = gm.getGooseLen() - prev.getGooseLen();

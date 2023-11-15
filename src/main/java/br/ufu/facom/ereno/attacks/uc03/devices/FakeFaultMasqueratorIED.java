@@ -1,7 +1,8 @@
 package br.ufu.facom.ereno.attacks.uc03.devices;
 
 import br.ufu.facom.ereno.attacks.uc03.creator.MaqueradeFakeFaultCreator;
-import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
+import br.ufu.facom.ereno.general.ProtectionIED;
+import br.ufu.facom.ereno.utils.GSVDatasetWritter;
 
 import java.util.logging.Logger;
 
@@ -9,7 +10,7 @@ public class FakeFaultMasqueratorIED extends ProtectionIED { // Masquerade attac
     ProtectionIED legitimateIED;
 
     public FakeFaultMasqueratorIED(ProtectionIED legitimate) {
-        super();
+        super(GSVDatasetWritter.label[3]);
         this.legitimateIED = legitimate;
     }
 

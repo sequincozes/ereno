@@ -2,12 +2,12 @@ package br.ufu.facom.ereno.attacks.uc05.creator;
 
 import br.ufu.facom.ereno.utils.GSVDatasetWritter;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
-import br.ufu.facom.ereno.benign.uc00.devices.IED;
+import br.ufu.facom.ereno.general.IED;
 import br.ufu.facom.ereno.messages.Goose;
 
 import java.util.ArrayList;
 
-import static br.ufu.facom.ereno.benign.uc00.devices.IED.randomBetween;
+import static br.ufu.facom.ereno.general.IED.randomBetween;
 
 public class InjectionCreator implements MessageCreator {
     ArrayList<Goose> legitimateMessages;

@@ -1,6 +1,7 @@
 package br.ufu.facom.ereno.benign.uc00.devices;
 
 import br.ufu.facom.ereno.benign.uc00.creator.SVCreator;
+import br.ufu.facom.ereno.general.IED;
 import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Sv;
 

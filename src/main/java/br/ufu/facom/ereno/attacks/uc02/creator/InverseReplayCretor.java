@@ -2,12 +2,12 @@ package br.ufu.facom.ereno.attacks.uc02.creator;
 
 import br.ufu.facom.ereno.utils.GSVDatasetWritter;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
-import br.ufu.facom.ereno.benign.uc00.devices.IED;
+import br.ufu.facom.ereno.general.IED;
 import br.ufu.facom.ereno.messages.Goose;
 
 import java.util.ArrayList;
 
-import static br.ufu.facom.ereno.benign.uc00.devices.IED.randomBetween;
+import static br.ufu.facom.ereno.general.IED.randomBetween;
 
 public class InverseReplayCretor implements MessageCreator {
 
@@ -26,7 +26,7 @@ public class InverseReplayCretor implements MessageCreator {
             // Pickups one old GOOSE randomly
             int randomIndex = randomBetween(0, legitimateMessages.size() - 1);
             Goose replayMessage = legitimateMessages.get(randomIndex).copy();
-            replayMessage.label = GSVDatasetWritter.label[2];  // label it as inverse replay (uc02)
+            replayMessage.setLabel(GSVDatasetWritter.label[2]);  // label it as inverse replay (uc02)
 
             // Wait until the status changes
             for (int nextLegitimateIndex = randomIndex + 1; nextLegitimateIndex < legitimateMessages.size(); nextLegitimateIndex++) {

@@ -13,6 +13,7 @@ import br.ufu.facom.ereno.api.SetupIED;
  */
 public class Goose extends EthernetFrame implements Comparable<Goose> {
 
+    private String label;
     private int cbStatus;                   // DYNAMICALLY GENERATED 
     private int stNum;                      // DYNAMICALLY GENERATED 
     private int sqNum;                      // DYNAMICALLY GENERATED 
@@ -33,7 +34,7 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
     public static String ndsCom = "FALSE";
     public static String protocol = "GOOSE";
 
-    public static String label;
+//    public static String label;
 
     public Goose(int cbStatus, int stNum, int sqNum, double timestamp, double t, String label) {
         fromECF();
@@ -225,6 +226,14 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
         } else {
             return 1;
         }
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
 

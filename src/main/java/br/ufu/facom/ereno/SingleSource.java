@@ -11,8 +11,9 @@ import br.ufu.facom.ereno.attacks.uc06.devices.HighStNumInjectorIED;
 import br.ufu.facom.ereno.attacks.uc07.devices.HighRateStNumInjectorIED;
 import br.ufu.facom.ereno.attacks.uc08.devices.GrayHoleVictimIED;
 import br.ufu.facom.ereno.benign.uc00.devices.MergingUnit;
-import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
 import br.ufu.facom.ereno.attacks.uc01.devices.RandomReplayerIED;
+import br.ufu.facom.ereno.general.ProtectionIED;
+import br.ufu.facom.ereno.utils.GSVDatasetWritter;
 
 import java.io.*;
 import java.util.logging.Logger;
@@ -60,7 +61,7 @@ public class SingleSource {
         // Generate and write samples for legitimate and attacks choosen in attacks.json
         ProtectionIED uc00 = null;
         if (Attacks.ECF.legitimate) {
-            uc00 = new ProtectionIED();
+            uc00 = new ProtectionIED(GSVDatasetWritter.label[3]);
 //            uc00.run(GooseFlow.ECF.numberOfMessages);
             uc00.run(1000);
             writeGooseMessagesToFile(uc00.copyMessages(), true);
@@ -152,7 +153,7 @@ public class SingleSource {
         // Generate and write samples for legitimate and attacks choosen in attacks.json
         ProtectionIED uc00 = null;
         if (Attacks.ECF.legitimate) {
-            uc00 = new ProtectionIED();
+            uc00 = new ProtectionIED(GSVDatasetWritter.label[3]);
 //            uc00.run(GooseFlow.ECF.numberOfMessages);
             uc00.run(1000);
             writeGooseMessagesToFile(uc00.copyMessages(), true);

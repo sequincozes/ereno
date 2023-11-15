@@ -1,22 +1,17 @@
 package br.ufu.facom.ereno.attacks.uc08.devices;
 
-import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.attacks.uc08.creator.GrayHoleVictimCreator;
-import br.ufu.facom.ereno.benign.uc00.devices.IED;
-import br.ufu.facom.ereno.benign.uc00.devices.ProtectionIED;
-import br.ufu.facom.ereno.messages.EthernetFrame;
-import br.ufu.facom.ereno.messages.Goose;
+import br.ufu.facom.ereno.general.ProtectionIED;
+import br.ufu.facom.ereno.utils.GSVDatasetWritter;
 
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class GrayHoleVictimIED extends ProtectionIED {  // Gray hole attackers does not have any knowledge about the victim, thus it extends a generic IED
 
-    protected ArrayList<Goose> nonDiscardedMessages; // The messages which are not dicarded will be stored here
     ProtectionIED legitimateIED; // GrayHoleVictimIED will discard mensagens from that legitimate device
 
     public GrayHoleVictimIED(ProtectionIED legitimate) {
-        super();
+        super(GSVDatasetWritter.label[8]);
         this.legitimateIED = legitimate;
     }
 

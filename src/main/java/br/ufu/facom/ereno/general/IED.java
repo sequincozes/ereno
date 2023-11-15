@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufu.facom.ereno.benign.uc00.devices;
+package br.ufu.facom.ereno.general;
 
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 import br.ufu.facom.ereno.messages.EthernetFrame;
-import br.ufu.facom.ereno.messages.Goose;
 
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -30,7 +28,7 @@ public abstract class IED {
             throw new IllegalArgumentException("The lower limit (" + lowerLimit + ") must be less than the upper limit (" + upperLimit + ").");
         }
 
-        Random random = new Random(System.currentTimeMillis());
+        Random random = new Random(System.nanoTime());
         int randomNumber = lowerLimit + random.nextInt(upperLimit - lowerLimit + 1);
 
         return randomNumber;
