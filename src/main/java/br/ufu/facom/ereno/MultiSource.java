@@ -34,7 +34,6 @@ public class MultiSource {
 
     }
 
-    public static String run = "None";
 
     public static void twoDevices(String datasetName, int n) throws IOException {
         numberOfMessages = n;
@@ -42,14 +41,12 @@ public class MultiSource {
 
         // Generating SV messages
         MergingUnit mu = runMU();
-        MultiSource.run = "runUC00";
         ProtectionIED protectionIED = runUC00(mu);
         // Generating GOOSE attacks
         System.out.println("-----------------");
-        MultiSource.run = "runUC01";
-        runUC01(protectionIED, mu);
+//        runUC01(protectionIED, mu);
 //        runUC02(protectionIED, mu); // parei aqui
-//        runUC03(protectionIED, mu);
+        runUC03(protectionIED, mu);
 //        runUC04(protectionIED, mu);
 //        runUC05(protectionIED, mu);
 //        runUC06(protectionIED, mu);

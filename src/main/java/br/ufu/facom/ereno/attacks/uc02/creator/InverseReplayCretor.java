@@ -33,8 +33,9 @@ public class InverseReplayCretor implements MessageCreator {
                 if (replayMessage.getCbStatus() != legitimateMessages.get(nextLegitimateIndex).copy().getCbStatus()) {
                     // transmit the malicious message at an inverse status, after the next legitimate message
                     Goose nextLegitimateGoose = legitimateMessages.get(nextLegitimateIndex).copy();
-
-                    replayMessage.setTimestamp(nextLegitimateGoose.getTimestamp());
+// Randomize the time taken by an attacker
+                    timeTakenByAttacker = (float) (randomBetween(10F, 100F) / 1000);
+                    replayMessage.setTimestamp(nextLegitimateGoose.getTimestamp()+timeTakenByAttacker);
                     ied.addMessage(replayMessage.copy());
                 }
             }

@@ -13,7 +13,7 @@ import static br.ufu.facom.ereno.benign.uc00.devices.IED.randomBetween;
 
 public class MaqueradeFakeFaultCreator implements MessageCreator {
 
-    private final int timeTakenByAttacker = 1;
+    private float timeTakenByAttacker = 1;
     private final ArrayList<Goose> legitimateMessages;
 
     public MaqueradeFakeFaultCreator(ArrayList<Goose> legitimateMessages) {
@@ -23,30 +23,26 @@ public class MaqueradeFakeFaultCreator implements MessageCreator {
 
     @Override
     public void generate(IED ied, int numMasqueradeInstances) {
-        for (int masqueradeMessageIndex = 0; masqueradeMessageIndex <= numMasqueradeInstances; masqueradeMessageIndex++) {
 
-            // Step 1 - Monitors the network until finding a GOOSE with CBStatus = 0
-            Goose lastLegitimateGoose = null;
-            boolean foundNormalCBStatus = false;
-            while (!foundNormalCBStatus) {
-                int lastGoose = randomBetween(0, legitimateMessages.size());
-                lastLegitimateGoose = legitimateMessages.get(lastGoose);
-                if (lastLegitimateGoose.getCbStatus() == 0) {
-                    foundNormalCBStatus = true;
+        // Step 1 - Monitors the network until finding a GOOSE with CBStatus = 0
+        System.out.println("numMasqueradeInstances=" + numMasqueradeInstances + " < " + ((FakeFaultMasqueratorIED) ied).getNumberOfMessages());
+        while (numMasqueradeInstances > ((FakeFaultMasqueratorIED) ied).getNumberOfMessages()) {
+            System.out.println("numMasqueradeInstances=" + numMasqueradeInstances + " < " + ((FakeFaultMasqueratorIED) ied).getNumberOfMessages());
+            int randomIndex = randomBetween(0, legitimateMessages.size());
+            Goose previousLegitimate = legitimateMessages.get(randomIndex);
+            if (previousLegitimate.getCbStatus() == 0) {
+                System.out.println("Caiu no IF!");
+                // Step 2 - Reports a fake fault (CBStatus = 1)
+                ArrayList<Goose> gooseMessages = reportFakeEventAt((FakeFaultMasqueratorIED) ied, previousLegitimate);
+                for (Goose masquerade : gooseMessages) {
+                    System.out.println("Caiu no FOR!");
+                    // Randomize the time taken by an attacker
+                    timeTakenByAttacker = (float) (randomBetween(100F, 10000F) / 1000);
+                    masquerade.setTimestamp(previousLegitimate.getTimestamp() + timeTakenByAttacker);
+                    ied.addMessage(masquerade);
                 }
             }
-
-            // Step 2 - Reports a fake fault (CBStatus = 1)
-            ArrayList<Goose> gooseMessages = reportFakeEventAt((FakeFaultMasqueratorIED) ied, lastLegitimateGoose);
-            for (Goose masquerade : gooseMessages) {
-                ied.addMessage(masquerade);
-            }
-
-            if (((FakeFaultMasqueratorIED) ied).getNumberOfMessages() >= 1000) {
-                break;
-            }
         }
-
     }
 
     public ArrayList<Goose> reportFakeEventAt(FakeFaultMasqueratorIED fakeFaultMasqueratorIED, Goose lastLegitimateMessage) {
@@ -63,7 +59,7 @@ public class MaqueradeFakeFaultCreator implements MessageCreator {
                 (long) fakeFaultMasqueratorIED.getLegitimateIED().getMinTime(),
                 fakeFaultMasqueratorIED.getLegitimateIED().getMaxTime(),
                 fakeFaultMasqueratorIED.getLegitimateIED().getInitialBackoffInterval());
-        
+
         for (double interval : burstingIntervals) { // GOOSE BURST MODE
             Goose masqueratedGooseMessage = new Goose(
                     fakeCBStatus, // current status

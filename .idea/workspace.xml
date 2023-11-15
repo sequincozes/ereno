@@ -12,15 +12,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="BUG FIX - UC01 was repeating the same messages because there was a bug on the random number generatiom.">
+    <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="UC02 Tested and Checked. Testing UC03.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/creator/RandomReplayCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc01/creator/RandomReplayCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/creator/InverseReplayCretor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc02/creator/InverseReplayCretor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/DatasetEval.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/DatasetEval.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/support/GeneralParameters.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/support/GeneralParameters.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/support/GenericEvaluation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/support/GenericEvaluation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/DatasetWritter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/DatasetWritter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/creator/MaqueradeFakeFaultCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc03/creator/MaqueradeFakeFaultCreator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc05/devices/InjectorIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc05/devices/InjectorIED.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -358,7 +355,9 @@
       <workItem from="1699724901434" duration="13361000" />
       <workItem from="1699847953220" duration="1363000" />
       <workItem from="1699903756465" duration="4348000" />
-      <workItem from="1699919810200" duration="1079000" />
+      <workItem from="1699919810200" duration="5150000" />
+      <workItem from="1699997821760" duration="6000" />
+      <workItem from="1700017423021" duration="1332000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -703,7 +702,7 @@
       <option name="project" value="LOCAL" />
       <updated>1685733209617</updated>
     </task>
-    <option name="localTasksCounter" value="59" />
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -722,9 +721,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Attacks: GET and POST done; ECF reading and writting done; JSP reading ECF." />
-    <MESSAGE value="Upload SV: uploading done. Next: javascript do hidden the field and save filename for generating attacks." />
-    <MESSAGE value="Upload SV: uploading done, javascript do hidden fields done; &#10;Download datasets: listing and downloading, done." />
     <MESSAGE value="Inner class for ECF file: attacks done;" />
     <MESSAGE value="Inner class for ECF file: attacks done [bug fix: Gson Builder for reading static variables from classes];" />
     <MESSAGE value="Inner class for ECF file: done for all files." />
@@ -747,14 +743,17 @@
     <MESSAGE value="Stable version. Improving attacker strategy for UC01. Adding randomness to UC00." />
     <MESSAGE value="Adding randomness to UC00, done." />
     <MESSAGE value="BUG FIX - UC01 was repeating the same messages because there was a bug on the random number generatiom." />
-    <option name="LAST_COMMIT_MESSAGE" value="BUG FIX - UC01 was repeating the same messages because there was a bug on the random number generatiom." />
+    <MESSAGE value="UC01 Testes and Checked." />
+    <MESSAGE value="UC01 Tested and Checked." />
+    <MESSAGE value="UC02 Tested and Checked. Testing UC03." />
+    <option name="LAST_COMMIT_MESSAGE" value="UC02 Tested and Checked. Testing UC03." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java</url>
-          <line>63</line>
+          <line>60</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <breakpoint enabled="true" type="java-exception">

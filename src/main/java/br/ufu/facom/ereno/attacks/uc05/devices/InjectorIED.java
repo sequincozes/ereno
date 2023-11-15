@@ -33,7 +33,6 @@ public class InjectorIED extends IED {
     @Override
     public void addMessage(EthernetFrame message) {
         if (((Goose) message).getTimestamp() < 0) {
-            System.out.println("CULPADO: "+ MultiSource.run);
             throw new IllegalArgumentException("The GOOSE message has a negative timestamp");
         } else if (GooseFlow.ECF.numberOfMessages >= injectedMessages.size()){
             this.injectedMessages.add((Goose) message);
