@@ -4,6 +4,7 @@ import br.ufu.facom.ereno.api.Attacks;
 import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.api.SetupIED;
 import br.ufu.facom.ereno.attacks.uc03.devices.MasqueradeFakeFaultIED;
+import br.ufu.facom.ereno.attacks.uc04.devices.MasqueradeFakeNormalED;
 import br.ufu.facom.ereno.benign.uc00.Input;
 import br.ufu.facom.ereno.attacks.uc01.devices.RandomReplayerIED;
 import br.ufu.facom.ereno.attacks.uc02.devices.InverseReplayerIED;
@@ -49,9 +50,8 @@ public class MultiSource {
         System.out.println("-----------------");
 //        runUC01(legitimateIED5, mu);
 //        runUC02(legitimateIED, mu);
-        runUC03(legitimateIED, mu); // parei aqui
 //        runUC03(legitimateIED, mu); // parei aqui
-//        runUC04(legitimateIED, mu);
+        runUC04(legitimateIED, mu);
 //        runUC05(legitimateIED, mu);
 //        runUC06(legitimateIED, mu);
 //        runUC07(legitimateIED, mu);
@@ -104,18 +104,15 @@ public class MultiSource {
         return uc03;
     }
 
-//    public static MasqueradeFakeNormalIED runUC04(LegitimateProtectionIED uc00, MergingUnit mu) throws IOException {
-////        int seedIndex = randomBetween(0, uc00.getNumberOfMessages() / 2 / 2);
-//        int seedIndex = 0;
-//        Goose masqueradeSeed = uc00.getMessages().get(seedIndex);
-//        MasqueradeFakeNormalIED uc04 = new MasqueradeFakeNormalIED(masqueradeSeed);
-//        uc04.setInitialTimestamp(mu.getInitialTimestamp());
-//        Logger.getLogger("RunUC03").info("mu.getOffset(): " + mu.getInitialTimestamp());
-//        uc04.run(numberOfMessages);
-//        int msq = writeMasquerade(uc04.getSeedMessage(), uc04.copyMessages(), mu.getMessages(), false);
-//        Logger.getLogger("MultiSource").info("Writting " + msq + " legitimate (UC00) messages to dataset.");
-//        return uc04;
-//    }
+    public static MasqueradeFakeNormalED runUC04(LegitimateProtectionIED uc00, MergingUnit mu) throws IOException {
+        MasqueradeFakeNormalED uc04 = new MasqueradeFakeNormalED(uc00);
+        uc04.setInitialTimestamp(mu.getInitialTimestamp());
+        Logger.getLogger("RunUC03").info("mu.getOffset(): " + mu.getInitialTimestamp());
+        uc04.run(numberOfMessages);
+        int msq = writeMasquerade(uc04.getSeedMessage(), uc04.copyMessages(), mu.getMessages(), false);
+        Logger.getLogger("MultiSource").info("Writting " + msq + " legitimate (UC00) messages to dataset.");
+        return uc04;
+    }
 
 
     public static void runUC05(LegitimateProtectionIED uc00, MergingUnit mu) throws IOException {

@@ -8,6 +8,8 @@ package br.ufu.facom.ereno.messages;
 import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.api.SetupIED;
 
+import java.text.DecimalFormat;
+
 /**
  * @author silvio
  */
@@ -17,7 +19,7 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
     private int cbStatus;                   // DYNAMICALLY GENERATED 
     private int stNum;                      // DYNAMICALLY GENERATED 
     private int sqNum;                      // DYNAMICALLY GENERATED 
-    private double t;                       // DYNAMICALLY GENERATED - Last Goose Change  
+    private double t;                       // DYNAMICALLY GENERATED - Last Goose Change
     private double timestamp;               // DYNAMICALLY GENERATED
     private int gooseTimeAllowedtoLive = 11000;
     private int numDatSetEntries = 25;
@@ -41,16 +43,26 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
         this.cbStatus = cbStatus;
         this.stNum = stNum;
         this.sqNum = sqNum;
-        this.timestamp = timestamp;
-        this.t = t;
+        this.timestamp = roundTime(timestamp);
+        this.t = roundTime(t);
         this.label = label;
+    }
+
+    private double roundTime(double time) {
+        try {
+            DecimalFormat formato = new DecimalFormat("#.####");
+            String numeroFormatado = formato.format(time);
+            return Double.parseDouble(numeroFormatado);
+        } catch (NumberFormatException e) {
+            return time;
+        }
     }
 
     private void fromECF() {
 
         sqNum = Integer.parseInt(SetupIED.ECF.sqNum);
         stNum = Integer.parseInt(SetupIED.ECF.stNum);
-        timestamp = Double.parseDouble(SetupIED.ECF.timestamp);
+        timestamp = roundTime(Double.parseDouble(SetupIED.ECF.timestamp));
         gocbRef = SetupIED.ECF.gocbRef;
         datSet = SetupIED.ECF.datSet;
         goID = GooseFlow.ECF.goID;
@@ -120,7 +132,7 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
     }
 
     public void setTimestamp(double timestamp) {
-        this.timestamp = timestamp;
+        this.timestamp = roundTime(timestamp);
     }
 
     public int getFrameLen() {
