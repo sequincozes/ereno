@@ -13,12 +13,10 @@ import java.util.logging.Logger;
 import static br.ufu.facom.ereno.api.GooseFlow.ECF.numberOfMessages;
 
 public class GSVDatasetWritter extends DatasetWritter{
-
     public static int writeNormal(Goose seedMessage, ArrayList<Goose> gooseMessages, ArrayList<Sv> svMessages, boolean printHeader) throws IOException {
         /* Write Header and Columns */
-        if (printHeader) {
+         if(printHeader)
             writeHeader();
-        }
 
         /* Write Payload */
         Goose prev = null;
@@ -37,12 +35,7 @@ public class GSVDatasetWritter extends DatasetWritter{
         }
         return messagesWritten;
     }
-    public static int writeMasquerade(ArrayList<Goose> gooseMessages, ArrayList<Sv> svMessages, boolean printHeader) throws IOException {
-        /* Write Header and Columns */
-        if (printHeader) {
-            writeHeader();
-        }
-
+    public static int writeMasquerade(Goose seedMessage, ArrayList<Goose> gooseMessages, ArrayList<Sv> svMessages, boolean printHeader) throws IOException {
         /* Write Payload */
         Goose prev = null;
         int messagesWritten = 0;
@@ -53,7 +46,7 @@ public class GSVDatasetWritter extends DatasetWritter{
                 messagesWritten += 1;
             } else {
                 Sv sv = ProtocolCorrelation.getCorrespondingSV(svMessages, gm);
-                writeToDataset(svMessages, prev, gm, sv);
+                writeToDataset(svMessages, seedMessage, gm, sv);
                 messagesWritten += 1;
             }
             prev = gm.copy();

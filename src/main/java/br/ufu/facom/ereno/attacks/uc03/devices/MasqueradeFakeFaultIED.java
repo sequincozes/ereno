@@ -3,14 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.ufu.facom.ereno.general;
+package br.ufu.facom.ereno.attacks.uc03.devices;
 
 
 import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.api.SetupIED;
-import br.ufu.facom.ereno.benign.uc00.creator.GooseCreator;
+import br.ufu.facom.ereno.attacks.uc03.creator.MasqueradeFakeFaultCreator;
+import br.ufu.facom.ereno.benign.uc00.devices.LegitimateProtectionIED;
+import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
+import br.ufu.facom.ereno.utils.DatasetWritter;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -18,24 +21,20 @@ import java.util.logging.Logger;
 /**
  * @author silvio
  */
-public class ProtectionIED extends IED {
-    public ProtectionIED(String label) {
-        this.label = label;
+public class MasqueradeFakeFaultIED extends ProtectionIED {
+    LegitimateProtectionIED victimIED;
+
+    public MasqueradeFakeFaultIED(LegitimateProtectionIED legitimateProtectionIED) {
+        super(DatasetWritter.label[3]);
+        this.victimIED = legitimateProtectionIED;
         messages = new ArrayList<>();
     }
+
     private int initialStNum = Integer.parseInt(SetupIED.ECF.stNum);
     private int initialSqNum = Integer.parseInt(SetupIED.ECF.sqNum);
     //    static double[] burstingInterval = {0.5, 0.6}; // timestam to p (in seconds)
     public static double delayFromEvent = 0.00631;
     double firstGooseTime = 0.01659;
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
 
     double initialBackoffInterval = 6.33000000000011f; // IED processing time
     double minTime = Integer.parseInt(SetupIED.ECF.minTime);
@@ -43,7 +42,6 @@ public class ProtectionIED extends IED {
     private boolean initialCbStatus = GooseFlow.ECF.cbstatus;
 
     protected ArrayList<Goose> messages;
-    private String label = "normal";
 
     @Override
     public void enableRandomOffsets(int max) {
@@ -53,31 +51,15 @@ public class ProtectionIED extends IED {
     }
 
     @Override
-    public void run(int numberOfPeriodicMessages) {
+    public void run(int normalMessages) {
         // Here we set the GooseCreator for creating GOOSE messages for ProtectionIED
-        messageCreator = new GooseCreator(label);
-        GooseCreator gc = (GooseCreator) messageCreator;
-
-        int faultRate = randomBetween(10, 50);
-        Logger.getLogger("ProtectionIED.run()").info("faultRate = " + (faultRate));
-        for (int i = 0; i <= faultRate; i++) {
-            messageCreator.generate(this, numberOfPeriodicMessages / faultRate);
-            double lastPeriodicMessage = copyMessages().get(getNumberOfMessages() - 1).getTimestamp();
-            gc.reportEventAt(lastPeriodicMessage + 0.5); // fault at middle of the second
-            Logger.getLogger("ProtectionIED.run()").info("Reporting fault at " + lastPeriodicMessage + 0.5);
-            copyMessages().remove(getNumberOfMessages() - 1); // need to remove the message after 100ms
-            gc.reportEventAt(lastPeriodicMessage + 0.6); // fault recovery 100ms later
-            Logger.getLogger("ProtectionIED.run()").info("Reporting normal operation at " + lastPeriodicMessage + 0.5);
-        }
-
-        while (messages.size() - 1 > numberOfPeriodicMessages) {
-            messages.remove(messages.size() - 1);
-        }
+        messageCreator = new MasqueradeFakeFaultCreator(getLabel());
+        messageCreator.generate(this, normalMessages);
     }
 
     @Override
     public void addMessage(EthernetFrame periodicGoose) {
-        if (GooseFlow.ECF.numberOfMessages >= messages.size()){
+        if (GooseFlow.ECF.numberOfMessages >= messages.size()) {
             this.messages.add((Goose) periodicGoose);
         } else {
             Logger.getLogger("addMessage").warning("Adding more GOOSE than the predefined threshold. There is something wrong with your logic.");
@@ -193,10 +175,10 @@ public class ProtectionIED extends IED {
     }
 
     public int toInt(boolean cbStatus) {
-        if (cbStatus) {
-            return 1;
-        } else {
+        if (!cbStatus) {
             return 0;
+        } else {
+            return 1;
         }
 
     }
@@ -207,9 +189,8 @@ public class ProtectionIED extends IED {
         for (Goose originalGoose : messages) {
             copied.add(originalGoose.copy());
         }
-//        copied.remove(0);
+
         if (messages.equals(copied)) {
-//            throw new IllegalArgumentException("Messages are not copied! Message 0 timestamp (messages):" + messages.get(0).getTimestamp() + " == (copied):" + copied.get(0).getTimestamp());
             throw new IllegalArgumentException("Messages are not copied! Message 0 timestamp (messages):" + messages + " == (copied):" + copied);
         }
         return copied;
@@ -219,7 +200,7 @@ public class ProtectionIED extends IED {
         return this.messages;
     }
 
-    public Goose getPreviousGoose(Goose goose, ProtectionIED ied) {
+    public Goose getPreviousGoose(Goose goose, MasqueradeFakeFaultIED ied) {
         for (int i = 0; i < ied.getMessages().size(); i++) {
             if (goose.equals(ied.getMessages().get(i))) {
                 if (i == 0) {
@@ -273,4 +254,11 @@ public class ProtectionIED extends IED {
     }
 
 
+    public LegitimateProtectionIED getVictimIED() {
+        return this.victimIED;
+    }
+
+    public Goose getSeedMessage() {
+        return ((MasqueradeFakeFaultCreator) messageCreator).getSeedMessage();
+    }
 }

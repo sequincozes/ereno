@@ -31,14 +31,15 @@ public class GooseCreator implements MessageCreator {
     public void generate(IED ied, int normalMessages) {
         this.protectionIED = (ProtectionIED) ied;
         this.count = normalMessages;
-
         int faultProbability = 5;
 
         // Generating the default seed message (it will not be written to dataset)
         generateSeedGoose();
 
+        int i = 0;
         // Generate faults and normal randomly
         while (((ProtectionIED) ied).getMessages().size() < normalMessages) {
+            System.out.println(((ProtectionIED) ied).getMessages().size() + " < " + normalMessages);
             int percentage = ied.randomBetween(1, 100); // decide whether it will be fault or normal
             if (((ProtectionIED) ied).getMessages().size() > 0) {
                 if (percentage > faultProbability) {

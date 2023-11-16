@@ -55,8 +55,12 @@ public class LegitimateProtectionIED extends ProtectionIED {
 
     @Override
     public void addMessage(EthernetFrame periodicGoose) {
-        if (GooseFlow.ECF.numberOfMessages >= messages.size())
+        // this was commented due to the grayhole need for exceding messages
+//        if (GooseFlow.ECF.numberOfMessages >= messages.size()){
             this.messages.add((Goose) periodicGoose);
+//        } else {
+//            throw new IndexOutOfBoundsException("Adding more GOOSE than the predefined threshold. There is something wrong with your logic.");
+//        }
     }
 
 

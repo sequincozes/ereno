@@ -59,7 +59,11 @@ public class ProtocolCorrelation {
 
         Sv[] cycleMsgs = new Sv[numCycleMsgs];
         index = index + 1; // to address a rounding bug
+        if(index<80){
+            index = 80;
+        }
         for (int i = 0; i < numCycleMsgs; i++) {
+//            System.out.println("index(" + index + ") - numCycleMsgs(" + numCycleMsgs + ") + i(" + i + ") = (" + (index - numCycleMsgs + i) + ")");
             cycleMsgs[i] = svs.get(index - numCycleMsgs + i);
         }
 

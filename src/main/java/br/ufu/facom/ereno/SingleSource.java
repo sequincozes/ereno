@@ -4,12 +4,12 @@ import br.ufu.facom.ereno.api.Attacks;
 import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.api.SetupIED;
 import br.ufu.facom.ereno.attacks.uc02.devices.InverseReplayerIED;
-import br.ufu.facom.ereno.attacks.uc03.devices.FakeFaultMasqueratorIED;
-import br.ufu.facom.ereno.attacks.uc04.devices.FakeNormalMasqueratorIED;
+import br.ufu.facom.ereno.attacks.uc03.devices.MasqueradeFakeFaultIED;
 import br.ufu.facom.ereno.attacks.uc05.devices.InjectorIED;
 import br.ufu.facom.ereno.attacks.uc06.devices.HighStNumInjectorIED;
 import br.ufu.facom.ereno.attacks.uc07.devices.HighRateStNumInjectorIED;
 import br.ufu.facom.ereno.attacks.uc08.devices.GrayHoleVictimIED;
+import br.ufu.facom.ereno.benign.uc00.devices.LegitimateProtectionIED;
 import br.ufu.facom.ereno.benign.uc00.devices.MergingUnit;
 import br.ufu.facom.ereno.attacks.uc01.devices.RandomReplayerIED;
 import br.ufu.facom.ereno.general.ProtectionIED;
@@ -59,9 +59,9 @@ public class SingleSource {
         write("@relation ereno_lightweight");
 
         // Generate and write samples for legitimate and attacks choosen in attacks.json
-        ProtectionIED uc00 = null;
+        LegitimateProtectionIED uc00 = null;
         if (Attacks.ECF.legitimate) {
-            uc00 = new ProtectionIED(GSVDatasetWritter.label[3]);
+            uc00 = new LegitimateProtectionIED();
 //            uc00.run(GooseFlow.ECF.numberOfMessages);
             uc00.run(1000);
             writeGooseMessagesToFile(uc00.copyMessages(), true);
@@ -84,21 +84,21 @@ public class SingleSource {
             totalMessageCount = totalMessageCount + uc02.getNumberOfMessages();
         }
 
-        FakeFaultMasqueratorIED uc03;
+        MasqueradeFakeFaultIED uc03;
         if (Attacks.ECF.masqueradeOutage) {
-            uc03 = new FakeFaultMasqueratorIED(uc00);
+            uc03 = new MasqueradeFakeFaultIED(uc00);
             uc03.run(GooseFlow.ECF.numberOfMessages);
             writeGooseMessagesToFile(uc03.getMessages(), false);
             totalMessageCount = totalMessageCount + uc03.getNumberOfMessages();
         }
 
-        FakeNormalMasqueratorIED uc04;
-        if (Attacks.ECF.masqueradeDamage) {
-            uc04 = new FakeNormalMasqueratorIED(uc00);
-            uc04.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc04.getMessages(), false);
-            totalMessageCount = totalMessageCount + uc04.getNumberOfMessages();
-        }
+//        MasqueradeFakeFaultIED uc04;
+//        if (Attacks.ECF.masqueradeDamage) {
+//            uc04 = new MasqueradeFakeFaultIED(uc00.getMessages().get(uc00.getMessages().size()-1));
+//            uc04.run(GooseFlow.ECF.numberOfMessages);
+//            writeGooseMessagesToFile(uc04.getMessages(), false);
+//            totalMessageCount = totalMessageCount + uc04.getNumberOfMessages();
+//        }
 
         InjectorIED uc05;
         if (Attacks.ECF.randomInjection) {
@@ -151,9 +151,9 @@ public class SingleSource {
         write("@relation goose_traffic");
 
         // Generate and write samples for legitimate and attacks choosen in attacks.json
-        ProtectionIED uc00 = null;
+        LegitimateProtectionIED uc00 = null;
         if (Attacks.ECF.legitimate) {
-            uc00 = new ProtectionIED(GSVDatasetWritter.label[3]);
+            uc00 = new LegitimateProtectionIED();
 //            uc00.run(GooseFlow.ECF.numberOfMessages);
             uc00.run(1000);
             writeGooseMessagesToFile(uc00.copyMessages(), true);
@@ -176,21 +176,21 @@ public class SingleSource {
             totalMessageCount = totalMessageCount + uc02.getNumberOfMessages();
         }
 
-        FakeFaultMasqueratorIED uc03;
+        MasqueradeFakeFaultIED uc03;
         if (Attacks.ECF.masqueradeOutage) {
-            uc03 = new FakeFaultMasqueratorIED(uc00);
+            uc03 = new MasqueradeFakeFaultIED(uc00);
             uc03.run(GooseFlow.ECF.numberOfMessages);
             writeGooseMessagesToFile(uc03.getMessages(), false);
             totalMessageCount = totalMessageCount + uc03.getNumberOfMessages();
         }
 
-        FakeNormalMasqueratorIED uc04;
-        if (Attacks.ECF.masqueradeDamage) {
-            uc04 = new FakeNormalMasqueratorIED(uc00);
-            uc04.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc04.getMessages(), false);
-            totalMessageCount = totalMessageCount + uc04.getNumberOfMessages();
-        }
+//        MasqueradeFakeFaultIED uc04;
+//        if (Attacks.ECF.masqueradeDamage) {
+//            uc04 = new MasqueradeFakeFaultIED(uc00);
+//            uc04.run(GooseFlow.ECF.numberOfMessages);
+//            writeGooseMessagesToFile(uc04.getMessages(), false);
+//            totalMessageCount = totalMessageCount + uc04.getNumberOfMessages();
+//        }
 
         InjectorIED uc05;
         if (Attacks.ECF.randomInjection) {

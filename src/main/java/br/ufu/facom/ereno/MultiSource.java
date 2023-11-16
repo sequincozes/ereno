@@ -3,11 +3,10 @@ package br.ufu.facom.ereno;
 import br.ufu.facom.ereno.api.Attacks;
 import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.api.SetupIED;
+import br.ufu.facom.ereno.attacks.uc03.devices.MasqueradeFakeFaultIED;
 import br.ufu.facom.ereno.benign.uc00.Input;
 import br.ufu.facom.ereno.attacks.uc01.devices.RandomReplayerIED;
 import br.ufu.facom.ereno.attacks.uc02.devices.InverseReplayerIED;
-import br.ufu.facom.ereno.attacks.uc03.devices.FakeFaultMasqueratorIED;
-import br.ufu.facom.ereno.attacks.uc04.devices.FakeNormalMasqueratorIED;
 import br.ufu.facom.ereno.attacks.uc05.devices.InjectorIED;
 import br.ufu.facom.ereno.attacks.uc06.devices.HighStNumInjectorIED;
 import br.ufu.facom.ereno.attacks.uc07.devices.HighRateStNumInjectorIED;
@@ -16,12 +15,13 @@ import br.ufu.facom.ereno.benign.uc00.devices.LegitimateProtectionIED;
 import br.ufu.facom.ereno.benign.uc00.devices.MergingUnit;
 import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.evaluation.DatasetEval;
-import br.ufu.facom.ereno.utils.GSVDatasetWritter;
+import br.ufu.facom.ereno.messages.Goose;
 
 import java.io.IOException;
 import java.util.logging.Logger;
 
 import static br.ufu.facom.ereno.api.GooseFlow.ECF.numberOfMessages;
+import static br.ufu.facom.ereno.general.IED.randomBetween;
 import static br.ufu.facom.ereno.utils.GSVDatasetWritter.*;
 
 public class MultiSource {
@@ -43,19 +43,19 @@ public class MultiSource {
 
         // Generating SV messages
         MergingUnit mu = runMU();
-        LegitimateProtectionIED protectionIED = runUC00(mu);
+        LegitimateProtectionIED legitimateIED = runUC00(mu, true);
 
         // Generating GOOSE attacks
         System.out.println("-----------------");
-        runUC01(protectionIED, mu);
-
-//        runUC02(protectionIED, mu);
-//        runUC03(protectionIED, mu); // parei aqui
-//        runUC04(protectionIED, mu);
-//        runUC05(protectionIED, mu);
-//        runUC06(protectionIED, mu);
-//        runUC07(protectionIED, mu);
-//        runUC08(protectionIED, mu);
+//        runUC01(legitimateIED5, mu);
+//        runUC02(legitimateIED, mu);
+        runUC03(legitimateIED, mu); // parei aqui
+//        runUC03(legitimateIED, mu); // parei aqui
+//        runUC04(legitimateIED, mu);
+//        runUC05(legitimateIED, mu);
+//        runUC06(legitimateIED, mu);
+//        runUC07(legitimateIED, mu);
+//        runUC08(legitimateIED, mu);
 
         finishWriting();
 
@@ -69,12 +69,12 @@ public class MultiSource {
         return mu;
     }
 
-    public static LegitimateProtectionIED runUC00(MergingUnit mu) throws IOException {
+    public static LegitimateProtectionIED runUC00(MergingUnit mu, boolean header) throws IOException {
         LegitimateProtectionIED uc00 = new LegitimateProtectionIED();
         uc00.setInitialTimestamp(mu.getInitialTimestamp());
         Logger.getLogger("RunUC00").info("mu.getOffset(): " + mu.getInitialTimestamp());
         uc00.run(numberOfMessages);
-        int qtdNormal00 = writeNormal(uc00.getSeedMessage(), uc00.copyMessages(), mu.getMessages(), true);
+        int qtdNormal00 = writeNormal(uc00.getSeedMessage(), uc00.copyMessages(), mu.getMessages(), header);
         Logger.getLogger("MultiSource").info("Writting " + qtdNormal00 + " legitimate (UC00) messages to dataset.");
         return uc00;
     }
@@ -93,20 +93,30 @@ public class MultiSource {
         Logger.getLogger("MultiSource").info("Writting " + qtdReplay02 + "  replayed (UC02) messages to dataset.");
     }
 
-    public static void runUC03(LegitimateProtectionIED uc00, MergingUnit mu) throws IOException {
-        FakeFaultMasqueratorIED uc03 = new FakeFaultMasqueratorIED(uc00);
+    // Maybe passing the normal Seed would be benefical to attacker
+    public static MasqueradeFakeFaultIED runUC03(LegitimateProtectionIED uc00, MergingUnit mu) throws IOException {
+        MasqueradeFakeFaultIED uc03 = new MasqueradeFakeFaultIED(uc00);
+        uc03.setInitialTimestamp(mu.getInitialTimestamp());
+        Logger.getLogger("RunUC03").info("mu.getOffset(): " + mu.getInitialTimestamp());
         uc03.run(numberOfMessages);
-//        int qtdMarquerade03 = writeGOOSEAtkWithSVToFile(uc00, uc03.getMasqueradeMessages(), mu.getMessages(), false);
-        int qtdMarquerade03 = writeMasquerade(uc03.getMessages(), mu.getMessages(), false);
-        Logger.getLogger("MultiSource").info("Writting " + qtdMarquerade03 + "  masquerade (UC03)  messages to dataset.");
+        int msq = writeMasquerade(uc03.getSeedMessage(), uc03.copyMessages(), mu.getMessages(), false);
+        Logger.getLogger("MultiSource").info("Writting " + msq + " legitimate (UC00) messages to dataset.");
+        return uc03;
     }
 
-    public static void runUC04(LegitimateProtectionIED uc00, MergingUnit mu) throws IOException {
-        FakeNormalMasqueratorIED uc04 = new FakeNormalMasqueratorIED(uc00);
-        uc04.run(numberOfMessages - 1);
-        int qtdMarquerade04 = writeAttack(uc00, uc04, mu, false);
-        Logger.getLogger("MultiSource").info("Writting " + qtdMarquerade04 + " masquerade (UC04) messages to dataset.");
-    }
+//    public static MasqueradeFakeNormalIED runUC04(LegitimateProtectionIED uc00, MergingUnit mu) throws IOException {
+////        int seedIndex = randomBetween(0, uc00.getNumberOfMessages() / 2 / 2);
+//        int seedIndex = 0;
+//        Goose masqueradeSeed = uc00.getMessages().get(seedIndex);
+//        MasqueradeFakeNormalIED uc04 = new MasqueradeFakeNormalIED(masqueradeSeed);
+//        uc04.setInitialTimestamp(mu.getInitialTimestamp());
+//        Logger.getLogger("RunUC03").info("mu.getOffset(): " + mu.getInitialTimestamp());
+//        uc04.run(numberOfMessages);
+//        int msq = writeMasquerade(uc04.getSeedMessage(), uc04.copyMessages(), mu.getMessages(), false);
+//        Logger.getLogger("MultiSource").info("Writting " + msq + " legitimate (UC00) messages to dataset.");
+//        return uc04;
+//    }
+
 
     public static void runUC05(LegitimateProtectionIED uc00, MergingUnit mu) throws IOException {
         InjectorIED uc05 = new InjectorIED(uc00);
@@ -132,9 +142,9 @@ public class MultiSource {
     public static void runUC08(LegitimateProtectionIED uc00, MergingUnit mu) throws IOException {
         ProtectionIED uc00forGrayhole = new LegitimateProtectionIED();
         uc00forGrayhole.setInitialTimestamp(mu.getInitialTimestamp());
-        uc00forGrayhole.run((int) (numberOfMessages * 1.2)); // generate more because it discards
+        uc00forGrayhole.run((int) (numberOfMessages * 1.2)); // generate 20% more, because 20% will be discarded
         GrayHoleVictimIED uc08 = new GrayHoleVictimIED(uc00forGrayhole);
-        uc08.run(80);
+        uc08.run(80); //80 = discards 20%
         int qtdGrayhole08 = writeAttack(uc00, uc08, mu, false);
         Logger.getLogger("MultiSource").info("Writting " + qtdGrayhole08 + " gryhole (UC08) messages to dataset.");
     }
