@@ -44,19 +44,22 @@ public class MultiSource {
 
         // Generating SV messages
         MergingUnit mu = runMU();
-        LegitimateProtectionIED legitimateIED = runUC00(mu, true);
 
         // Generating GOOSE attacks
         System.out.println("-----------------");
-//        runUC01(legitimateIED5, mu);
-//        runUC02(legitimateIED, mu);
-//        runUC03(legitimateIED, mu); // parei aqui
-        runUC04(legitimateIED, mu);
-//        runUC05(legitimateIED, mu);
-//        runUC06(legitimateIED, mu);
-//        runUC07(legitimateIED, mu);
-//        runUC08(legitimateIED, mu);
-
+//        for (int i = 0; i < 10; i++) {
+//            LegitimateProtectionIED legitimateIED = runUC00(mu, i == 0);
+            LegitimateProtectionIED legitimateIED = runUC00(mu, true);
+//            runUC01(legitimateIED, mu);
+//            runUC02(legitimateIED, mu);
+//            runUC03(legitimateIED, mu); // parei aqui
+//            runUC04(legitimateIED, mu);
+//            runUC05(legitimateIED, mu);
+            runUC06(legitimateIED, mu);
+//            runUC07(legitimateIED, mu);
+//            runUC08(legitimateIED, mu);
+//        }
+//
         finishWriting();
 
     }

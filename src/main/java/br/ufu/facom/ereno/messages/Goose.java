@@ -54,7 +54,16 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
             String numeroFormatado = formato.format(time);
             return Double.parseDouble(numeroFormatado);
         } catch (NumberFormatException e) {
-            return time;
+            String timeString = String.valueOf(time);
+            String timeStringParts[] = timeString.split(".");
+            if (timeStringParts.length > 1) {
+                timeString = timeStringParts[0].concat(timeStringParts[1].substring(0, 4));
+            } else if (timeStringParts.length > 0) {
+                timeString = timeStringParts[0];
+            }  else {
+                return time;
+            }
+            return Double.parseDouble(timeString);
         }
     }
 

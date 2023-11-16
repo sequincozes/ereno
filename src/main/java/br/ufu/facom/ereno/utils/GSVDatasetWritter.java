@@ -12,10 +12,10 @@ import java.util.logging.Logger;
 
 import static br.ufu.facom.ereno.api.GooseFlow.ECF.numberOfMessages;
 
-public class GSVDatasetWritter extends DatasetWritter{
+public class GSVDatasetWritter extends DatasetWritter {
     public static int writeNormal(Goose seedMessage, ArrayList<Goose> gooseMessages, ArrayList<Sv> svMessages, boolean printHeader) throws IOException {
         /* Write Header and Columns */
-         if(printHeader)
+        if (printHeader)
             writeHeader();
 
         /* Write Payload */
@@ -35,6 +35,7 @@ public class GSVDatasetWritter extends DatasetWritter{
         }
         return messagesWritten;
     }
+
     public static int writeMasquerade(Goose seedMessage, ArrayList<Goose> gooseMessages, ArrayList<Sv> svMessages, boolean printHeader) throws IOException {
         /* Write Payload */
         Goose prev = null;
@@ -53,6 +54,7 @@ public class GSVDatasetWritter extends DatasetWritter{
         }
         return messagesWritten;
     }
+
     public static int writeAttack(ProtectionIED legitimateIED, ProtectionIED attacker, MergingUnit mu, boolean printHeader) throws IOException {
         /* Write Header and Columns */
         if (printHeader) {
@@ -82,6 +84,7 @@ public class GSVDatasetWritter extends DatasetWritter{
         }
         return attacker.getMessages().size();
     }
+
     private static void writeToDataset(ArrayList<Sv> svMessages, Goose prev, Goose attack, Sv sv) throws IOException {
         String svString = sv.asCsv();
         String cycleStrig = ProtocolCorrelation.getCorrespondingSVCycle(svMessages, attack, 80).asCsv();
@@ -100,6 +103,7 @@ public class GSVDatasetWritter extends DatasetWritter{
 //                        "cbStatusDiff = " + cbStatusDiff
 //        );
     }
+
     protected static void writeHeader() throws IOException {
         write("@relation hibrid");// time-based 1
         write("@attribute Time numeric");// time-based 1
@@ -131,8 +135,8 @@ public class GSVDatasetWritter extends DatasetWritter{
         write("@attribute cbStatus numeric"); // Status-based 42
         write("@attribute frameLen numeric"); //network-based 43
 
-        write("@attribute ethDst {01:a0:f4:08:2f:77, 01:0c:cd:01:2f:80, 01:0c:cd:01:2f:81, FF:FF:FF:FF:FF:11, FF:FF:FF:FF:FF:22, FF:FF:FF:FF:FF:33, FF:FF:FF:FF:FF:44, FF:FF:FF:FF:FF:55, FF:FF:FF:FF:FF:66, FF:FF:FF:FF:FF:FF, FF:FF:FF:FF:FF:77, FF:FF:FF:FF:FF:AA, FF:FF:FF:FF:FF:BB, FF:FF:FF:FF:FF:CC, FF:FF:FF:FF:FF:DD, FF:FF:FF:FF:FF:EE, FF:FF:FF:FF:FF:AB, FF:FF:FF:FF:FF:AC}"); //network-based 44
-        write("@attribute ethSrc {00:a0:f4:08:2f:77,01:0c:cd:01:2f:80, 01:0c:cd:01:2f:81, FF:FF:FF:FF:FF:11, FF:FF:FF:FF:FF:22, FF:FF:FF:FF:FF:33, FF:FF:FF:FF:FF:44, FF:FF:FF:FF:FF:55, FF:FF:FF:FF:FF:66, FF:FF:FF:FF:FF:FF, FF:FF:FF:FF:FF:77, FF:FF:FF:FF:FF:AA, FF:FF:FF:FF:FF:BB, FF:FF:FF:FF:FF:CC, FF:FF:FF:FF:FF:DD, FF:FF:FF:FF:FF:EE, FF:FF:FF:FF:FF:AB, FF:FF:FF:FF:FF:AC}"); //network-based 45
+        write("@attribute ethDst {01:0c:cd:01:2f:80, 01:0c:cd:01:2f:77, 01:0c:cd:01:2f:78, 01:0c:cd:01:2f:81, FF:FF:FF:FF:FF:33}"); //network-based 44
+        write("@attribute ethSrc {01:0c:cd:01:2f:80, 01:0c:cd:01:2f:77, 01:0c:cd:01:2f:78, 01:0c:cd:01:2f:81, FF:FF:FF:FF:FF:33}"); //network-based 44
         write("@attribute ethType {0x000077b7, 0x000088b8, 0x88B8}"); //network-based 46
         write("@attribute gooseTimeAllowedtoLive numeric"); //IED-based 47
         write("@attribute gooseAppid {0x00003002, 0x00003001, 0x00003092, 0x00003011, 0x0043002, 0x00233001}");  //IED-based 48
@@ -167,9 +171,11 @@ public class GSVDatasetWritter extends DatasetWritter{
         write(classLine);
         write("@data");
     }
+
     public static void finishWriting() throws IOException {
         bw.close();
     }
+
     private static String getConsistencyFeaturesAsCSV(Goose gm, Goose prev) {
         int stDiff = gm.getStNum() - prev.getStNum();
         int sqDiff = gm.getSqNum() - prev.getSqNum();

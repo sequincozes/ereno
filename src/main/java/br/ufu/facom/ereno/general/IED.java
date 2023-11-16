@@ -30,6 +30,7 @@ public abstract class IED {
 
         Random random = new Random(System.nanoTime());
         int randomNumber = lowerLimit + random.nextInt(upperLimit - lowerLimit + 1);
+        System.out.println("random: "+randomNumber);
 
         return randomNumber;
     }
