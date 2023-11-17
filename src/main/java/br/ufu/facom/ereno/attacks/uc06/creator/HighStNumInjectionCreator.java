@@ -26,8 +26,8 @@ public class HighStNumInjectionCreator implements MessageCreator {
             double t = randomBetween(minGoose, maxGoose);
             int stNum = randomBetween(1000, 100000);
             int sqNum = randomBetween(0, 100);
-            int cbStatus = randomBetween(0, 2);
-            int timeAllowedToLive = randomBetween(0, 10000);
+            int cbStatus = randomBetween(0, 1);
+            int timeAllowedToLive = 10000;
             int confRev = randomBetween(0, 100);
 
             // Last Goose Message from the random time
@@ -35,8 +35,8 @@ public class HighStNumInjectionCreator implements MessageCreator {
             injectionMessage.setSqNum(sqNum);
             injectionMessage.setStNum(stNum);
             injectionMessage.setCbStatus(cbStatus);
-            injectionMessage.setConfRev(confRev);
-            injectionMessage.setGooseTimeAllowedtoLive(timeAllowedToLive);
+//            injectionMessage.setConfRev(confRev);
+//            injectionMessage.setGooseTimeAllowedtoLive(timeAllowedToLive);
 
             // Send the generated message to InjectorIED
             ied.addMessage(injectionMessage);

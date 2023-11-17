@@ -13,6 +13,7 @@ public class HighRateStNumInjectorIED extends ProtectionIED {
     public HighRateStNumInjectorIED(ProtectionIED legitimate) {
         super(GSVDatasetWritter.label[7]);
         this.legitimateIED = legitimate;
+        setInitialTimestamp((float) legitimate.getMessages().get(0).getTimestamp());
     }
 
     @Override

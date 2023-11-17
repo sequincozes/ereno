@@ -46,11 +46,14 @@ public class MasqueradeFakeNornalCreator implements MessageCreator {
             }
         }
 
+        if (seeds.size()<1){
+            throw new IllegalArgumentException("There must be at least one seed message.");
+        }
         while (((ProtectionIED) ied).getMessages().size() < masqueradeMessages) {
             Goose randomFaultySeed = seeds.get(randomBetween(0, seeds.size() - 1));
-           if(attacker.getSeedMessage()==null){
-           attacker.setSeed(randomFaultySeed);
-           }
+            if (attacker.getSeedMessage() == null) {
+                attacker.setSeed(randomFaultySeed);
+            }
             generateFakeNormalEvent(randomFaultySeed);
         }
     }
@@ -102,7 +105,6 @@ public class MasqueradeFakeNornalCreator implements MessageCreator {
 
 //        System.out.println("ALREADY REPORTED");
     }
-
 
 
 }

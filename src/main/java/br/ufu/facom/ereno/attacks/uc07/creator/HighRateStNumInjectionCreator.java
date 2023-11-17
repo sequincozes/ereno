@@ -26,16 +26,7 @@ public class HighRateStNumInjectionCreator implements MessageCreator {
     @Override
     public void generate(IED ied, int numberofMessages) {
         double minGoose = legitimateMessages.get(0).getTimestamp();
-        double maxGoose = legitimateMessages.get(legitimateMessages.size() - 1).getTimestamp();
-        if (minGoose > maxGoose) {
-            System.out.println("minGoose: " + minGoose);
-            System.out.println("maxGoose: " + maxGoose);
-            System.out.println("Legitimate GOOSEs:");
-            for (Goose g : legitimateMessages) {
-                System.out.println("GOOSE sq(" + g.getSqNum() + "/st" + g.getStNum() + ") em " + g.getTimestamp() + "(T: " + g.getT() + ")");
-            }
-            System.exit(0);
-        }
+        double maxGoose = legitimateMessages.get(legitimateMessages.size()/2 - 1).getTimestamp();
 
         double timestamp = randomBetween(minGoose, maxGoose);
         double t = timestamp;
@@ -46,7 +37,7 @@ public class HighRateStNumInjectionCreator implements MessageCreator {
         for (int i = 0; i < numberofMessages; i++) {
             // Increases the stNum at a high rate (up to 100x the minTime)
             double minTime = Double.valueOf(SetupIED.ECF.minTime);
-            double randomDelay = randomBetween((minTime / 10000), minTime / 1000);
+            double randomDelay = randomBetween(minTime,minTime*2);
             timestamp = timestamp + randomDelay;
             stNum = stNum + 1;
             // Send the generated message to InjectorIED

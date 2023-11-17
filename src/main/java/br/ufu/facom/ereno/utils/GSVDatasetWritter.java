@@ -70,6 +70,10 @@ public class GSVDatasetWritter extends DatasetWritter {
                 Sv sv = ProtocolCorrelation.getCorrespondingSV(mu.getMessages(), currentAttack);
                 double timeFromLastNormal = currentAttack.getTimestamp() - prevNormal.getTimestamp();
                 double timeFromLastAttack = currentAttack.getTimestamp() - prevAttack.getTimestamp();
+                System.out.println("PrevAtk:"+prevAttack.getTimestamp());
+                System.out.println("CurrentAtk:" +currentAttack.getTimestamp());
+                System.out.println("timeFromLastNormal: "+timeFromLastNormal);
+                System.out.println("timeFromLastAtk: "+timeFromLastAttack);
                 if (timeFromLastNormal > timeFromLastAttack) {
                     // Previous message is an attack
                     writeToDataset(mu.getMessages(), prevAttack, currentAttack, sv);

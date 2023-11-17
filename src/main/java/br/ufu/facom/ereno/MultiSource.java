@@ -29,9 +29,8 @@ public class MultiSource {
 
     public static void main(String[] args) throws Exception {
         init();
-        numberOfMessages = 100;
-        twoDevices("train", numberOfMessages);
-        numberOfMessages = 100;
+        numberOfMessages = 250;
+//        twoDevices("train", numberOfMessages);
         twoDevices("test", numberOfMessages);
         DatasetEval.runWithoutCV();
 
@@ -47,26 +46,26 @@ public class MultiSource {
 
         // Generating GOOSE attacks
         System.out.println("-----------------");
-//        for (int i = 0; i < 10; i++) {
+//        for (int i = 0; i < 40; i++) {
 //            LegitimateProtectionIED legitimateIED = runUC00(mu, i == 0);
             LegitimateProtectionIED legitimateIED = runUC00(mu, true);
-//            runUC01(legitimateIED, mu);
-//            runUC02(legitimateIED, mu);
-//            runUC03(legitimateIED, mu); // parei aqui
-//            runUC04(legitimateIED, mu);
-//            runUC05(legitimateIED, mu);
+            runUC01(legitimateIED, mu);
+            runUC02(legitimateIED, mu);
+            runUC03(legitimateIED, mu);
+            runUC04(legitimateIED, mu);
+            runUC05(legitimateIED, mu);
             runUC06(legitimateIED, mu);
-//            runUC07(legitimateIED, mu);
+            runUC07(legitimateIED, mu);  // parei aqui, os outros parece que tem bug no timestamp
 //            runUC08(legitimateIED, mu);
-//        }
+        }
 //
         finishWriting();
 
     }
 
     public static MergingUnit runMU() {
-//        MergingUnit mu = new MergingUnit(Input.electricalSourceFiles);
-        MergingUnit mu = new MergingUnit(Input.singleElectricalSourceFile);
+        MergingUnit mu = new MergingUnit(Input.electricalSourceFiles);
+//        MergingUnit mu = new MergingUnit(Input.singleElectricalSourceFile);
         mu.enableRandomOffsets(numberOfMessages);
         mu.run(numberOfMessages * 4763);
         return mu;

@@ -43,35 +43,17 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
         this.cbStatus = cbStatus;
         this.stNum = stNum;
         this.sqNum = sqNum;
-        this.timestamp = roundTime(timestamp);
-        this.t = roundTime(t);
+        this.timestamp = (timestamp);
+        this.t = (t);
         this.label = label;
     }
 
-    private double roundTime(double time) {
-        try {
-            DecimalFormat formato = new DecimalFormat("#.####");
-            String numeroFormatado = formato.format(time);
-            return Double.parseDouble(numeroFormatado);
-        } catch (NumberFormatException e) {
-            String timeString = String.valueOf(time);
-            String timeStringParts[] = timeString.split(".");
-            if (timeStringParts.length > 1) {
-                timeString = timeStringParts[0].concat(timeStringParts[1].substring(0, 4));
-            } else if (timeStringParts.length > 0) {
-                timeString = timeStringParts[0];
-            }  else {
-                return time;
-            }
-            return Double.parseDouble(timeString);
-        }
-    }
 
     private void fromECF() {
 
         sqNum = Integer.parseInt(SetupIED.ECF.sqNum);
         stNum = Integer.parseInt(SetupIED.ECF.stNum);
-        timestamp = roundTime(Double.parseDouble(SetupIED.ECF.timestamp));
+        timestamp = (Double.parseDouble(SetupIED.ECF.timestamp));
         gocbRef = SetupIED.ECF.gocbRef;
         datSet = SetupIED.ECF.datSet;
         goID = GooseFlow.ECF.goID;
@@ -141,11 +123,11 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
     }
 
     public void setTimestamp(double timestamp) {
-        this.timestamp = roundTime(timestamp);
+        this.timestamp = (timestamp);
     }
 
     public int getFrameLen() {
-        return String.valueOf(numDatSetEntries).length()
+        return 200;/*String.valueOf(numDatSetEntries).length()
                 + String.valueOf(gooseTimeAllowedtoLive).length()
                 + String.valueOf(cbStatus).length()
                 + String.valueOf(stNum).length()
@@ -161,7 +143,7 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
                 + goID.length()
                 + test.length()
                 + ndsCom.length()
-                + 115;
+                + 115;*/
     }
 
     public int getGooseLen() {
