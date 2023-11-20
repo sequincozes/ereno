@@ -57,10 +57,14 @@ public class LegitimateProtectionIED extends ProtectionIED {
     public void addMessage(EthernetFrame periodicGoose) {
         // this was commented due to the grayhole need for exceding messages
 //        if (GooseFlow.ECF.numberOfMessages >= messages.size()){
-            this.messages.add((Goose) periodicGoose);
+        this.messages.add((Goose) periodicGoose);
 //        } else {
 //            throw new IndexOutOfBoundsException("Adding more GOOSE than the predefined threshold. There is something wrong with your logic.");
 //        }
+    }
+
+    public void addMessages(ArrayList<Goose> messages) {
+        this.messages.addAll(messages);
     }
 
 
@@ -252,6 +256,6 @@ public class LegitimateProtectionIED extends ProtectionIED {
 
 
     public Goose getSeedMessage() {
-       return ((GooseCreator) messageCreator).getSeedMessage();
+        return ((GooseCreator) messageCreator).getSeedMessage();
     }
 }

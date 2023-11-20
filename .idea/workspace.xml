@@ -15,13 +15,7 @@
     <list default="true" id="5dc2c3e3-b182-4ce1-b90c-b522e5d13c0c" name="Changes" comment="All UCs reviewed.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc04/creator/MasqueradeFakeNornalCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc04/creator/MasqueradeFakeNornalCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc06/creator/HighStNumInjectionCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc06/creator/HighStNumInjectionCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc07/creator/HighRateStNumInjectionCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc07/creator/HighRateStNumInjectionCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc07/devices/HighRateStNumInjectorIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/attacks/uc07/devices/HighRateStNumInjectorIED.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/DatasetEval.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/evaluation/DatasetEval.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/messages/Goose.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/messages/Goose.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/GSVDatasetWritter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/utils/GSVDatasetWritter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/LegitimateProtectionIED.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/benign/uc00/devices/LegitimateProtectionIED.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +80,7 @@
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;extract.method.default.visibility&quot;: &quot;private&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Silvio/IdeaProjects/ereno/src/main/java/br/ufu/facom/ereno/attacks/uc04/creator&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Silvio/IdeaProjects/medbepages&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -120,7 +114,7 @@
       <recent name="br.ufu.facom.ereno.evaluation.support" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.DatasetEval">
+  <component name="RunManager" selected="Application.MultiSource">
     <configuration name="DatasetEval" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="br.ufu.facom.ereno.evaluation.DatasetEval" />
       <module name="ERENO" />
@@ -290,8 +284,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.DatasetEval" />
         <item itemvalue="Application.MultiSource" />
+        <item itemvalue="Application.DatasetEval" />
         <item itemvalue="Tomcat Server.index.jsp" />
         <item itemvalue="JavaScript Debug.teste.jsp" />
         <item itemvalue="JavaScript Debug.ied-configs.jsp" />
@@ -365,7 +359,10 @@
       <workItem from="1700017423021" duration="1515000" />
       <workItem from="1700020812617" duration="11189000" />
       <workItem from="1700063585615" duration="37946000" />
-      <workItem from="1700162412237" duration="1926000" />
+      <workItem from="1700162412237" duration="2732000" />
+      <workItem from="1700187285234" duration="857000" />
+      <workItem from="1700360334828" duration="71000" />
+      <workItem from="1700509151877" duration="350000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1658677919676</created>
@@ -710,7 +707,7 @@
       <option name="project" value="LOCAL" />
       <updated>1685733209617</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -761,7 +758,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/br/ufu/facom/ereno/MultiSource.java</url>
-          <line>66</line>
+          <line>124</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

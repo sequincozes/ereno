@@ -31,8 +31,66 @@ public class MultiSource {
         init();
         numberOfMessages = 250;
 //        twoDevices("train", numberOfMessages);
-        twoDevices("test", numberOfMessages);
+//        twoDevices("test", numberOfMessages);
+
+        noIDSDataset("train", numberOfMessages);
+        noIDSDataset("test", numberOfMessages);
         DatasetEval.runWithoutCV();
+
+    }
+
+
+    public static void noIDSDataset(String datasetName, int numberOfMessages) throws IOException {
+        startWriting("E:\\ereno dataset\\hibrid_dataset_GOOSE_" + datasetName + ".arff");
+
+        // Generate SV
+        MergingUnit mu = runMU();
+
+        // Generate normal messages
+        LegitimateProtectionIED uc00 = new LegitimateProtectionIED();
+        uc00.setInitialTimestamp(mu.getInitialTimestamp());
+        uc00.run(numberOfMessages);
+
+        RandomReplayerIED uc01 = new RandomReplayerIED(uc00);
+        uc01.run(numberOfMessages);
+
+        InverseReplayerIED uc02 = new InverseReplayerIED(uc00);
+        uc02.run(numberOfMessages);
+
+        MasqueradeFakeFaultIED uc03 = new MasqueradeFakeFaultIED(uc00);
+        uc03.setInitialTimestamp(mu.getInitialTimestamp());
+        uc03.run(numberOfMessages);
+
+        MasqueradeFakeNormalED uc04 = new MasqueradeFakeNormalED(uc00);
+        uc04.setInitialTimestamp(mu.getInitialTimestamp());
+        uc04.run(numberOfMessages);
+
+        InjectorIED uc05 = new InjectorIED(uc00);
+        uc05.run(numberOfMessages);
+
+        HighStNumInjectorIED uc06 = new HighStNumInjectorIED(uc00);
+        uc06.run(numberOfMessages);
+
+        HighRateStNumInjectorIED uc07 = new HighRateStNumInjectorIED(uc00);
+        uc07.run(numberOfMessages);
+
+        ProtectionIED uc00forGrayhole = new LegitimateProtectionIED();
+        uc00forGrayhole.setInitialTimestamp(mu.getInitialTimestamp());
+        uc00forGrayhole.run((int) (numberOfMessages * 1.2)); // generate 20% more, because 20% will be discarded
+        GrayHoleVictimIED uc08 = new GrayHoleVictimIED(uc00forGrayhole);
+        uc08.run(80); //80 = discards 20%
+
+        uc00.addMessages(uc01.getMessages());
+        uc00.addMessages(uc02.getMessages());
+        uc00.addMessages(uc03.getMessages());
+        uc00.addMessages(uc04.getMessages());
+        uc00.addMessages(uc05.getMessages());
+        uc00.addMessages(uc06.getMessages());
+        uc00.addMessages(uc07.getMessages());
+        writeNormal(uc00.getSeedMessage(), uc00.getMessages(), mu.getMessages(), true);
+
+        finishWriting();
+
 
     }
 
@@ -57,8 +115,8 @@ public class MultiSource {
             runUC06(legitimateIED, mu);
             runUC07(legitimateIED, mu);  // parei aqui, os outros parece que tem bug no timestamp
 //            runUC08(legitimateIED, mu);
-        }
-//
+//        }
+
         finishWriting();
 
     }
