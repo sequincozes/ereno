@@ -57,7 +57,6 @@ public class MultiSource {
             runUC06(legitimateIED, mu);
             runUC07(legitimateIED, mu);  // parei aqui, os outros parece que tem bug no timestamp
 //            runUC08(legitimateIED, mu);
-        }
 //
         finishWriting();
 
