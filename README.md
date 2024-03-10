@@ -21,7 +21,7 @@
    
 
 
-### **🏷️ Note**
+n### **🏷️ Note**
 In this implementation, we use the Java SE Development Kit 8 to run java files, Apache Tomcat to run a Java web server (more specifically a servlet container) and the IDE IntelliJ IDEA 2022.2 (Ultimate Edition). Next, the execution environments are detailed and the versions of the utilities are presented.
 
 
@@ -31,12 +31,12 @@ In this implementation, we use the Java SE Development Kit 8 to run java files, 
 
 For local testing purposes, we ran the tool on two computers with different configurations:
 
-|  Settings   |  Computer I       |    Computer II |
-| :---:        |     :---:      |    :---:      |
-|  Operating System (OS):   | Windows 10 | Ubuntu 20.04.3 LTS |
-| Processor:  | Intel(R) Core(TM) <br> i5-10300H CPU @ 2.50GHz 2.50 GHz  | Intel(R) Core(TM) <br> i5-10300H CPU @ 2.50GHz 2.50 GHz |
-| RAM Memory:   | 16 GB | 16 GB |
-| Architecture:  | 64 bits    | 86 bits |
+|       Settings         |                       Computer I                        |                       Computer II                       |
+|:----------------------:|:-------------------------------------------------------:|:-------------------------------------------------------:|
+| Operating System (OS): |                       Windows 10                        |                   Ubuntu 20.04.3 LTS                    |
+|       Processor:       | Intel(R) Core(TM) <br> i5-10300H CPU @ 2.50GHz 2.50 GHz | Intel(R) Core(TM) <br> i5-10300H CPU @ 2.50GHz 2.50 GHz |
+|      RAM Memory:       |                          16 GB                          |                         16 GB                           |
+|     Architecture:      |                         64 bits                         |                         86 bits                         |
 
 
    
@@ -47,21 +47,21 @@ For local testing purposes, we ran the tool on two computers with different conf
 The tool uses two utilities to run. The table below shows the versions of the utilities used.
 
 
-|  Utilities   |  Tested Version     |
-| :---:        |     :---:      |  
-| Java SE Development Kit:   | 8 | 
-| Apache Tomcat:  | 9.0.65 |
+|        Utilitie s        | Tested Versions |
+|:------------------------:|:---------------:|  
+| Java SE Development Kit: |      8, 21      | 
+|      Apache Tomcat:      | 9.0.65, 9.0.86  |
 
-
+Currently, ERENO won't work with Tomcat 10 or newer.
    
 
 <div id="development-environment"/>
 
 ## ⚙️ Integrated Development Environment (IDE)
 
-|  Tool  |   Tested Version     | Runtime Version | VM |
-| :---:        |     :---:      |  :---:      |  :---:      |
-| IntelliJ IDEA   | 2022.2 (Ultimate Edition) | 17.0.3+7-b469.32 amd64 | OpenJDK 64-Bit Server VM by JetBrains s.r.o. |
+|    Tool       |      Tested Version       |    Runtime Version     |                     VM                       |
+|:-------------:|:-------------------------:|:----------------------:|:--------------------------------------------:|
+| IntelliJ IDEA | 2022.2 (Ultimate Edition) | 17.0.3+7-b469.32 amd64 | OpenJDK 64-Bit Server VM by JetBrains s.r.o. |
 
 
 
@@ -112,12 +112,12 @@ Nesta implementação, utilizamos o Java SE Development Kit 8 para executar arqu
 
 Para fins de testes locais, executamos a ferramenta em dois computadores com configurações distintas:
 
-|  Configurações   |  Computador I       |    Computador II |
-| :---:        |     :---:      |    :---:      |
-| Sistema Operacional (SO):   | Windows 10 | Ubuntu 20.04.3 LTS |
-| Processador:  | Intel(R) Core(TM) <br> i5-10300H CPU @ 2.50GHz 2.50 GHz  | Intel(R) Core(TM) <br> i5-10300H CPU @ 2.50GHz 2.50 GHz |
-| Memória RAM:   | 16 GB | 16 GB |
-| bits do SO:  | 64 bits    | 86 bits |
+|       Configurações       |                      Computador I                       |                      Computador II                      |
+|:-------------------------:|:-------------------------------------------------------:|:-------------------------------------------------------:|
+| Sistema Operacional (SO): |                       Windows 10                        |                   Ubuntu 20.04.3 LTS                    |
+|       Processador:        | Intel(R) Core(TM) <br> i5-10300H CPU @ 2.50GHz 2.50 GHz | Intel(R) Core(TM) <br> i5-10300H CPU @ 2.50GHz 2.50 GHz |
+|       Memória RAM:        |                          16 GB                          |                         16 GB                           |
+|        bits do SO:        |                         64 bits                         |                         86 bits                         |
 
 <div id="requisitos"/>
 
@@ -125,19 +125,20 @@ Para fins de testes locais, executamos a ferramenta em dois computadores com con
 
 A ferramenta usa dois utilitários para execução. Na Tabela abaixo são apresentadas as versões dos utilitários utilizados.
 
-|  Utilitários   |  Versão Testada     |
-| :---:        |     :---:      |  
-| Java SE Development Kit:   | 8 | 
-| Apache Tomcat:  | 9.0.65 |
+|       Utilitários        | Versão Testada |
+|:------------------------:|:--------------:|  
+| Java SE Development Kit: |     8, 21      | 
+|      Apache Tomcat:      | 9.0.65, 9.0.86 |
 
+Atualmente, o ERENO não funciona com o Tomcat 10 ou mais novo.
 
 <div id="ambiente-desenvolvimento"/>
 
 ## ⚙️ Ambiente de Desenvolvimento Integrado
 
-|  Ferramenta  |  Versão Testada     | Versão Runtime | VM |
-| :---:        |     :---:      |  :---:      |  :---:      |
-| IntelliJ IDEA   | 2022.2 (Ultimate Edition) | 17.0.3+7-b469.32 amd64 | OpenJDK 64-Bit Server VM by JetBrains s.r.o. |
+|  Ferramenta   |      Versão Testada       |     Versão Runtime     |                      VM                      |
+|:-------------:|:-------------------------:|:----------------------:|:--------------------------------------------:|
+| IntelliJ IDEA | 2022.2 (Ultimate Edition) | 17.0.3+7-b469.32 amd64 | OpenJDK 64-Bit Server VM by JetBrains s.r.o. |
 
 
 
