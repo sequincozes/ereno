@@ -12,9 +12,7 @@
 * [Requirements](#requirements)
 * [Development Environment](#development-environment)
 * [Example of Usage](#example-of-use)
-* [Electrical Measures for SV Generation - Input Sample 1](https://drive.google.com/drive/folders/1rqFqKLmGaCPrxQZs4CrvXwAz7jZyVIoW?usp=drive_link)
-* [Electrical Measures for SV Generation - Input Sample 2](https://drive.google.com/drive/folders/1mZR9atDBaSVeycoZrQVfPmf8az3JIou-?usp=drive_link)
-* [Electrical Measures for SV Generation - Input Sample 3](https://drive.google.com/drive/folders/1pfzrsCty-uchb2I0uIRelmZgw80pa5ta?usp=drive_link)
+* [Electrical Measures for SV Generation - Input Samples](https://drive.google.com/drive/folders/0BzFGHFAeLiBSfmxYWWMtUk9XMXhyQzJrNjJycDJ5ZWd4cmRzMUZFWTE1TldtT1lIek80TkU?resourcekey=0-0UD6SdVd_pRisxIQ3tdTKA&usp=sharing)
 * [🇧🇷 Versão em português!](#portuguese-version)
 
 
