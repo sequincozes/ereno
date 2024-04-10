@@ -2,7 +2,7 @@ package br.ufu.facom.ereno.attacks.uc08.devices;
 
 import br.ufu.facom.ereno.attacks.uc08.creator.GrayHoleVictimCreator;
 import br.ufu.facom.ereno.general.ProtectionIED;
-import br.ufu.facom.ereno.utils.GSVDatasetWritter;
+import br.ufu.facom.ereno.utils.GSVDatasetWriter;
 
 import java.util.logging.Logger;
 
@@ -11,7 +11,7 @@ public class GrayHoleVictimIED extends ProtectionIED {  // Gray hole attackers d
     ProtectionIED legitimateIED; // GrayHoleVictimIED will discard mensagens from that legitimate device
 
     public GrayHoleVictimIED(ProtectionIED legitimate) {
-        super(GSVDatasetWritter.label[8]);
+        super(GSVDatasetWriter.label[8]);
         this.legitimateIED = legitimate;
     }
 

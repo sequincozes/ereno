@@ -1,6 +1,6 @@
 package br.ufu.facom.ereno.api;
 
-import br.ufu.facom.ereno.utils.GSVDatasetWritter;
+import br.ufu.facom.ereno.utils.GSVDatasetWriter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -55,10 +55,10 @@ public class GooseFlow extends HttpServlet {
             gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
             Gson gson = gsonBuilder.create();
             try {
-                GSVDatasetWritter.startWriting(System.getProperty("user.dir") +
+                GSVDatasetWriter.startWriting(System.getProperty("user.dir") +
                         "/src/main/webapp/ecf/goose-flow.json");
-                GSVDatasetWritter.write(gson.toJson(new ECF(), ECF.class));
-                GSVDatasetWritter.finishWriting();
+                GSVDatasetWriter.write(gson.toJson(new ECF(), ECF.class));
+                GSVDatasetWriter.finishWriting();
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -71,9 +71,9 @@ public class GooseFlow extends HttpServlet {
             gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
             Gson gson = gsonBuilder.create();
             try {
-                GSVDatasetWritter.startWriting(servletContext.getRealPath("ecf/goose-flow.json"));
-                GSVDatasetWritter.write(gson.toJson(new ECF(), ECF.class));
-                GSVDatasetWritter.finishWriting();
+                GSVDatasetWriter.startWriting(servletContext.getRealPath("ecf/goose-flow.json"));
+                GSVDatasetWriter.write(gson.toJson(new ECF(), ECF.class));
+                GSVDatasetWriter.finishWriting();
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -160,7 +160,7 @@ public class GooseFlow extends HttpServlet {
             out.println("</body></html>");
 
 
-            if (GSVDatasetWritter.english) {
+            if (GSVDatasetWriter.english) {
                 response.sendRedirect(request.getContextPath() + "/en/upload-samples.jsp");
             } else {
                 response.sendRedirect(request.getContextPath() + "/upload-samples.jsp");

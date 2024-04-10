@@ -5,14 +5,12 @@
  */
 package br.ufu.facom.ereno.attacks.uc04.creator;
 
-import br.ufu.facom.ereno.attacks.uc03.devices.MasqueradeFakeFaultIED;
 import br.ufu.facom.ereno.attacks.uc04.devices.MasqueradeFakeNormalED;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
-import br.ufu.facom.ereno.benign.uc00.devices.LegitimateProtectionIED;
 import br.ufu.facom.ereno.general.IED;
 import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.messages.Goose;
-import br.ufu.facom.ereno.utils.GSVDatasetWritter;
+import br.ufu.facom.ereno.utils.GSVDatasetWriter;
 
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -69,7 +67,7 @@ public class MasqueradeFakeNornalCreator implements MessageCreator {
     }
 
     public void reportEventAt(Goose seedMessage, double eventTimestamp) {
-        if (GSVDatasetWritter.Debug.gooseMessages) {
+        if (GSVDatasetWriter.Debug.gooseMessages) {
             Logger.getLogger("GooseCreator").log(Level.INFO, "Reporting an event at " + eventTimestamp + "!");
         }
 

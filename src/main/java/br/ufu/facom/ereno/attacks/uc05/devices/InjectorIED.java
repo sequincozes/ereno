@@ -2,7 +2,7 @@ package br.ufu.facom.ereno.attacks.uc05.devices;
 
 import br.ufu.facom.ereno.attacks.uc05.creator.InjectionCreator;
 import br.ufu.facom.ereno.general.ProtectionIED;
-import br.ufu.facom.ereno.utils.GSVDatasetWritter;
+import br.ufu.facom.ereno.utils.GSVDatasetWriter;
 
 import java.util.logging.Logger;
 
@@ -11,7 +11,7 @@ public class InjectorIED extends ProtectionIED {
     ProtectionIED legitimateIED; // injector IED will inject messages between the legitimate ones
 
     public InjectorIED(ProtectionIED legitimate) {
-        super(GSVDatasetWritter.label[5]);
+        super(GSVDatasetWriter.label[5]);
         this.legitimateIED = legitimate;
     }
 

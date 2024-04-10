@@ -1,6 +1,6 @@
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="br.ufu.facom.ereno.api.GooseFlow" %>
-<%@ page import="br.ufu.facom.ereno.utils.GSVDatasetWritter" %>
+<%@ page import="br.ufu.facom.ereno.utils.GSVDatasetWriter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -62,7 +62,7 @@
             <li class="nav-item dropdown pe-3">
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="../goose-message.jsp">
                     <img src="../assets/img/en-pt.png" alt="Language" class="rounded-circle">
-                    <div style="display: none;"><%=GSVDatasetWritter.english = true%>
+                    <div style="display: none;"><%=GSVDatasetWriter.english = true%>
                     </div>
                 </a>
             </li><!-- End Profile Nav -->

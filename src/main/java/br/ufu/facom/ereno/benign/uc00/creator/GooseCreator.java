@@ -5,7 +5,7 @@
  */
 package br.ufu.facom.ereno.benign.uc00.creator;
 
-import br.ufu.facom.ereno.utils.GSVDatasetWritter;
+import br.ufu.facom.ereno.utils.GSVDatasetWriter;
 import br.ufu.facom.ereno.general.IED;
 import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.messages.Goose;
@@ -97,7 +97,7 @@ public class GooseCreator implements MessageCreator {
     }
 
     public void reportEventAt(double eventTimestamp) {
-        if (GSVDatasetWritter.Debug.gooseMessages) {
+        if (GSVDatasetWriter.Debug.gooseMessages) {
             Logger.getLogger("GooseCreator").log(Level.INFO, "Reporting an event at " + eventTimestamp + "!");
         }
 

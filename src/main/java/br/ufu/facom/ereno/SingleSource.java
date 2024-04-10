@@ -12,13 +12,11 @@ import br.ufu.facom.ereno.attacks.uc08.devices.GrayHoleVictimIED;
 import br.ufu.facom.ereno.benign.uc00.devices.LegitimateProtectionIED;
 import br.ufu.facom.ereno.benign.uc00.devices.MergingUnit;
 import br.ufu.facom.ereno.attacks.uc01.devices.RandomReplayerIED;
-import br.ufu.facom.ereno.general.ProtectionIED;
-import br.ufu.facom.ereno.utils.GSVDatasetWritter;
 
 import java.io.*;
 import java.util.logging.Logger;
 
-import static br.ufu.facom.ereno.utils.GSVDatasetWritter.*;
+import static br.ufu.facom.ereno.utils.GSVDatasetWriter.*;
 
 public class SingleSource {
 

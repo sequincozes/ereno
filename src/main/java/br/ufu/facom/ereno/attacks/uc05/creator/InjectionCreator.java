@@ -1,6 +1,6 @@
 package br.ufu.facom.ereno.attacks.uc05.creator;
 
-import br.ufu.facom.ereno.utils.GSVDatasetWritter;
+import br.ufu.facom.ereno.utils.GSVDatasetWriter;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 import br.ufu.facom.ereno.general.IED;
 import br.ufu.facom.ereno.messages.Goose;
@@ -44,7 +44,7 @@ public class InjectionCreator implements MessageCreator {
             int confRev = randomBetween(0, 100);
 
             // Last Goose Message from the random time
-            Goose injectionMessage = new Goose(cbStatus, stNum, sqNum, timestamp, t, GSVDatasetWritter.label[5]);
+            Goose injectionMessage = new Goose(cbStatus, stNum, sqNum, timestamp, t, GSVDatasetWriter.label[5]);
             injectionMessage.setSqNum(sqNum);
             injectionMessage.setStNum(stNum);
             injectionMessage.setCbStatus(cbStatus);

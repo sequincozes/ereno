@@ -1,6 +1,6 @@
 package br.ufu.facom.ereno.api;
 
-import br.ufu.facom.ereno.utils.GSVDatasetWritter;
+import br.ufu.facom.ereno.utils.GSVDatasetWriter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -63,10 +63,10 @@ public class Attacks extends HttpServlet {
             gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
             Gson gson = gsonBuilder.create();
             try {
-                GSVDatasetWritter.startWriting(System.getProperty("user.dir") +
+                GSVDatasetWriter.startWriting(System.getProperty("user.dir") +
                         "/src/main/webapp/ecf/attacks.json");
-                GSVDatasetWritter.write(gson.toJson(new ECF(), Attacks.ECF.class));
-                GSVDatasetWritter.finishWriting();
+                GSVDatasetWriter.write(gson.toJson(new ECF(), Attacks.ECF.class));
+                GSVDatasetWriter.finishWriting();
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -79,9 +79,9 @@ public class Attacks extends HttpServlet {
             gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
             Gson gson = gsonBuilder.create();
             try {
-                GSVDatasetWritter.startWriting(servletContext.getRealPath("ecf/attacks.json"));
-                GSVDatasetWritter.write(gson.toJson(new ECF(), Attacks.ECF.class));
-                GSVDatasetWritter.finishWriting();
+                GSVDatasetWriter.startWriting(servletContext.getRealPath("ecf/attacks.json"));
+                GSVDatasetWriter.write(gson.toJson(new ECF(), Attacks.ECF.class));
+                GSVDatasetWriter.finishWriting();
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);

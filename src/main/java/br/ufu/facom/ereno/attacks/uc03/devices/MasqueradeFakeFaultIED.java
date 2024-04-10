@@ -13,7 +13,7 @@ import br.ufu.facom.ereno.benign.uc00.devices.LegitimateProtectionIED;
 import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
-import br.ufu.facom.ereno.utils.DatasetWritter;
+import br.ufu.facom.ereno.utils.DatasetWriter;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -25,7 +25,7 @@ public class MasqueradeFakeFaultIED extends ProtectionIED {
     LegitimateProtectionIED victimIED;
 
     public MasqueradeFakeFaultIED(LegitimateProtectionIED legitimateProtectionIED) {
-        super(DatasetWritter.label[3]);
+        super(DatasetWriter.label[3]);
         this.victimIED = legitimateProtectionIED;
         messages = new ArrayList<>();
     }

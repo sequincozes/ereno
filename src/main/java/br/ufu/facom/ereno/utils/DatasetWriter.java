@@ -10,7 +10,7 @@ import java.nio.file.Files;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class DatasetWritter {
+public class DatasetWriter {
     static BufferedWriter bw;
     public static boolean english = false;
     static boolean replace = true;
@@ -48,11 +48,11 @@ public class DatasetWritter {
         for (Goose gm : gooseMessages) {
             if (prev != null) {
                 String gooseString = gm.asCSVFull() + getConsistencyFeaturesAsCSV(gm, prev) + "," + gm.getLabel();
-                if (DatasetWritter.Debug.printSignatures) {
+                if (DatasetWriter.Debug.printSignatures) {
                     System.out.println(gooseString);
                 }
                 write(gooseString);
-                if (DatasetWritter.Debug.gooseMessages) {
+                if (DatasetWriter.Debug.gooseMessages) {
                     System.out.println(gm.getLabel() + "," + gm.asCSVCompact());
                 }
             }
@@ -356,7 +356,7 @@ public class DatasetWritter {
             DecimalFormat df = new DecimalFormat("#.#");
 
             html = html + "<li> ";
-            if (DatasetWritter.english) {
+            if (DatasetWriter.english) {
                 html = html + "<a download href=\"../" + downloadLink + "\">";
             } else {
                 html = html + "<a download href=\"" + downloadLink + "\">";

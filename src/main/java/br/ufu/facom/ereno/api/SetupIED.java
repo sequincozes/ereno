@@ -1,6 +1,6 @@
 package br.ufu.facom.ereno.api;
 
-import br.ufu.facom.ereno.utils.GSVDatasetWritter;
+import br.ufu.facom.ereno.utils.GSVDatasetWriter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -49,10 +49,10 @@ public class SetupIED extends HttpServlet {
             gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
             Gson gson = gsonBuilder.create();
             try {
-                GSVDatasetWritter.startWriting(System.getProperty("user.dir") +
+                GSVDatasetWriter.startWriting(System.getProperty("user.dir") +
                         "/src/main/webapp/ecf/setup-ied.json");
-                GSVDatasetWritter.write(gson.toJson(new ECF(), ECF.class));
-                GSVDatasetWritter.finishWriting();
+                GSVDatasetWriter.write(gson.toJson(new ECF(), ECF.class));
+                GSVDatasetWriter.finishWriting();
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -65,9 +65,9 @@ public class SetupIED extends HttpServlet {
             gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
             Gson gson = gsonBuilder.create();
             try {
-                GSVDatasetWritter.startWriting(servletContext.getRealPath("ecf/setup-ied.json"));
-                GSVDatasetWritter.write(gson.toJson(new ECF(), ECF.class));
-                GSVDatasetWritter.finishWriting();
+                GSVDatasetWriter.startWriting(servletContext.getRealPath("ecf/setup-ied.json"));
+                GSVDatasetWriter.write(gson.toJson(new ECF(), ECF.class));
+                GSVDatasetWriter.finishWriting();
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new RuntimeException(e);
@@ -127,7 +127,7 @@ public class SetupIED extends HttpServlet {
             out.println("<h1>" + "Done!" + "</h1>");
             out.println("</body></html>");
 
-            if (GSVDatasetWritter.english) {
+            if (GSVDatasetWriter.english) {
                 response.sendRedirect(request.getContextPath() + "/en/goose-message.jsp");
             } else {
                 response.sendRedirect(request.getContextPath() + "/goose-message.jsp");

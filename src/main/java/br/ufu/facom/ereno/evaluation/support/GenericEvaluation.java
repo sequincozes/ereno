@@ -407,7 +407,7 @@ public class GenericEvaluation {
                 Instance testando = test.instance(i);
                 double resultado = selectedClassifier.getClassifier().classifyInstance(testando);
                 double esperado = testando.classValue();
-                if (resultado == esperado) {
+                if (resultado == esperado) { // good prediction
                     if (resultado == normalClass) {
                         VN = VN + 1;
                     } else {

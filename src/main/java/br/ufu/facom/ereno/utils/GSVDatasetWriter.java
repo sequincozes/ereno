@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 import static br.ufu.facom.ereno.api.GooseFlow.ECF.numberOfMessages;
 
-public class GSVDatasetWritter extends DatasetWritter {
+public class GSVDatasetWriter extends DatasetWriter {
     public static int writeNormal(Goose seedMessage, ArrayList<Goose> gooseMessages, ArrayList<Sv> svMessages, boolean printHeader) throws IOException {
         /* Write Header and Columns */
         if (printHeader)
@@ -70,6 +70,7 @@ public class GSVDatasetWritter extends DatasetWritter {
                 Sv sv = ProtocolCorrelation.getCorrespondingSV(mu.getMessages(), currentAttack);
                 double timeFromLastNormal = currentAttack.getTimestamp() - prevNormal.getTimestamp();
                 double timeFromLastAttack = currentAttack.getTimestamp() - prevAttack.getTimestamp();
+                System.out.println("------------");
                 System.out.println("PrevAtk:"+prevAttack.getTimestamp());
                 System.out.println("CurrentAtk:" +currentAttack.getTimestamp());
                 System.out.println("timeFromLastNormal: "+timeFromLastNormal);
@@ -88,6 +89,8 @@ public class GSVDatasetWritter extends DatasetWritter {
         }
         return attacker.getMessages().size();
     }
+
+
 
     private static void writeToDataset(ArrayList<Sv> svMessages, Goose prev, Goose attack, Sv sv) throws IOException {
         String svString = sv.asCsv();

@@ -15,27 +15,26 @@ import br.ufu.facom.ereno.attacks.uc08.devices.GrayHoleVictimIED;
 import br.ufu.facom.ereno.benign.uc00.devices.LegitimateProtectionIED;
 import br.ufu.facom.ereno.benign.uc00.devices.MergingUnit;
 import br.ufu.facom.ereno.general.ProtectionIED;
-import br.ufu.facom.ereno.evaluation.DatasetEval;
-import br.ufu.facom.ereno.messages.Goose;
 
 import java.io.IOException;
 import java.util.logging.Logger;
 
 import static br.ufu.facom.ereno.api.GooseFlow.ECF.numberOfMessages;
 import static br.ufu.facom.ereno.general.IED.randomBetween;
-import static br.ufu.facom.ereno.utils.GSVDatasetWritter.*;
+import static br.ufu.facom.ereno.utils.GSVDatasetWriter.*;
 
 public class MultiSource {
 
     public static void main(String[] args) throws Exception {
         init();
-        numberOfMessages = 250;
-//        twoDevices("train", numberOfMessages);
-//        twoDevices("test", numberOfMessages);
+        numberOfMessages = 10;
+        twoDevices("debug", numberOfMessages, false);
+//        twoDevices("train", numberOfMessages, true);
+//        twoDevices("test", numberOfMessages, false);
 
-        noIDSDataset("train", numberOfMessages);
-        noIDSDataset("test", numberOfMessages);
-        DatasetEval.runWithoutCV();
+//        noIDSDataset("train", numberOfMessages);
+//        noIDSDataset("test", numberOfMessages);
+//        DatasetEval.runWithoutCV();
 
     }
 
@@ -95,7 +94,7 @@ public class MultiSource {
     }
 
 
-    public static void twoDevices(String datasetName, int n) throws IOException {
+    public static void twoDevices(String datasetName, int n, boolean train) throws IOException {
         numberOfMessages = n;
         startWriting("E:\\ereno dataset\\hibrid_dataset_GOOSE_" + datasetName + ".arff");
 
@@ -104,18 +103,29 @@ public class MultiSource {
 
         // Generating GOOSE attacks
         System.out.println("-----------------");
-//        for (int i = 0; i < 40; i++) {
-//            LegitimateProtectionIED legitimateIED = runUC00(mu, i == 0);
-            LegitimateProtectionIED legitimateIED = runUC00(mu, true);
-            runUC01(legitimateIED, mu);
-            runUC02(legitimateIED, mu);
-            runUC03(legitimateIED, mu);
-            runUC04(legitimateIED, mu);
-            runUC05(legitimateIED, mu);
-            runUC06(legitimateIED, mu);
-            runUC07(legitimateIED, mu);  // parei aqui, os outros parece que tem bug no timestamp
+        LegitimateProtectionIED legitimateIED = runUC00(mu, true);
+
+
+        if (train) {
+//            runUC01(legitimateIED, mu);
+//            runUC02(legitimateIED, mu);
+//            runUC03(legitimateIED, mu);
+//            runUC04(legitimateIED, mu);
+//            runUC05(legitimateIED, mu);
+//            runUC06(legitimateIED, mu);
+//            runUC07(legitimateIED, mu);  // parei aqui, os outros parece que tem bug no timestamp
 //            runUC08(legitimateIED, mu);
-//        }
+        }
+        if (!train) {
+//            runUC01(legitimateIED, mu);
+//            runUC02(legitimateIED, mu);
+//            runUC03(legitimateIED, mu);
+            runUC04(legitimateIED, mu);
+//            runUC05(legitimateIED, mu);
+//            runUC06(legitimateIED, mu);
+//            runUC07(legitimateIED, mu);  // parei aqui, os outros parece que tem bug no timestamp
+//            runUC08(legitimateIED, mu);
+        }
 
         finishWriting();
 

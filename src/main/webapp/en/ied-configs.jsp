@@ -1,6 +1,6 @@
 <%@ page import="br.ufu.facom.ereno.api.SetupIED" %>
 <%@ page import="java.io.PrintWriter" %>
-<%@ page import="br.ufu.facom.ereno.utils.GSVDatasetWritter" %>
+<%@ page import="br.ufu.facom.ereno.utils.GSVDatasetWriter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -202,7 +202,7 @@
 
                 <a class="nav-link nav-profile d-flex align-items-center pe-0" href="/ERENO_war_exploded/">
                     <img src="../assets/img/en-pt.png" alt="Language" class="rounded-circle">
-                    <div style="display: none;"><%=GSVDatasetWritter.english = true%>
+                    <div style="display: none;"><%=GSVDatasetWriter.english = true%>
                     </div>
 
                 </a>

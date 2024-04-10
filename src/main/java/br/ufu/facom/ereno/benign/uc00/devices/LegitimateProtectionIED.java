@@ -12,7 +12,7 @@ import br.ufu.facom.ereno.api.SetupIED;
 import br.ufu.facom.ereno.benign.uc00.creator.GooseCreator;
 import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
-import br.ufu.facom.ereno.utils.DatasetWritter;
+import br.ufu.facom.ereno.utils.DatasetWriter;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  */
 public class LegitimateProtectionIED extends ProtectionIED {
     public LegitimateProtectionIED() {
-        super(DatasetWritter.label[0]);
+        super(DatasetWriter.label[0]);
         messages = new ArrayList<>();
     }
 

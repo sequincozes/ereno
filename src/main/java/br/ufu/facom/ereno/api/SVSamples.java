@@ -1,6 +1,6 @@
 package br.ufu.facom.ereno.api;
 
-import br.ufu.facom.ereno.utils.GSVDatasetWritter;
+import br.ufu.facom.ereno.utils.GSVDatasetWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -58,7 +58,7 @@ public class SVSamples extends HttpServlet {
             Logger.getLogger("SVSamples").info("Skipped without upload new file for SV.");
         }
 
-        if (GSVDatasetWritter.english) {
+        if (GSVDatasetWriter.english) {
             response.sendRedirect(request.getContextPath() + "/en/attack-definitions.jsp");
         } else {
             response.sendRedirect(request.getContextPath() + "/attack-definitions.jsp");

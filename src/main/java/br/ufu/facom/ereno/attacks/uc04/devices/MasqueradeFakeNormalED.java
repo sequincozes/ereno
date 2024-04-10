@@ -8,13 +8,12 @@ package br.ufu.facom.ereno.attacks.uc04.devices;
 
 import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.api.SetupIED;
-import br.ufu.facom.ereno.attacks.uc03.creator.MasqueradeFakeFaultCreator;
 import br.ufu.facom.ereno.attacks.uc04.creator.MasqueradeFakeNornalCreator;
 import br.ufu.facom.ereno.benign.uc00.devices.LegitimateProtectionIED;
 import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
-import br.ufu.facom.ereno.utils.DatasetWritter;
+import br.ufu.facom.ereno.utils.DatasetWriter;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -27,7 +26,7 @@ public class MasqueradeFakeNormalED extends ProtectionIED {
     private Goose seedMessage;
 
     public MasqueradeFakeNormalED(LegitimateProtectionIED legitimateProtectionIED) {
-        super(DatasetWritter.label[4]);
+        super(DatasetWriter.label[4]);
         this.victimIED = legitimateProtectionIED;
         messages = new ArrayList<>();
     }

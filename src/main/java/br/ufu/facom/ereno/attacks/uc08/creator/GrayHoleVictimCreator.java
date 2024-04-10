@@ -5,7 +5,7 @@
  */
 package br.ufu.facom.ereno.attacks.uc08.creator;
 
-import br.ufu.facom.ereno.utils.GSVDatasetWritter;
+import br.ufu.facom.ereno.utils.GSVDatasetWriter;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 import br.ufu.facom.ereno.general.IED;
 import br.ufu.facom.ereno.messages.Goose;
@@ -27,7 +27,7 @@ public class GrayHoleVictimCreator implements MessageCreator {
     public void generate(IED ied, int selectionRate) {
         for (Goose goose : legitimateMessages) {
             if (randomBetween(0, 100) < selectionRate) { // avoid this message to being discarded
-                goose.setLabel(GSVDatasetWritter.label[8]); // label it as gray hole attack (uc08)
+                goose.setLabel(GSVDatasetWriter.label[8]); // label it as gray hole attack (uc08)
                 ied.addMessage(goose);
             }
         }

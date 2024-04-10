@@ -2,7 +2,7 @@ package br.ufu.facom.ereno.attacks.uc01.devices;
 
 import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.attacks.uc01.creator.RandomReplayCreator;
-import br.ufu.facom.ereno.utils.GSVDatasetWritter;
+import br.ufu.facom.ereno.utils.GSVDatasetWriter;
 
 import java.util.logging.Logger;
 
@@ -11,7 +11,7 @@ public class RandomReplayerIED extends ProtectionIED {  // Replay attacks does n
     ProtectionIED legitimateIED; // ReplayerIED will replay mensagens from that legitimate device
 
     public RandomReplayerIED(ProtectionIED legitimate) {
-        super(GSVDatasetWritter.label[1]);
+        super(GSVDatasetWriter.label[1]);
         this.legitimateIED = legitimate;
     }
 
