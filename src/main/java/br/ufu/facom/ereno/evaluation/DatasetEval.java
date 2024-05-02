@@ -10,15 +10,15 @@ public class DatasetEval {
 
 
     public static void runWithoutCV() throws Exception {
-        GeneralParameters.DATASET = "E:\\ereno dataset\\ereninho\\train.arff";
+        GeneralParameters.DATASET = "E:\\ereno dataset\\ereninho\\multiclass_train.arff";
         Instances train = Util.loadSingleFile(false);
         train.setClassIndex(train.numAttributes() - 1);
 
-        GeneralParameters.DATASET = "E:\\ereno dataset\\ereninho\\test.arff";
+        GeneralParameters.DATASET = "E:\\ereno dataset\\ereninho\\multiclass_test.arff";
         Instances test = Util.loadSingleFile(false);
         test.setClassIndex(test.numAttributes() - 1);
 
-/*        GeneralParameters.SINGLE_CLASSIFIER_MODE = GenericClassifiers.RANDOM_FOREST;
+        GeneralParameters.SINGLE_CLASSIFIER_MODE = GenericClassifiers.RANDOM_FOREST;
         GenericResultado resultados = GenericEvaluation.testaEssaGalera(GenericClassifiers.RANDOM_FOREST, train, test);
         resultados.printResults();
 
@@ -32,8 +32,7 @@ public class DatasetEval {
             System.out.println(" ");
         }
         GenericEvaluation.runSingleClassifier(train, train);
-  */
-        GenericEvaluation.runSingleClassifierJ48(train, train).printResults();
+//        GenericEvaluation.runSingleClassifierJ48(train, train).printResults();
 //        GeneralParameters.SINGLE_CLASSIFIER_MODE = GenericClassifiers.J48;
 //    GenericEvaluation.runSingleClassifier(train, test);
     }

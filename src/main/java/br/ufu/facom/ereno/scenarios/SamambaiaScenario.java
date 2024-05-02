@@ -110,14 +110,14 @@ public class SamambaiaScenario implements IScenario {
         substationNetwork.processLevelDevices.add(mu);
         substationNetwork.bayLevelDevices.add(uc00);
         substationNetwork.bayLevelDevices.add(uc01);
-//        substationNetwork.bayLevelDevices.add(uc02);
+        substationNetwork.bayLevelDevices.add(uc02);
         substationNetwork.bayLevelDevices.add(uc03);
         substationNetwork.bayLevelDevices.add(uc04);
         substationNetwork.bayLevelDevices.add(uc05);
         substationNetwork.bayLevelDevices.add(uc06);
         substationNetwork.bayLevelDevices.add(uc07);
-//        substationNetwork.bayLevelDevices.add(uc00forGrayhole);
-//        substationNetwork.bayLevelDevices.add(uc08);
+        substationNetwork.bayLevelDevices.add(uc00forGrayhole);
+        substationNetwork.bayLevelDevices.add(uc08);
 
         Logger.getLogger("SamambaiaScenario").info("Devices set up!");
     }

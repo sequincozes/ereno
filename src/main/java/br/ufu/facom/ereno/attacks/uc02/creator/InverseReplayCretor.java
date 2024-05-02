@@ -1,5 +1,6 @@
 package br.ufu.facom.ereno.attacks.uc02.creator;
 
+import br.ufu.facom.ereno.attacks.uc02.devices.InverseReplayerIED;
 import br.ufu.facom.ereno.dataExtractors.GSVDatasetWriter;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 import br.ufu.facom.ereno.general.IED;
@@ -29,15 +30,27 @@ public class InverseReplayCretor implements MessageCreator {
             replayMessage.setLabel(GSVDatasetWriter.label[2]);  // label it as inverse replay (uc02)
 
             // Wait until the status changes
+            boolean stop = false;
             for (int nextLegitimateIndex = randomIndex + 1; nextLegitimateIndex < legitimateMessages.size(); nextLegitimateIndex++) {
                 if (replayMessage.getCbStatus() != legitimateMessages.get(nextLegitimateIndex).copy().getCbStatus()) {
                     // transmit the malicious message at an inverse status, after the next legitimate message
                     Goose nextLegitimateGoose = legitimateMessages.get(nextLegitimateIndex).copy();
-// Randomize the time taken by an attacker
+
+                    // Randomize the time taken by an attacker
                     timeTakenByAttacker = (float) (randomBetween(10F, 100F) / 1000);
-                    replayMessage.setTimestamp(nextLegitimateGoose.getTimestamp()+timeTakenByAttacker);
-                    ied.addMessage(replayMessage.copy());
+                    replayMessage.setTimestamp(nextLegitimateGoose.getTimestamp() + timeTakenByAttacker);
+                    InverseReplayerIED iedConverted = (InverseReplayerIED) ied;
+                    if (iedConverted.getNumberOfMessages() < numReplayInstances) {
+                        ied.addMessage(replayMessage.copy());
+                    } else {
+                        stop = true;
+                        break;
+                    }
+//                    System.out.println(nextLegitimateIndex);
                 }
+            }
+            if (stop) {
+                break;
             }
         }
     }
