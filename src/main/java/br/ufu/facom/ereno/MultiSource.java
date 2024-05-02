@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 
 import static br.ufu.facom.ereno.api.GooseFlow.ECF.numberOfMessages;
 import static br.ufu.facom.ereno.general.IED.randomBetween;
-import static br.ufu.facom.ereno.utils.GSVDatasetWriter.*;
+import static br.ufu.facom.ereno.dataExtractors.GSVDatasetWriter.*;
 
 public class MultiSource {
 

@@ -10,26 +10,15 @@ public class DatasetEval {
 
 
     public static void runWithoutCV() throws Exception {
-//        GeneralParameters.DATASET = "E:\\ereno dataset\\hibrid_dataset_GOOSE_train_binary.arff";
-//        GeneralParameters.DATASET = "E:\\ereno dataset\\hibrid_dataset_GOOSE_train.arff";
-//        GeneralParameters.DATASET = "E:\\ereno dataset\\hibrid_dataset_GOOSE_train.arff";
-        GeneralParameters.DATASET = "E:\\datasets\\vagner\\ereninho\\train_dataset_mini.csv";
-
-
-//        GeneralParameters.DATASET = "C:\\Users\\Silvio\\Downloads\\Dataset2023Treino.arff";
-//        GeneralParameters.DATASET = "E:\\datasets\\vagner\\train.arff";
+        GeneralParameters.DATASET = "E:\\ereno dataset\\ereninho\\train.arff";
         Instances train = Util.loadSingleFile(false);
         train.setClassIndex(train.numAttributes() - 1);
 
-//        System.out.println("Agora vem o segundo");
-//        GeneralParameters.DATASET = "E:\\ereno dataset\\hibrid_dataset_GOOSE_test_binary.arff";
-//        GeneralParameters.DATASET = "C:\\Users\\Silvio\\Downloads\\Dataset2023.arff";
-//        GeneralParameters.DATASET = "E:\\datasets\\vagner\\test.arff";
-        GeneralParameters.DATASET = "E:\\datasets\\vagner\\ereninho\\test_dataset_mini.csv";
-
+        GeneralParameters.DATASET = "E:\\ereno dataset\\ereninho\\test.arff";
         Instances test = Util.loadSingleFile(false);
         test.setClassIndex(test.numAttributes() - 1);
-        GeneralParameters.SINGLE_CLASSIFIER_MODE = GenericClassifiers.RANDOM_FOREST;
+
+/*        GeneralParameters.SINGLE_CLASSIFIER_MODE = GenericClassifiers.RANDOM_FOREST;
         GenericResultado resultados = GenericEvaluation.testaEssaGalera(GenericClassifiers.RANDOM_FOREST, train, test);
         resultados.printResults();
 
@@ -42,8 +31,9 @@ public class DatasetEval {
             }
             System.out.println(" ");
         }
-//        GenericEvaluation.runSingleClassifier(train, train);
-//        GenericEvaluation.runSingleClassifierJ48(train, train);
+        GenericEvaluation.runSingleClassifier(train, train);
+  */
+        GenericEvaluation.runSingleClassifierJ48(train, train).printResults();
 //        GeneralParameters.SINGLE_CLASSIFIER_MODE = GenericClassifiers.J48;
 //    GenericEvaluation.runSingleClassifier(train, test);
     }

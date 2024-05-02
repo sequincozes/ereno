@@ -1,6 +1,6 @@
 {
   "goID": "IntLockA",
-  "numberOfMessages": 1000,
+  "numberOfMessages": 10000,
   "ethSrc": "01:0c:cd:01:2f:80",
   "ethDst": "01:0c:cd:01:2f:81",
   "ethType": "0x88B8",

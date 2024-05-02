@@ -2,7 +2,7 @@ package br.ufu.facom.ereno.attacks.uc05.devices;
 
 import br.ufu.facom.ereno.attacks.uc05.creator.InjectionCreator;
 import br.ufu.facom.ereno.general.ProtectionIED;
-import br.ufu.facom.ereno.utils.GSVDatasetWriter;
+import br.ufu.facom.ereno.dataExtractors.GSVDatasetWriter;
 
 import java.util.logging.Logger;
 

@@ -13,7 +13,7 @@ import br.ufu.facom.ereno.benign.uc00.devices.LegitimateProtectionIED;
 import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
-import br.ufu.facom.ereno.utils.DatasetWriter;
+import br.ufu.facom.ereno.dataExtractors.DatasetWriter;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;
@@ -22,14 +22,22 @@ import java.util.logging.Logger;
  * @author silvio
  */
 public class MasqueradeFakeNormalED extends ProtectionIED {
-    LegitimateProtectionIED victimIED;
+//    LegitimateProtectionIED victimIED;
     private Goose seedMessage;
 
+    @Deprecated
     public MasqueradeFakeNormalED(LegitimateProtectionIED legitimateProtectionIED) {
         super(DatasetWriter.label[4]);
-        this.victimIED = legitimateProtectionIED;
+        messages = new ArrayList<>();
+//        this.victimIED = legitimateProtectionIED;
+        throw new IllegalArgumentException("This method is being deprecated");
+    }
+
+    public MasqueradeFakeNormalED() {
+        super(DatasetWriter.label[4]);
         messages = new ArrayList<>();
     }
+
 
     private int initialStNum = Integer.parseInt(SetupIED.ECF.stNum);
     private int initialSqNum = Integer.parseInt(SetupIED.ECF.sqNum);
@@ -52,10 +60,13 @@ public class MasqueradeFakeNormalED extends ProtectionIED {
     }
 
     @Override
-    public void run(int normalMessages) {
+    public void run(int numberOfMessages) {
         // Here we set the GooseCreator for creating GOOSE messages for ProtectionIED
         messageCreator = new MasqueradeFakeNornalCreator(getLabel());
-        messageCreator.generate(this, normalMessages);
+        if (this.substationNetwork.stationBusMessages.size() == 0) {
+            throw new IllegalArgumentException("Cannot run Masquerade attacks with zero messages. Please ensure there are at least one normal message sent previously.");
+        }
+        messageCreator.generate(this, numberOfMessages);
     }
 
     @Override
@@ -255,9 +266,9 @@ public class MasqueradeFakeNormalED extends ProtectionIED {
     }
 
 
-    public LegitimateProtectionIED getVictimIED() {
-        return this.victimIED;
-    }
+//    public LegitimateProtectionIED getVictimIED() {
+//        return this.victimIED;
+//    }
 
     public Goose getSeedMessage() {
         return this.seedMessage;

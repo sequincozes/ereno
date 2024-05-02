@@ -1,4 +1,4 @@
-package br.ufu.facom.ereno.utils;
+package br.ufu.facom.ereno.dataExtractors;
 
 import br.ufu.facom.ereno.benign.uc00.devices.MergingUnit;
 import br.ufu.facom.ereno.general.ProtectionIED;

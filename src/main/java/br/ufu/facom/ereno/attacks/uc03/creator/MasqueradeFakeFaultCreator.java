@@ -11,7 +11,7 @@ import br.ufu.facom.ereno.benign.uc00.devices.LegitimateProtectionIED;
 import br.ufu.facom.ereno.general.IED;
 import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.messages.Goose;
-import br.ufu.facom.ereno.utils.GSVDatasetWriter;
+import br.ufu.facom.ereno.dataExtractors.GSVDatasetWriter;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

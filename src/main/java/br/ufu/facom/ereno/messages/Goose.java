@@ -13,14 +13,13 @@ import java.text.DecimalFormat;
 /**
  * @author silvio
  */
-public class Goose extends EthernetFrame implements Comparable<Goose> {
+public class Goose extends EthernetFrame {
 
     private String label;
     private int cbStatus;                   // DYNAMICALLY GENERATED 
     private int stNum;                      // DYNAMICALLY GENERATED 
     private int sqNum;                      // DYNAMICALLY GENERATED 
     private double t;                       // DYNAMICALLY GENERATED - Last Goose Change
-    private double timestamp;               // DYNAMICALLY GENERATED
     private int gooseTimeAllowedtoLive = 11000;
     private int numDatSetEntries = 25;
     private int confRev = 1;
@@ -43,7 +42,7 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
         this.cbStatus = cbStatus;
         this.stNum = stNum;
         this.sqNum = sqNum;
-        this.timestamp = (timestamp);
+        super.setTimestamp((timestamp));
         this.t = (t);
         this.label = label;
     }
@@ -53,7 +52,7 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
 
         sqNum = Integer.parseInt(SetupIED.ECF.sqNum);
         stNum = Integer.parseInt(SetupIED.ECF.stNum);
-        timestamp = (Double.parseDouble(SetupIED.ECF.timestamp));
+        super.setTimestamp((Double.parseDouble(SetupIED.ECF.timestamp)));
         gocbRef = SetupIED.ECF.gocbRef;
         datSet = SetupIED.ECF.datSet;
         goID = GooseFlow.ECF.goID;
@@ -106,10 +105,6 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
         this.sqNum = sqNum;
     }
 
-    public double getTimestamp() {
-        return this.timestamp;
-    }
-
     public int getCbStatus() {
         return cbStatus;
     }
@@ -122,9 +117,6 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
         }
     }
 
-    public void setTimestamp(double timestamp) {
-        this.timestamp = (timestamp);
-    }
 
     public int getFrameLen() {
         return 200;/*String.valueOf(numDatSetEntries).length()
@@ -167,12 +159,13 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
     }
 
     public String asCSVCompactHeader() {
-        return "t,timestamp , SqNum, StNum, cbStatus";
+        return "timestamp , t, SqNum, StNum, cbStatus";
     }
 
 
     public String asDebug() {
-        return getTimestamp() + "|" + getT() + "|" + getSqNum() + "|" + getStNum() + "|" + cbStatus;
+        System.out.println("TIMESTAMP:"+getTimestamp() +" T: "+getT());
+        return getTimestamp() + "," + getT() + "," + getSqNum() + "," + getStNum() + "," + cbStatus;
     }
 
     public String asCSVinverseStatus() {
@@ -203,7 +196,7 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
     }
 
     public Goose copy() {
-        return new Goose(cbStatus, stNum, sqNum, timestamp, t, label);
+        return new Goose(cbStatus, stNum, sqNum, getTimestamp(), t, label);
     }
 
     public int getGooseTimeAllowedtoLive() {
@@ -220,15 +213,6 @@ public class Goose extends EthernetFrame implements Comparable<Goose> {
 
     public void setConfRev(int confRev) {
         this.confRev = confRev;
-    }
-
-    @Override
-    public int compareTo(Goose gooseMessage) {
-        if (gooseMessage.getTimestamp() >= getTimestamp()) {
-            return -1;
-        } else {
-            return 1;
-        }
     }
 
     public String getLabel() {

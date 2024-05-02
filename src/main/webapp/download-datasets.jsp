@@ -1,5 +1,5 @@
 <%@ page import="java.io.File" %>
-<%@ page import="br.ufu.facom.ereno.utils.GSVDatasetWriter" %>
+<%@ page import="br.ufu.facom.ereno.dataExtractors.GSVDatasetWriter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pt-br">

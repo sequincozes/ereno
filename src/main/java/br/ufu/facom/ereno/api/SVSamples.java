@@ -1,6 +1,6 @@
 package br.ufu.facom.ereno.api;
 
-import br.ufu.facom.ereno.utils.GSVDatasetWriter;
+import br.ufu.facom.ereno.dataExtractors.GSVDatasetWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;

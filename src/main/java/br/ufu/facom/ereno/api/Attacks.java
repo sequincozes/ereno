@@ -1,6 +1,6 @@
 package br.ufu.facom.ereno.api;
 
-import br.ufu.facom.ereno.utils.GSVDatasetWriter;
+import br.ufu.facom.ereno.dataExtractors.GSVDatasetWriter;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

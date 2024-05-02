@@ -12,7 +12,7 @@ import br.ufu.facom.ereno.api.SetupIED;
 import br.ufu.facom.ereno.benign.uc00.creator.GooseCreator;
 import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
-import br.ufu.facom.ereno.utils.DatasetWriter;
+import br.ufu.facom.ereno.dataExtractors.DatasetWriter;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;

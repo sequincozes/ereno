@@ -16,7 +16,7 @@ import br.ufu.facom.ereno.attacks.uc01.devices.RandomReplayerIED;
 import java.io.*;
 import java.util.logging.Logger;
 
-import static br.ufu.facom.ereno.utils.GSVDatasetWriter.*;
+import static br.ufu.facom.ereno.dataExtractors.GSVDatasetWriter.*;
 
 public class SingleSource {
 

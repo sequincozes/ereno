@@ -1,6 +1,6 @@
 <%@ page import="java.io.PrintWriter" %>
 <%@ page import="br.ufu.facom.ereno.api.GooseFlow" %>
-<%@ page import="br.ufu.facom.ereno.utils.GSVDatasetWriter" %>
+<%@ page import="br.ufu.facom.ereno.dataExtractors.GSVDatasetWriter" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="pt-br">

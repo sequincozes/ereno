@@ -13,7 +13,7 @@ import br.ufu.facom.ereno.benign.uc00.devices.LegitimateProtectionIED;
 import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
-import br.ufu.facom.ereno.utils.DatasetWriter;
+import br.ufu.facom.ereno.dataExtractors.DatasetWriter;
 
 import java.util.ArrayList;
 import java.util.logging.Logger;

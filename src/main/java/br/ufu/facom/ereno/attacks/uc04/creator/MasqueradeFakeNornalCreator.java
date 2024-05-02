@@ -9,8 +9,9 @@ import br.ufu.facom.ereno.attacks.uc04.devices.MasqueradeFakeNormalED;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 import br.ufu.facom.ereno.general.IED;
 import br.ufu.facom.ereno.general.ProtectionIED;
+import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
-import br.ufu.facom.ereno.utils.GSVDatasetWriter;
+import br.ufu.facom.ereno.dataExtractors.GSVDatasetWriter;
 
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -38,15 +39,19 @@ public class MasqueradeFakeNornalCreator implements MessageCreator {
 
         //This uses a legitimate fault messages as seeds
         ArrayList<Goose> seeds = new ArrayList<>(); // stores all legitimate Fault
-        for (Goose legitimateMsg : attacker.getVictimIED().copyMessages()) {
-            if (legitimateMsg.isCbStatus() == 1) {
-                seeds.add(legitimateMsg);
+        for (EthernetFrame legitimateMsg : attacker.getSubstationNetwork().stationBusMessages) {
+            Goose legitimateGoose = ((Goose) legitimateMsg);
+            if (legitimateGoose.isCbStatus() == 1) {
+                seeds.add(legitimateGoose.copy());
             }
         }
+        System.out.println("Tamanho dos seeds: " + seeds.size());
 
-        if (seeds.size()<1){
-            throw new IllegalArgumentException("There must be at least one seed message.");
+
+        if (seeds.size() < 1) {
+            throw new IllegalArgumentException("There must be at least one seed message. Try again.");
         }
+
         while (((ProtectionIED) ied).getMessages().size() < masqueradeMessages) {
             Goose randomFaultySeed = seeds.get(randomBetween(0, seeds.size() - 1));
             if (attacker.getSeedMessage() == null) {

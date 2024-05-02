@@ -5,6 +5,7 @@
  */
 package br.ufu.facom.ereno.general;
 
+import br.ufu.facom.ereno.SubstationNetwork;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 import br.ufu.facom.ereno.messages.EthernetFrame;
 
@@ -15,12 +16,21 @@ import java.util.logging.Logger;
  * @author silvio
  */
 public abstract class IED {
+    protected SubstationNetwork substationNetwork;
     protected float initialTimestamp;
     protected MessageCreator messageCreator;
 
     public void enableRandomOffsets(int max) {
         this.initialTimestamp = randomBetween(0, max);
-        Logger.getLogger("enableRandomOffsets("+max+")").info("Random offset: "+initialTimestamp);
+        Logger.getLogger("enableRandomOffsets(" + max + ")").info("Random offset: " + initialTimestamp);
+    }
+
+    public SubstationNetwork getSubstationNetwork() {
+        return substationNetwork;
+    }
+
+    public void setSubstationNetwork(SubstationNetwork substationNetwork) {
+        this.substationNetwork = substationNetwork;
     }
 
     public static int randomBetween(int lowerLimit, int upperLimit) {
@@ -30,7 +40,7 @@ public abstract class IED {
 
         Random random = new Random(System.nanoTime());
         int randomNumber = lowerLimit + random.nextInt(upperLimit - lowerLimit + 1);
-        System.out.println("random: "+randomNumber);
+        System.out.println("random: " + randomNumber);
 
         return randomNumber;
     }

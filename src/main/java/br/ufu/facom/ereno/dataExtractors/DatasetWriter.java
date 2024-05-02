@@ -1,4 +1,4 @@
-package br.ufu.facom.ereno.utils;
+package br.ufu.facom.ereno.dataExtractors;
 
 import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.featureEngineering.ProtocolCorrelation;

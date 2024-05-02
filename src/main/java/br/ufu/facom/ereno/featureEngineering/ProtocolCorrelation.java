@@ -1,6 +1,7 @@
 package br.ufu.facom.ereno.featureEngineering;
 
 import br.ufu.facom.ereno.featureEngineering.SVCycle;
+import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
 import br.ufu.facom.ereno.messages.Sv;
 
@@ -8,6 +9,33 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class ProtocolCorrelation {
+
+
+    public static Sv getCorrespondingSVFrame(ArrayList<EthernetFrame> svs, Goose goose) {
+        int low = 0;
+        int high = svs.size() - 1;
+        int index = -1;
+        double gooseTimestamp = goose.getTimestamp();
+
+        while (low <= high) {
+            int mid = (low + high) >>> 1; // Equivalente a (low + high) / 2, mas mais eficiente.
+            double svTime = ((Sv) svs.get(mid)).getTime();
+
+            if (svTime < gooseTimestamp) {
+                index = mid; // Found a candidate, but continue searching for a closer candidate.
+                low = mid + 1; // Try to find a SV time closer to GOOSE Timestamp.
+            } else {
+                // If the SV time is equal or higher, looks to the inferior part.
+                high = mid - 1;
+            }
+        }
+
+        if (index > 0) {
+            return ((Sv) svs.get(index)); // an invalid index will be returned if no SV messages are available before the given GOOSE
+        }
+        return null;
+    }
+
 
     public static Sv getCorrespondingSV(ArrayList<Sv> svs, Goose goose) {
         Logger.getLogger("getCorrespondingSV").info("There are " + svs.size() + " SV messages.");
@@ -74,6 +102,43 @@ public class ProtocolCorrelation {
 
         return cycle; // an invalid index will be returned if no SV messages are available before the given GOOSE
     }
+
+    public static SVCycle getCorrespondingSVFrameCycle(ArrayList<EthernetFrame> svs, Goose goose, int numCycleMsgs) {
+        int low = 0;
+        int high = svs.size() - 1;
+        int index = -1;
+        double gooseTimestamp = goose.getTimestamp();
+
+        while (low <= high) {
+            int mid = (low + high) >>> 1; // equivalent to (low + high) / 2, but more efficient.
+            double svTime = ((Sv) svs.get(mid)).getTime();
+
+            if (svTime < gooseTimestamp) {
+                index = mid; // Found a candidate, but continue searching for a closer candidate.
+                low = mid + 1; // Try to find a SV time closer to GOOSE Timestamp.
+            } else {
+                // If the SV time is equal or higher, looks to the inferior part.
+                high = mid - 1;
+            }
+        }
+
+        Sv[] cycleMsgs = new Sv[numCycleMsgs];
+        index = index + 1; // to address a rounding bug
+        if(index<80){
+            index = 80;
+        }
+        for (int i = 0; i < numCycleMsgs; i++) {
+            cycleMsgs[i] = ((Sv) svs.get(index - numCycleMsgs + i));
+        }
+
+
+        SVCycle cycle = new SVCycle(cycleMsgs);
+        cycle.computeMetrics();
+
+
+        return cycle; // an invalid index will be returned if no SV messages are available before the given GOOSE
+    }
+
 
     public static int getCorrespondingGoose(ArrayList<Goose> gooses, Sv sv) {
         int low = 0;

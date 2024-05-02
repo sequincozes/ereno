@@ -2,7 +2,7 @@ package br.ufu.facom.ereno.attacks.uc08.devices;
 
 import br.ufu.facom.ereno.attacks.uc08.creator.GrayHoleVictimCreator;
 import br.ufu.facom.ereno.general.ProtectionIED;
-import br.ufu.facom.ereno.utils.GSVDatasetWriter;
+import br.ufu.facom.ereno.dataExtractors.GSVDatasetWriter;
 
 import java.util.logging.Logger;
 
