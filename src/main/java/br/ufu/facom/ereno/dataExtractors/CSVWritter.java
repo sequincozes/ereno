@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public class CSVWritter {
     static BufferedWriter bw;
-    public static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate", "grayhole"};//, "stealthy_injection"};//,"poisoned_high_rate_consistent"};
+    public static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate", "grayhole", "oriented_grayhole"};//, "stealthy_injection"};//,"poisoned_high_rate_consistent"};
 
     public static void processDataset(PriorityQueue<EthernetFrame> stationBusMessages, ArrayList<EthernetFrame> processBusMessages) throws IOException {
         // Writing Header

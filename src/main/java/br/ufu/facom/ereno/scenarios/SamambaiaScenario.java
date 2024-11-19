@@ -19,6 +19,7 @@ import br.ufu.facom.ereno.SubstationNetwork;
 import br.ufu.facom.ereno.dataExtractors.ARFFWritter;
 import br.ufu.facom.ereno.dataExtractors.CSVWritter;
 import br.ufu.facom.ereno.dataExtractors.DebugWritter;
+import br.ufu.facom.ereno.evaluation.DatasetEval;
 import br.ufu.facom.ereno.general.IED;
 import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.messages.Goose;
@@ -34,7 +35,7 @@ public class SamambaiaScenario implements IScenario {
     public static void main(String[] args) throws Exception {
         SamambaiaScenario scenario = new SamambaiaScenario();
         scenario.run();
-//        DatasetEval.main(new String[]{});
+//         DatasetEval.main(new String[]{});
     }
 
     SubstationNetwork substationNetwork;
@@ -66,17 +67,12 @@ public class SamambaiaScenario implements IScenario {
 
     @Override
     public void setupDevices() {
-        // Initializing MU
-        MergingUnit mu = new MergingUnit(Input.singleElectricalSourceFile);
-//        MergingUnit mu = new MergingUnit(Input.electricalSourceFiles);
-//        mu.enableRandomOffsets(numberOfMessages);
+        MergingUnit mu = new MergingUnit(Input.electricalSourceFiles);
         substationNetwork.processLevelDevices.add(mu);
 
-        // Initializing Legitimate Protection IED
         System.out.println("-----------------");
         LegitimateProtectionIED uc00 = new LegitimateProtectionIED();
 
-        // Initializing attackers
         RandomReplayerIED uc01 = new RandomReplayerIED(uc00);
         InverseReplayerIED uc02 = new InverseReplayerIED(uc00);
         MasqueradeFakeFaultIED uc03 = new MasqueradeFakeFaultIED(uc00);
@@ -84,117 +80,84 @@ public class SamambaiaScenario implements IScenario {
         InjectorIED uc05 = new InjectorIED(uc00);
         HighStNumInjectorIED uc06 = new HighStNumInjectorIED(uc00);
         HighRateStNumInjectorIED uc07 = new HighRateStNumInjectorIED(uc00);
-        ProtectionIED uc00forGrayhole = new LegitimateProtectionIED();
-        ProtectionIED uc00forOrientedGrayhole = new LegitimateProtectionIED();
-        GrayHoleVictimIED uc08 = new GrayHoleVictimIED(uc00forGrayhole);
-        OrientedGrayHoleIED uc09 = new OrientedGrayHoleIED(uc00forOrientedGrayhole);
+        GrayHoleVictimIED uc08 = new GrayHoleVictimIED(uc00);
+        OrientedGrayHoleIED uc09 = new OrientedGrayHoleIED(uc00);
 
-
-//        uc00.setInitialTimestamp(mu.getInitialTimestamp());
         uc00.setSubstationNetwork(substationNetwork);
-//        uc01.setInitialTimestamp(mu.getInitialTimestamp());
         uc01.setSubstationNetwork(substationNetwork);
-//        uc02.setInitialTimestamp(mu.getInitialTimestamp());
         uc02.setSubstationNetwork(substationNetwork);
-//        uc03.setInitialTimestamp(mu.getInitialTimestamp());
         uc03.setSubstationNetwork(substationNetwork);
-//        uc04.setInitialTimestamp(mu.getInitialTimestamp());
         uc04.setSubstationNetwork(substationNetwork);
-//        uc05.setInitialTimestamp(mu.getInitialTimestamp());
         uc05.setSubstationNetwork(substationNetwork);
-//        uc06.setInitialTimestamp(mu.getInitialTimestamp());
         uc06.setSubstationNetwork(substationNetwork);
-//        uc07.setInitialTimestamp(mu.getInitialTimestamp());
         uc07.setSubstationNetwork(substationNetwork);
-
-        uc00forGrayhole.setInitialTimestamp(mu.getInitialTimestamp());
-        uc00forGrayhole.setSubstationNetwork(substationNetwork);
-//        uc08.setInitialTimestamp(mu.getInitialTimestamp());
-//        uc08.setSubstationNetwork(substationNetwork);
-
-
-        uc00forOrientedGrayhole.setInitialTimestamp(mu.getInitialTimestamp());
-        uc00forOrientedGrayhole.setSubstationNetwork(substationNetwork);
-        uc08.setInitialTimestamp(mu.getInitialTimestamp());
         uc08.setSubstationNetwork(substationNetwork);
+        uc09.setSubstationNetwork(substationNetwork);
 
         substationNetwork.processLevelDevices.add(mu);
         substationNetwork.bayLevelDevices.add(uc00);
-//        substationNetwork.bayLevelDevices.add(uc01);
-//        substationNetwork.bayLevelDevices.add(uc02);
-//        substationNetwork.bayLevelDevices.add(uc03);
-//        substationNetwork.bayLevelDevices.add(uc04);
-//        substationNetwork.bayLevelDevices.add(uc05);
-//        substationNetwork.bayLevelDevices.add(uc06);
-//        substationNetwork.bayLevelDevices.add(uc07);
-//        substationNetwork.bayLevelDevices.add(uc00forGrayhole);
-//        substationNetwork.bayLevelDevices.add(uc08);
-        substationNetwork.bayLevelDevices.add(uc00forOrientedGrayhole);
         substationNetwork.bayLevelDevices.add(uc09);
-
 
         Logger.getLogger("SamambaiaScenario").info("Devices set up!");
     }
 
     @Override
     public void runDevices() {
-        // Generating SV messages
+
         for (MergingUnit mu : substationNetwork.processLevelDevices) {
             mu.run(numberOfMessages * 4763);
-            for (Sv sv : mu.getMessages()) {
-                substationNetwork.processBusMessages.add(sv);
-            }
+            substationNetwork.processBusMessages.addAll(mu.getMessages());
         }
 
-        // Generating GOOSE messages
+
         for (IED ied : substationNetwork.bayLevelDevices) {
             Logger.getLogger("SambaiaScenario").info(substationNetwork.bayLevelDevices.size() + " devices connected to the substation network.");
-            if (ied instanceof OrientedGrayHoleIED){
-                ied.run(numberOfMessages);
-            }
             ied.run(numberOfMessages);
+
             int numAddedMessages = 0;
+
 
             for (Goose goose : ((ProtectionIED) ied).getMessages()) {
                 numAddedMessages++;
-                if (numAddedMessages < numberOfMessages) {
+                if (numAddedMessages < numberOfMessages && !(ied instanceof LegitimateProtectionIED)) {
                     substationNetwork.stationBusMessages.add(goose);
                 } else {
-                    break; // skipping additional messages
+                    break;
                 }
             }
             Logger.getLogger("SamambaiaScenario").info("Generated " + numAddedMessages + " for IED " + ((ProtectionIED) ied).getLabel());
         }
 
         Logger.getLogger("SamambaiaScenario").info("Devices run successfully!");
-
     }
 
     @Override
     public void exportDataset() {
-        boolean generate_arff = false; // CSV will be used in case this is set to false
+        boolean generate_arff = true;
         boolean debug = false;
         try {
             if (!debug) {
+                // Export dataset as ARFF or CSV
                 if (generate_arff) {
-                    ARFFWritter.startWriting("C:\\Users\\zomca\\IdeaProjects\\ereno-uc09\\datasets\\test.arff");
+                    ARFFWritter.startWriting("C:\\Users\\zomca\\IdeaProjects\\ereno-uc09\\datasets\\oriented_grayhole\\8000_5_5.arff");
                     ARFFWritter.processDataset(substationNetwork.stationBusMessages, substationNetwork.processBusMessages);
                     ARFFWritter.finishWriting();
                 } else {
-                    CSVWritter.startWriting("C:\\Users\\zomca\\IdeaProjects\\ereno-uc09\\datasets\\test.arff");
+                    CSVWritter.startWriting("C:\\Users\\zomca\\IdeaProjects\\ereno-uc09\\datasets\\oriented_grayhole\\1000_50_5.csv");
                     CSVWritter.processDataset(substationNetwork.stationBusMessages, substationNetwork.processBusMessages);
                     CSVWritter.finishWriting();
                 }
             } else {
+                // Debug mode: write to debug CSV file
                 DebugWritter.startWriting("debug.csv");
                 DebugWritter.processDataset(substationNetwork.stationBusMessages, substationNetwork.processBusMessages);
                 DebugWritter.finishWriting();
             }
 
-            Logger.getLogger("SamambaiaScenario").info("Dataset exported!");
+            Logger.getLogger("SamambaiaScenario").info("Dataset exported!");  // Log successful export
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e);  // Handle any IOExceptions during file writing
         }
     }
 }

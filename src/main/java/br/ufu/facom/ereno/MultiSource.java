@@ -224,14 +224,15 @@ public class MultiSource {
     }
 
     public static void runUC09(LegitimateProtectionIED uc00, MergingUnit mu) throws IOException {
-        ProtectionIED uc00forOrientedGrayhole = new LegitimateProtectionIED();
-        uc00forOrientedGrayhole.setInitialTimestamp(mu.getInitialTimestamp());
-        uc00forOrientedGrayhole.run((int) (numberOfMessages * 1.2));
-        OrientedGrayHoleIED uc09 = new OrientedGrayHoleIED(uc00forOrientedGrayhole);
+        // Directly use the existing uc00 (no need to create a new instance)
+        uc00.setInitialTimestamp(mu.getInitialTimestamp());
+        uc00.run((int) (numberOfMessages * 1.2)); // Run with modified message count
+        OrientedGrayHoleIED uc09 = new OrientedGrayHoleIED(uc00); // Use uc00 directly
         uc09.run(50);
         int qtdOrientedGrayhole09 = writeAttack(uc00, uc09, mu, false);
-        Logger.getLogger("MultiSource").info("Writting " + qtdOrientedGrayhole09 + " oriented grayhole (UC09) messages to dataset.");
+        Logger.getLogger("MultiSource").info("Writing " + qtdOrientedGrayhole09 + " oriented grayhole (UC09) messages to dataset.");
     }
+
 
 
     public static void init() {

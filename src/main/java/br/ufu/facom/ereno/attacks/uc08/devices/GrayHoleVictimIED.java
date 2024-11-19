@@ -16,11 +16,11 @@ public class GrayHoleVictimIED extends ProtectionIED {  // Gray hole attackers d
     }
 
     @Override
-    public void run(int selectionRate) {
+    public void run(int numberOfMessages) {
         Logger.getLogger("GrayHoleVictimIED").info(
                 "Feeding gray hole victim IED with " + legitimateIED.getMessages().size() + " legitimate messages");
         messageCreator = new GrayHoleVictimCreator(legitimateIED.copyMessages()); // feeds the message creator with legitimate messages
-        messageCreator.generate(this, selectionRate); // pass itself to receive messages from generator
+        messageCreator.generate(this, numberOfMessages); // pass itself to receive messages from generator
     }
 
 }

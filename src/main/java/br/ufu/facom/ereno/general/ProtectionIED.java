@@ -84,6 +84,22 @@ public abstract class ProtectionIED extends IED {
         }
     }
 
+    @Override
+    public void removeMessage(EthernetFrame periodicGoose) {
+        if (GooseFlow.ECF.numberOfMessages >= messages.size()){
+            this.messages.remove((Goose) periodicGoose);
+        } else {
+            Logger.getLogger("removeMessage").warning("Removing more GOOSE than the predefined threshold. There is something wrong with your logic.");
+        }
+    }
+    @Override
+    public void replaceMessage(EthernetFrame periodicGoose, int index) {
+        if (GooseFlow.ECF.numberOfMessages >= messages.size()){
+            this.messages.set(index,(Goose) periodicGoose);
+        } else {
+            Logger.getLogger("removeMessage").warning("Removing more GOOSE than the predefined threshold. There is something wrong with your logic.");
+        }
+    }
 
     public double[] exponentialBackoff(long minTime, long maxTime, double intervalMultiplier) {
         long retryIntervalMs = minTime;

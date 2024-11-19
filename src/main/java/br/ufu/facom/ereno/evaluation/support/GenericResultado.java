@@ -352,17 +352,17 @@ public class GenericResultado {
     public void printResults() {
         recalcular();
         System.out.println(
-                getCx() + ";"
-                + getAcuracia() + ";"
-                + getPrecision() + ";"
-                + getRecall() + ";"
-                + getF1Score() + ";"
-                + getVP() + ";"
-                + getVN() + ";"
-                + getFP() + ";"
-                + getFN() + ";"
-                + getAvgTime() + ";"
-                + Arrays.toString(usedFS)
+                "Cx: " + getCx() + ";" + "\n" +
+                        "Acuracia: " + getAcuracia() + ";" + "\n" +
+                        "Precision: " + getPrecision() + ";" + "\n" +
+                        "Recall: " + getRecall() + ";" + "\n" +
+                        "F1 Score: " + getF1Score() + ";" + "\n" +
+                        "VP: " + getVP() + ";" + "\n" +
+                        "VN: " + getVN() + ";" + "\n" +
+                        "FP: " + getFP() + ";" + "\n" +
+                        "FN: " + getFN() + ";" + "\n" +
+                        "Avg Time: " + getAvgTime() + ";" + "\n" +
+                        "Used FS: " + Arrays.toString(usedFS)
         );
     }
 

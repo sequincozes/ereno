@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  */
 public class ARFFWritter {
     static BufferedWriter bw;
-    public static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate", "grayhole"};//, "stealthy_injection"};//,"poisoned_high_rate_consistent"};
+    public static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate", "grayhole", "oriented_grayhole"};//, "stealthy_injection"};//,"poisoned_high_rate_consistent"};
 
     public static void processDataset(PriorityQueue<EthernetFrame> stationBusMessages, ArrayList<EthernetFrame> processBusMessages) throws IOException {
         // Writing Header
@@ -118,7 +118,7 @@ public class ARFFWritter {
         write("@attribute tDiff numeric"); // temporal consistency 67
         write("@attribute timeFromLastChange numeric"); // temporal consistency 68
         write("@attribute delay numeric"); // temporal consistency 69
-        String classLine = "@attribute @class@ {" + label[0] + ", " + label[1] + ", " + label[2] + ", " + label[3] + ", " + label[4] + ", " + label[5] + ", " + label[6] + ", " + label[7] + ", " + label[8]+ "}";
+        String classLine = "@attribute @class@ {" + label[0] + ", " + label[1] + ", " + label[2] + ", " + label[3] + ", " + label[4] + ", " + label[5] + ", " + label[6] + ", " + label[7] + ", " + label[8]+ ", " + label[9]+"}";
 
         write(classLine);
         write("@data");

@@ -6,79 +6,74 @@ import br.ufu.facom.ereno.general.IED;
 import br.ufu.facom.ereno.messages.Goose;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static br.ufu.facom.ereno.general.IED.randomBetween;
 
 public class OrientedGrayHoleCreator implements MessageCreator {
 
-    enum attackAproaches {
-        BURST,
-        RANDOMIC
+    enum attackApproaches {
+        BURST, RANDOMIC
     }
 
     ArrayList<Goose> legitimateMessages;
     Integer discardRate;
     Integer toDiscardPackets;
 
-    attackAproaches approaches;
+    attackApproaches approaches;
 
     public OrientedGrayHoleCreator(ArrayList<Goose> legitimateMessages) {
         this.legitimateMessages = legitimateMessages;
-        this.discardRate = 20;
-        this.toDiscardPackets = 10;
-        this.approaches = attackAproaches.RANDOMIC;
+        this.discardRate = 5;
+        this.toDiscardPackets = 5;
+        this.approaches = attackApproaches.RANDOMIC;
     }
 
     @Override
     public void generate(IED ied, int numberOfMessages) {
 
-        ArrayList<Goose> discardedMessages = new ArrayList<>();
-        boolean burstDiscard = false;
-        boolean ignoreAnalysis = false;
-        int maxDisposableIndex = 0;
-        boolean discarded = false;
-
-        for (int i = 1; i < legitimateMessages.size() - 1; i++) {
+        for (int i = 0; i < numberOfMessages; i++) {
 
             Goose message = legitimateMessages.get(i);
-            Goose lastMessage = legitimateMessages.get(i - 1);
-            Goose nextMessage = legitimateMessages.get(i + 1);
+            Goose lastMessage = (i > 0) ? legitimateMessages.get(i - 1) : null;
+            Goose nextMessage = (i + 1 < numberOfMessages) ? legitimateMessages.get(i + 1) : null;
+            boolean toDiscard = randomBetween(0, 100) < discardRate;
+            boolean toLabel = false;
 
-            if (discarded) {
-                message.setLabel(GSVDatasetWriter.label[9]);
-            }
+            if (lastMessage != null && message.getStNum() != lastMessage.getStNum()) {
+                System.out.println("[ORIENTED GRAYHOLE] STATUS HAS CHANGED " + message.getStNum() + " " + toDiscard);
 
-            if (!ignoreAnalysis && message.getStNum() != lastMessage.getStNum()) {
-                switch (approaches) {
+                if (toDiscard) {
+                    System.out.println("[ORIENTED GRAYHOLE] Discarded the message of timestamp " + message.getTimestamp() +
+                            " through the " + attackApproaches.RANDOMIC.name() + " approach.");
 
-                    case RANDOMIC:
-                        boolean toDiscard = randomBetween(0, 100) < discardRate;
-                        if (toDiscard) {
-                            discardedMessages.add(message);
-                            discarded = true;
-                            System.out.println("Discarded the message " +
-                                    "of timestamp " + message.getTimestamp() + "through the " + attackAproaches.RANDOMIC.name() + " approach.");
-                        } else {
-                            ied.addMessage(message);
-                            System.out.println("Avoided discarding the message " +
-                                    "of timestamp " + message.getTimestamp());
-                        }
-                        break;
+                    if (i + toDiscardPackets < numberOfMessages) {
+                        nextMessage = legitimateMessages.get(i + toDiscardPackets);
+                        toLabel = true;
+                    }
 
-                    case BURST:
-                        burstDiscard = true;
-                        maxDisposableIndex = i + toDiscardPackets;
+                    for (int j = 0; j < toDiscardPackets && (i + j) < numberOfMessages; j++) {
+                        Goose messageToRemove = legitimateMessages.get(i + j);
+                        ied.removeMessage(messageToRemove);
+                        System.out.println("[ORIENTED GRAYHOLE] Removed message with timestamp " + messageToRemove.getTimestamp());
+                    }
+
+                    i += toDiscardPackets - 1;
+                } else {
+                    ied.addMessage(message);
+                    System.out.println("[ORIENTED GRAYHOLE] Avoided discarding the message of timestamp " + message.getTimestamp());
                 }
-                if (burstDiscard) {
-                    discardedMessages.add(message);
-                    System.out.println("Discarded the message " +
-                            "of timestamp " + message.getTimestamp() + " through the " + attackAproaches.BURST.name() + " approach.");
-                    ignoreAnalysis = i <= maxDisposableIndex;
-                    burstDiscard = false;
-                }
-            }
 
+                if (toLabel && nextMessage != null) {
+                    nextMessage.setLabel(GSVDatasetWriter.label[9]);
+                    System.out.println("[ORIENTED GRAYHOLE] Labeled next message with timestamp: " + nextMessage.getTimestamp());
+                }
+
+            } else {
+                ied.addMessage(message);
+            }
         }
-        System.out.println("Discarded " + discardedMessages.size() + " messages");
     }
+
+
 }

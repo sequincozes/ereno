@@ -40,12 +40,12 @@ public class SVCreator implements MessageCreator {
                 countMessages = countMessages + 1;
                 if (countMessages % 4763 == 0) {
                     offset = offset + 1;
-                    Logger.getLogger(" ").info(+countMessages+" messages SV. Finished one electrical file: 4763 multiple: " + countMessages / 4763);
+//                    Logger.getLogger(" ").info(+countMessages+" messages SV. Finished one electrical file: 4763 multiple: " + countMessages / 4763);
                 }
                 if (mu.getMessages().size() < numberOfSVMessages) {
                     mu.addMessage(new Sv(offset + lines[0], lines[1], lines[2], lines[3], lines[7], lines[8], lines[9]));
                 } else {
-                    Logger.getLogger("SVCreator.generate()").info(+mu.getMessages().size() + " SV messages generated.");
+//                    Logger.getLogger("SVCreator.generate()").info(+mu.getMessages().size() + " SV messages generated.");
                     break;
                 }
             }
@@ -59,6 +59,7 @@ public class SVCreator implements MessageCreator {
         for (String file : files) {
             try {
                 File myObj = new File(file);
+                System.out.println("ANALISANDO " + myObj.getName());
                 try (Scanner myReader = new Scanner(myObj)) {
                     myReader.nextLine(); // Skip blank line
                     while (myReader.hasNextLine()) {

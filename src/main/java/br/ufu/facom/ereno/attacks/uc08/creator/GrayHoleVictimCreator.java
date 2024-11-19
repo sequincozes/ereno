@@ -19,16 +19,37 @@ import static br.ufu.facom.ereno.general.IED.randomBetween;
  */
 public class GrayHoleVictimCreator implements MessageCreator {
     ArrayList<Goose> legitimateMessages;
+
     public GrayHoleVictimCreator(ArrayList<Goose> legitimateMessages) {
         this.legitimateMessages = legitimateMessages;
     }
 
+    int rate = 5;
+
     @Override
-    public void generate(IED ied, int selectionRate) {
-        for (Goose goose : legitimateMessages) {
-            if (randomBetween(0, 100) < selectionRate) { // avoid this message to being discarded
-                goose.setLabel(GSVDatasetWriter.label[8]); // label it as gray hole attack (uc08)
-                ied.addMessage(goose);
+    public void generate(IED ied, int numberOfMessages) {
+
+        for (int i = 0; i < numberOfMessages; i++) {
+
+            Goose message = legitimateMessages.get(i);
+            Goose nextMessage = (i + 1 < numberOfMessages) ? legitimateMessages.get(i + 1) : null;
+            boolean toDiscard = randomBetween(0, 100) < rate;
+            boolean toLabel = false;
+
+            if (toDiscard) {
+
+                if (i + 1 < numberOfMessages) {
+                    nextMessage = legitimateMessages.get(i + 1);
+                    toLabel = true;
+                }
+                ied.removeMessage(message);
+                System.out.println("[GRAYHOLE] Discarded the message of timestamp " + message.getTimestamp());
+            } else {
+                ied.addMessage(message);
+            }
+            if (toLabel && nextMessage != null) {
+                nextMessage.setLabel(GSVDatasetWriter.label[8]);
+                System.out.println("[GRAYHOLE] Labeled message with timestamp: " + nextMessage.getTimestamp());
             }
         }
     }

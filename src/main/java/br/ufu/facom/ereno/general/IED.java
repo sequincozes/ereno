@@ -40,7 +40,7 @@ public abstract class IED {
 
         Random random = new Random(System.nanoTime());
         int randomNumber = lowerLimit + random.nextInt(upperLimit - lowerLimit + 1);
-        System.out.println("random: " + randomNumber);
+//        System.out.println("random: " + randomNumber);
 
         return randomNumber;
     }
@@ -59,6 +59,9 @@ public abstract class IED {
     abstract public void run(int messageCount);
 
     public abstract void addMessage(EthernetFrame message);
+    public abstract void removeMessage(EthernetFrame message);
+    public abstract void replaceMessage(EthernetFrame message, int index);
+
 
     public float getInitialTimestamp() {
         return initialTimestamp;
