@@ -6,6 +6,7 @@ import br.ufu.facom.ereno.messages.Sv;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
@@ -20,7 +21,7 @@ public class SVCreator implements MessageCreator {
             "isbA", "isbB", "isbC",  // Current substation Samambaia
             "ismA", "ismB", "ismC",  // Current substation Serra da mesa
             "vsbA", "vsbB", "vsbC",  // Voltage Samambaia
-            "vsmA", "vsmB", "vsmC"}; // Voltage substation Serra da mesa
+            "vsmA", "vsmB", "vsmC", " "}; // Voltage substation Serra da mesa
 
     public SVCreator(String[] payloadFiles) {
         this.payloadFiles = payloadFiles;
@@ -30,7 +31,7 @@ public class SVCreator implements MessageCreator {
     public void generate(IED ied, int numberOfSVMessages) {
         this.mu = (MergingUnit) ied;
 
-        this.allElectricalMeassures = consumeFloatFiles(payloadFiles, 1, columnsTitle);
+        this.allElectricalMeassures = consumeFloatFiles(payloadFiles, columnsTitle);
 
         Logger.getLogger("SVCreator.generate()").info("Generating " + numberOfSVMessages + " SV message.");
         Logger.getLogger("SVCreator.generate()").info(+allElectricalMeassures.size() + " lines available.");
@@ -53,7 +54,7 @@ public class SVCreator implements MessageCreator {
         }
     }
 
-    protected ArrayList<Float[]> consumeFloatFiles(String files[], int scale, String columns[]) {
+    protected ArrayList<Float[]> consumeFloatFiles(String[] files, String[] columns) {
         ArrayList<Float[]> formatedCSVFile = new ArrayList<>();
 
         for (String file : files) {
@@ -65,42 +66,65 @@ public class SVCreator implements MessageCreator {
                     while (myReader.hasNextLine()) {
                         String data = myReader.nextLine();
                         if (data.length() > 1) {
-                            while (data.charAt(0) == ' ') {
-                                data = data.substring(1, data.length());
-                            }
+                            // Trim leading spaces
+                            data = data.trim();
 
-                            while (data.trim().contains("  ")) {
-                                data = data.replace("  ", " ");
-                            }
+                            // Replace multiple spaces with a single space
+                            data = data.replaceAll("\\s+", " ");
 
-                            data = data.replace(" ", ",");
+                            // Tokenize the line by splitting it based on space
+                            String[] tokens = data.split(" ");
 
-                            StringTokenizer stringTokenizer = new StringTokenizer(data, ",", true);
-                            int t = 0;
-                            Float[] tokenLine = new Float[columns.length];
-                            while (stringTokenizer.hasMoreTokens()) {
-                                t++;
-                                String next = stringTokenizer.nextToken();
-                                if (!next.contains(",")) {
-                                    float feature = Float.valueOf(next) * scale;
-                                    int column = ((t + 1) / 2) - 1;
-                                    if (mu.getInitialTimestamp()>0) {
-                                        if (columns[column].equalsIgnoreCase("Time")) {
-                                            feature = feature + mu.getInitialTimestamp();
+                            // Ensure the number of tokens corresponds to columns length
+                            if (tokens.length == columns.length) {
+                                Float[] tokenLine = new Float[columns.length];
+
+                                // Process each token
+                                for (int i = 0; i < tokens.length; i++) {
+                                    String next = tokens[i].trim();
+                                    if (!next.isEmpty()) {
+                                        try {
+                                            // Parse the token into a float
+                                            float feature = getFeature(columns, next, i);
+
+                                            // Assign to the correct column
+                                            tokenLine[i] = feature;
+                                        } catch (NumberFormatException e) {
+                                            System.out.println("Warning: Invalid float value '" + next + "' in file " + file);
                                         }
                                     }
-                                    tokenLine[column] = feature;
                                 }
+
+                                // Add the processed line to the result
+                                formatedCSVFile.add(tokenLine);
+                            } else {
+                                System.out.println("Warning: Line has an incorrect number of tokens (" + tokens.length + ") in file " + file);
+                                System.out.println(Arrays.toString(tokens));
+
                             }
-                            formatedCSVFile.add(tokenLine);
                         }
                     }
+                } catch (FileNotFoundException e) {
+                    System.out.println("Erro: " + e.getLocalizedMessage());
                 }
-            } catch (FileNotFoundException e) {
-                System.out.println("Erro: " + e.getLocalizedMessage());
+            } catch (Exception e) {
+                System.out.println("Error processing file " + file + ": " + e.getMessage());
             }
         }
+
         return formatedCSVFile;
+    }
+
+    private float getFeature(String[] columns, String next, int i) {
+        float feature = Float.parseFloat(next) * 1; // Adjust scale if needed
+
+        // Apply timestamp adjustment if necessary
+        if (mu.getInitialTimestamp() > 0) {
+            if (columns[i].equalsIgnoreCase("Time")) {
+                feature = feature + mu.getInitialTimestamp();
+            }
+        }
+        return feature;
     }
 
 }

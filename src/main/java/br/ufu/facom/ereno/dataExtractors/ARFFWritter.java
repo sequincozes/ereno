@@ -2,14 +2,11 @@ package br.ufu.facom.ereno.dataExtractors;
 
 import br.ufu.facom.ereno.featureEngineering.IntermessageCorrelation;
 import br.ufu.facom.ereno.featureEngineering.ProtocolCorrelation;
-import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
 import br.ufu.facom.ereno.messages.Sv;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.logging.Logger;
@@ -118,7 +115,7 @@ public class ARFFWritter {
         write("@attribute tDiff numeric"); // temporal consistency 67
         write("@attribute timeFromLastChange numeric"); // temporal consistency 68
         write("@attribute delay numeric"); // temporal consistency 69
-        String classLine = "@attribute @class@ {" + label[0] + ", " + label[1] + ", " + label[2] + ", " + label[3] + ", " + label[4] + ", " + label[5] + ", " + label[6] + ", " + label[7] + ", " + label[8]+ ", " + label[9]+"}";
+        String classLine = "@attribute @class@ {" + label[0] + ", " + label[1] + ", " + label[2] + ", " + label[3] + ", " + label[4] + ", " + label[5] + ", " + label[6] + ", " + label[7] + ", " + label[8] + ", " + label[9] + "}";
 
         write(classLine);
         write("@data");

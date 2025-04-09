@@ -42,7 +42,6 @@ public class RandomReplayCreator implements MessageCreator {
             Goose randomGoose = legitimateMessages.get(randomIndex).copy();
             Logger.getLogger("RandomReplayCreator").info("Captured the legitimate message at " + randomGoose.getTimestamp());
             randomGoose.setLabel(GSVDatasetWriter.label[1]);  // label it as random replay (uc01)
-
             // Refresh the message timestamp
 //            Goose lastLegitimateGoose = legitimateMessages.get(legitimateMessages.size() - 1);
 

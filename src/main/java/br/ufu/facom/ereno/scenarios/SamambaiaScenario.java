@@ -19,11 +19,9 @@ import br.ufu.facom.ereno.SubstationNetwork;
 import br.ufu.facom.ereno.dataExtractors.ARFFWritter;
 import br.ufu.facom.ereno.dataExtractors.CSVWritter;
 import br.ufu.facom.ereno.dataExtractors.DebugWritter;
-import br.ufu.facom.ereno.evaluation.DatasetEval;
 import br.ufu.facom.ereno.general.IED;
 import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.messages.Goose;
-import br.ufu.facom.ereno.messages.Sv;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -96,7 +94,7 @@ public class SamambaiaScenario implements IScenario {
 
         substationNetwork.processLevelDevices.add(mu);
         substationNetwork.bayLevelDevices.add(uc00);
-        substationNetwork.bayLevelDevices.add(uc09);
+        substationNetwork.bayLevelDevices.add(uc08);
 
         Logger.getLogger("SamambaiaScenario").info("Devices set up!");
     }
@@ -104,36 +102,37 @@ public class SamambaiaScenario implements IScenario {
     @Override
     public void runDevices() {
 
-        for (MergingUnit mu : substationNetwork.processLevelDevices) {
-            mu.run(numberOfMessages * 4763);
-            substationNetwork.processBusMessages.addAll(mu.getMessages());
-        }
-
-
-        for (IED ied : substationNetwork.bayLevelDevices) {
-            Logger.getLogger("SambaiaScenario").info(substationNetwork.bayLevelDevices.size() + " devices connected to the substation network.");
-            ied.run(numberOfMessages);
-
-            int numAddedMessages = 0;
-
-
-            for (Goose goose : ((ProtectionIED) ied).getMessages()) {
-                numAddedMessages++;
-                if (numAddedMessages < numberOfMessages && !(ied instanceof LegitimateProtectionIED)) {
-                    substationNetwork.stationBusMessages.add(goose);
-                } else {
-                    break;
-                }
+            for (MergingUnit mu : substationNetwork.processLevelDevices) {
+                mu.run(numberOfMessages * 4763);
+                substationNetwork.processBusMessages.addAll(mu.getMessages());
             }
-            Logger.getLogger("SamambaiaScenario").info("Generated " + numAddedMessages + " for IED " + ((ProtectionIED) ied).getLabel());
-        }
 
-        Logger.getLogger("SamambaiaScenario").info("Devices run successfully!");
+
+            for (IED ied : substationNetwork.bayLevelDevices) {
+                Logger.getLogger("SambaiaScenario").info(substationNetwork.bayLevelDevices.size() + " devices connected to the substation network.");
+                ied.run(numberOfMessages);
+
+                int numAddedMessages = 0;
+
+
+                for (Goose goose : ((ProtectionIED) ied).getMessages()) {
+                    numAddedMessages++;
+                    if (numAddedMessages < numberOfMessages && !(ied instanceof LegitimateProtectionIED)) {
+                        substationNetwork.stationBusMessages.add(goose);
+                    } else {
+                        break;
+                    }
+                }
+                Logger.getLogger("SamambaiaScenario").info("Generated " + numAddedMessages + " for IED " + ((ProtectionIED) ied).getLabel());
+            }
+
+            Logger.getLogger("SamambaiaScenario").info("Devices run successfully!");
+
     }
 
     @Override
     public void exportDataset() {
-        boolean generate_arff = true;
+        boolean generate_arff = false;
         boolean debug = false;
         try {
             if (!debug) {
@@ -143,7 +142,7 @@ public class SamambaiaScenario implements IScenario {
                     ARFFWritter.processDataset(substationNetwork.stationBusMessages, substationNetwork.processBusMessages);
                     ARFFWritter.finishWriting();
                 } else {
-                    CSVWritter.startWriting("C:\\Users\\zomca\\IdeaProjects\\ereno-uc09\\datasets\\oriented_grayhole\\1000_50_5.csv");
+                    CSVWritter.startWriting("C:\\Users\\zomca\\IdeaProjects\\ereno-uc09\\datasets\\datasets_novos\\GH9.csv");
                     CSVWritter.processDataset(substationNetwork.stationBusMessages, substationNetwork.processBusMessages);
                     CSVWritter.finishWriting();
                 }
