@@ -24,7 +24,7 @@ public class GrayHoleVictimCreator implements MessageCreator {
         this.legitimateMessages = legitimateMessages;
     }
 
-    int rate = 20;
+    int rate = 13;
 
     @Override
     public void generate(IED ied, int numberOfMessages) {

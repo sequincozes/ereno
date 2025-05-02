@@ -142,7 +142,7 @@ public class SamambaiaScenario implements IScenario {
                     ARFFWritter.processDataset(substationNetwork.stationBusMessages, substationNetwork.processBusMessages);
                     ARFFWritter.finishWriting();
                 } else {
-                    CSVWritter.startWriting("C:\\Users\\zomca\\IdeaProjects\\ereno-uc09\\datasets\\datasets_novos\\GH9.csv");
+                    CSVWritter.startWriting("C:\\Users\\zomca\\IdeaProjects\\ereno-uc09\\datasets\\datasets_novos\\13_1.csv");
                     CSVWritter.processDataset(substationNetwork.stationBusMessages, substationNetwork.processBusMessages);
                     CSVWritter.finishWriting();
                 }
