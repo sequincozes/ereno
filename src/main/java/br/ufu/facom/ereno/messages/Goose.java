@@ -1,19 +1,28 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufu.facom.ereno.messages;
 
-import br.ufu.facom.ereno.api.GooseFlow;
-import br.ufu.facom.ereno.api.SetupIED;
-
-import java.text.DecimalFormat;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 /**
- * @author silvio
+ *
+ * This class extends {@code EthernetFrame} and encapsulates the parameters and behaviors of a GOOSE message
+ * used in substation communication protocols.
+ *
+ * It manages dynamically generated fields such as {@code cbStatus}, {@code stNum}, {@code sqNum}, and timestamps.
+ * Static configuration parameters are loaded from a properties file or defaulted otherwise.
+ *
+ * Provides methods to output message data in various CSV formats for analysis or processing, including
+ * full detailed output, compact versions, and masquerade attack simulations.
+ *
+ * Also supports copying instances, retrieving inverse statuses, and retrieving various length and size
+ * parameters related to the message frame.
+ *
+ * @see EthernetFrame
  */
+
 public class Goose extends EthernetFrame {
+    private static final Properties config = new Properties();
 
     private String label;
     private int cbStatus;                   // DYNAMICALLY GENERATED 
@@ -23,6 +32,8 @@ public class Goose extends EthernetFrame {
     private int gooseTimeAllowedtoLive = 11000;
     private int numDatSetEntries = 25;
     private int confRev = 1;
+
+    // Static configuration with defaults
     public static String ethDst = "01:0c:cd:01:2f:77";
     public static String ethSrc = "01:0c:cd:01:2f:78";
     public static String ethType = "0x000088b8";
@@ -35,50 +46,41 @@ public class Goose extends EthernetFrame {
     public static String ndsCom = "FALSE";
     public static String protocol = "GOOSE";
 
-//    public static String label;
+    static {
+        loadConfiguration();
+    }
+
+    private static void loadConfiguration() {
+        try (InputStream input = Goose.class.getClassLoader()
+                .getResourceAsStream("params.properties")) {
+
+            if (input != null) {
+                config.load(input);
+
+                ethDst = config.getProperty("goose.ethDst", ethDst);
+                ethSrc = config.getProperty("goose.ethSrc", ethSrc);
+                ethType = config.getProperty("goose.ethType", ethType);
+                gooseAppid = config.getProperty("goose.appid", gooseAppid);
+                TPID = config.getProperty("goose.TPID", TPID);
+                gocbRef = config.getProperty("goose.gocbRef", gocbRef);
+                datSet = config.getProperty("goose.datSet", datSet);
+                goID = config.getProperty("goose.goID", goID);
+                test = config.getProperty("goose.test", test);
+                ndsCom = config.getProperty("goose.ndsCom", ndsCom);
+            }
+
+        } catch (IOException e) {
+            System.err.println("Warning: Could not load goose configuration, using defaults");
+        }
+    }
 
     public Goose(int cbStatus, int stNum, int sqNum, double timestamp, double t, String label) {
-        fromECF();
         this.cbStatus = cbStatus;
         this.stNum = stNum;
         this.sqNum = sqNum;
-        super.setTimestamp((timestamp));
-        this.t = (t);
+        super.setTimestamp(timestamp);
+        this.t = t;
         this.label = label;
-    }
-
-
-    private void fromECF() {
-
-        sqNum = Integer.parseInt(SetupIED.ECF.sqNum);
-        stNum = Integer.parseInt(SetupIED.ECF.stNum);
-        super.setTimestamp((Double.parseDouble(SetupIED.ECF.timestamp)));
-        gocbRef = SetupIED.ECF.gocbRef;
-        datSet = SetupIED.ECF.datSet;
-        goID = GooseFlow.ECF.goID;
-        ethDst = GooseFlow.ECF.ethDst;
-        ethSrc = GooseFlow.ECF.ethSrc;
-        ethType = GooseFlow.ECF.ethType;
-        gooseAppid = GooseFlow.ECF.gooseAppid;
-        TPID = GooseFlow.ECF.TPID;
-
-        if (GooseFlow.ECF.ndsCom) {
-            ndsCom = "TRUE";
-        } else {
-            ndsCom = "FALSE";
-        }
-
-        if (GooseFlow.ECF.cbstatus) {
-            cbStatus = 1;
-        } else {
-            cbStatus = 0;
-        }
-
-        if (GooseFlow.ECF.test) {
-            test = "TRUE";
-        } else {
-            test = "FALSE";
-        }
     }
 
     public int isCbStatus() {
@@ -110,32 +112,11 @@ public class Goose extends EthernetFrame {
     }
 
     public int getInverseCbStatus() {
-        if (cbStatus == 1) {
-            return 0;
-        } else {
-            return 1;
-        }
+        return cbStatus == 1 ? 0 : 1;
     }
 
-
     public int getFrameLen() {
-        return 200;/*String.valueOf(numDatSetEntries).length()
-                + String.valueOf(gooseTimeAllowedtoLive).length()
-                + String.valueOf(cbStatus).length()
-                + String.valueOf(stNum).length()
-                + String.valueOf(timestamp).length()
-                + String.valueOf(t).length()
-                + ethDst.length()
-                + ethSrc.length()
-                + ethType.length()
-                + gooseAppid.length()
-                + TPID.length()
-                + gocbRef.length()
-                + datSet.length()
-                + goID.length()
-                + test.length()
-                + ndsCom.length()
-                + 115;*/
+        return 200; // Simplified fixed length
     }
 
     public int getGooseLen() {
@@ -147,44 +128,65 @@ public class Goose extends EthernetFrame {
     }
 
     public String asCSVFull() {
-        return getT() + "," + getTimestamp() + "," + getSqNum() + "," + getStNum() + "," + cbStatus + ", " + getFrameLen()
-                + ", " + ethDst + ", " + ethSrc + ", " + ethType + ", " + gooseTimeAllowedtoLive + ", " + gooseAppid
-                + ", " + getGooseLen() + ", " + TPID + ", " + gocbRef + ", " + datSet
-                + ", " + goID + ", " + test + ", " + confRev + ", " + ndsCom
-                + ", " + numDatSetEntries + ", " + getGooseLen() + ", " + protocol;
+        return String.join(",",
+                Double.toString(getT()),
+                Double.toString(getTimestamp()),
+                Integer.toString(getSqNum()),
+                Integer.toString(getStNum()),
+                Integer.toString(cbStatus),
+                Integer.toString(getFrameLen()),
+                ethDst, ethSrc, ethType,
+                Integer.toString(gooseTimeAllowedtoLive),
+                gooseAppid,
+                Integer.toString(getGooseLen()),
+                TPID, gocbRef, datSet,
+                goID, test,
+                Integer.toString(confRev),
+                ndsCom,
+                Integer.toString(numDatSetEntries),
+                Integer.toString(getGooseLen()),
+                protocol
+        );
     }
 
     public String asCSVCompact() {
-        return /*getT() + "," + */getTimestamp() + "," + getSqNum() + "," + getStNum() + "," + getCbStatus();
+        return String.join(",",
+                Double.toString(getTimestamp()),
+                Integer.toString(getSqNum()),
+                Integer.toString(getStNum()),
+                Integer.toString(getCbStatus())
+        );
     }
 
-    public String asCSVCompactHeader() {
-        return "timestamp , t, SqNum, StNum, cbStatus";
+    public static String getCSVCompactHeader() {
+        return "timestamp,SqNum,StNum,cbStatus";
     }
-
 
     public String asDebug() {
-        System.out.println("TIMESTAMP:"+getTimestamp() +" T: "+getT());
-        return getTimestamp() + "," + getT() + "," + getSqNum() + "," + getStNum() + "," + cbStatus;
+        System.out.printf("TIMESTAMP:%.6f T:%.6f%n", getTimestamp(), getT());
+        return String.join(",",
+                Double.toString(getTimestamp()),
+                Double.toString(getT()),
+                Integer.toString(getSqNum()),
+                Integer.toString(getStNum()),
+                Integer.toString(cbStatus)
+        );
     }
 
     public String asCSVinverseStatus() {
-        if (cbStatus == 1) {
-            return getTimestamp() + "," + getSqNum() + "," + getStNum() + "," + 0;
-        } else {
-            return getTimestamp() + "," + getSqNum() + "," + getStNum() + "," + 1;
-        }
+        return String.join(",",
+                Double.toString(getTimestamp()),
+                Integer.toString(getSqNum()),
+                Integer.toString(getStNum()),
+                Integer.toString(getInverseCbStatus())
+        );
     }
 
     public String asCSVMasquerade(boolean resetSqNum) {
         if (resetSqNum) {
             setSqNum(0);
         }
-        if (cbStatus == 1) {
-            return getTimestamp() + "," + getSqNum() + "," + getStNum() + "," + 0;
-        } else {
-            return getTimestamp() + "," + getSqNum() + "," + getStNum() + "," + 1;
-        }
+        return asCSVinverseStatus();
     }
 
     public double getT() {
@@ -222,6 +224,4 @@ public class Goose extends EthernetFrame {
     public void setLabel(String label) {
         this.label = label;
     }
-
-
 }

@@ -1,41 +1,51 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package br.ufu.facom.ereno.benign.uc00.devices;
 
 
-import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.api.SetupIED;
 import br.ufu.facom.ereno.benign.uc00.creator.GooseCreator;
+import br.ufu.facom.ereno.dataExtractors.DatasetWriter;
+import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
-import br.ufu.facom.ereno.dataExtractors.DatasetWriter;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 /**
- * @author silvio
+ * Simulation model of a legitimate IEC 61850 Protection IED for benign scenarios (UC00).
+ *
+ * This class extends {@code ProtectionIED} and manages the creation, manipulation, and scheduling
+ * of GOOSE messages using a configured {@code GooseCreator}. It simulates realistic behavior by:
+ * - Generating event-driven and periodic GOOSE messages
+ * - Managing state and sequence numbers with optional randomization
+ * - Supporting exponential backoff retransmission intervals
+ * - Tracking control block status and internal timing offsets
+ *
+ * Provides utilities for copying, retrieving, and analyzing GOOSE message flows,
+ * making it suitable for testing protection logic and communication patterns under normal conditions.
+ *
+ * @see br.ufu.facom.ereno.benign.uc00.creator.GooseCreator
+ * @see br.ufu.facom.ereno.general.ProtectionIED
+ * @see br.ufu.facom.ereno.messages.Goose
  */
+
 public class LegitimateProtectionIED extends ProtectionIED {
     public LegitimateProtectionIED() {
         super(DatasetWriter.label[0]);
         messages = new ArrayList<>();
     }
 
-    private int initialStNum = Integer.parseInt(SetupIED.ECF.stNum);
-    private int initialSqNum = Integer.parseInt(SetupIED.ECF.sqNum);
+    private int initialStNum = Integer.parseInt(SetupIED.stNum);
+    private int initialSqNum = Integer.parseInt(SetupIED.sqNum);
     //    static double[] burstingInterval = {0.5, 0.6}; // timestam to p (in seconds)
     public static double delayFromEvent = 0.00631;
     double firstGooseTime = 0.01659;
 
     double initialBackoffInterval = 6.33000000000011f; // IED processing time
-    double minTime = Integer.parseInt(SetupIED.ECF.minTime);
-    long maxTime = Integer.parseInt(SetupIED.ECF.maxTime);
-    private boolean initialCbStatus = GooseFlow.ECF.cbstatus;
+    double minTime = Integer.parseInt(SetupIED.minTime);
+    long maxTime = Integer.parseInt(SetupIED.maxTime);
+    private boolean initialCbStatus = GooseFlow.cbstatus;
 
     protected ArrayList<Goose> messages;
 
@@ -48,19 +58,18 @@ public class LegitimateProtectionIED extends ProtectionIED {
 
     @Override
     public void run(int normalMessages) {
-        // Here we set the GooseCreator for creating GOOSE messages for ProtectionIED
         messageCreator = new GooseCreator(getLabel());
         messageCreator.generate(this, normalMessages);
     }
 
     @Override
     public void addMessage(EthernetFrame periodicGoose) {
-        // this was commented due to the grayhole need for exceding messages
-//        if (GooseFlow.ECF.numberOfMessages >= messages.size()){
         this.messages.add((Goose) periodicGoose);
-//        } else {
-//            throw new IndexOutOfBoundsException("Adding more GOOSE than the predefined threshold. There is something wrong with your logic.");
-//        }
+    }
+
+    @Override
+    public void removeMessage(EthernetFrame periodicGoose) {
+        this.messages.remove((Goose) periodicGoose);
     }
 
     public void addMessages(ArrayList<Goose> messages) {
@@ -185,7 +194,7 @@ public class LegitimateProtectionIED extends ProtectionIED {
     }
 
     public ArrayList<Goose> copyMessages() {
-        Logger.getLogger("copyMessage").info("Copying " + messages.size() + " messages.");
+//        Logger.getLogger("copyMessage").info("Copying " + messages.size() + " messages.");
         ArrayList<Goose> copied = new ArrayList<>();
         for (Goose originalGoose : messages) {
             copied.add(originalGoose.copy());
@@ -205,9 +214,9 @@ public class LegitimateProtectionIED extends ProtectionIED {
         for (int i = 0; i < ied.getMessages().size(); i++) {
             if (goose.equals(ied.getMessages().get(i))) {
                 if (i == 0) {
-                    Goose pseudoPast = ied.getMessages().get(0).copy(); // Pseudo past
+                    Goose pseudoPast = ied.getMessages().get(0).copy();
                     double pseudoPastTimestamp = ied.getMessages().get(0).getTimestamp() - maxTime;
-                    pseudoPast.setTimestamp(pseudoPastTimestamp); //Assume the last message wast sent at now - maxtime
+                    pseudoPast.setTimestamp(pseudoPastTimestamp);
                     pseudoPast.setSqNum(pseudoPast.getSqNum() - 1);
                     return pseudoPast;
                 } else {

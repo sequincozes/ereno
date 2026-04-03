@@ -15,9 +15,25 @@ import java.util.PriorityQueue;
 import java.util.logging.Logger;
 
 /**
- * This extractor writes the generated messages to an ARFF file.
- * It generates a GOOSE-oriented dataset (one sample per GOOSE).
+ * Generates ARFF (Attribute-Relation File Format) datasets from GOOSE and SV message flows for machine learning analysis.
+ *
+ * The {@code ARFFWritter} class is responsible for transforming raw network traffic data into structured ARFF files,
+ * widely used in Weka and other ML tools. It supports:
+ * - Writing detailed attribute headers with electrical, temporal, status, and protocol features
+ * - Processing a sequence of GOOSE messages alongside corresponding SV frames
+ * - Extracting cross-protocol correlations and intermessage consistency metrics
+ * - Labeling each message with its respective class (e.g., normal, replay, masquerade)
+ *
+ * This class facilitates the creation of labeled datasets for training and evaluating intrusion detection systems (IDS)
+ * in substation automation environments based on IEC 61850.
+ *
+ * @see br.ufu.facom.ereno.messages.Goose
+ * @see br.ufu.facom.ereno.messages.Sv
+ * @see br.ufu.facom.ereno.featureEngineering.IntermessageCorrelation
+ * @see br.ufu.facom.ereno.featureEngineering.ProtocolCorrelation
  */
+
+
 public class ARFFWritter {
     static BufferedWriter bw;
     public static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate", "grayhole"};//, "stealthy_injection"};//,"poisoned_high_rate_consistent"};
@@ -28,10 +44,10 @@ public class ARFFWritter {
 
         // Writing Messages
         Goose previousGoose = null;
-        Logger.getLogger("ARFFWritter").info(stationBusMessages.size() + " mensagens na fila.");
+        Logger.getLogger("ARFFWritter").info(stationBusMessages.size() + " messages in the queue.");
         while (!stationBusMessages.isEmpty()) {
             Goose goose = (Goose) stationBusMessages.poll();
-            if (previousGoose != null) { // skips the first message
+            if (previousGoose != null) {
                 Sv sv = ProtocolCorrelation.getCorrespondingSVFrame(processBusMessages, goose);
                 String svString = sv.asCsv();
                 String cycleStrig = ProtocolCorrelation.getCorrespondingSVFrameCycle(processBusMessages, goose, 80).asCsv();

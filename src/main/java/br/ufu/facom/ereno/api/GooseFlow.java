@@ -1,176 +1,92 @@
 package br.ufu.facom.ereno.api;
 
-import br.ufu.facom.ereno.dataExtractors.GSVDatasetWriter;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import javax.servlet.ServletContext;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Reader;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.logging.Logger;
+import java.nio.file.Paths;
+import java.util.Properties;
 
-@WebServlet(name = "gooseFlow", value = "/goose-flow")
-public class GooseFlow extends HttpServlet {
-    public static class ECF { // ERENO Configurarion File (ECF)
-        public static String goID;
-        public static int numberOfMessages;
-        public static String ethSrc;
-        public static String ethDst;
-        public static String ethType;
-        public static String gooseAppid;
-        public static String TPID;
-        public static boolean ndsCom;
+/**
+ * Manages GOOSE message flow parameters for IEC 61850 simulations.
+ *
+ * <p>Loads and saves configuration from {@code params.properties}, exposing
+ * Ethernet frame parameters, GOOSE identifiers, and protocol flags as static fields.</p>
+ *
+ * <p>Configuration is automatically loaded at class initialization.</p>
+ *
+ * @see br.ufu.facom.ereno.api.Attacks
+ */
 
-        public static boolean test;
-        public static boolean cbstatus;
+public class GooseFlow {
+    public static String goID;
+    public static int numberOfMessages;
+    public static String ethSrc;
+    public static String ethDst;
+    public static String ethType;
+    public static String gooseAppid;
+    public static String TPID;
+    public static boolean ndsCom;
+    public static boolean test;
+    public static boolean cbstatus;
 
+    private static final String CONFIG_FILE = "params.properties";
+    private static final Properties props = new Properties();
 
-        public static void loadConfigs() { // Used outside the servlet contexts
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            // This is for reading static fields
-            gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
-            Gson gson = gsonBuilder.create();
+    static {
+        loadConfigs();
+    }
 
-            try {
-                Reader reader = Files.newBufferedReader(
-                        Path.of(System.getProperty("user.dir") +
-                                "/src/main/webapp/ecf/goose-flow.json"));
-                gson.fromJson(reader, ECF.class);
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
+    public static void loadConfigs() {
+        try (InputStream input = GooseFlow.class.getClassLoader()
+                .getResourceAsStream(CONFIG_FILE)) {
+
+            if (input == null) {
+                throw new RuntimeException(CONFIG_FILE + " not found in classpath");
             }
-        }
 
-        public static void writeConfigs() { // Used outside the servlet contexts
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            // This is for reading static fields
-            gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
-            Gson gson = gsonBuilder.create();
-            try {
-                GSVDatasetWriter.startWriting(System.getProperty("user.dir") +
-                        "/src/main/webapp/ecf/goose-flow.json");
-                GSVDatasetWriter.write(gson.toJson(new ECF(), ECF.class));
-                GSVDatasetWriter.finishWriting();
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-        }
+            props.load(input);
 
-        public static void writeConfigs(ServletContext servletContext) {
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            // This is for reading static fields
-            gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
-            Gson gson = gsonBuilder.create();
-            try {
-                GSVDatasetWriter.startWriting(servletContext.getRealPath("ecf/goose-flow.json"));
-                GSVDatasetWriter.write(gson.toJson(new ECF(), ECF.class));
-                GSVDatasetWriter.finishWriting();
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-        }
+            goID = props.getProperty("goose.flow.goID");
+            numberOfMessages = Integer.parseInt(props.getProperty("goose.flow.numberOfMessages", "0"));
+            ethSrc = props.getProperty("goose.flow.ethSrc");
+            ethDst = props.getProperty("goose.flow.ethDst");
+            ethType = props.getProperty("goose.flow.ethType");
+            gooseAppid = props.getProperty("goose.flow.gooseAppid");
+            TPID = props.getProperty("goose.flow.TPID");
+            ndsCom = Boolean.parseBoolean(props.getProperty("goose.flow.ndsCom", "false"));
+            test = Boolean.parseBoolean(props.getProperty("goose.flow.test", "false"));
+            cbstatus = Boolean.parseBoolean(props.getProperty("goose.flow.cbstatus", "false"));
 
-        public static void loadConfigs(ServletContext servletContext) { // used within servlet contexts
-            GsonBuilder gsonBuilder = new GsonBuilder();
-            // This is for reading static fields
-            gsonBuilder.excludeFieldsWithModifiers(java.lang.reflect.Modifier.TRANSIENT);
-            Gson gson = gsonBuilder.create();
-            try {
-                System.out.println("ECF GoID: " + ECF.goID);
-
-                Reader reader = Files.newBufferedReader(Path.of(servletContext.getRealPath("ecf/goose-flow.json")));
-                ECF ecf = gson.fromJson(reader, ECF.class);
-                System.out.println("ECF GoID: " + ecf.goID);
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load configuration from " + CONFIG_FILE, e);
+        } catch (NumberFormatException e) {
+            throw new RuntimeException("Invalid number format in configuration", e);
         }
     }
 
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        ECF.loadConfigs(getServletContext());
-        request.setCharacterEncoding("UTF-8");
-        String json = new Gson().toJson(this);
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(json);
-    }
+    public static void saveConfigs() {
+        try {
+            props.setProperty("goose.flow.goID", goID != null ? goID : "");
+            props.setProperty("goose.flow.numberOfMessages", String.valueOf(numberOfMessages));
+            props.setProperty("goose.flow.ethSrc", ethSrc != null ? ethSrc : "");
+            props.setProperty("goose.flow.ethDst", ethDst != null ? ethDst : "");
+            props.setProperty("goose.flow.ethType", ethType != null ? ethType : "");
+            props.setProperty("goose.flow.gooseAppid", gooseAppid != null ? gooseAppid : "");
+            props.setProperty("goose.flow.TPID", TPID != null ? TPID : "");
+            props.setProperty("goose.flow.ndsCom", String.valueOf(ndsCom));
+            props.setProperty("goose.flow.test", String.valueOf(test));
+            props.setProperty("goose.flow.cbstatus", String.valueOf(cbstatus));
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.setCharacterEncoding("UTF-8");
-        PrintWriter out = response.getWriter();
+            Path configPath = Paths.get(System.getProperty("user.dir"),
+                    "src", "main", "resources", CONFIG_FILE);
 
-        if (request.getParameter("goID") == null) { // handles the JSON body (e.g., from API)
-            ECF gooseFlow = new Gson().fromJson(request.getReader(), ECF.class);
-            out.println("{");
-            out.println("   \"message\" : \"Novo ERENO Configuration File (ECL) recebido!\"");
-            out.println("}");
-        } else { // handles the parameters from header (e.g., from HTML form)
-            ECF.goID = request.getParameter("goID");
-            ECF.numberOfMessages = Integer.parseInt(request.getParameter("numberOfMessages"));
-            ECF.ethSrc = request.getParameter("ethSrc");
-            ECF.ethDst = request.getParameter("ethDst");
-            ECF.ethType = request.getParameter("ethType");
-            ECF.gooseAppid = request.getParameter("gooseAppid");
-            ECF.TPID = request.getParameter("TPID");
-
-            if (request.getParameter("test") == null) {
-                ECF.test = false;
-            } else {
-                if (request.getParameter("test").equals("on")) {
-                    ECF.test = true;
-                } else {
-                    ECF.test = false;
-                }
+            try (var writer = Files.newBufferedWriter(configPath)) {
+                props.store(writer, "Goose Flow Configuration");
             }
 
-            if (request.getParameter("ndsCom") == null) {
-                ECF.ndsCom = false;
-            } else {
-                if (request.getParameter("ndsCom").equals("on")) {
-                    ECF.ndsCom = true;
-                } else {
-                    ECF.ndsCom = false;
-                }
-            }
-            if (request.getParameter("cbstatus") == null) {
-                ECF.cbstatus = false;
-            } else {
-                if (request.getParameter("cbstatus").equals("on")) {
-                    ECF.cbstatus = true;
-                } else {
-                    ECF.cbstatus = false;
-                }
-            }
-
-            out.println("<body><html>");
-            out.println("<h2> Clique para baixar o ECL do fluxo <a href=\"goose-flow\" download>" + ECF.goID + "</a></h2>");
-            out.println("<h1>" + "Done!" + "</h1>");
-            out.println("</body></html>");
-
-
-            if (GSVDatasetWriter.english) {
-                response.sendRedirect(request.getContextPath() + "/en/upload-samples.jsp");
-            } else {
-                response.sendRedirect(request.getContextPath() + "/upload-samples.jsp");
-            }
-
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to save configuration to " + CONFIG_FILE, e);
         }
-        Logger.getLogger("GooseFlow").info("updating Goose Flow " + ECF.goID + "...");
-        ECF.writeConfigs(getServletContext());
-        Logger.getLogger("GooseFlow").info("Goose flow " + ECF.goID + " updated.");
     }
-
-
 }

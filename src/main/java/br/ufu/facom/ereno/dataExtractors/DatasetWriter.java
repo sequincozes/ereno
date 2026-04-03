@@ -10,12 +10,30 @@ import java.nio.file.Files;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-// @TODO: Is this still used? Did CSV and ARFF Writters replaced it?
+/**
+ * Responsible for exporting SV and GOOSE messages into ARFF/CSV datasets for machine learning analysis.
+ *
+ * This class provides methods to:
+ * - Write SV and GOOSE messages with rich feature sets, including time-based, signal-based, network, and status metrics.
+ * - Compute inter-message consistency features (e.g., StNum/SqNum differences, delays, frame diffs).
+ * - Support normal and attack datasets, labeling each instance with attack type.
+ * - Create ARFF headers dynamically for different writing scenarios (e.g., hybrid, two devices, compact GOOSE-only).
+ * - Generate downloadable file listings in HTML format for dataset export via web interface.
+ *
+ * Intended for use in offline training and evaluation of intrusion detection systems (IDS)
+ * in IEC 61850-based smart grids. Designed to interoperate with {@link br.ufu.facom.ereno.general.ProtectionIED}, {@link br.ufu.facom.ereno.messages.Goose}, and {@link br.ufu.facom.ereno.messages.Sv} messages.
+ *
+ * @see br.ufu.facom.ereno.general.ProtectionIED
+ * @see br.ufu.facom.ereno.messages.Goose
+ * @see br.ufu.facom.ereno.messages.Sv
+ */
+
+
 public class DatasetWriter {
     static BufferedWriter bw;
     public static boolean english = false;
     static boolean replace = true;
-    public static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate", "grayhole"};//, "stealthy_injection"};//,"poisoned_high_rate_consistent"};
+    public static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate", "grayhole", "orientedGrayhole"};//, "stealthy_injection"};//,"poisoned_high_rate_consistent"};
 
     public static class Debug {
         public static boolean gooseMessages = false;
@@ -38,12 +56,10 @@ public class DatasetWriter {
     }
 
     public static void writeGooseMessagesToFile(ArrayList<Goose> gooseMessages, boolean printHeader) throws IOException {
-        /* Write Header and Columns */
         if (printHeader) {
             writeDefaulGooseHeader();
         }
 
-        /* Write Payload */
         Goose prev = null;
 
         for (Goose gm : gooseMessages) {
@@ -83,7 +99,6 @@ public class DatasetWriter {
                 double delay = gm.getTimestamp() - sv.getTime();
                 write(svString + "," + cycleStrig + "," + gooseString + "," + delay + "," + gm.getLabel());
 
-//                    write(gm.getTimestamp() + "|" + sv.getTime() + "| CBStatus");
             }
         }
     }
@@ -116,20 +131,9 @@ public class DatasetWriter {
         double delay = attack.getTimestamp() - sv.getTime();
         write(svString + "," + cycleStrig + "," + gooseString + "," + delay + "," + attack.getLabel());
 
-//        System.out.println("SqNum: "+attack.getSqNum() + " / Label: "+attack.label);
-
-        // debug
-//        int stdiff = (attack.getStNum() - prev.getStNum());
-//        int sqDiff = (attack.getSqNum() - prev.getSqNum());
-//        int cbStatusDiff = (attack.isCbStatus() - prev.isCbStatus());
-//        write(
-//                "stDiff = " + stdiff + "sqDiff = " + sqDiff +
-//                        "cbStatusDiff = " + cbStatusDiff
-//        );
     }
 
     public static void writeSvMessagesToFile(ArrayList<Sv> svMessages, boolean printHeader, String substation) throws IOException {
-        /* Write Header and Columns */
         if (printHeader) {
             writeDefaulSvHeader(substation);
         }
@@ -279,8 +283,6 @@ public class DatasetWriter {
         write("@attribute protocol {SV, GOOSE}"); //network-based 59
 
 
-        // + stDiff + ", " + sqDiff + ", " + gooseLenghtDiff + ", " + cbStatusDiff + ", " + apduSizeDiff + ", "
-        //                + frameLenthDiff + ", " + timestampDiff + ", " + tDiff + ", " + delay;
         write("@attribute stDiff numeric"); // temporal consistency 60
         write("@attribute sqDiff numeric"); // temporal consistency 61
         write("@attribute gooseLengthDiff numeric"); // temporal consistency 62
@@ -388,7 +390,6 @@ public class DatasetWriter {
         double tDiff = (Double.valueOf(gm.getT()) - Double.valueOf(prev.getT()));
         double delay = currentSVTime - gm.getTimestamp();
 
-        //ystem.out.println("Goose (st/sq/time): " + gm.getStNum() + "," + gm.getSqNum() + "," + time + ", Coisinhas:" + stDiff + ", " + sqDiff + ", " + gooseLenghtDiff + ", " + cbStatusDiff + ", " + apduSizeDiff + ", " + frameLenthDiff + ", " + timestampDiff + ", " + tDiff);
         return "," + stDiff + ", " + sqDiff + ", " + gooseLenghtDiff + ", " + cbStatusDiff + ", " + apduSizeDiff + ", " + frameLenthDiff + ", " + timestampDiff + ", " + tDiff + ", " + (gm.getTimestamp() - gm.getT()) + ", " + delay;
     }
 
@@ -407,7 +408,6 @@ public class DatasetWriter {
         double timeFromLastChange = (gm.getTimestamp() - gm.getT());
 
 
-        //ystem.out.println("Goose (st/sq/time): " + gm.getStNum() + "," + gm.getSqNum() + "," + time + ", Coisinhas:" + stDiff + ", " + sqDiff + ", " + gooseLenghtDiff + ", " + cbStatusDiff + ", " + apduSizeDiff + ", " + frameLenthDiff + ", " + timestampDiff + ", " + tDiff);
         return "," + stDiff + ", " + sqDiff + ", " + gooseLenghtDiff + ", " + cbStatusDiff + ", " + apduSizeDiff + ", "
                 + frameLenthDiff + ", " + timestampDiff + ", " + tDiff + ", " + timeFromLastChange;
     }

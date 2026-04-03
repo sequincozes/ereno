@@ -2,6 +2,7 @@ package br.ufu.facom.ereno.dataExtractors;
 
 import br.ufu.facom.ereno.featureEngineering.IntermessageCorrelation;
 import br.ufu.facom.ereno.featureEngineering.ProtocolCorrelation;
+import br.ufu.facom.ereno.featureEngineering.SVCycle;
 import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
 import br.ufu.facom.ereno.messages.Sv;
@@ -12,48 +13,71 @@ import java.util.PriorityQueue;
 import java.util.logging.Logger;
 
 /**
- * This extractor writes the generated messages to an CSV file.
- * It generates a GOOSE-oriented dataset (one sample per GOOSE).
+ * Generates labeled CSV datasets from GOOSE and SV message streams for data analysis and machine learning.
+ *
+ * The {@code CSVWritter} class transforms real-time communication data from IEC 61850-based substation
+ * networks into a flat, delimited format (CSV). It supports:
+ * - Writing structured CSV headers with electrical, status, network, and temporal features
+ * - Efficient buffering for high-performance writing of large datasets
+ * - Extracting intermessage consistency and SV-GOOSE correlations
+ * - Labeling each instance with predefined attack or normal operation types
+ *
+ * This class is optimized for high-throughput dataset generation and is particularly useful
+ * for evaluating IDS models or conducting offline protocol behavior analysis.
+ *
+ * @see br.ufu.facom.ereno.messages.Goose
+ * @see br.ufu.facom.ereno.messages.Sv
+ * @see br.ufu.facom.ereno.featureEngineering.IntermessageCorrelation
+ * @see br.ufu.facom.ereno.featureEngineering.ProtocolCorrelation
  */
-public class CSVWritter {
-    static BufferedWriter bw;
-    public static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate", "grayhole"};//, "stealthy_injection"};//,"poisoned_high_rate_consistent"};
 
-    public static void processDataset(PriorityQueue<EthernetFrame> stationBusMessages, ArrayList<EthernetFrame> processBusMessages) throws IOException {
-        // Writing Header
+public class CSVWritter {
+    public static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate", "grayhole"};//, "stealthy_injection"};//,"poisoned_high_rate_consistent"};
+    private static final int BUFFER_SIZE = 8192;
+    private static BufferedWriter bw;
+    private static StringBuilder buffer = new StringBuilder(BUFFER_SIZE);
+
+    public static void processDataset(PriorityQueue<EthernetFrame> stationBusMessages,
+                                      ArrayList<EthernetFrame> processBusMessages) throws IOException {
         writeDefaultHeader();
 
-        // Writing Messages
         Goose previousGoose = null;
-//        for (EthernetFrame gooseFrame : stationBusMessages) {
-//            Goose goose = (Goose) gooseFrame;
+        int messageCount = 0;
 
-        // temporario
-        int contador= 10; // REMOVER DEPOIS DOS TESTES
-        Logger.getLogger("CSVWritter").info(stationBusMessages.size() + " mensagens na fila.");
         while (!stationBusMessages.isEmpty()) {
             Goose goose = (Goose) stationBusMessages.poll();
-            if (previousGoose != null) { // skips the first message
+            if (previousGoose != null) {
                 Sv sv = ProtocolCorrelation.getCorrespondingSVFrame(processBusMessages, goose);
-                String svString = sv.asCsv();
-                String cycleStrig = ProtocolCorrelation.getCorrespondingSVFrameCycle(processBusMessages, goose, 80).asCsv();
-                String gooseString = goose.asCSVFull();
-
-//                contador = contador - 1; // REMOVER DEPOIS DOS TESTES
-//                if(contador==0){ // REMOVER DEPOIS DOS TESTES
-//                break;// REMOVER DEPOIS DOS TESTES
-//                } // REMOVER DEPOIS DOS TESTES
+                SVCycle cycle = ProtocolCorrelation.getCorrespondingSVFrameCycle(processBusMessages, goose, 80);
                 String gooseConsistency = IntermessageCorrelation.getConsistencyFeaturesAsCSV(goose, previousGoose);
 
-                double delay = goose.getTimestamp() - sv.getTime();
-                write(svString + "," + cycleStrig + "," + gooseString + "," + gooseConsistency + "," + delay + "," + goose.getLabel());
+                // Use String.format for better performance
+                buffer.append(String.format("%s,%s,%s,%s,%.6f,%s%n",
+                        sv.asCsv(),
+                        cycle.asCsv(),
+                        goose.asCSVFull(),
+                        gooseConsistency,
+                        goose.getTimestamp() - sv.getTime(),
+                        goose.getLabel()));
+
+                // Flush buffer when full
+                if (buffer.length() >= BUFFER_SIZE) {
+                    bw.write(buffer.toString());
+                    buffer.setLength(0);
+                    messageCount++;
+                    if (messageCount % 1000 == 0) {
+                        Logger.getLogger("OptimizedCSVWriter")
+                                .info("Processed " + messageCount + " messages");
+                    }
+                }
             }
             previousGoose = goose.copy();
         }
 
-
+        if (buffer.length() > 0) {
+            bw.write(buffer.toString());
+        }
     }
-
     private static void write(String line) throws IOException {
         bw.write(line);
         bw.newLine();

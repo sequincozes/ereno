@@ -2,6 +2,15 @@ package br.ufu.facom.ereno.featureEngineering;
 
 import br.ufu.facom.ereno.messages.Goose;
 
+/**
+ * Computes inter-message consistency features between two {@link br.ufu.facom.ereno.messages.Goose} messages.
+ *
+ * These features capture differences in sequence numbers, status, length, timestamps,
+ * and control block status, which are useful for detecting anomalies or inconsistencies.
+ *
+ * @see br.ufu.facom.ereno.messages.Goose
+ */
+
 public class IntermessageCorrelation {
     public static String getConsistencyFeaturesAsCSV(Goose gm, Goose prev) {
         int stDiff = gm.getStNum() - prev.getStNum();
@@ -9,7 +18,7 @@ public class IntermessageCorrelation {
         int gooseLenghtDiff = gm.getGooseLen() - prev.getGooseLen();
         int cbStatusDiff = 0;
         if (gm.isCbStatus() != prev.isCbStatus()) {
-            cbStatusDiff = 1; // has a status change
+            cbStatusDiff = 1;
         }
         int apduSizeDiff = gm.getApduSize() - prev.getApduSize();
         int frameLenthDiff = gm.getFrameLen() - prev.getFrameLen();
@@ -18,7 +27,6 @@ public class IntermessageCorrelation {
         double timeFromLastChange = (gm.getTimestamp() - gm.getT());
 
 
-        //ystem.out.println("Goose (st/sq/time): " + gm.getStNum() + "," + gm.getSqNum() + "," + time + ", Coisinhas:" + stDiff + ", " + sqDiff + ", " + gooseLenghtDiff + ", " + cbStatusDiff + ", " + apduSizeDiff + ", " + frameLenthDiff + ", " + timestampDiff + ", " + tDiff);
         return stDiff + ", " + sqDiff + ", " + gooseLenghtDiff + ", " + cbStatusDiff + ", " + apduSizeDiff + ", "
                 + frameLenthDiff + ", " + timestampDiff + ", " + tDiff + ", " + timeFromLastChange;
     }

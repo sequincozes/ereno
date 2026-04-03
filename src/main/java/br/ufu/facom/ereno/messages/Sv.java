@@ -1,5 +1,25 @@
 package br.ufu.facom.ereno.messages;
 
+/**
+ * Represents a Sampled Values (SV) message according to IEC 61850-9-2 standard.
+ *
+ * Models instantaneous three-phase current and voltage measurements with precise timing information
+ * used in power system protection applications.
+ *
+ * Stores synchronized current (iA, iB, iC) and voltage (vA, vB, vC) measurements along with a system status
+ * indicator (normal/fault).
+ *
+ * Supports time synchronization adjustments via a relativeness offset to align with GOOSE messages.
+ *
+ * Provides CSV serialization methods for exporting data for analysis.
+ *
+ * Extends {@code EthernetFrame}, inheriting basic network message properties.
+ *
+ * @see EthernetFrame
+ * @see br.ufu.facom.ereno.messages.Goose
+ * @see br.ufu.facom.ereno.featureEngineering.SVCycle
+ */
+
 public class Sv extends EthernetFrame {
     float relativeness = 0;// to compensate GOOSE relative (for resource efficiency purpose)
     float time;

@@ -10,17 +10,29 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import static br.ufu.facom.ereno.api.GooseFlow.ECF.numberOfMessages;
+import static br.ufu.facom.ereno.api.GooseFlow.numberOfMessages;
 
-// @TODO: Needs documentation for this class: what is its purpose? -- potentially a legacy class?
+/**
+ * Writes hybrid datasets combining {@link br.ufu.facom.ereno.messages.Goose} and
+ * {@link br.ufu.facom.ereno.messages.Sv} messages in ARFF format for ML analysis.
+ *
+ * Supports writing normal traffic, masquerade attacks, and other attack scenarios.
+ * Matches GOOSE messages with corresponding SV messages based on timestamp correlation
+ * using {@link br.ufu.facom.ereno.featureEngineering.ProtocolCorrelation}.
+ *
+ * Generates temporal consistency features for detecting anomalies and attacks.
+ *
+ * @see br.ufu.facom.ereno.featureEngineering.ProtocolCorrelation
+ * @see br.ufu.facom.ereno.messages.Goose
+ * @see br.ufu.facom.ereno.messages.Sv
+ */
+
 
 public class GSVDatasetWriter extends DatasetWriter {
     public static int writeNormal(Goose seedMessage, ArrayList<Goose> gooseMessages, ArrayList<Sv> svMessages, boolean printHeader) throws IOException {
-        /* Write Header and Columns */
-        if (printHeader)
-            writeHeader();
 
-        /* Write Payload */
+        if (printHeader) writeHeader();
+
         Goose prev = null;
         int messagesWritten = 0;
         for (Goose gm : gooseMessages) {
@@ -39,11 +51,10 @@ public class GSVDatasetWriter extends DatasetWriter {
     }
 
     public static int writeMasquerade(Goose seedMessage, ArrayList<Goose> gooseMessages, ArrayList<Sv> svMessages, boolean printHeader) throws IOException {
-        /* Write Payload */
         Goose prev = null;
         int messagesWritten = 0;
         for (Goose gm : gooseMessages) {
-            if (prev != null) { // skips the first message
+            if (prev != null) {
                 Sv sv = ProtocolCorrelation.getCorrespondingSV(svMessages, gm);
                 writeToDataset(svMessages, prev, gm, sv);
                 messagesWritten += 1;
@@ -58,12 +69,10 @@ public class GSVDatasetWriter extends DatasetWriter {
     }
 
     public static int writeAttack(ProtectionIED legitimateIED, ProtectionIED attacker, MergingUnit mu, boolean printHeader) throws IOException {
-        /* Write Header and Columns */
         if (printHeader) {
             writeHeader();
         }
 
-        /* Write Payload */
         for (int i = 0; i < attacker.getMessages().size(); i++) {
             if (i <= numberOfMessages) {
                 Goose currentAttack = attacker.getMessages().get(i);
@@ -73,15 +82,13 @@ public class GSVDatasetWriter extends DatasetWriter {
                 double timeFromLastNormal = currentAttack.getTimestamp() - prevNormal.getTimestamp();
                 double timeFromLastAttack = currentAttack.getTimestamp() - prevAttack.getTimestamp();
                 System.out.println("------------");
-                System.out.println("PrevAtk:"+prevAttack.getTimestamp());
-                System.out.println("CurrentAtk:" +currentAttack.getTimestamp());
-                System.out.println("timeFromLastNormal: "+timeFromLastNormal);
-                System.out.println("timeFromLastAtk: "+timeFromLastAttack);
+                System.out.println("PrevAtk:" + prevAttack.getTimestamp());
+                System.out.println("CurrentAtk:" + currentAttack.getTimestamp());
+                System.out.println("timeFromLastNormal: " + timeFromLastNormal);
+                System.out.println("timeFromLastAtk: " + timeFromLastAttack);
                 if (timeFromLastNormal > timeFromLastAttack) {
-                    // Previous message is an attack
                     writeToDataset(mu.getMessages(), prevAttack, currentAttack, sv);
                 } else {
-                    // Previous message is a normal sample
                     writeToDataset(mu.getMessages(), prevNormal, currentAttack, sv);
                 }
             } else {
@@ -93,7 +100,6 @@ public class GSVDatasetWriter extends DatasetWriter {
     }
 
 
-
     private static void writeToDataset(ArrayList<Sv> svMessages, Goose prev, Goose attack, Sv sv) throws IOException {
         String svString = sv.asCsv();
         String cycleStrig = ProtocolCorrelation.getCorrespondingSVCycle(svMessages, attack, 80).asCsv();
@@ -101,16 +107,6 @@ public class GSVDatasetWriter extends DatasetWriter {
         double delay = attack.getTimestamp() - sv.getTime();
         write(svString + "," + cycleStrig + "," + gooseString + "," + delay + "," + attack.getLabel());
 
-//        System.out.println("SqNum: "+attack.getSqNum() + " / Label: "+attack.label);
-
-        // debug
-//        int stdiff = (attack.getStNum() - prev.getStNum());
-//        int sqDiff = (attack.getSqNum() - prev.getSqNum());
-//        int cbStatusDiff = (attack.isCbStatus() - prev.isCbStatus());
-//        write(
-//                "stDiff = " + stdiff + "sqDiff = " + sqDiff +
-//                        "cbStatusDiff = " + cbStatusDiff
-//        );
     }
 
     protected static void writeHeader() throws IOException {
@@ -163,8 +159,7 @@ public class GSVDatasetWriter extends DatasetWriter {
         write("@attribute protocol {SV, GOOSE}"); //network-based 59
 
 
-        // + stDiff + ", " + sqDiff + ", " + gooseLenghtDiff + ", " + cbStatusDiff + ", " + apduSizeDiff + ", "
-        //                + frameLenthDiff + ", " + timestampDiff + ", " + tDiff + ", " + delay;
+
         write("@attribute stDiff numeric"); // temporal consistency 60
         write("@attribute sqDiff numeric"); // temporal consistency 61
         write("@attribute gooseLengthDiff numeric"); // temporal consistency 62
@@ -191,7 +186,7 @@ public class GSVDatasetWriter extends DatasetWriter {
         int gooseLenghtDiff = gm.getGooseLen() - prev.getGooseLen();
         int cbStatusDiff = 0;
         if (gm.isCbStatus() != prev.isCbStatus()) {
-            cbStatusDiff = 1; // has a status change
+            cbStatusDiff = 1;
         }
         int apduSizeDiff = gm.getApduSize() - prev.getApduSize();
         int frameLenthDiff = gm.getFrameLen() - prev.getFrameLen();
@@ -200,8 +195,6 @@ public class GSVDatasetWriter extends DatasetWriter {
         double timeFromLastChange = (gm.getTimestamp() - gm.getT());
 
 
-        //ystem.out.println("Goose (st/sq/time): " + gm.getStNum() + "," + gm.getSqNum() + "," + time + ", Coisinhas:" + stDiff + ", " + sqDiff + ", " + gooseLenghtDiff + ", " + cbStatusDiff + ", " + apduSizeDiff + ", " + frameLenthDiff + ", " + timestampDiff + ", " + tDiff);
-        return "," + stDiff + ", " + sqDiff + ", " + gooseLenghtDiff + ", " + cbStatusDiff + ", " + apduSizeDiff + ", "
-                + frameLenthDiff + ", " + timestampDiff + ", " + tDiff + ", " + timeFromLastChange;
+        return "," + stDiff + ", " + sqDiff + ", " + gooseLenghtDiff + ", " + cbStatusDiff + ", " + apduSizeDiff + ", " + frameLenthDiff + ", " + timestampDiff + ", " + tDiff + ", " + timeFromLastChange;
     }
 }

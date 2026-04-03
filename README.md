@@ -1,153 +1,117 @@
+# 📌 ERENO v2 📌
 
-### ENLISH VERSION 🇺🇸
-<div id="english-version"/>
+*🇵🇹/🇧🇷 ERENO v2 é uma versão simplificada do [ERENO original](https://github.com/sequincozes/ereno), focada na geração de datasets com mensagens dos protocolos GOOSE e SV para subestações elétricas.*\
+*🇺🇸 ERENO v2 is a simplified version of the [original ERENO](https://github.com/sequincozes/ereno), focused on generating datasets with messages from the GOOSE and SV protocols for electrical substations.*\
+*🇪🇸 ERENO v2 es una versión simplificada del [ERENO original](https://github.com/sequincozes/ereno), centrada en la generación de conjuntos de datos con mensajes de protocolo GOOSE y SV para subestaciones eléctricas.*
+---
 
-<h1 align="center"> 📌  Welcome to ERENO-UI! 📌 </h1>
+<details>
+<summary><strong>🇧🇷 Português (Brasil)</strong></summary>
 
-<h4 align="left"> ✔️ERENO-UI is a tool with a graphical interface that allows the generation of datasets with GOOSE and SV protocol messages for electrical substations. Among the existing modules, four stand out: parameter configuration, attack definition, current and voltage definition and, finally, the final dataset download. </h4>
+---
 
-### Index
+ERENO v2 é uma ferramenta para geração de datasets com mensagens dos protocolos GOOSE e SV para subestações elétricas.
 
-* [Test Environment](#test-environment)
-* [Requirements](#requirements)
-* [Development Environment](#development-environment)
-* [Example of Usage](#example-of-use)
-* [Electrical Measures for SV Generation - Input Samples](https://drive.google.com/drive/folders/0BzFGHFAeLiBSfmxYWWMtUk9XMXhyQzJrNjJycDJ5ZWd4cmRzMUZFWTE1TldtT1lIek80TkU?resourcekey=0-0UD6SdVd_pRisxIQ3tdTKA&usp=sharing)
-* [🇧🇷 Versão em português!](#portuguese-version)
+### ⚡ O que mudou?
 
+- **Não é mais necessário baixar arquivos de medidas elétricas** — já estão embedados no projeto.
+- **Não existe mais interface web nem Apache Tomcat** — a ferramenta roda como aplicação Java.
+- **Uso recomendado com IntelliJ IDEA** — carrega as configurações de execução automaticamente.
+- **Gerar datasets é simples:**
+    1. Configure o arquivo `params.properties` com os parâmetros desejados (se não configurar, valores default serão usados).
+    2. Rode a classe do cenário desejado (se não criada, o padrão é a classe `SamambaiaCenario`).
 
-   
+### 🚀 Como gerar datasets
 
+1. Abra o projeto no IntelliJ IDEA (recomendado).
+2. Configure os parâmetros no arquivo `params.properties`.
+3. Escolha ou crie sua classe de cenário:
+    - Para configurar qual ataque será gerado, defina o IED atacante na classe do cenário, conforme documentação embedada.
+4. Execute a classe de cenário.
+5. O dataset será gerado automaticamente.
 
-### **🏷️ Note**
-In this implementation, we use the Java SE Development Kit 8 to run java files, Apache Tomcat to run a Java web server (more specifically a servlet container) and the IDE IntelliJ IDEA 2022.2 (Ultimate Edition). Next, the execution environments are detailed and the versions of the utilities are presented.
+### 🗂️ Visão geral do projeto
 
+- Os arquivos principais do projeto estão comentados, explicando suas funções.
+- As classes de cenário definem a geração dos datasets e os ataques aplicados.
+- O arquivo `params.properties` controla os parâmetros chave da geração.
 
-   
-<div id="test-environment"/>
-### 🖱️ Test Environments
+### 📚 Precisa de ajuda?
 
-For local testing purposes, we ran the tool on two computers with different configurations:
+Veja os comentários dentro dos arquivos principais e das classes de cenário — eles explicam como customizar o projeto.
 
-|  Settings   |  Computer I       |    Computer II |
-| :---:        |     :---:      |    :---:      |
-|  Operating System (OS):   | Windows 10 | Ubuntu 20.04.3 LTS |
-| Processor:  | Intel(R) Core(TM) <br> i5-10300H CPU @ 2.50GHz 2.50 GHz  | Intel(R) Core(TM) <br> i5-10300H CPU @ 2.50GHz 2.50 GHz |
-| RAM Memory:   | 16 GB | 16 GB |
-| Architecture:  | 64 bits    | 86 bits |
+</details>
 
+<details>
+<summary><strong>🇺🇸 English (US)</strong></summary>
 
-   
+---
 
-<div id="requirements"/>
-## 📝 Requirements
+ERENO v2 is a simplified version of the original [ERENO](https://github.com/sequincozes/ereno), focused on generating datasets with GOOSE and SV protocol messages for electrical substations.
 
-The tool uses two utilities to run. The table below shows the versions of the utilities used.
+### ⚡ What’s new?
 
+- **No need to download electrical measures files anymore** — they are embedded in the project.
+- **No web interface or Apache Tomcat needed** — the tool runs as a Java application.
+- **Recommended to use IntelliJ IDEA** — it loads run configurations automatically.
+- **Dataset generation is simple:**
+    1. Configure `params.properties` with desired parameters (if not configured, defaults are used).
+    2. Run the desired scenario class (if none created, the default is `SamambaiaCenario`).
 
-|  Utilities   |  Tested Version     |
-| :---:        |     :---:      |  
-| Java SE Development Kit:   | 8 | 
-| Apache Tomcat:  | 9.0.65 |
+### 🚀 How to generate datasets
 
+1. Open the project in IntelliJ IDEA (recommended).
+2. Configure your parameters in the `params.properties` file.
+3. Choose or create your scenario class:
+    - To set which attack to simulate, configure the attacking IED inside the scenario class, as described in the embedded documentation.
+4. Run the scenario class.
+5. Your dataset will be generated automatically.
 
-   
+### 🗂️ Project overview
 
-<div id="development-environment"/>
+- Main project files are well-commented to explain their role.
+- Scenario classes define how datasets are generated and which attacks are applied.
+- `params.properties` controls key parameters for generation.
 
-## ⚙️ Integrated Development Environment (IDE)
+### 📚 Need help?
 
-|  Tool  |   Tested Version     | Runtime Version | VM |
-| :---:        |     :---:      |  :---:      |  :---:      |
-| IntelliJ IDEA   | 2022.2 (Ultimate Edition) | 17.0.3+7-b469.32 amd64 | OpenJDK 64-Bit Server VM by JetBrains s.r.o. |
+Check the comments inside the main files and scenario classes — they explain everything you need to customize.
 
+</details>
 
+<details>
+<summary><strong>🇪🇸 Español</strong></summary>
 
+---
 
+ERENO v2 es una versión simplificada del [ERENO original](https://github.com/sequincozes/ereno), centrada en la generación de datasets con mensajes de los protocolos GOOSE y SV para subestaciones eléctricas.
 
-   
+### ⚡ ¿Qué hay de nuevo?
 
-<div id="example-of-use"/>
+- **No es necesario descargar archivos de medidas eléctricas** — ya están incorporados en el proyecto.
+- **No existe interfaz web ni Apache Tomcat** — la herramienta funciona como una aplicación Java.
+- **Se recomienda usar IntelliJ IDEA** — carga las configuraciones de ejecución automáticamente.
+- **Generar datasets es sencillo:**
+    1. Configure el archivo `params.properties` con los parámetros deseados (si no se configuran, se usan valores por defecto).
+    2. Ejecute la clase de escenario deseada (si no se crea, la clase por defecto es `SamambaiaCenario`).
 
-### 👨‍💻 Usage example with IntelliJ
-Next, we describe the necessary steps to run the tool in IntelliJ. It is worth mentioning that you can use the development environment you prefer, as long as it supports the Java Web.
+### 🚀 Cómo generar datasets
 
-```
-1. Clone the ERENO-UI project by entering the url: https://github.com/sequincozes/ereno.git
-2. Set up a Tomcat server in IntelliJ.
-3. Run the project in IntelliJ (Alt+Shift+F10). Automatically the Tomcat server will run.
-4. Access the url: http://localhost:8080/ERENO_war/
-5. ERENO-UI interfaces should be displayed.
-```
+1. Abra el proyecto en IntelliJ IDEA (recomendado).
+2. Configure los parámetros en el archivo `params.properties`.
+3. Elija o cree su clase de escenario:
+    - Para configurar qué ataque se generará, defina el IED atacante dentro de la clase de escenario, según la documentación incorporada.
+4. Ejecute la clase de escenario.
+5. El dataset se generará automáticamente.
 
-### VERSÃO EM PORTUGUÊS 🇧🇷
-<div id="portuguese-version"/>
+### 🗂️ Visión general del proyecto
 
-<h1 align="center"> 📌 Bem-vindo ao ERENO-UI! 📌 </h1>
+- Los archivos principales del proyecto están comentados, explicando sus funciones.
+- Las clases de escenario definen cómo se generan los datasets y qué ataques se aplican.
+- El archivo `params.properties` controla los parámetros clave para la generación.
 
-<h4 align="left"> ✔️ O ERENO-UI é uma ferramenta com interface gráfica que permite a geração de datasets com mensagens dos protocolos GOOSE e SV para subestações elétricas. Dentre os módulos existentes, destacam-se quatro: o de configuração de parâmetros, definição de ataques, definição de corrente e tensão e, por fim, o de download do dataset final. </h4>
+### 📚 ¿Necesita ayuda?
 
+Revise los comentarios dentro de los archivos principales y las clases de escenario — explican cómo personalizar el proyecto.
 
-
-### Índice
-* [Ambiente de Teste](#ambiente-teste)
-* [Requisitos](#requisitos)
-* [Ambiente de Desenvolvimento](#ambiente-desenvolvimento)
-* [Exemplo de Uso](#exemplo-de-uso)
-* [Medidas Elétricas para geração de SV - Exemplo 1](https://drive.google.com/drive/folders/1rqFqKLmGaCPrxQZs4CrvXwAz7jZyVIoW?usp=drive_link)
-* [Medidas Elétricas para geração de SV - Exemplo 2](https://drive.google.com/drive/folders/1mZR9atDBaSVeycoZrQVfPmf8az3JIou-?usp=drive_link)
-* [Medidas Elétricas para geração de SV - Exemplo 3](https://drive.google.com/drive/folders/1pfzrsCty-uchb2I0uIRelmZgw80pa5ta?usp=drive_link)
-* [English version!](#english-version)
-
-<div id="nota"/>
-
-### **🏷️ Nota** 
-Nesta implementação, utilizamos o Java SE Development Kit 8 para executar arquivos java, o Apache Tomcat para executar um servidor web Java (mais especificamente um container de servlets) e a IDE IntelliJ IDEA 2022.2 (Ultimate Edition). Na sequência os ambientes de execução são detalhados e as versões dos utilitários são apresentadas.
-
-<div id="ambiente-teste"/>
-
-### 🖱️ Ambientes de Testes
-
-Para fins de testes locais, executamos a ferramenta em dois computadores com configurações distintas:
-
-|  Configurações   |  Computador I       |    Computador II |
-| :---:        |     :---:      |    :---:      |
-| Sistema Operacional (SO):   | Windows 10 | Ubuntu 20.04.3 LTS |
-| Processador:  | Intel(R) Core(TM) <br> i5-10300H CPU @ 2.50GHz 2.50 GHz  | Intel(R) Core(TM) <br> i5-10300H CPU @ 2.50GHz 2.50 GHz |
-| Memória RAM:   | 16 GB | 16 GB |
-| bits do SO:  | 64 bits    | 86 bits |
-
-<div id="requisitos"/>
-
-## 📝 Requisitos
-
-A ferramenta usa dois utilitários para execução. Na Tabela abaixo são apresentadas as versões dos utilitários utilizados.
-
-|  Utilitários   |  Versão Testada     |
-| :---:        |     :---:      |  
-| Java SE Development Kit:   | 8 | 
-| Apache Tomcat:  | 9.0.65 |
-
-
-<div id="ambiente-desenvolvimento"/>
-
-## ⚙️ Ambiente de Desenvolvimento Integrado
-
-|  Ferramenta  |  Versão Testada     | Versão Runtime | VM |
-| :---:        |     :---:      |  :---:      |  :---:      |
-| IntelliJ IDEA   | 2022.2 (Ultimate Edition) | 17.0.3+7-b469.32 amd64 | OpenJDK 64-Bit Server VM by JetBrains s.r.o. |
-
-
-
-<div id="exemplo-de-uso"/>
-
-### 👨‍💻 Exemplo de uso com IntelliJ
-A seguir, descrevemos os passos necessários para executar a ferramenta no IntelliJ. Vale ressaltar que você pode usar o ambiente de desenvolvimento que preferir, desde que o mesmo dê suporte à Java Web. 
-
-```
-1. Clone o projeto ERENO-UI inserindo a url: https://github.com/sequincozes/ereno.git
-2. Configure um servidor Tomcat no IntelliJ. 
-3. Execute o projeto no IntelliJ (Alt+Shift+F10). Automaticamente o servidor Tomcat será executado.
-4. Acesse a url: http://localhost:8080/ERENO_war/
-5. As interfaces do ERENO-UI devem ser exibidas.
-```
+</details>

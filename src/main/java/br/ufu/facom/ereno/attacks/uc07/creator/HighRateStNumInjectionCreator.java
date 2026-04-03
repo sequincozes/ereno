@@ -36,7 +36,7 @@ public class HighRateStNumInjectionCreator implements MessageCreator {
 
         for (int i = 0; i < numberofMessages; i++) {
             // Increases the stNum at a high rate (up to 100x the minTime)
-            double minTime = Double.valueOf(SetupIED.ECF.minTime);
+            double minTime = Double.valueOf(SetupIED.minTime);
             double randomDelay = randomBetween(minTime,minTime*2);
             timestamp = timestamp + randomDelay;
             stNum = stNum + 1;

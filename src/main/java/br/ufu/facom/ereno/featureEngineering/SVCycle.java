@@ -7,6 +7,17 @@ import java.util.ArrayList;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
+/**
+ * Represents a cycle of Sampled Value (SV) messages and computes
+ * electrical metrics such as RMS values and trapezoidal integral areas
+ * for current and voltage signals.
+ *
+ * This class supports analysis of SV data for IEC 61850 simulations and
+ * enables feature extraction useful for monitoring and anomaly detection.
+ *
+ * @see br.ufu.facom.ereno.messages.Sv
+ */
+
 public class SVCycle {
 
     private final Sv[] cycle;
@@ -26,10 +37,6 @@ public class SVCycle {
     public Sv[] getCycle() {
         return cycle;
     }
-
-//    public String getCycleMetricsAsCSV() {
-//
-//    }
 
     public double getiASumTrapArea() {
         return iASumTrapArea;
@@ -235,40 +242,28 @@ public class SVCycle {
 
         }
 
-        // Calculate iA Mean.
         iAmean = (iAsquare / (float) (cycle.length));
 
-        // Calculate iA Root.
         iAroot = sqrt(iAmean);
 
-        // Calculate iB Mean.
         iBmean = (iBsquare / (float) (cycle.length));
 
-        // Calculate iB Root.
         iBroot = sqrt(iBmean);
 
-        // Calculate iC Mean.
         iCmean = (iCsquare / (float) (cycle.length));
 
-        // Calculate iC Root.
         iCroot = sqrt(iCmean);
 
-        // Calculate vA Mean.
         vAmean = (vAsquare / (float) (cycle.length));
 
-        // Calculate vA Root.
         vAroot = sqrt(vAmean);
 
-        // Calculate vB Mean.
         vBmean = (vBsquare / (float) (cycle.length));
 
-        // Calculate vB Root.
         vBroot = sqrt(vBmean);
 
-        // Calculate vC Mean.
         vCmean = (vCsquare / (float) (cycle.length));
 
-        // Calculate vC Root.
         vCroot = sqrt(vCmean);
     }
 
@@ -281,10 +276,7 @@ public class SVCycle {
     ArrayList<Double> areaAccumulators[] = new ArrayList[]{new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>(), new ArrayList<Double>()};
 
     public String asCsv() {
-        return iAroot + "," + iBroot + "," + iCroot + "," +
-                vAroot + "," + vBroot + "," + vCroot + "," +
-                iASumTrapArea + "," + iBSumTrapArea + "," + iCSumTrapArea + "," +
-                vASumTrapArea + "," + vBSumTrapArea + "," + vCSumTrapArea;
+        return iAroot + "," + iBroot + "," + iCroot + "," + vAroot + "," + vBroot + "," + vCroot + "," + iASumTrapArea + "," + iBSumTrapArea + "," + iCSumTrapArea + "," + vASumTrapArea + "," + vBSumTrapArea + "," + vCSumTrapArea;
 
     }
 

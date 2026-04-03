@@ -1,7 +1,0 @@
-@attribute Time numeric
-@attribute isbA numeric
-@attribute isbB numeric
-@attribute isbC numeric
-@attribute vsbA numeric
-@attribute vsbB numeric
-@attribute vsbC numeric

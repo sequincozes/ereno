@@ -12,26 +12,38 @@ import java.util.PriorityQueue;
 import java.util.logging.Logger;
 
 /**
- * This extractor writes the generated messages to an ARFF file.
- * It generates a GOOSE-oriented dataset (one sample per GOOSE).
+ * Writes a simplified, GOOSE-oriented ARFF/CSV dataset for debugging purposes.
+ *
+ * This extractor helps inspect and validate GOOSE message behavior by producing a compact dataset where each instance corresponds to one GOOSE message,
+ * enriched with selected Sampled Value (SV) timing and intermessage consistency metrics.
+ *
+ * Features written include:
+ * - Basic GOOSE attributes: timestamp, sequence numbers, control block status
+ * - Intermessage deltas: StNum and SqNum differences, status changes
+ * - Timing diagnostics: timestamp differences, tDiff, delay
+ *
+ * Designed primarily for internal validation, anomaly investigation, and fast iteration during dataset generation and testing.
+ * This class assumes GOOSE and SV messages have been pre-extracted and matched.
+ *
+ * @see br.ufu.facom.ereno.messages.Goose
+ * @see br.ufu.facom.ereno.messages.Sv
  */
+
+
 public class DebugWritter {
     static BufferedWriter bw;
     public static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate", "grayhole"};//, "stealthy_injection"};//,"poisoned_high_rate_consistent"};
 
     public static void processDataset(PriorityQueue<EthernetFrame> stationBusMessages, ArrayList<EthernetFrame> processBusMessages) throws IOException {
-        // Writing Header
+
         writeDefaultHeader();
 
-        // Writing Messages
         Goose previousGoose = null;
-//        for (EthernetFrame gooseFrame : stationBusMessages) {
-//            Goose goose = (Goose) gooseFrame;
 
         Logger.getLogger("DebugWritter").info(stationBusMessages.size() + " mensagens na fila.");
         while (!stationBusMessages.isEmpty()) {
             Goose goose = (Goose) stationBusMessages.poll();
-            if (previousGoose != null) { // skips the first message
+            if (previousGoose != null) {
                 Sv sv = ProtocolCorrelation.getCorrespondingSVFrame(processBusMessages, goose);
                 String svString = String.valueOf(sv.getTime());
                 String gooseString = goose.asDebug();

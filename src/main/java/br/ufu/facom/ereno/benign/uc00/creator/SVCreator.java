@@ -10,16 +10,33 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+/**
+ * Generator of Sampled Value (SV) messages based on electrical measurement CSV files.
+ *
+ * This class reads pre-recorded measurement data from CSV payloads and simulates a Merging Unit (MU)
+ * behavior by generating SV messages with synchronized timestamps. It supports:
+ * - Scalable reading and parsing of measurement data
+ * - Offset-based timestamp alignment to support multi-cycle simulations
+ * - Controlled generation of a specific number of SV messages
+ *
+ * Messages include selected current and voltage components and are injected into an IED instance
+ * for use in benign test scenarios (UC00). Suitable for real-time simulations and system evaluation.
+ *
+ * @see br.ufu.facom.ereno.messages.Sv
+ * @see br.ufu.facom.ereno.benign.uc00.devices.MergingUnit
+ * @see br.ufu.facom.ereno.dataExtractors.DatasetWriter
+ */
+
 public class SVCreator implements MessageCreator {
     private float offset = 0;
     private final String[] payloadFiles;
-    private MergingUnit mu; // This is the samambaia (sb) substation MU
+    private MergingUnit mu;
     String[] columnsTitle = {
             "Time",
-            "isbA", "isbB", "isbC",  // Current substation Samambaia
-            "ismA", "ismB", "ismC",  // Current substation Serra da mesa
-            "vsbA", "vsbB", "vsbC",  // Voltage Samambaia
-            "vsmA", "vsmB", "vsmC"}; // Voltage substation Serra da mesa
+            "isbA", "isbB", "isbC",
+            "ismA", "ismB", "ismC",
+            "vsbA", "vsbB", "vsbC",
+            "vsmA", "vsmB", "vsmC", " "};
 
     public SVCreator(String[] payloadFiles) {
         this.payloadFiles = payloadFiles;
@@ -41,7 +58,7 @@ public class SVCreator implements MessageCreator {
                 countMessages = countMessages + 1;
                 if (countMessages % 4763 == 0) {
                     offset = offset + 1;
-                    Logger.getLogger(" ").info(+countMessages+" messages SV. Finished one electrical file: 4763 multiple: " + countMessages / 4763);
+//                    Logger.getLogger(" ").info(+countMessages+" messages SV. Finished one electrical file: 4763 multiple: " + countMessages / 4763);
                 }
                 if (mu.getMessages().size() < numberOfSVMessages) {
                     mu.addMessage(new Sv(offset + lines[0], lines[1], lines[2], lines[3], lines[7], lines[8], lines[9]));
@@ -61,7 +78,7 @@ public class SVCreator implements MessageCreator {
             try {
                 File myObj = new File(file);
                 try (Scanner myReader = new Scanner(myObj)) {
-                    myReader.nextLine(); // Skip blank line
+                    myReader.nextLine();
                     while (myReader.hasNextLine()) {
                         String data = myReader.nextLine();
                         if (data.length() > 1) {

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufu.facom.ereno.general;
 
 import br.ufu.facom.ereno.SubstationNetwork;
@@ -13,8 +8,17 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 /**
- * @author silvio
+ * Abstract base class for Intelligent Electronic Devices (IED) within a substation network.
+ *
+ * Provides core properties and utility methods for IEDs, including:
+ * - Association with a {@link SubstationNetwork}
+ * - Initial timestamp offset management (with optional randomization)
+ * - Handling of message creation via {@link MessageCreator}
+ *
+ * Subclasses must implement lifecycle methods for running simulations,
+ * as well as adding and removing Ethernet frames (messages).
  */
+
 public abstract class IED {
     protected SubstationNetwork substationNetwork;
     protected float initialTimestamp;
@@ -39,10 +43,8 @@ public abstract class IED {
         }
 
         Random random = new Random(System.nanoTime());
-        int randomNumber = lowerLimit + random.nextInt(upperLimit - lowerLimit + 1);
-        System.out.println("random: " + randomNumber);
 
-        return randomNumber;
+        return lowerLimit + random.nextInt(upperLimit - lowerLimit + 1);
     }
 
 
@@ -52,13 +54,14 @@ public abstract class IED {
         }
 
         Random random = new Random(System.nanoTime());
-        double randomNumber = lowerLimit + (upperLimit - lowerLimit) * random.nextDouble();
-        return randomNumber;
+        return lowerLimit + (upperLimit - lowerLimit) * random.nextDouble();
     }
 
     abstract public void run(int messageCount);
 
     public abstract void addMessage(EthernetFrame message);
+
+    public abstract void removeMessage(EthernetFrame message);
 
     public float getInitialTimestamp() {
         return initialTimestamp;
