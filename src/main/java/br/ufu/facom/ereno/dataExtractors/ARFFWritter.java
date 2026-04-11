@@ -2,14 +2,11 @@ package br.ufu.facom.ereno.dataExtractors;
 
 import br.ufu.facom.ereno.featureEngineering.IntermessageCorrelation;
 import br.ufu.facom.ereno.featureEngineering.ProtocolCorrelation;
-import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
 import br.ufu.facom.ereno.messages.Sv;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.logging.Logger;
@@ -142,6 +139,33 @@ public class ARFFWritter {
 
     public static void finishWriting() throws IOException {
         bw.close();
+    }
+
+    /**
+     * Processes and writes a single GOOSE message with SV correlation to the ARFF file.
+     * Used for incremental batch writing to prevent memory issues.
+     */
+    public static void processAndWriteSingleMessage(Goose goose, Goose previousGoose,
+                                                     ArrayList<EthernetFrame> processBusMessages) throws IOException {
+        Sv sv = ProtocolCorrelation.getCorrespondingSVFrame(processBusMessages, goose);
+        String gooseConsistency = IntermessageCorrelation.getConsistencyFeaturesAsCSV(goose, previousGoose);
+
+        String line = String.format("%s,%s,%s,%.6f,%s",
+                sv.asCsv(),
+                goose.asCSVFull(),
+                gooseConsistency,
+                goose.getTimestamp() - sv.getTime(),
+                goose.getLabel());
+
+        bw.write(line);
+        bw.newLine();
+    }
+
+    /**
+     * Flushes any remaining buffered data to disk.
+     */
+    public static void flushBuffer() throws IOException {
+        bw.flush();
     }
 
 }

@@ -89,4 +89,34 @@ public class DebugWritter {
         bw.close();
     }
 
+    /**
+     * Processes and writes a single GOOSE message for debugging.
+     * Used for incremental batch writing to prevent memory issues.
+     */
+    public static void processAndWriteSingleMessage(Goose goose, Goose previousGoose,
+                                                     ArrayList<EthernetFrame> processBusMessages) throws IOException {
+        Sv sv = ProtocolCorrelation.getCorrespondingSVFrame(processBusMessages, goose);
+        String gooseConsistency = IntermessageCorrelation.getConsistencyFeaturesAsCSV(goose, previousGoose);
+
+        String line = String.format("%s,%s,%s,%s,%.6f,%s",
+                sv.getTime(),
+                goose.getTimestamp(),
+                goose.getT(),
+                goose.getSqNum(),
+                goose.getStNum(),
+                goose.getCbStatus(),
+                gooseConsistency,
+                goose.getTimestamp() - sv.getTime(),
+                goose.getLabel());
+
+        write(line);
+    }
+
+    /**
+     * Flushes any remaining buffered data to disk.
+     */
+    public static void flushBuffer() throws IOException {
+        bw.flush();
+    }
+
 }

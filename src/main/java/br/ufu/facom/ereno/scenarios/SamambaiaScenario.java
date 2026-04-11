@@ -20,12 +20,13 @@ import br.ufu.facom.ereno.dataExtractors.CSVWritter;
 import br.ufu.facom.ereno.dataExtractors.DebugWritter;
 import br.ufu.facom.ereno.general.IED;
 import br.ufu.facom.ereno.general.ProtectionIED;
-import br.ufu.facom.ereno.messages.EthernetFrame;
-import br.ufu.facom.ereno.messages.Goose;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 /**
@@ -93,19 +94,12 @@ public class SamambaiaScenario implements IScenario {
     }
 
     public void loadAllConfigs() {
+        // Load all configuration files
         Attacks.loadConfigs();
         GooseFlow.loadConfigs();
         SetupIED.loadConfigs();
-        Attacks.legitimate = true;
-        Attacks.randomReplay = true;
-        Attacks.masqueradeOutage = true;
-        Attacks.masqueradeDamage = true;
-        Attacks.randomInjection = true;
-        Attacks.inverseReplay = true;
-        Attacks.highStNum = true;
-        Attacks.flooding = true;
-        Attacks.grayhole = false;
 
+        // Load scenario-specific configuration
         try (InputStream input = GooseFlow.class.getClassLoader().getResourceAsStream(CONFIG_FILE)) {
             if (input == null) {
                 throw new RuntimeException(CONFIG_FILE + " not found in classpath");
@@ -127,38 +121,53 @@ public class SamambaiaScenario implements IScenario {
 
     @Override
     public void setupDevices() {
+        // Setup merging unit
         MergingUnit mu = new MergingUnit(InputFilesForSV.getElectricalSourceFiles());
         substationNetwork.processLevelDevices.add(mu);
 
-        System.out.println("-----------------");
+        // Setup legitimate IED (always created as baseline for attacks that depend on it)
         LegitimateProtectionIED uc00 = new LegitimateProtectionIED();
-
-        RandomReplayerIED uc01 = new RandomReplayerIED(uc00);
-        InverseReplayerIED uc02 = new InverseReplayerIED(uc00);
-        MasqueradeFakeFaultIED uc03 = new MasqueradeFakeFaultIED(uc00);
-        MasqueradeFakeNormalED uc04 = new MasqueradeFakeNormalED();
-        InjectorIED uc05 = new InjectorIED(uc00);
-        HighStNumInjectorIED uc06 = new HighStNumInjectorIED(uc00);
-        HighRateStNumInjectorIED uc07 = new HighRateStNumInjectorIED(uc00);
-        GrayHoleVictimIED uc08 = new GrayHoleVictimIED(uc00);
-        OrientedGrayHoleIED uc09 = new OrientedGrayHoleIED(uc00);
-
         uc00.setSubstationNetwork(substationNetwork);
-        uc01.setSubstationNetwork(substationNetwork);
-        uc02.setSubstationNetwork(substationNetwork);
-        uc03.setSubstationNetwork(substationNetwork);
-        uc04.setSubstationNetwork(substationNetwork);
-        uc05.setSubstationNetwork(substationNetwork);
-        uc06.setSubstationNetwork(substationNetwork);
-        uc07.setSubstationNetwork(substationNetwork);
-        uc08.setSubstationNetwork(substationNetwork);
-        uc09.setSubstationNetwork(substationNetwork);
 
-        substationNetwork.processLevelDevices.add(mu);
-        substationNetwork.bayLevelDevices.add(uc00);
-        substationNetwork.bayLevelDevices.add(uc09);
+        // Check if any attack that depends on legitimate IED is enabled
+        boolean needsLegitimateBaseline = Attacks.randomReplay || Attacks.inverseReplay ||
+                                          Attacks.masqueradeOutage || Attacks.randomInjection ||
+                                          Attacks.highStNum || Attacks.flooding ||
+                                          Attacks.grayhole || Attacks.orientedGrayhole;
 
-        Logger.getLogger("SamambaiaScenario").info("Devices set up!");
+        // Add legitimate IED to bay devices if explicitly enabled OR needed as baseline
+        if (Attacks.legitimate || needsLegitimateBaseline) {
+            substationNetwork.bayLevelDevices.add(uc00);
+            if (Attacks.legitimate) {
+                Logger.getLogger("SamambaiaScenario").info("Enabled: LegitimateProtectionIED (for dataset)");
+            } else {
+                Logger.getLogger("SamambaiaScenario").info("Enabled: LegitimateProtectionIED (baseline only, excluded from dataset)");
+            }
+        }
+
+        // Attack IED registry - maps flag to IED factory
+        Map<Boolean, java.util.function.Supplier<ProtectionIED>> attackRegistry = new LinkedHashMap<>();
+        attackRegistry.put(Attacks.randomReplay, () -> new RandomReplayerIED(uc00));
+        attackRegistry.put(Attacks.inverseReplay, () -> new InverseReplayerIED(uc00));
+        attackRegistry.put(Attacks.masqueradeOutage, () -> new MasqueradeFakeFaultIED(uc00));
+        attackRegistry.put(Attacks.masqueradeDamage, () -> new MasqueradeFakeNormalED());
+        attackRegistry.put(Attacks.randomInjection, () -> new InjectorIED(uc00));
+        attackRegistry.put(Attacks.highStNum, () -> new HighStNumInjectorIED(uc00));
+        attackRegistry.put(Attacks.flooding, () -> new HighRateStNumInjectorIED(uc00));
+        attackRegistry.put(Attacks.grayhole, () -> new GrayHoleVictimIED(uc00));
+        attackRegistry.put(Attacks.orientedGrayhole, () -> new OrientedGrayHoleIED(uc00));
+
+        // Instantiate and register enabled attacks
+        attackRegistry.forEach((enabled, factory) -> {
+            if (enabled) {
+                ProtectionIED attackIED = factory.get();
+                attackIED.setSubstationNetwork(substationNetwork);
+                substationNetwork.bayLevelDevices.add(attackIED);
+                Logger.getLogger("SamambaiaScenario").info("Enabled: " + attackIED.getClass().getSimpleName());
+            }
+        });
+
+        Logger.getLogger("SamambaiaScenario").info("Devices setup complete! Total bay devices: " + substationNetwork.bayLevelDevices.size());
     }
 
     @Override
@@ -180,8 +189,28 @@ public class SamambaiaScenario implements IScenario {
                 ProtectionIED protectionIED = (ProtectionIED) ied;
                 protectionIED.getMessages().clear();
                 protectionIED.run(numberOfMessages);
-                if (!(ied instanceof LegitimateProtectionIED)) {
+
+                // Determine if this IED's messages should be included in the dataset
+                boolean includeInDataset = true;
+                if (ied instanceof LegitimateProtectionIED && !Attacks.legitimate) {
+                    // Exclude legitimate messages if the flag is disabled
+                    // (they're only generated as baseline for attacks)
+                    includeInDataset = false;
+                }
+
+                if (includeInDataset) {
                     substationNetwork.stationBusMessages.addAll(protectionIED.getMessages());
+                    Logger.getLogger("SamambaiaScenario").info(
+                            String.format("%s generated %d messages (included in dataset)",
+                                    ied.getClass().getSimpleName(),
+                                    protectionIED.getMessages().size())
+                    );
+                } else {
+                    Logger.getLogger("SamambaiaScenario").info(
+                            String.format("%s generated %d messages (baseline only, excluded from dataset)",
+                                    ied.getClass().getSimpleName(),
+                                    protectionIED.getMessages().size())
+                    );
                 }
             }
         }

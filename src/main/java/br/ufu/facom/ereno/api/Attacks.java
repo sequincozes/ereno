@@ -33,6 +33,7 @@ public class Attacks {
     public static boolean highStNum = false;
     public static boolean flooding = false;
     public static boolean grayhole = false;
+    public static boolean orientedGrayhole = false;
     public static boolean stealthyInjection = false;
 
     static {
@@ -59,6 +60,7 @@ public class Attacks {
             highStNum = Boolean.parseBoolean(props.getProperty("attacks.highStNum", "false"));
             flooding = Boolean.parseBoolean(props.getProperty("attacks.flooding", "false"));
             grayhole = Boolean.parseBoolean(props.getProperty("attacks.grayhole", "false"));
+            orientedGrayhole = Boolean.parseBoolean(props.getProperty("attacks.orientedGrayhole", "false"));
             stealthyInjection = Boolean.parseBoolean(props.getProperty("attacks.stealthyInjection", "false"));
 
             logConfiguration();
@@ -79,6 +81,7 @@ public class Attacks {
             props.setProperty("attacks.highStNum", String.valueOf(highStNum));
             props.setProperty("attacks.flooding", String.valueOf(flooding));
             props.setProperty("attacks.grayhole", String.valueOf(grayhole));
+            props.setProperty("attacks.orientedGrayhole", String.valueOf(orientedGrayhole));
             props.setProperty("attacks.stealthyInjection", String.valueOf(stealthyInjection));
 
             // Determine the path to the properties file
@@ -111,6 +114,7 @@ public class Attacks {
         logger.info("  High StNum: " + highStNum);
         logger.info("  Flooding: " + flooding);
         logger.info("  Grayhole: " + grayhole);
+        logger.info("  Oriented Grayhole: " + orientedGrayhole);
         logger.info("  Stealthy Injection: " + stealthyInjection);
     }
 }

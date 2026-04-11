@@ -110,4 +110,48 @@ public class CSVWritter {
         bw.close();
     }
 
+    /**
+     * Processes and writes a single GOOSE message with SV correlation to the CSV file.
+     * Used for incremental batch writing to prevent memory issues.
+     *
+     * @param goose Current GOOSE message to write
+     * @param previousGoose Previous GOOSE message for consistency features
+     * @param processBusMessages SV messages for correlation
+     * @throws IOException if writing fails
+     */
+    public static void processAndWriteSingleMessage(Goose goose, Goose previousGoose,
+                                                     ArrayList<EthernetFrame> processBusMessages) throws IOException {
+        Sv sv = ProtocolCorrelation.getCorrespondingSVFrame(processBusMessages, goose);
+        SVCycle cycle = ProtocolCorrelation.getCorrespondingSVFrameCycle(processBusMessages, goose, 80);
+        String gooseConsistency = IntermessageCorrelation.getConsistencyFeaturesAsCSV(goose, previousGoose);
+
+        buffer.append(String.format("%s,%s,%s,%s,%.6f,%s%n",
+                sv.asCsv(),
+                cycle.asCsv(),
+                goose.asCSVFull(),
+                gooseConsistency,
+                goose.getTimestamp() - sv.getTime(),
+                goose.getLabel()));
+
+        // Flush buffer when full
+        if (buffer.length() >= BUFFER_SIZE) {
+            bw.write(buffer.toString());
+            buffer.setLength(0);
+        }
+    }
+
+    /**
+     * Flushes any remaining buffered data to disk.
+     * Call this after batch writing to ensure all data is written.
+     *
+     * @throws IOException if flushing fails
+     */
+    public static void flushBuffer() throws IOException {
+        if (buffer.length() > 0) {
+            bw.write(buffer.toString());
+            buffer.setLength(0);
+        }
+        bw.flush();
+    }
+
 }
