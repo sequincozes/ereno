@@ -3,6 +3,7 @@ package br.ufu.facom.ereno.scenarios;
 import br.ufu.facom.ereno.SubstationNetwork;
 import br.ufu.facom.ereno.api.Attacks;
 import br.ufu.facom.ereno.api.GooseFlow;
+import br.ufu.facom.ereno.api.RunContext;
 import br.ufu.facom.ereno.api.SetupIED;
 import br.ufu.facom.ereno.attacks.uc01.devices.RandomReplayerIED;
 import br.ufu.facom.ereno.attacks.uc02.devices.InverseReplayerIED;
@@ -98,6 +99,9 @@ public class SamambaiaScenario implements IScenario {
         Attacks.loadConfigs();
         GooseFlow.loadConfigs();
         SetupIED.loadConfigs();
+        // Seeds the RNG and fixes the run's identity/parameters. Must happen
+        // before any message is generated, or the run is not reproducible.
+        RunContext.loadConfigs();
 
         // Load scenario-specific configuration
         try (InputStream input = GooseFlow.class.getClassLoader().getResourceAsStream(CONFIG_FILE)) {

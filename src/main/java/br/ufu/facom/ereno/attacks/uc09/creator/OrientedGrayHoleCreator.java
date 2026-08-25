@@ -1,5 +1,6 @@
 package br.ufu.facom.ereno.attacks.uc09.creator;
 
+import br.ufu.facom.ereno.api.RunContext;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 import br.ufu.facom.ereno.dataExtractors.GSVDatasetWriter;
 import br.ufu.facom.ereno.general.IED;
@@ -12,28 +13,37 @@ import static br.ufu.facom.ereno.general.IED.randomBetween;
 
 public class OrientedGrayHoleCreator implements MessageCreator {
 
-    enum attackApproaches {
-        RANDOMIC_MESSAGE, RANDOMIC_BURST, DETERMINISTIC_BURST, FULLY_RANDOMIZED
-    }
-
     ArrayList<Goose> legitimateMessages;
     Integer discardRate;
     Integer toDiscardPackets;
 
-    attackApproaches approaches;
+    RunContext.Variant approaches;
 
+    /**
+     * Reads the variant and the attack parameters from {@link RunContext}
+     * rather than hardcoding them.
+     *
+     * <p>These three values used to be literals in this constructor, so
+     * producing the four variants meant editing this file and rebuilding once
+     * per variant. That is why the delivered dataset holds exactly four traces,
+     * one per class, with nothing in the rows saying which build produced which
+     * row. The variant enum now lives in {@link RunContext.Variant} so the value
+     * the attack switches on and the value written into the dataset cannot
+     * drift apart.</p>
+     */
     public OrientedGrayHoleCreator(ArrayList<Goose> legitimateMessages) {
+        RunContext.requireLoaded();
         this.legitimateMessages = legitimateMessages;
-        this.discardRate = 15;
-        this.toDiscardPackets = 5;
-        this.approaches = attackApproaches.FULLY_RANDOMIZED;  // Changed to FULLY_RANDOMIZED
+        this.discardRate = RunContext.discardRate;
+        this.toDiscardPackets = RunContext.burstSize;
+        this.approaches = RunContext.variant;
     }
 
     @Override
     public void generate(IED ied, int numberOfMessages) {
 
         // FULLY_RANDOMIZED approach doesn't care about stNum changes
-        if (approaches == attackApproaches.FULLY_RANDOMIZED) {
+        if (approaches == RunContext.Variant.FULLY_RANDOMIZED) {
             generateFullyRandomized(ied, numberOfMessages);
             return;
         }
@@ -48,7 +58,7 @@ public class OrientedGrayHoleCreator implements MessageCreator {
 
             if (lastMessage != null && message.getStNum() != lastMessage.getStNum()) {
                 System.out.println("[" + approaches.name() + " ORIENTED GRAYHOLE] STATUS HAS CHANGED " + message.getStNum());
-                if (Objects.requireNonNull(approaches) == attackApproaches.RANDOMIC_BURST) {
+                if (Objects.requireNonNull(approaches) == RunContext.Variant.RANDOMIC_BURST) {
                     if (randomBetween(0, 100) < discardRate) {
                         System.out.println("[" + approaches.name() + " ORIENTED GRAYHOLE] Discarded the message of timestamp " + message.getTimestamp() + " through the " + approaches.name() + " approach.    ");
 
@@ -72,7 +82,7 @@ public class OrientedGrayHoleCreator implements MessageCreator {
                         nextMessage.setLabel(approaches.name() + "_" + (GSVDatasetWriter.label[9]).toUpperCase());
                         System.out.println("[" + approaches.name() + " ORIENTED GRAYHOLE] Labeled next message with timestamp: " + nextMessage.getTimestamp());
                     }}
-                else if (Objects.requireNonNull(approaches) == attackApproaches.RANDOMIC_MESSAGE) {
+                else if (Objects.requireNonNull(approaches) == RunContext.Variant.RANDOMIC_MESSAGE) {
                     System.out.println("[" + approaches.name() + " ORIENTED GRAYHOLE] Discarding messages starting from timestamp " + message.getTimestamp() + " through the " + approaches.name() + " approach.");
 
                     // Iterate through the next `toDiscardPackets` messages and decide for each one individually
@@ -98,7 +108,7 @@ public class OrientedGrayHoleCreator implements MessageCreator {
 
                     i += toDiscardPackets - 1;
                 }
-                else if (Objects.requireNonNull(approaches) == attackApproaches.DETERMINISTIC_BURST) {
+                else if (Objects.requireNonNull(approaches) == RunContext.Variant.DETERMINISTIC_BURST) {
                     System.out.println("[" + approaches.name() + " ORIENTED GRAYHOLE] Discarded the message of timestamp " + message.getTimestamp() + " through the " + approaches.name() + " approach.    ");
 
                     if (i + toDiscardPackets < numberOfMessages) {

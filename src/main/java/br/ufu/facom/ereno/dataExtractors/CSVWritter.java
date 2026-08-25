@@ -7,8 +7,11 @@ import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
 import br.ufu.facom.ereno.messages.Sv;
 
+import br.ufu.facom.ereno.api.RunContext;
+
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.PriorityQueue;
 import java.util.logging.Logger;
 
@@ -52,13 +55,14 @@ public class CSVWritter {
                 String gooseConsistency = IntermessageCorrelation.getConsistencyFeaturesAsCSV(goose, previousGoose);
 
                 // Use String.format for better performance
-                buffer.append(String.format("%s,%s,%s,%s,%.6f,%s%n",
+                buffer.append(String.format(Locale.ROOT, "%s,%s,%s,%s,%.6f,%s,%s%n",
                         sv.asCsv(),
                         cycle.asCsv(),
                         goose.asCSVFull(),
                         gooseConsistency,
                         goose.getTimestamp() - sv.getTime(),
-                        goose.getLabel()));
+                        goose.getLabel(),
+                        RunContext.csvRow()));
 
                 // Flush buffer when full
                 if (buffer.length() >= BUFFER_SIZE) {
@@ -102,7 +106,7 @@ public class CSVWritter {
                 "gooseTimeAllowedtoLive", "gooseAppid", "gooseLen", "TPID", "gocbRef", "datSet", "goID", "test", "confRev", "ndsCom",
                 "numDatSetEntries", "APDUSize", "protocol", "stDiff", "sqDiff", "gooseLengthDiff", "cbStatusDiff",
                 "apduSizeDiff", "frameLengthDiff", "timestampDiff", "tDiff", "timeFromLastChange", "delay", "class"
-        });
+        }) + "," + RunContext.csvHeader();
         write(header);
     }
 
@@ -125,13 +129,14 @@ public class CSVWritter {
         SVCycle cycle = ProtocolCorrelation.getCorrespondingSVFrameCycle(processBusMessages, goose, 80);
         String gooseConsistency = IntermessageCorrelation.getConsistencyFeaturesAsCSV(goose, previousGoose);
 
-        buffer.append(String.format("%s,%s,%s,%s,%.6f,%s%n",
+        buffer.append(String.format(Locale.ROOT, "%s,%s,%s,%s,%.6f,%s,%s%n",
                 sv.asCsv(),
                 cycle.asCsv(),
                 goose.asCSVFull(),
                 gooseConsistency,
                 goose.getTimestamp() - sv.getTime(),
-                goose.getLabel()));
+                goose.getLabel(),
+                RunContext.csvRow()));
 
         // Flush buffer when full
         if (buffer.length() >= BUFFER_SIZE) {

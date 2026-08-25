@@ -1,10 +1,10 @@
 package br.ufu.facom.ereno.general;
 
 import br.ufu.facom.ereno.SubstationNetwork;
+import br.ufu.facom.ereno.api.Rng;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 import br.ufu.facom.ereno.messages.EthernetFrame;
 
-import java.util.Random;
 import java.util.logging.Logger;
 
 /**
@@ -37,14 +37,17 @@ public abstract class IED {
         this.substationNetwork = substationNetwork;
     }
 
+    // Both overloads delegate to the single seeded generator in Rng. They used to
+    // build a new Random(System.nanoTime()) per call, which made every run
+    // unreproducible - the defect that stopped the dataset from carrying a
+    // meaningful `seed` column at all.
+
     public static int randomBetween(int lowerLimit, int upperLimit) {
         if (lowerLimit >= upperLimit) {
             throw new IllegalArgumentException("The lower limit (" + lowerLimit + ") must be less than the upper limit (" + upperLimit + ").");
         }
 
-        Random random = new Random(System.nanoTime());
-
-        return lowerLimit + random.nextInt(upperLimit - lowerLimit + 1);
+        return Rng.nextInt(lowerLimit, upperLimit);
     }
 
 
@@ -53,8 +56,7 @@ public abstract class IED {
             throw new IllegalArgumentException("The lower limit (" + lowerLimit + ") must be less than the upper limit (" + upperLimit + ").");
         }
 
-        Random random = new Random(System.nanoTime());
-        return lowerLimit + (upperLimit - lowerLimit) * random.nextDouble();
+        return Rng.nextDouble(lowerLimit, upperLimit);
     }
 
     abstract public void run(int messageCount);
