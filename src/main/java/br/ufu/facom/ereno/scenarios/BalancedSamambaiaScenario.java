@@ -16,6 +16,7 @@ import br.ufu.facom.ereno.attacks.uc08.devices.GrayHoleVictimIED;
 import br.ufu.facom.ereno.attacks.uc09.devices.OrientedGrayHoleIED;
 import br.ufu.facom.ereno.benign.uc00.devices.LegitimateProtectionIED;
 import br.ufu.facom.ereno.benign.uc00.devices.MergingUnit;
+import br.ufu.facom.ereno.benign.uc01.devices.BenignImpairmentIED;
 import br.ufu.facom.ereno.dataExtractors.ARFFWritter;
 import br.ufu.facom.ereno.dataExtractors.CSVWritter;
 import br.ufu.facom.ereno.dataExtractors.DebugWritter;
@@ -134,7 +135,8 @@ public class BalancedSamambaiaScenario implements IScenario {
         boolean needsLegitimateBaseline = Attacks.randomReplay || Attacks.inverseReplay ||
                                           Attacks.masqueradeOutage || Attacks.randomInjection ||
                                           Attacks.highStNum || Attacks.flooding ||
-                                          Attacks.grayhole || Attacks.orientedGrayhole;
+                                          Attacks.grayhole || Attacks.orientedGrayhole ||
+                                          RunContext.impairmentMode != RunContext.Impairment.NONE;
 
         // Add legitimate IED to bay devices if explicitly enabled OR needed as baseline
         if (Attacks.legitimate || needsLegitimateBaseline) {
@@ -167,6 +169,17 @@ public class BalancedSamambaiaScenario implements IScenario {
                 Logger.getLogger("BalancedSamambaiaScenario").info("Enabled: " + attackIED.getClass().getSimpleName());
             }
         });
+
+        // Benign impairment (card C) is gated by RunContext.impairmentMode, not
+        // an attacks.properties flag: it is an alternative run mode, not an
+        // attack, so it does not belong in attackRegistry above.
+        if (RunContext.impairmentMode != RunContext.Impairment.NONE) {
+            ProtectionIED benignImpairmentIED = new BenignImpairmentIED(uc00);
+            benignImpairmentIED.setSubstationNetwork(substationNetwork);
+            substationNetwork.bayLevelDevices.add(benignImpairmentIED);
+            Logger.getLogger("BalancedSamambaiaScenario").info(
+                    "Enabled: BenignImpairmentIED (" + RunContext.impairmentMode + ")");
+        }
 
         Logger.getLogger("BalancedSamambaiaScenario").info("Devices setup complete! Total bay devices: " + substationNetwork.bayLevelDevices.size());
     }
@@ -309,7 +322,13 @@ public class BalancedSamambaiaScenario implements IScenario {
     }
 
     /**
-     * Counts the number of malicious (non-normal) messages in a list.
+     * Counts the number of non-{@code normal} messages in a list.
+     *
+     * <p>During a benign-impairment run (card C) this also counts
+     * {@code benign_degradation} rows, which is intentional: the loop target
+     * becomes "labelled messages per run" and balances benign runs the same
+     * way it balances attack runs, for free. The name/log text stays
+     * "malicious" for now; a full rename is tracked as part of card C3.</p>
      */
     private int countMaliciousMessages(ArrayList<Goose> messages) {
         int count = 0;
