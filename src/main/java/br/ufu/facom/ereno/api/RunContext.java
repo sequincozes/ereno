@@ -28,7 +28,10 @@ import java.util.logging.Logger;
  *
  * <p>The metadata columns are, in order:
  * {@code run_id, trace_id, batch_index, scenario_id, seed, attack_variant,
- * loss_rate, burst_size, traffic_rate, substation_config}. Downstream tooling
+ * loss_rate, burst_size, traffic_rate, substation_config, impairment_mode,
+ * impairment_rate, impairment_intensity_ms}. The last three describe the
+ * card-C benign-degradation controls ({@link Impairment}) and are
+ * {@code NONE}/0/0 for ordinary legitimate/attack runs. Downstream tooling
  * derives {@code event_id} and {@code split_group} from these.</p>
  *
  * @see Rng
@@ -44,6 +47,18 @@ public final class RunContext {
         RANDOMIC_MESSAGE, RANDOMIC_BURST, DETERMINISTIC_BURST, FULLY_RANDOMIZED
     }
 
+    /**
+     * Non-malicious impairment mechanisms implemented by
+     * {@code BenignImpairmentCreator} (major-revision card C: paired
+     * {@code benign_degradation} controls, see
+     * {@code experiments/revision_2026/benign_controls.md} §3). {@code NONE}
+     * means this run is an ordinary legitimate/attack run, not a benign
+     * control.
+     */
+    public enum Impairment {
+        NONE, CONGESTION_LOSS, QUEUE_OVERLOAD_BURST, JITTER, DELAY, LINK_FLAP, DUPLICATION, REORDERING
+    }
+
     public static long seed;
     public static String runId;
     public static String traceId;
@@ -53,6 +68,18 @@ public final class RunContext {
     public static int burstSize = 5;
     public static double trafficRate = 1.0;
     public static String substationConfig;
+
+    // Benign impairment (card C) parameters. `rate` is a Bernoulli percent
+    // reused by every probabilistic mode (CONGESTION_LOSS, QUEUE_OVERLOAD_BURST,
+    // DUPLICATION, REORDERING); `burst`/`period` gate the two deterministic-ish
+    // burst modes; `jitterMs`/`delayMs` are magnitudes for the two no-loss modes.
+    // See BenignImpairmentCreator for which mode reads which field.
+    public static Impairment impairmentMode = Impairment.NONE;
+    public static double impairmentRate = 15.0;
+    public static int impairmentBurst = 5;
+    public static int impairmentPeriod = 20;
+    public static double impairmentJitterMs = 10.0;
+    public static double impairmentDelayMs = 50.0;
 
     /** Index of the batch currently being generated; set by the scenario loop. */
     public static int batchIndex = 0;
@@ -86,6 +113,14 @@ public final class RunContext {
             discardRate = Integer.parseInt(props.getProperty("attack.orientedGrayhole.discardRate", "15").trim());
             burstSize = Integer.parseInt(props.getProperty("attack.orientedGrayhole.burstSize", "5").trim());
 
+            impairmentMode = Impairment.valueOf(
+                    props.getProperty("attack.benignImpairment.mode", "NONE").trim().toUpperCase(Locale.ROOT));
+            impairmentRate = Double.parseDouble(props.getProperty("attack.benignImpairment.rate", "15").trim());
+            impairmentBurst = Integer.parseInt(props.getProperty("attack.benignImpairment.burst", "5").trim());
+            impairmentPeriod = Integer.parseInt(props.getProperty("attack.benignImpairment.period", "20").trim());
+            impairmentJitterMs = Double.parseDouble(props.getProperty("attack.benignImpairment.jitterMs", "10").trim());
+            impairmentDelayMs = Double.parseDouble(props.getProperty("attack.benignImpairment.delayMs", "50").trim());
+
             // Steady-state GOOSE republication rate, in messages per second.
             double maxTimeMs = Double.parseDouble(props.getProperty("goose.timing.maxTime", "1000").trim());
             trafficRate = maxTimeMs > 0 ? 1000.0 / maxTimeMs : Double.NaN;
@@ -97,12 +132,18 @@ public final class RunContext {
 
             scenarioId = props.getProperty("run.scenarioId", "").trim();
             if (scenarioId.isEmpty()) {
-                scenarioId = "SC-" + variant.name();
+                scenarioId = (impairmentMode == Impairment.NONE)
+                        ? "SC-" + variant.name()
+                        : String.format(Locale.ROOT, "SC-BENIGN_%s-l%.0f-b%d",
+                                impairmentMode.name(), impairmentRate, impairmentBurst);
             }
 
             runId = props.getProperty("run.id", "").trim();
             if (runId.isEmpty()) {
-                runId = scenarioId + "-s" + seed;
+                runId = (impairmentMode == Impairment.NONE)
+                        ? scenarioId + "-s" + seed
+                        : String.format(Locale.ROOT, "BENIGN_%s-l%.0f-b%d-s%d",
+                                impairmentMode.name(), impairmentRate, impairmentBurst, seed);
             }
 
             // One publisher stream per run, so the trace is the run. Kept as a
@@ -137,6 +178,17 @@ public final class RunContext {
      * dataset that the code does not use, so it reports 100.</p>
      */
     public static double effectiveLossRate() {
+        if (impairmentMode != Impairment.NONE) {
+            switch (impairmentMode) {
+                case CONGESTION_LOSS:
+                case QUEUE_OVERLOAD_BURST:
+                    return impairmentRate;
+                case LINK_FLAP:
+                    return 100.0; // unconditional drop-on-trigger, same convention as DETERMINISTIC_BURST
+                default:
+                    return 0.0; // JITTER, DELAY, DUPLICATION, REORDERING drop nothing
+            }
+        }
         return variant == Variant.DETERMINISTIC_BURST ? 100.0 : discardRate;
     }
 
@@ -147,27 +199,72 @@ public final class RunContext {
      * reads {@code burstSize}, so its bursts are single messages.</p>
      */
     public static int effectiveBurstSize() {
+        if (impairmentMode != Impairment.NONE) {
+            switch (impairmentMode) {
+                case QUEUE_OVERLOAD_BURST:
+                case LINK_FLAP:
+                    return impairmentBurst;
+                default:
+                    return 1;
+            }
+        }
         return variant == Variant.FULLY_RANDOMIZED ? 1 : burstSize;
+    }
+
+    /**
+     * Bernoulli/period trigger probability actually used by the selected
+     * impairment mode, in percent. Kept separate from {@link #effectiveLossRate()}
+     * because DUPLICATION/REORDERING trigger on this rate without losing any
+     * packet, so folding it into {@code loss_rate} would misreport them.
+     */
+    public static double impairmentEffectiveRate() {
+        switch (impairmentMode) {
+            case CONGESTION_LOSS:
+            case QUEUE_OVERLOAD_BURST:
+            case DUPLICATION:
+            case REORDERING:
+                return impairmentRate;
+            default:
+                return 0.0;
+        }
+    }
+
+    /** Jitter/delay magnitude actually applied, in milliseconds; 0 for every other mode. */
+    public static double impairmentEffectiveIntensityMs() {
+        switch (impairmentMode) {
+            case JITTER:
+                return impairmentJitterMs;
+            case DELAY:
+                return impairmentDelayMs;
+            default:
+                return 0.0;
+        }
     }
 
     /** Header fragment appended to the dataset header, without a trailing comma. */
     public static String csvHeader() {
         return "run_id,trace_id,batch_index,scenario_id,seed,attack_variant,"
-                + "loss_rate,burst_size,traffic_rate,substation_config";
+                + "loss_rate,burst_size,traffic_rate,substation_config,"
+                + "impairment_mode,impairment_rate,impairment_intensity_ms";
     }
 
     /** Row fragment appended to every dataset row, without a trailing comma. */
     public static String csvRow() {
-        return String.format(Locale.ROOT, "%s,%s,%d,%s,%d,%s,%.4f,%d,%.4f,%s",
-                runId, traceId, batchIndex, scenarioId, seed, variant.name(),
-                effectiveLossRate(), effectiveBurstSize(), trafficRate, substationConfig);
+        // attack_variant describes the grayhole variant, which does not run
+        // during a benign-impairment run - report "NONE" rather than whatever
+        // attack.orientedGrayhole.variant happens to be configured to.
+        String attackVariantField = (impairmentMode == Impairment.NONE) ? variant.name() : "NONE";
+        return String.format(Locale.ROOT, "%s,%s,%d,%s,%d,%s,%.4f,%d,%.4f,%s,%s,%.4f,%.4f",
+                runId, traceId, batchIndex, scenarioId, seed, attackVariantField,
+                effectiveLossRate(), effectiveBurstSize(), trafficRate, substationConfig,
+                impairmentMode.name(), impairmentEffectiveRate(), impairmentEffectiveIntensityMs());
     }
 
     public static String summary() {
         return String.format(Locale.ROOT,
-                "Run %s | trace=%s | scenario=%s | seed=%d | variant=%s | loss_rate=%.1f%% | burst_size=%d | traffic_rate=%.3f msg/s | substation=%s",
+                "Run %s | trace=%s | scenario=%s | seed=%d | variant=%s | loss_rate=%.1f%% | burst_size=%d | traffic_rate=%.3f msg/s | substation=%s | impairment=%s",
                 runId, traceId, scenarioId, seed, variant.name(),
-                effectiveLossRate(), effectiveBurstSize(), trafficRate, substationConfig);
+                effectiveLossRate(), effectiveBurstSize(), trafficRate, substationConfig, impairmentMode.name());
     }
 
     /**
@@ -190,6 +287,12 @@ public final class RunContext {
                         + "  \"traffic_rate_msgs_per_s\": %.4f,%n"
                         + "  \"substation_config\": \"%s\",%n"
                         + "  \"batches\": %d,%n"
+                        + "  \"impairment_mode\": \"%s\",%n"
+                        + "  \"impairment_rate_config\": %.4f,%n"
+                        + "  \"impairment_burst_config\": %d,%n"
+                        + "  \"impairment_period_config\": %d,%n"
+                        + "  \"impairment_jitter_ms_config\": %.4f,%n"
+                        + "  \"impairment_delay_ms_config\": %.4f,%n"
                         + "  \"goose\": {%n"
                         + "    \"gocbRef\": \"%s\",%n"
                         + "    \"datSet\": \"%s\",%n"
@@ -204,6 +307,8 @@ public final class RunContext {
                 runId, traceId, scenarioId, seed, variant.name(),
                 discardRate, burstSize, effectiveLossRate(), effectiveBurstSize(),
                 trafficRate, substationConfig, batchIndex,
+                impairmentMode.name(), impairmentRate, impairmentBurst, impairmentPeriod,
+                impairmentJitterMs, impairmentDelayMs,
                 props.getProperty("goose.protocol.gocbRef", ""),
                 props.getProperty("goose.protocol.datSet", ""),
                 props.getProperty("goose.protocol.goID", ""),
