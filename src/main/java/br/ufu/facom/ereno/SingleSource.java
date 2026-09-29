@@ -3,31 +3,31 @@ package br.ufu.facom.ereno;
 import br.ufu.facom.ereno.api.Attacks;
 import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.api.SetupIED;
+import br.ufu.facom.ereno.attacks.uc01.devices.RandomReplayerIED;
 import br.ufu.facom.ereno.attacks.uc02.devices.InverseReplayerIED;
 import br.ufu.facom.ereno.attacks.uc03.devices.MasqueradeFakeFaultIED;
+import br.ufu.facom.ereno.attacks.uc04.devices.MasqueradeFakeNormalED;
 import br.ufu.facom.ereno.attacks.uc05.devices.InjectorIED;
 import br.ufu.facom.ereno.attacks.uc06.devices.HighStNumInjectorIED;
 import br.ufu.facom.ereno.attacks.uc07.devices.HighRateStNumInjectorIED;
 import br.ufu.facom.ereno.attacks.uc08.devices.GrayHoleVictimIED;
 import br.ufu.facom.ereno.benign.uc00.devices.LegitimateProtectionIED;
 import br.ufu.facom.ereno.benign.uc00.devices.MergingUnit;
-import br.ufu.facom.ereno.attacks.uc01.devices.RandomReplayerIED;
+import br.ufu.facom.ereno.general.ProtectionIED;
 
-import java.io.*;
+import java.io.IOException;
+import java.util.Locale;
 import java.util.logging.Logger;
 
 import static br.ufu.facom.ereno.dataExtractors.GSVDatasetWriter.*;
 
+/** Convenience scripts for single-source dataset generation. */
 public class SingleSource {
 
     public static void main(String[] args) throws IOException {
-//        scriptForGoose("webapp/download/goose.arff");
-
-        // Load setup file
         Attacks.ECF.loadConfigs();
         GooseFlow.ECF.loadConfigs();
         SetupIED.ECF.loadConfigs();
-
 
         Attacks.ECF.legitimate = true;
         Attacks.ECF.randomReplay = true;
@@ -37,207 +37,142 @@ public class SingleSource {
         Attacks.ECF.inverseReplay = true;
         Attacks.ECF.highStNum = true;
         Attacks.ECF.flooding = true;
-        Attacks.ECF.grayhole = false;
+        Attacks.ECF.grayhole = true;
 
-        SingleSource.lightweightDataset("E:\\ereno dataset\\new\\" + SetupIED.ECF.iedName + ".arff", true);
+        lightweightDataset("C:\\ereno dataset\\" + SetupIED.ECF.iedName + ".csv", true);
     }
 
     /**
-     * Below you can write your scripts for data generation
-     * (e.g., you can specify which devices and how they will interate each other)
+     * Generates a GOOSE-oriented multi-class dataset. Each attack class is
+     * evaluated in a scenario composed of the legitimate victim stream plus that
+     * attack, so temporal-difference features use the predecessor an online IDS
+     * would actually have observed. Attack classes are not used as each other's
+     * predecessor context.
      */
-
-    public static void lightweightDataset(String datasetOutputLocation, boolean generateSV) throws IOException { // Generates only GOOSE data
+    public static void lightweightDataset(String datasetOutputLocation, boolean generateSV) throws IOException {
         long beginTime = System.currentTimeMillis();
+        Logger.getLogger("Extractor").info(datasetOutputLocation + " writing...");
 
-        // Start writting
-        Logger.getLogger("Extractor").info(datasetOutputLocation + " writting...");
+        boolean csv = datasetOutputLocation.toLowerCase(Locale.ROOT).endsWith(".csv");
         startWriting(datasetOutputLocation);
-        int totalMessageCount = 0;
-        write("@relation ereno_lightweight");
+        if (!csv) {
+            write("@relation ereno_lightweight");
+        }
 
-        // Generate and write samples for legitimate and attacks choosen in attacks.json
+        int requestedMessages = Math.max(1, GooseFlow.ECF.numberOfMessages);
+        boolean headerWritten = false;
+        int totalGenerated = 0;
+
+        // A legitimate victim is required even when UC00 itself is not selected,
+        // because replay/injection/masquerade attacks need observable context.
         LegitimateProtectionIED uc00 = null;
-        if (Attacks.ECF.legitimate) {
+        if (Attacks.ECF.legitimate || anyAttackEnabled()) {
             uc00 = new LegitimateProtectionIED();
-//            uc00.run(GooseFlow.ECF.numberOfMessages);
-            uc00.run(1000);
-            writeGooseMessagesToFile(uc00.copyMessages(), true);
-            totalMessageCount = totalMessageCount + uc00.getNumberOfMessages();
+            uc00.run(requestedMessages);
+            if (Attacks.ECF.legitimate) {
+                writeGooseMessagesToFile(uc00.copyMessages(), true, csv);
+                headerWritten = true;
+                totalGenerated += uc00.getNumberOfMessages();
+            }
         }
 
-        RandomReplayerIED uc01;
+        if (uc00 == null) {
+            finishWriting();
+            return;
+        }
+
         if (Attacks.ECF.randomReplay) {
-            uc01 = new RandomReplayerIED(uc00);
-            uc01.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc01.getMessages(), false);
-            totalMessageCount = totalMessageCount + uc01.getNumberOfMessages();
+            RandomReplayerIED attack = new RandomReplayerIED(uc00);
+            attack.run(requestedMessages);
+            writeGooseAttackMessagesToFile(uc00, attack, !headerWritten, csv);
+            headerWritten = true;
+            totalGenerated += attack.getNumberOfMessages();
         }
 
-        InverseReplayerIED uc02;
         if (Attacks.ECF.inverseReplay) {
-            uc02 = new InverseReplayerIED(uc00);
-            uc02.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc02.getMessages(), false);
-            totalMessageCount = totalMessageCount + uc02.getNumberOfMessages();
+            InverseReplayerIED attack = new InverseReplayerIED(uc00);
+            attack.run(requestedMessages);
+            writeGooseAttackMessagesToFile(uc00, attack, !headerWritten, csv);
+            headerWritten = true;
+            totalGenerated += attack.getNumberOfMessages();
         }
 
-        MasqueradeFakeFaultIED uc03;
         if (Attacks.ECF.masqueradeOutage) {
-            uc03 = new MasqueradeFakeFaultIED(uc00);
-            uc03.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc03.getMessages(), false);
-            totalMessageCount = totalMessageCount + uc03.getNumberOfMessages();
+            MasqueradeFakeFaultIED attack = new MasqueradeFakeFaultIED(uc00);
+            attack.run(requestedMessages);
+            writeGooseAttackMessagesToFile(uc00, attack, !headerWritten, csv);
+            headerWritten = true;
+            totalGenerated += attack.getNumberOfMessages();
         }
 
-//        MasqueradeFakeFaultIED uc04;
-//        if (Attacks.ECF.masqueradeDamage) {
-//            uc04 = new MasqueradeFakeFaultIED(uc00.getMessages().get(uc00.getMessages().size()-1));
-//            uc04.run(GooseFlow.ECF.numberOfMessages);
-//            writeGooseMessagesToFile(uc04.getMessages(), false);
-//            totalMessageCount = totalMessageCount + uc04.getNumberOfMessages();
-//        }
+        if (Attacks.ECF.masqueradeDamage) {
+            MasqueradeFakeNormalED attack = new MasqueradeFakeNormalED(uc00);
+            attack.run(requestedMessages);
+            writeGooseAttackMessagesToFile(uc00, attack, !headerWritten, csv);
+            headerWritten = true;
+            totalGenerated += attack.getNumberOfMessages();
+        }
 
-        InjectorIED uc05;
         if (Attacks.ECF.randomInjection) {
-            uc05 = new InjectorIED(uc00);
-            uc05.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc05.getMessages(), false);
-            totalMessageCount = totalMessageCount + uc05.getNumberOfMessages();
+            InjectorIED attack = new InjectorIED(uc00);
+            attack.run(requestedMessages);
+            writeGooseAttackMessagesToFile(uc00, attack, !headerWritten, csv);
+            headerWritten = true;
+            totalGenerated += attack.getNumberOfMessages();
         }
 
-        HighStNumInjectorIED uc06;
         if (Attacks.ECF.highStNum) {
-            uc06 = new HighStNumInjectorIED(uc00);
-            uc06.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc06.getMessages(), false);
-            totalMessageCount = totalMessageCount + uc06.getNumberOfMessages();
+            HighStNumInjectorIED attack = new HighStNumInjectorIED(uc00);
+            attack.run(requestedMessages);
+            writeGooseAttackMessagesToFile(uc00, attack, !headerWritten, csv);
+            headerWritten = true;
+            totalGenerated += attack.getNumberOfMessages();
         }
 
-        HighRateStNumInjectorIED uc07;
         if (Attacks.ECF.flooding) {
-            uc07 = new HighRateStNumInjectorIED(uc00);
-            uc07.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc07.getMessages(), false);
-            totalMessageCount = totalMessageCount + uc07.getNumberOfMessages();
+            HighRateStNumInjectorIED attack = new HighRateStNumInjectorIED(uc00);
+            attack.run(requestedMessages);
+            writeGooseAttackMessagesToFile(uc00, attack, !headerWritten, csv);
+            headerWritten = true;
+            totalGenerated += attack.getNumberOfMessages();
         }
 
-        GrayHoleVictimIED uc08;
         if (Attacks.ECF.grayhole) {
-            uc08 = new GrayHoleVictimIED(uc00);
-//            uc08.run(GooseFlow.ECF.numberOfMessages);
-            uc08.run(20);
-            writeGooseMessagesToFile(uc08.getMessages(), false);
-            totalMessageCount = totalMessageCount + uc08.getNumberOfMessages();
+            // Grayhole is a loss scenario: the observed stream is the filtered
+            // victim stream itself, not normal+duplicated "attack packets".
+            GrayHoleVictimIED attack = new GrayHoleVictimIED(uc00);
+            attack.run(80); // retain ~80%, i.e. simulate ~20% selective loss
+            writeGooseMessagesToFile(attack.getMessages(), !headerWritten, csv);
+            headerWritten = true;
+            totalGenerated += attack.getNumberOfMessages();
         }
 
         finishWriting();
         long endTime = System.currentTimeMillis();
-        Logger.getLogger("Time").info("Tempo gasto para gerar "
-                + Integer.valueOf(totalMessageCount) + " mensagens: "
-                + (endTime - beginTime));
+        Logger.getLogger("Time").info("Generated " + totalGenerated + " GOOSE messages in " + (endTime - beginTime) + " ms.");
     }
 
-
-    public static void scriptForGooseAndSV(String datasetOutputLocation, boolean generateSV) throws IOException { // Generates only GOOSE data
-        long beginTime = System.currentTimeMillis();
-
-        // Start writting
-        Logger.getLogger("Extractor").info(datasetOutputLocation + " writting...");
-        startWriting(datasetOutputLocation);
-        int totalMessageCount = 0;
-        write("@relation goose_traffic");
-
-        // Generate and write samples for legitimate and attacks choosen in attacks.json
-        LegitimateProtectionIED uc00 = null;
-        if (Attacks.ECF.legitimate) {
-            uc00 = new LegitimateProtectionIED();
-//            uc00.run(GooseFlow.ECF.numberOfMessages);
-            uc00.run(1000);
-            writeGooseMessagesToFile(uc00.copyMessages(), true);
-            totalMessageCount = totalMessageCount + uc00.getNumberOfMessages();
-        }
-
-        RandomReplayerIED uc01;
-        if (Attacks.ECF.randomReplay) {
-            uc01 = new RandomReplayerIED(uc00);
-            uc01.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc01.getMessages(), false);
-            totalMessageCount = totalMessageCount + uc01.getNumberOfMessages();
-        }
-
-        InverseReplayerIED uc02;
-        if (Attacks.ECF.inverseReplay) {
-            uc02 = new InverseReplayerIED(uc00);
-            uc02.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc02.getMessages(), false);
-            totalMessageCount = totalMessageCount + uc02.getNumberOfMessages();
-        }
-
-        MasqueradeFakeFaultIED uc03;
-        if (Attacks.ECF.masqueradeOutage) {
-            uc03 = new MasqueradeFakeFaultIED(uc00);
-            uc03.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc03.getMessages(), false);
-            totalMessageCount = totalMessageCount + uc03.getNumberOfMessages();
-        }
-
-//        MasqueradeFakeFaultIED uc04;
-//        if (Attacks.ECF.masqueradeDamage) {
-//            uc04 = new MasqueradeFakeFaultIED(uc00);
-//            uc04.run(GooseFlow.ECF.numberOfMessages);
-//            writeGooseMessagesToFile(uc04.getMessages(), false);
-//            totalMessageCount = totalMessageCount + uc04.getNumberOfMessages();
-//        }
-
-        InjectorIED uc05;
-        if (Attacks.ECF.randomInjection) {
-            uc05 = new InjectorIED(uc00);
-            uc05.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc05.getMessages(), false);
-            totalMessageCount = totalMessageCount + uc05.getNumberOfMessages();
-        }
-
-        HighStNumInjectorIED uc06;
-        if (Attacks.ECF.highStNum) {
-            uc06 = new HighStNumInjectorIED(uc00);
-            uc06.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc06.getMessages(), false);
-            totalMessageCount = totalMessageCount + uc06.getNumberOfMessages();
-        }
-
-        HighRateStNumInjectorIED uc07;
-        if (Attacks.ECF.flooding) {
-            uc07 = new HighRateStNumInjectorIED(uc00);
-            uc07.run(GooseFlow.ECF.numberOfMessages);
-            writeGooseMessagesToFile(uc07.getMessages(), false);
-            totalMessageCount = totalMessageCount + uc07.getNumberOfMessages();
-        }
-
-        GrayHoleVictimIED uc08;
-        if (Attacks.ECF.grayhole) {
-            uc08 = new GrayHoleVictimIED(uc00);
-//            uc08.run(GooseFlow.ECF.numberOfMessages);
-            uc08.run(20);
-            writeGooseMessagesToFile(uc08.getMessages(), false);
-            totalMessageCount = totalMessageCount + uc08.getNumberOfMessages();
-        }
-
-        finishWriting();
-        long endTime = System.currentTimeMillis();
-        Logger.getLogger("Time").info("Tempo gasto para gerar "
-                + Integer.valueOf(totalMessageCount) + " mensagens: "
-                + (endTime - beginTime));
+    /** Legacy alias retained for scripts that call the older method name. */
+    public static void scriptForGooseAndSV(String datasetOutputLocation, boolean generateSV) throws IOException {
+        lightweightDataset(datasetOutputLocation, generateSV);
     }
 
-    public static void scriptForSV(String[] svData, String datasetLocation) throws IOException { // Generates only SV data
-        // String svData[] = new String[]{"E:\ereno dataset\electrical-sources"}
-        // String datasetLocation = new "E:\ereno dataset\dataset_mu.arff"
+    public static void scriptForSV(String[] svData, String datasetLocation) throws IOException {
         MergingUnit mu = new MergingUnit(svData);
-        mu.run(4800); // setup here how many lines will be consumed by messages SV (setting a very large number will use all available SV data)
+        mu.run(4800);
         startWriting(datasetLocation);
         writeSvMessagesToFile(mu.getMessages(), true, "sb");
         finishWriting();
     }
 
+    private static boolean anyAttackEnabled() {
+        return Attacks.ECF.randomReplay
+                || Attacks.ECF.inverseReplay
+                || Attacks.ECF.masqueradeOutage
+                || Attacks.ECF.masqueradeDamage
+                || Attacks.ECF.randomInjection
+                || Attacks.ECF.highStNum
+                || Attacks.ECF.flooding
+                || Attacks.ECF.grayhole;
+    }
 }

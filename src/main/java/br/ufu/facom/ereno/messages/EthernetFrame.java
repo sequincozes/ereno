@@ -1,22 +1,26 @@
 package br.ufu.facom.ereno.messages;
 
+/**
+ * Base representation of a timestamped Ethernet frame.
+ *
+ * <p>The natural ordering is chronological and obeys the Comparable contract,
+ * including equality for frames with the same timestamp. This is important
+ * because ERENO uses PriorityQueue to build the observable station-bus stream.</p>
+ */
 public class EthernetFrame implements Comparable<EthernetFrame> {
 
-    private double timestamp;               // DYNAMICALLY GENERATED
+    private double timestamp;
+
     public void setTimestamp(double timestamp) {
-        this.timestamp = (timestamp);
+        this.timestamp = timestamp;
     }
+
     public double getTimestamp() {
-        return this.timestamp;
+        return timestamp;
     }
 
     @Override
-    public int compareTo(EthernetFrame frame) {
-        if (frame.getTimestamp() >= getTimestamp()) {
-            return -1;
-        } else {
-            return 1;
-        }
+    public int compareTo(EthernetFrame other) {
+        return Double.compare(this.timestamp, other.timestamp);
     }
-
 }

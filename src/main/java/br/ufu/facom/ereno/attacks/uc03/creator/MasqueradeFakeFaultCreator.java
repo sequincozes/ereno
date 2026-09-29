@@ -1,164 +1,132 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufu.facom.ereno.attacks.uc03.creator;
 
 import br.ufu.facom.ereno.attacks.uc03.devices.MasqueradeFakeFaultIED;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
-import br.ufu.facom.ereno.benign.uc00.devices.LegitimateProtectionIED;
 import br.ufu.facom.ereno.general.IED;
-import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.messages.Goose;
-import br.ufu.facom.ereno.dataExtractors.GSVDatasetWriter;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import static br.ufu.facom.ereno.general.IED.randomBetween;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
- * @author silvio
+ * UC03: forge a fault indication while the legitimate victim is in normal state.
+ * The forged frames reuse the victim's network/protocol metadata and follow the
+ * same GOOSE burst timing model, so the class is not exposed by generator-only
+ * identifiers or malformed fields.
  */
 public class MasqueradeFakeFaultCreator implements MessageCreator {
-    int count;
+    private final String label;
     private MasqueradeFakeFaultIED attacker;
-    private Goose previousGoose;
-    private String label;
     private Goose seedMessage;
-    private Goose firstSeedMessage;
 
     public MasqueradeFakeFaultCreator(String label) {
         this.label = label;
     }
 
     @Override
-    public void generate(IED ied, int normalMessages) {
+    public void generate(IED ied, int numberOfMessages) {
+        if (numberOfMessages <= 0) {
+            return;
+        }
         this.attacker = (MasqueradeFakeFaultIED) ied;
-        this.count = normalMessages;
-        int faultProbability = 5;
+        ArrayList<Goose> victim = attacker.getVictimIED().copyMessages();
+        victim.sort(Comparator.comparingDouble(Goose::getTimestamp));
 
-        //This uses a legitimate message as seed
-        generateSeedGoose(attacker.getVictimIED()); // uncomment it to generate a new seedMessage
-        Logger.getLogger("getSeedMessage()").info("Seed message sent at: " + seedMessage.getTimestamp());
+        ArrayList<Window> normalWindows = buildWindows(victim, 0);
+        if (normalWindows.isEmpty()) {
+            throw new IllegalArgumentException("UC03 requires at least one legitimate normal-operation interval.");
+        }
 
-        // Generate faults and normal randomly
-        while (((ProtectionIED) ied).getMessages().size() < normalMessages) {
-            int percentage = randomBetween(1, 100); // decide whether it will be fault or normal
-            if (((ProtectionIED) ied).getMessages().size() > 0) {
-                if (percentage > faultProbability) {
-                    generateFakePeriodicGoose();
-                } else { // Generates fault and recovery events
-                    generateSeedGoose(attacker.getVictimIED()); // uncomment it to generate a new seedMessage
-                    generateFakeFault();
-                }
-            } else {
-                // First message must be fake fault
-                generateFakeFault();
-            }
+        int attempts = 0;
+        while (attacker.getNumberOfMessages() < numberOfMessages && attempts < numberOfMessages * 20 + 100) {
+            Window window = normalWindows.get(IED.randomBetween(0, normalWindows.size() - 1));
+            emitForgedEpisode(window, numberOfMessages);
+            attempts++;
+        }
+
+        if (attacker.getNumberOfMessages() < numberOfMessages) {
+            throw new IllegalStateException("UC03 could not place the requested number of forged frames inside normal-operation windows.");
         }
     }
 
-    private void generateFakeFault() {
-        double lastPeriodicMessage = 0;
-        if (attacker.getMessages().size() > 0) {
-            lastPeriodicMessage = attacker.getMessages().get(attacker.getNumberOfMessages() - 1).getTimestamp();
-        } else {
-            lastPeriodicMessage = getSeedMessage().getTimestamp();
-        }
-        int msFault = 500;
-        // avoids SV messages related to faults (between 500 and 600ms)
-        while (msFault >= 500 && msFault <= 600) {
-            msFault = randomBetween(1, 1000);
-        }
-        reportEventAt(((int) lastPeriodicMessage) + msFault / 1000); // fault at the beggin of the second
-        Logger.getLogger("ProtectionIED.run()").info("Reporting fault at " + lastPeriodicMessage);
-        previousGoose = attacker.getMessages().get(attacker.getNumberOfMessages()-1);
-    }
-
-    private void generateFakePeriodicGoose() {
-        if (previousGoose != null) {
-            // Already exists some messages
-            Goose periodicGoose = new Goose(
-                    1, // always a fault
-                    previousGoose.getStNum(),
-                    previousGoose.getSqNum() + 1,
-                    previousGoose.getTimestamp() + attacker.getMaxTime() / 1000 + getNetworkDelay(),
-                    previousGoose.getT(),
-                    this.label);
-            attacker.addMessage(periodicGoose);
-            previousGoose = periodicGoose.copy();
-        } else {
-            throw new IllegalArgumentException("There must be a pseudo message. Please call generateSeedGoose() before.");
-        }
-    }
-
-    private void generateSeedGoose(LegitimateProtectionIED victimIED) {
-        int seedIndex = randomBetween(1, victimIED.getNumberOfMessages() / 4);
-        Goose masqueradeSeed = victimIED.getMessages().get(seedIndex);
-        seedMessage = masqueradeSeed.copy();
-        seedMessage.setLabel(this.label);
-        previousGoose = seedMessage.copy();
-        Logger.getLogger("MasqueradeFakeFaultIED").info("Seed message sent at: " + seedMessage.getTimestamp());
-    }
-
-    private double getNetworkDelay() {
-        return randomBetween(0.001, 0.031);
-    }
-
-    public void reportEventAt(double eventTimestamp) {
-        if (GSVDatasetWriter.Debug.gooseMessages) {
-            Logger.getLogger("GooseCreator").log(Level.INFO, "Reporting an event at " + eventTimestamp + "!");
+    private void emitForgedEpisode(Window window, int targetCount) {
+        double processingDelay = Math.max(0.0, attacker.getDelayFromEvent());
+        double lower = window.seed.getTimestamp() + 0.001;
+        double upper = window.endExclusive - processingDelay - 0.001;
+        if (upper <= lower) {
+            return;
         }
 
-        attacker.setFirstGooseTime(seedMessage.getTimestamp());
+        double eventTime = IED.randomBetween(lower, upper);
+        if (seedMessage == null) {
+            seedMessage = window.seed.copy();
+            seedMessage.setLabel(label);
+        }
 
-        // Status change
-        attacker.setInitialCbStatus(!attacker.isInitialCbStatus());
-        attacker.setInitialStNum(attacker.getInitialStNum() + 1);
-
+        int forgedStNum = window.seed.getStNum() + 1;
         int sqNum = 1;
-        double t = eventTimestamp + attacker.getDelayFromEvent(); // new t
-        double timestamp = t; // timestamp
-
-        double[] burstingIntervals = attacker.exponentialBackoff(
-                (long) attacker.getMinTime(),
+        double t = eventTime;
+        double timestamp = t + processingDelay;
+        double[] intervals = attacker.exponentialBackoff(
+                Math.round(attacker.getMinTime()),
                 attacker.getMaxTime(),
                 attacker.getInitialBackoffInterval());
 
-        for (double interval : burstingIntervals) { // GOOSE BURST MODE
-            Goose gm = new Goose(
-                    attacker.toInt(attacker.isInitialCbStatus()), // current status
-                    attacker.getInitialStNum(), // same stNum
-                    sqNum++, // increase sqNum
-                    timestamp, // current timestamp
-                    t, // timestamp of last st change
-                    label
-            );
-
-            timestamp = timestamp + interval;
-            attacker.addMessage(gm);
-            previousGoose = gm;
+        for (double interval : intervals) {
+            if (attacker.getNumberOfMessages() >= targetCount || timestamp >= window.endExclusive) {
+                break;
+            }
+            Goose forged = window.seed.copy();
+            forged.setLabel(label);
+            forged.setCbStatus(1);
+            forged.setStNum(forgedStNum);
+            forged.setSqNum(sqNum++);
+            forged.setT(t);
+            forged.setTimestamp(timestamp);
+            attacker.addMessage(forged);
+            timestamp += interval;
         }
-
-//        System.out.println("ALREADY REPORTED");
     }
 
-    public void removeMessagesAfterEvent(double eventTimestamp) {
-        if (attacker.copyMessages().size() > 1) {
-            double lastTimestamp = attacker.copyMessages().get(attacker.copyMessages().size() - 1).getTimestamp();
-            if (lastTimestamp > eventTimestamp) {
-                // Remove messages after the repported event
-                attacker.getMessages().remove(attacker.copyMessages().size() - 1);
-                removeMessagesAfterEvent(eventTimestamp);
+    private ArrayList<Window> buildWindows(ArrayList<Goose> messages, int desiredStatus) {
+        ArrayList<Window> windows = new ArrayList<>();
+        for (int i = 0; i < messages.size(); i++) {
+            Goose seed = messages.get(i);
+            if (seed.getCbStatus() != desiredStatus) {
+                continue;
             }
-        } else {
-            Logger.getLogger("NoGooseMessages").warning("There are no GOOSE messages.");
+
+            double end = Double.NaN;
+            for (int j = i + 1; j < messages.size(); j++) {
+                if (messages.get(j).getCbStatus() != desiredStatus) {
+                    end = messages.get(j).getTimestamp();
+                    break;
+                }
+            }
+            if (Double.isNaN(end)) {
+                // The victim remains normal after the captured trace. Give the
+                // attacker enough room to continue coherent retransmissions.
+                end = messages.get(messages.size() - 1).getTimestamp()
+                        + Math.max(1.0, attacker.getMaxTime() / 1000.0 * 10.0);
+            }
+            if (end - seed.getTimestamp() > attacker.getDelayFromEvent() + 0.003) {
+                windows.add(new Window(seed.copy(), end));
+            }
         }
+        return windows;
     }
 
     public Goose getSeedMessage() {
-        return this.seedMessage;
+        return seedMessage == null ? null : seedMessage.copy();
+    }
+
+    private static final class Window {
+        private final Goose seed;
+        private final double endExclusive;
+
+        private Window(Goose seed, double endExclusive) {
+            this.seed = seed;
+            this.endExclusive = endExclusive;
+        }
     }
 }

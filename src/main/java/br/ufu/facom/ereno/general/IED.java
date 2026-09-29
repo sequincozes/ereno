@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufu.facom.ereno.general;
 
 import br.ufu.facom.ereno.SubstationNetwork;
@@ -12,13 +7,18 @@ import br.ufu.facom.ereno.messages.EthernetFrame;
 import java.util.Random;
 import java.util.logging.Logger;
 
-/**
- * @author silvio
- */
+/** Base class for ERENO IEDs. */
 public abstract class IED {
     protected SubstationNetwork substationNetwork;
     protected float initialTimestamp;
     protected MessageCreator messageCreator;
+
+    private static Random random = new Random();
+
+    /** Allows reproducible generator runs and leakage audits. */
+    public static synchronized void setRandomSeed(long seed) {
+        random = new Random(seed);
+    }
 
     public void enableRandomOffsets(int max) {
         this.initialTimestamp = randomBetween(0, max);
@@ -33,30 +33,29 @@ public abstract class IED {
         this.substationNetwork = substationNetwork;
     }
 
-    public static int randomBetween(int lowerLimit, int upperLimit) {
-        if (lowerLimit >= upperLimit) {
-            throw new IllegalArgumentException("The lower limit (" + lowerLimit + ") must be less than the upper limit (" + upperLimit + ").");
+    /** Inclusive integer range. Equal bounds are valid and deterministic. */
+    public static synchronized int randomBetween(int lowerLimit, int upperLimit) {
+        if (lowerLimit > upperLimit) {
+            throw new IllegalArgumentException("The lower limit (" + lowerLimit + ") must not exceed the upper limit (" + upperLimit + ").");
         }
-
-        Random random = new Random(System.nanoTime());
-        int randomNumber = lowerLimit + random.nextInt(upperLimit - lowerLimit + 1);
-        System.out.println("random: " + randomNumber);
-
-        return randomNumber;
+        if (lowerLimit == upperLimit) {
+            return lowerLimit;
+        }
+        return lowerLimit + random.nextInt(upperLimit - lowerLimit + 1);
     }
 
-
-    public static double randomBetween(double lowerLimit, double upperLimit) {
-        if (lowerLimit >= upperLimit) {
-            throw new IllegalArgumentException("The lower limit (" + lowerLimit + ") must be less than the upper limit (" + upperLimit + ").");
+    /** Half-open-style continuous draw on [lowerLimit, upperLimit). */
+    public static synchronized double randomBetween(double lowerLimit, double upperLimit) {
+        if (lowerLimit > upperLimit) {
+            throw new IllegalArgumentException("The lower limit (" + lowerLimit + ") must not exceed the upper limit (" + upperLimit + ").");
         }
-
-        Random random = new Random(System.nanoTime());
-        double randomNumber = lowerLimit + (upperLimit - lowerLimit) * random.nextDouble();
-        return randomNumber;
+        if (Double.compare(lowerLimit, upperLimit) == 0) {
+            return lowerLimit;
+        }
+        return lowerLimit + (upperLimit - lowerLimit) * random.nextDouble();
     }
 
-    abstract public void run(int messageCount);
+    public abstract void run(int messageCount);
 
     public abstract void addMessage(EthernetFrame message);
 
@@ -67,5 +66,4 @@ public abstract class IED {
     public void setInitialTimestamp(float initialTimestamp) {
         this.initialTimestamp = initialTimestamp;
     }
-
 }

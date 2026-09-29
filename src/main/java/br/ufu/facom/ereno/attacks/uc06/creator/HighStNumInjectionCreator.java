@@ -1,47 +1,75 @@
 package br.ufu.facom.ereno.attacks.uc06.creator;
 
-import br.ufu.facom.ereno.dataExtractors.GSVDatasetWriter;
 import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
+import br.ufu.facom.ereno.dataExtractors.DatasetWriter;
 import br.ufu.facom.ereno.general.IED;
+import br.ufu.facom.ereno.general.ProtectionIED;
 import br.ufu.facom.ereno.messages.Goose;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
-import static br.ufu.facom.ereno.general.IED.randomBetween;
-
+/** UC06: inject a dynamically high/inconsistent StNum without unrelated artifacts. */
 public class HighStNumInjectionCreator implements MessageCreator {
     private final ArrayList<Goose> legitimateMessages;
 
     public HighStNumInjectionCreator(ArrayList<Goose> legitimateMessages) {
-        super();
-        this.legitimateMessages = legitimateMessages;
+        this.legitimateMessages = deepSortedCopy(legitimateMessages);
     }
 
     @Override
-    public void generate(IED ied, int numberofMessages) {
-        for (int i = 0; i < numberofMessages; i++) {
-            double minGoose = legitimateMessages.get(0).getTimestamp();
-            double maxGoose = legitimateMessages.get(legitimateMessages.size() - 1).getTimestamp();
-            double timestamp = randomBetween(minGoose, maxGoose);
-            double t = randomBetween(minGoose, maxGoose);
-            int stNum = randomBetween(1000, 100000);
-            int sqNum = randomBetween(0, 100);
-            int cbStatus = randomBetween(0, 1);
-            int timeAllowedToLive = 10000;
-            int confRev = randomBetween(0, 100);
-
-            // Last Goose Message from the random time
-            Goose injectionMessage = new Goose(cbStatus, stNum, sqNum, timestamp, t, GSVDatasetWriter.label[6]);
-            injectionMessage.setSqNum(sqNum);
-            injectionMessage.setStNum(stNum);
-            injectionMessage.setCbStatus(cbStatus);
-//            injectionMessage.setConfRev(confRev);
-//            injectionMessage.setGooseTimeAllowedtoLive(timeAllowedToLive);
-
-            // Send the generated message to InjectorIED
-            ied.addMessage(injectionMessage);
-
+    public void generate(IED ied, int numberOfMessages) {
+        if (numberOfMessages <= 0) {
+            return;
+        }
+        if (legitimateMessages.size() < 2) {
+            throw new IllegalArgumentException("UC06 requires at least two legitimate GOOSE messages.");
         }
 
+        ProtectionIED protectionIED = (ProtectionIED) ied;
+        double processingDelay = Math.max(0.0, protectionIED.getDelayFromEvent());
+        int maxObservedStNum = legitimateMessages.stream().mapToInt(Goose::getStNum).max().orElse(0);
+        ArrayList<Goose> generated = new ArrayList<>(numberOfMessages);
+
+        for (int i = 0; i < numberOfMessages; i++) {
+            int index = IED.randomBetween(0, legitimateMessages.size() - 2);
+            Goose predecessor = legitimateMessages.get(index);
+            Goose next = legitimateMessages.get(index + 1);
+            double timestamp = midpointOrRandom(predecessor.getTimestamp(), next.getTimestamp());
+
+            Goose injection = predecessor.copy();
+            injection.setLabel(DatasetWriter.label[6]);
+            injection.setTimestamp(timestamp);
+            injection.setT(Math.max(predecessor.getTimestamp(), timestamp - processingDelay));
+            injection.setStNum(maxObservedStNum + IED.randomBetween(1000, 10000) + i);
+            injection.setSqNum(1);
+            // Preserve cbStatus and every protocol/network metadata field.
+            generated.add(injection);
+        }
+
+        generated.sort(Comparator.comparingDouble(Goose::getTimestamp));
+        for (Goose injection : generated) {
+            ied.addMessage(injection);
+        }
+    }
+
+    private static double midpointOrRandom(double lower, double upper) {
+        if (upper <= lower) {
+            return Math.nextUp(lower);
+        }
+        double span = upper - lower;
+        if (span < 0.002) {
+            return lower + span / 2.0;
+        }
+        return IED.randomBetween(lower + 0.001, upper - 0.001);
+    }
+
+    private static ArrayList<Goose> deepSortedCopy(ArrayList<Goose> source) {
+        ArrayList<Goose> copy = new ArrayList<>(source.size());
+        for (Goose goose : source) {
+            copy.add(goose.copy());
+        }
+        copy.sort(Comparator.comparingDouble(Goose::getTimestamp));
+        return copy;
     }
 }

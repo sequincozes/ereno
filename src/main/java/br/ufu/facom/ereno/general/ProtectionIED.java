@@ -1,10 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufu.facom.ereno.general;
-
 
 import br.ufu.facom.ereno.api.GooseFlow;
 import br.ufu.facom.ereno.api.SetupIED;
@@ -13,37 +7,49 @@ import br.ufu.facom.ereno.messages.EthernetFrame;
 import br.ufu.facom.ereno.messages.Goose;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
+import java.util.Comparator;
+import java.util.List;
 
 /**
- * @author silvio
+ * Common state and timing behavior for protection IEDs and attack IEDs.
  */
 public class ProtectionIED extends IED {
+    private int initialStNum;
+    private int initialSqNum;
+    private double delayFromEvent = 0.00631;
+    private double firstGooseTime = 0.01659;
+    private double initialBackoffInterval = 6.33000000000011;
+    private double minTime;
+    private long maxTime;
+    private boolean initialCbStatus;
+    private String label;
+
+    protected ArrayList<Goose> messages = new ArrayList<>();
+
     public ProtectionIED(String label) {
         this.label = label;
-        messages = new ArrayList<>();
-    }
-    private int initialStNum = Integer.parseInt(SetupIED.ECF.stNum);
-    private int initialSqNum = Integer.parseInt(SetupIED.ECF.sqNum);
-    //    static double[] burstingInterval = {0.5, 0.6}; // timestam to p (in seconds)
-    public static double delayFromEvent = 0.00631;
-    double firstGooseTime = 0.01659;
-
-    public String getLabel() {
-        return label;
+        this.initialStNum = parseInt(SetupIED.ECF.stNum, 1);
+        this.initialSqNum = parseInt(SetupIED.ECF.sqNum, 1);
+        this.minTime = parseDouble(SetupIED.ECF.minTime, 4.0);
+        this.maxTime = Math.round(parseDouble(SetupIED.ECF.maxTime, 1000.0));
+        this.initialCbStatus = GooseFlow.ECF.cbstatus;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    private static int parseInt(String value, int fallback) {
+        try {
+            return value == null ? fallback : Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return fallback;
+        }
     }
 
-    double initialBackoffInterval = 6.33000000000011f; // IED processing time
-    double minTime = Integer.parseInt(SetupIED.ECF.minTime);
-    long maxTime = Integer.parseInt(SetupIED.ECF.maxTime);
-    private boolean initialCbStatus = GooseFlow.ECF.cbstatus;
-
-    protected ArrayList<Goose> messages;
-    private String label = "normal";
+    private static double parseDouble(String value, double fallback) {
+        try {
+            return value == null ? fallback : Double.parseDouble(value);
+        } catch (NumberFormatException e) {
+            return fallback;
+        }
+    }
 
     @Override
     public void enableRandomOffsets(int max) {
@@ -53,63 +59,126 @@ public class ProtectionIED extends IED {
     }
 
     @Override
-    public void run(int numberOfPeriodicMessages) {
-        // Here we set the GooseCreator for creating GOOSE messages for ProtectionIED
+    public void run(int numberOfMessages) {
         messageCreator = new GooseCreator(label);
-        GooseCreator gc = (GooseCreator) messageCreator;
-
-        int faultRate = randomBetween(10, 50);
-        Logger.getLogger("ProtectionIED.run()").info("faultRate = " + (faultRate));
-        for (int i = 0; i <= faultRate; i++) {
-            messageCreator.generate(this, numberOfPeriodicMessages / faultRate);
-            double lastPeriodicMessage = copyMessages().get(getNumberOfMessages() - 1).getTimestamp();
-            gc.reportEventAt(lastPeriodicMessage + 0.5); // fault at middle of the second
-            Logger.getLogger("ProtectionIED.run()").info("Reporting fault at " + lastPeriodicMessage + 0.5);
-            copyMessages().remove(getNumberOfMessages() - 1); // need to remove the message after 100ms
-            gc.reportEventAt(lastPeriodicMessage + 0.6); // fault recovery 100ms later
-            Logger.getLogger("ProtectionIED.run()").info("Reporting normal operation at " + lastPeriodicMessage + 0.5);
-        }
-
-        while (messages.size() - 1 > numberOfPeriodicMessages) {
-            messages.remove(messages.size() - 1);
-        }
+        messageCreator.generate(this, numberOfMessages);
     }
 
     @Override
-    public void addMessage(EthernetFrame periodicGoose) {
-        if (GooseFlow.ECF.numberOfMessages >= messages.size()){
-            this.messages.add((Goose) periodicGoose);
-        } else {
-            Logger.getLogger("addMessage").warning("Adding more GOOSE than the predefined threshold. There is something wrong with your logic.");
-        }
+    public void addMessage(EthernetFrame message) {
+        messages.add((Goose) message);
     }
 
-
-    public double[] exponentialBackoff(long minTime, long maxTime, double intervalMultiplier) {
-        long retryIntervalMs = minTime;
-
-        ArrayList<Double> tIntervals = new ArrayList<>();
-        do {
-            tIntervals.add(retryIntervalMs / 1000.0);
-            retryIntervalMs *= intervalMultiplier;
-            if (retryIntervalMs > maxTime) {
-                tIntervals.add((double) maxTime);
-                break;
-            } else if (retryIntervalMs == maxTime) {
-                tIntervals.add(retryIntervalMs / 1000.0);
-                break;
-            }
-
-        } while (retryIntervalMs <= maxTime);
-
-        int i = 0;
-        double[] arrayIntervals = new double[tIntervals.size() + 1];
-        arrayIntervals[i++] = tIntervals.get(0); // first two retransmission are on same period
-        for (double ti : tIntervals) {
-            arrayIntervals[i++] = ti;
+    /**
+     * IEC 61850-style retransmission intervals in seconds. Inputs are in ms.
+     * The first retransmission interval is intentionally repeated, matching the
+     * original ERENO behavior, but every returned value uses the same unit.
+     */
+    public double[] exponentialBackoff(long minTimeMs, long maxTimeMs, double multiplier) {
+        if (minTimeMs <= 0 || maxTimeMs <= 0 || minTimeMs > maxTimeMs) {
+            throw new IllegalArgumentException("Invalid GOOSE retransmission bounds: min=" + minTimeMs + ", max=" + maxTimeMs);
+        }
+        if (multiplier <= 1.0) {
+            throw new IllegalArgumentException("Backoff multiplier must be > 1.0");
         }
 
-        return arrayIntervals;
+        ArrayList<Double> intervals = new ArrayList<>();
+        double firstSeconds = minTimeMs / 1000.0;
+        intervals.add(firstSeconds);
+        intervals.add(firstSeconds);
+
+        long currentMs = minTimeMs;
+        while (currentMs < maxTimeMs) {
+            long nextMs = Math.max(currentMs + 1L, Math.round(currentMs * multiplier));
+            if (nextMs >= maxTimeMs) {
+                intervals.add(maxTimeMs / 1000.0);
+                break;
+            }
+            intervals.add(nextMs / 1000.0);
+            currentMs = nextMs;
+        }
+
+        double[] result = new double[intervals.size()];
+        for (int i = 0; i < intervals.size(); i++) {
+            result[i] = intervals.get(i);
+        }
+        return result;
+    }
+
+    public ArrayList<Goose> copyMessages() {
+        ArrayList<Goose> copied = new ArrayList<>(messages.size());
+        for (Goose original : messages) {
+            copied.add(original.copy());
+        }
+        return copied;
+    }
+
+    public ArrayList<Goose> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(ArrayList<Goose> gooseMessages) {
+        this.messages = gooseMessages;
+    }
+
+    /** Strict predecessor: never returns the frame at the queried timestamp. */
+    public Goose getLastGooseBeforeTime(double timestamp) {
+        Goose best = null;
+        for (Goose goose : messages) {
+            if (goose.getTimestamp() < timestamp
+                    && (best == null || goose.getTimestamp() > best.getTimestamp())) {
+                best = goose;
+            }
+        }
+        return best;
+    }
+
+    /**
+     * Backward-compatible name. The semantics are intentionally strict (<),
+     * eliminating the historical self-comparison bug in attack feature extraction.
+     */
+    public Goose getLastGooseFromTime(double timestamp) {
+        return getLastGooseBeforeTime(timestamp);
+    }
+
+    public Goose getLastGooseFromSV(double timestamp, ArrayList<Goose> gooseMessages) {
+        Goose best = null;
+        for (Goose goose : gooseMessages) {
+            if (goose.getTimestamp() < timestamp
+                    && (best == null || goose.getTimestamp() > best.getTimestamp())) {
+                best = goose;
+            }
+        }
+        return best;
+    }
+
+    public Goose getPreviousGoose(Goose goose, ProtectionIED ied) {
+        ArrayList<Goose> sorted = ied.copyMessages();
+        sorted.sort(Comparator.comparingDouble(Goose::getTimestamp));
+        Goose previous = null;
+        for (Goose current : sorted) {
+            if (current.getTimestamp() >= goose.getTimestamp()) {
+                return previous;
+            }
+            previous = current;
+        }
+        return previous;
+    }
+
+    public void sortMessagesChronologically() {
+        messages.sort(Comparator.comparingDouble(Goose::getTimestamp));
+    }
+
+    public int getNumberOfMessages() {
+        return messages.size();
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public int getInitialStNum() {
@@ -126,10 +195,6 @@ public class ProtectionIED extends IED {
 
     public void setInitialSqNum(int initialSqNum) {
         this.initialSqNum = initialSqNum;
-    }
-
-    public void setMessages(ArrayList<Goose> gooseMessages) {
-        this.messages = gooseMessages;
     }
 
     public double getDelayFromEvent() {
@@ -164,100 +229,12 @@ public class ProtectionIED extends IED {
         this.maxTime = maxTime;
     }
 
-    float restartCounters(boolean random) {
-        if (random) {
-            initialTimestamp = randomBetween(0, 5000); // offset
-            initialStNum = randomBetween(0, 5000);
-            initialSqNum = randomBetween(0, 5000);
-        } else {
-            initialTimestamp = 0;
-            initialStNum = 0;
-            initialSqNum = 0;
-        }
-        return initialTimestamp;
-    }
-
-    float defineCounters(int initialStNum, int initialSqNum, float offset) {
-        this.initialStNum = initialStNum;
-        this.initialSqNum = initialSqNum;
-        this.initialTimestamp = offset;
-        return offset;
-    }
-
     public boolean isInitialCbStatus() {
         return initialCbStatus;
     }
 
     public void setInitialCbStatus(boolean initialCbStatus) {
         this.initialCbStatus = initialCbStatus;
-    }
-
-    public int toInt(boolean cbStatus) {
-        if (cbStatus) {
-            return 1;
-        } else {
-            return 0;
-        }
-
-    }
-
-    public ArrayList<Goose> copyMessages() {
-        Logger.getLogger("copyMessage").info("Copying " + messages.size() + " messages.");
-        ArrayList<Goose> copied = new ArrayList<>();
-        for (Goose originalGoose : messages) {
-            copied.add(originalGoose.copy());
-        }
-//        copied.remove(0);
-        if (messages.equals(copied)) {
-//            throw new IllegalArgumentException("Messages are not copied! Message 0 timestamp (messages):" + messages.get(0).getTimestamp() + " == (copied):" + copied.get(0).getTimestamp());
-            throw new IllegalArgumentException("Messages are not copied! Message 0 timestamp (messages):" + messages + " == (copied):" + copied);
-        }
-        return copied;
-    }
-
-    public ArrayList<Goose> getMessages() {
-        return this.messages;
-    }
-
-    public Goose getPreviousGoose(Goose goose, ProtectionIED ied) {
-        for (int i = 0; i < ied.getMessages().size(); i++) {
-            if (goose.equals(ied.getMessages().get(i))) {
-                if (i == 0) {
-                    Goose pseudoPast = ied.getMessages().get(0).copy(); // Pseudo past
-                    double pseudoPastTimestamp = ied.getMessages().get(0).getTimestamp() - maxTime;
-                    pseudoPast.setTimestamp(pseudoPastTimestamp); //Assume the last message wast sent at now - maxtime
-                    pseudoPast.setSqNum(pseudoPast.getSqNum() - 1);
-                    return pseudoPast;
-                } else {
-                    return ied.getMessages().get(i - 1);
-                }
-            }
-        }
-        return null;
-    }
-
-    public Goose getLastGooseFromSV(double timestamp, ArrayList<Goose> gooseMessages) {
-        Goose lastGooseMessage = gooseMessages.get(0);
-        for (Goose goose : gooseMessages) {
-            if (goose.getTimestamp() > timestamp) {
-                return lastGooseMessage;
-            } else {
-                lastGooseMessage = goose;
-            }
-        }
-        return lastGooseMessage;
-    }
-
-    public Goose getLastGooseFromTime(double timestamp) {
-        Goose lastGooseMessage = getMessages().get(0);
-        for (Goose goose : getMessages()) {
-            if (goose.getTimestamp() > timestamp) {
-                return lastGooseMessage;
-            } else {
-                lastGooseMessage = goose;
-            }
-        }
-        return lastGooseMessage;
     }
 
     public double getInitialBackoffInterval() {
@@ -268,9 +245,7 @@ public class ProtectionIED extends IED {
         this.initialBackoffInterval = initialBackoffInterval;
     }
 
-    public int getNumberOfMessages() {
-        return messages.size();
+    public int toInt(boolean cbStatus) {
+        return cbStatus ? 1 : 0;
     }
-
-
 }

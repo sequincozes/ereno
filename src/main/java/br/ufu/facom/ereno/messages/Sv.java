@@ -1,32 +1,22 @@
 package br.ufu.facom.ereno.messages;
 
+/**
+ * Sampled Value sample. The timestamp stored in {@code time} is absolute in the
+ * ERENO simulation timeline. Correlation code must never mutate it to align a
+ * GOOSE sample, otherwise future/duplicated offsets can leak into features.
+ */
 public class Sv extends EthernetFrame {
-    float relativeness = 0;// to compensate GOOSE relative (for resource efficiency purpose)
-    float time;
-    float iA;
-    float iB;
-    float iC;
-    float vA;
-    float vB;
-    float vC;
-    String status; // fault or normal
-
-    public String asCsv() {
-        return getTime() + "," + getiA() + "," + getiB() + "," + getiC() + "," + getvA() + "," + getvB() + "," + getvC();
-    }
-
-    public String getCSVHeader() {
-        return "time, iA, iB, iC, vA, vB, vC";
-    }
+    private float time;
+    private float iA;
+    private float iB;
+    private float iC;
+    private float vA;
+    private float vB;
+    private float vC;
+    private String status;
 
     public Sv(float time, float iA, float iB, float iC, float vA, float vB, float vC) {
-        this.time = time;
-        this.iA = iA;
-        this.iB = iB;
-        this.iC = iC;
-        this.vA = vA;
-        this.vB = vB;
-        this.vC = vC;
+        this(time, iA, iB, iC, vA, vB, vC, null);
     }
 
     public Sv(float time, float iA, float iB, float iC, float vA, float vB, float vC, String status) {
@@ -38,28 +28,41 @@ public class Sv extends EthernetFrame {
         this.vB = vB;
         this.vC = vC;
         this.status = status;
+        setTimestamp(time);
+    }
+
+    public String asCsv() {
+        return getTime() + "," + getiA() + "," + getiB() + "," + getiC() + "," + getvA() + "," + getvB() + "," + getvC();
+    }
+
+    public String getCSVHeader() {
+        return "time,iA,iB,iC,vA,vB,vC";
     }
 
     @Override
     public String toString() {
         if (status == null) {
-            return relativeness + time + "," + iA + "," + iB + "," + iC + "," + vA + "," + vB + "," + vC;
-        } else {
-            return relativeness + time + "," + iA + "," + iB + "," + iC + "," + vA + "," + vB + "," + status;
+            return getTime() + "," + iA + "," + iB + "," + iC + "," + vA + "," + vB + "," + vC;
         }
+        return getTime() + "," + iA + "," + iB + "," + iC + "," + vA + "," + vB + "," + status;
     }
 
     public float getTime() {
-        return relativeness + time;
+        return time;
     }
 
-    public void setRelativeness(int relativeness) {
-        this.relativeness = relativeness;
+    /**
+     * Retained only for source compatibility with older code. SV timestamps are
+     * already absolute, so correlation must not inject an additional offset.
+     */
+    @Deprecated
+    public void setRelativeness(int ignored) {
+        // Intentionally no-op.
     }
-
 
     public void setTime(float time) {
         this.time = time;
+        setTimestamp(time);
     }
 
     public float getiA() {
@@ -117,5 +120,4 @@ public class Sv extends EthernetFrame {
     public void setStatus(String status) {
         this.status = status;
     }
-
 }

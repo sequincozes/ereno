@@ -1,64 +1,68 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.ufu.facom.ereno.attacks.uc01.creator;
 
-import br.ufu.facom.ereno.dataExtractors.GSVDatasetWriter;
+import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
+import br.ufu.facom.ereno.dataExtractors.DatasetWriter;
 import br.ufu.facom.ereno.general.IED;
 import br.ufu.facom.ereno.messages.Goose;
-import br.ufu.facom.ereno.benign.uc00.creator.MessageCreator;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
+import java.util.Comparator;
 
-import static br.ufu.facom.ereno.general.IED.randomBetween;
-
-/**
- * @author silvio
- */
+/** UC01: replay a previously observed legitimate GOOSE at a later time. */
 public class RandomReplayCreator implements MessageCreator {
-    ArrayList<Goose> legitimateMessages;
-    private float timeTakenByAttacker = 1;
+    private final ArrayList<Goose> legitimateMessages;
 
-    /**
-     * @param legitimateMessages - previously generated legitimate messages
-     */
     public RandomReplayCreator(ArrayList<Goose> legitimateMessages) {
-        this.legitimateMessages = legitimateMessages;
+        this.legitimateMessages = deepSortedCopy(legitimateMessages);
     }
 
-    /**
-     * @param ied                - IED that will receive the generated messages
-     * @param numReplayInstances - number of attack instances
-     */
     @Override
     public void generate(IED ied, int numReplayInstances) {
-
-        for (int i = 0; i < numReplayInstances; i++) {
-            // Pickups one old GOOSE randomly
-            int randomIndex = randomBetween(0, legitimateMessages.size() - 1);
-            Goose randomGoose = legitimateMessages.get(randomIndex).copy();
-            Logger.getLogger("RandomReplayCreator").info("Captured the legitimate message at " + randomGoose.getTimestamp());
-            randomGoose.setLabel(GSVDatasetWriter.label[1]);  // label it as random replay (uc01)
-
-            // Refresh the message timestamp
-//            Goose lastLegitimateGoose = legitimateMessages.get(legitimateMessages.size() - 1);
-
-            // Randomize the time taken by an attacker (50% chance of taking less time)
-            if (i % 2 == 0) {
-                timeTakenByAttacker = (float) (randomBetween(100F, 10000F) / 1000);
-            } else {
-                timeTakenByAttacker = (float) (randomBetween(10F, 1000F) / 1000);
-            }
-            // Other strategy: assumes the random replay was close to the original one:
-            randomGoose.setTimestamp(randomGoose.getTimestamp() + timeTakenByAttacker);
-            Logger.getLogger("RandomReplayCreator").info("Sent the replay message at " + randomGoose.getTimestamp() + "(time taken by attaker: " + timeTakenByAttacker + ")");
-
-            // Send back the random replayed message to ReplayerIED
-            ied.addMessage(randomGoose.copy());
+        if (numReplayInstances <= 0) {
+            return;
+        }
+        if (legitimateMessages.size() < 2) {
+            throw new IllegalArgumentException("UC01 requires at least two legitimate GOOSE messages.");
         }
 
+        ArrayList<Goose> generated = new ArrayList<>(numReplayInstances);
+        double endTime = legitimateMessages.get(legitimateMessages.size() - 1).getTimestamp();
+
+        for (int i = 0; i < numReplayInstances; i++) {
+            int captureIndex = IED.randomBetween(0, legitimateMessages.size() - 2);
+            Goose captured = legitimateMessages.get(captureIndex);
+
+            double available = endTime - captured.getTimestamp();
+            if (available <= 0.0) {
+                continue;
+            }
+
+            // A replay delay is random, not tied to the attack sample index.
+            double maxDelay = Math.min(10.0, available);
+            double minDelay = Math.min(0.010, maxDelay / 2.0);
+            double delay = maxDelay > minDelay
+                    ? IED.randomBetween(minDelay, maxDelay)
+                    : Math.max(Math.ulp(captured.getTimestamp()), maxDelay / 2.0);
+
+            Goose replay = captured.copy();
+            replay.setLabel(DatasetWriter.label[1]);
+            replay.setTimestamp(captured.getTimestamp() + delay);
+            // Keep t, StNum, SqNum and payload exactly as captured: it is a replay.
+            generated.add(replay);
+        }
+
+        generated.sort(Comparator.comparingDouble(Goose::getTimestamp));
+        for (Goose replay : generated) {
+            ied.addMessage(replay);
+        }
+    }
+
+    private static ArrayList<Goose> deepSortedCopy(ArrayList<Goose> source) {
+        ArrayList<Goose> copy = new ArrayList<>(source.size());
+        for (Goose goose : source) {
+            copy.add(goose.copy());
+        }
+        copy.sort(Comparator.comparingDouble(Goose::getTimestamp));
+        return copy;
     }
 }

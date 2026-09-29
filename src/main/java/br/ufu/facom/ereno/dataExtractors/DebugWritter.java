@@ -11,70 +11,64 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.logging.Logger;
 
-/**
- * This extractor writes the generated messages to an ARFF file.
- * It generates a GOOSE-oriented dataset (one sample per GOOSE).
- */
+/** Compact diagnostic writer using the same causal predecessor rules. */
 public class DebugWritter {
-    static BufferedWriter bw;
-    public static String[] label = {"normal", "random_replay", "inverse_replay", "masquerade_fake_fault", "masquerade_fake_normal", "injection", "high_StNum", "poisoned_high_rate", "grayhole"};//, "stealthy_injection"};//,"poisoned_high_rate_consistent"};
+    private static BufferedWriter bw;
 
-    public static void processDataset(PriorityQueue<EthernetFrame> stationBusMessages, ArrayList<EthernetFrame> processBusMessages) throws IOException {
-        // Writing Header
+    public static void processDataset(PriorityQueue<EthernetFrame> stationBusMessages,
+                                      ArrayList<EthernetFrame> processBusMessages) throws IOException {
         writeDefaultHeader();
-
-        // Writing Messages
         Goose previousGoose = null;
-//        for (EthernetFrame gooseFrame : stationBusMessages) {
-//            Goose goose = (Goose) gooseFrame;
-
         Logger.getLogger("DebugWritter").info(stationBusMessages.size() + " mensagens na fila.");
+
         while (!stationBusMessages.isEmpty()) {
-            Goose goose = (Goose) stationBusMessages.poll();
-            if (previousGoose != null) { // skips the first message
+            EthernetFrame frame = stationBusMessages.poll();
+            if (!(frame instanceof Goose)) {
+                continue;
+            }
+            Goose goose = (Goose) frame;
+            if (previousGoose != null) {
                 Sv sv = ProtocolCorrelation.getCorrespondingSVFrame(processBusMessages, goose);
-                String svString = String.valueOf(sv.getTime());
-                String gooseString = goose.asDebug();
-                String gooseConsistency = IntermessageCorrelation.getConsistencyFeaturesAsCSV(goose, previousGoose);
-
-                String[] f = gooseConsistency.split(",");
-                String consistencyDebug = f[0] + "," + f[1] + "," + f[2] + "," + f[6] + "," + f[7];
-
-                double delay = goose.getTimestamp() - sv.getTime();
-                write(svString + "," + gooseString + "," + consistencyDebug + "," + delay + "," + goose.getLabel());
+                if (sv != null) {
+                    String[] f = IntermessageCorrelation.getConsistencyFeaturesAsCSV(goose, previousGoose).split(",");
+                    String consistencyDebug = f[0] + "," + f[1] + "," + f[3] + "," + f[6] + "," + f[7] + "," + f[8];
+                    double delay = goose.getTimestamp() - sv.getTime();
+                    write(sv.getTime() + "," + goose.asDebug() + "," + consistencyDebug + "," + delay + "," + goose.getLabel());
+                }
             }
             previousGoose = goose.copy();
         }
-
-
     }
 
     private static void write(String line) throws IOException {
+        if (bw == null) {
+            throw new IllegalStateException("startWriting() must be called first.");
+        }
         bw.write(line);
         bw.newLine();
     }
 
     public static void startWriting(String filename) throws IOException {
         File fout = new File(filename);
-        if (!fout.exists()) {
-            fout.getParentFile().mkdirs();
-            System.out.println("Directory created at: " + filename);
+        File parent = fout.getParentFile();
+        if (parent != null && !parent.exists()) {
+            parent.mkdirs();
         }
-        FileOutputStream fos = new FileOutputStream(fout, true);
-        bw = new BufferedWriter(new OutputStreamWriter(fos));
+        bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fout, false)));
     }
 
     public static void writeDefaultHeader() throws IOException {
-        String header = String.join(",", new String[]{
-                "svTime","GooseTimestamp", "t", "SqNum", "StNum", "cbStatus",
-                "stDiff", "sqDiff", "cbStatusDiff",
-                "timestampDiff", "tDiff", "timeFromLastChange", "delay", "class"
-        });
-        write(header);
+        write(String.join(",", new String[]{
+                "svTime", "GooseTimestamp", "t", "SqNum", "StNum", "cbStatus",
+                "stDiff", "sqDiff", "cbStatusDiff", "timestampDiff", "tDiff",
+                "timeFromLastChange", "delay", "class"
+        }));
     }
 
     public static void finishWriting() throws IOException {
-        bw.close();
+        if (bw != null) {
+            bw.close();
+            bw = null;
+        }
     }
-
 }

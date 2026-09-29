@@ -5,199 +5,118 @@ import br.ufu.facom.ereno.messages.Goose;
 import br.ufu.facom.ereno.messages.Sv;
 
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
-public class ProtocolCorrelation {
-
+/**
+ * Causal correlation between GOOSE and Sampled Values.
+ *
+ * <p>Only SV samples strictly earlier than the target GOOSE are used. If a full
+ * requested SV cycle is not yet available, the cycle method returns {@code null}
+ * instead of padding with future samples. This removes look-ahead leakage.</p>
+ */
+public final class ProtocolCorrelation {
+    private ProtocolCorrelation() {
+    }
 
     public static Sv getCorrespondingSVFrame(ArrayList<EthernetFrame> svs, Goose goose) {
-        int low = 0;
-        int high = svs.size() - 1;
-        int index = -1;
-        double gooseTimestamp = goose.getTimestamp();
-
-        // To fix the excessive (redundant) SV message generation
-        int intGTS = (int) gooseTimestamp;
-        double relativeGooseTimestamp = gooseTimestamp - intGTS;
-        double svTime = 0;
-        // end
-        while (low <= high) {
-            int mid = (low + high) >>> 1; // Equivalente a (low + high) / 2, mas mais eficiente.
-            Sv svMessage = (Sv) svs.get(mid);
-            svMessage.setRelativeness(intGTS);
-            svTime = (svMessage).getTime();
-
-            if (svTime < gooseTimestamp) {
-                index = mid; // Found a candidate, but continue searching for a closer candidate.
-                low = mid + 1; // Try to find a SV time closer to GOOSE Timestamp.
-            } else {
-                // If the SV time is equal or higher, looks to the inferior part.
-                high = mid - 1;
-            }
-        }
-
-        if (index >= 0) {
-            Sv svMessage = (Sv) svs.get(index);
-            svMessage.setRelativeness(intGTS);
-            return svMessage; // an invalid index will be returned if no SV messages are available before the given GOOSE
-        } else {
-            String errorMsg = "gooseTimestamp: " + gooseTimestamp + "/ svTime:" + svTime;
-            throw new IndexOutOfBoundsException(errorMsg);
-        }
+        int index = lastSvBeforeFrameList(svs, goose.getTimestamp());
+        return index >= 0 ? (Sv) svs.get(index) : null;
     }
 
     public static SVCycle getCorrespondingSVFrameCycle(ArrayList<EthernetFrame> svs, Goose goose, int numCycleMsgs) {
-        int low = 0;
-        int high = svs.size() - 1;
-        int index = -1;
-        double gooseTimestamp = goose.getTimestamp();
-
-
-        // To fix the excessive (redundant) SV message generation
-        int intGTS = (int) gooseTimestamp;
-        double relativeGooseTimestamp = gooseTimestamp - intGTS;
-        double svTime = 0;
-        // end
-
-
-        while (low <= high) {
-            int mid = (low + high) >>> 1; // equivalent to (low + high) / 2, but more efficient.
-            Sv svMessage = (Sv) svs.get(mid);
-            svMessage.setRelativeness(intGTS);
-            svTime = (svMessage).getTime();
-
-            if (svTime < gooseTimestamp) {
-                index = mid; // Found a candidate, but continue searching for a closer candidate.
-                low = mid + 1; // Try to find a SV time closer to GOOSE Timestamp.
-            } else {
-                // If the SV time is equal or higher, looks to the inferior part.
-                high = mid - 1;
-            }
+        validateCycleSize(numCycleMsgs);
+        int endIndex = lastSvBeforeFrameList(svs, goose.getTimestamp());
+        if (endIndex < 0 || endIndex + 1 < numCycleMsgs) {
+            return null;
         }
 
-        Sv[] cycleMsgs = new Sv[numCycleMsgs];
-        index = index + 1; // to address a rounding bug
-        if (index < 80) {
-            index = 80;
-        }
+        Sv[] cycle = new Sv[numCycleMsgs];
+        int start = endIndex - numCycleMsgs + 1;
         for (int i = 0; i < numCycleMsgs; i++) {
-            cycleMsgs[i] = ((Sv) svs.get(index - numCycleMsgs + i));
+            cycle[i] = (Sv) svs.get(start + i);
         }
-
-
-        SVCycle cycle = new SVCycle(cycleMsgs);
-        cycle.computeMetrics();
-
-        return cycle; // an invalid index will be returned if no SV messages are available before the given GOOSE
+        SVCycle result = new SVCycle(cycle);
+        result.computeMetrics();
+        return result;
     }
 
-
-    //@TODO: Verificar se este método ainda faz sentido após o CSV e ARFF writters
     public static Sv getCorrespondingSV(ArrayList<Sv> svs, Goose goose) {
-        Logger.getLogger("getCorrespondingSV").info("There are " + svs.size() + " SV messages.");
-        Logger.getLogger("getCorrespondingSV").info("SV time range: " + svs.get(0).getTime() + " to " + svs.get(svs.size() - 1).getTime() + " - GOOSE Timestamp: " + goose.getTimestamp());
-        int low = 0;
-        int high = svs.size() - 1;
-        int index = -1;
-        double gooseTimestamp = goose.getTimestamp();
-
-        // To fix the excessive (redundant) SV message generation
-        int intGTS = (int) gooseTimestamp;
-        double relativeGooseTimestamp = gooseTimestamp - intGTS;
-        double svTime = 0;
-        // en
-
-        while (low <= high) {
-            int mid = (low + high) >>> 1; // Equivalente a (low + high) / 2, mas mais eficiente.
-            svTime = svs.get(mid).getTime();
-
-            if (svTime < relativeGooseTimestamp) {
-                index = mid; // Found a candidate, but continue searching for a closer candidate.
-                low = mid + 1; // Try to find a SV time closer to GOOSE Timestamp.
-            } else {
-                // If the SV time is equal or higher, looks to the inferior part.
-                high = mid - 1;
-            }
-        }
-
-        if (index > 0) {
-            Logger.getLogger("getCorrespondingSV").info("The last SV message was sent at " + svs.get(index).getTime() + ", before the GOOSE at " + goose.getTimestamp());
-            return svs.get(index); // an invalid index will be returned if no SV messages are available before the given GOOSE
-        }
-        return null;
+        int index = lastSvBefore(svs, goose.getTimestamp());
+        return index >= 0 ? svs.get(index) : null;
     }
 
-
-    //@TODO: Verificar se este método ainda faz sentido após o CSV e ARFF writters
-    // Finds the last SV bofore the GOOSE
     public static SVCycle getCorrespondingSVCycle(ArrayList<Sv> svs, Goose goose, int numCycleMsgs) {
-        int low = 0;
-        int high = svs.size() - 1;
-        int index = -1;
-        double gooseTimestamp = goose.getTimestamp();
-
-        // To fix the excessive (redundant) SV message generation
-        int intGTS = (int) gooseTimestamp;
-        double relativeGooseTimestamp = gooseTimestamp - intGTS;
-        double svTime = 0;
-        // end
-
-        while (low <= high) {
-            int mid = (low + high) >>> 1; // equivalent to (low + high) / 2, but more efficient.
-            svTime = svs.get(mid).getTime();
-
-            if (svTime < relativeGooseTimestamp) {
-                index = mid; // Found a candidate, but continue searching for a closer candidate.
-                low = mid + 1; // Try to find a SV time closer to GOOSE Timestamp.
-            } else {
-                // If the SV time is equal or higher, looks to the inferior part.
-                high = mid - 1;
-            }
+        validateCycleSize(numCycleMsgs);
+        int endIndex = lastSvBefore(svs, goose.getTimestamp());
+        if (endIndex < 0 || endIndex + 1 < numCycleMsgs) {
+            return null;
         }
 
-        Sv[] cycleMsgs = new Sv[numCycleMsgs];
-        index = index + 1; // to address a rounding bug
-        if (index < 80) {
-            index = 80;
-        }
+        Sv[] cycle = new Sv[numCycleMsgs];
+        int start = endIndex - numCycleMsgs + 1;
         for (int i = 0; i < numCycleMsgs; i++) {
-//            System.out.println("index(" + index + ") - numCycleMsgs(" + numCycleMsgs + ") + i(" + i + ") = (" + (index - numCycleMsgs + i) + ")");
-            cycleMsgs[i] = svs.get(index - numCycleMsgs + i);
+            cycle[i] = svs.get(start + i);
         }
-
-
-        SVCycle cycle = new SVCycle(cycleMsgs);
-        cycle.computeMetrics();
-
-
-        return cycle; // an invalid index will be returned if no SV messages are available before the given GOOSE
+        SVCycle result = new SVCycle(cycle);
+        result.computeMetrics();
+        return result;
     }
 
-    //@TODO: Verificar se este método ainda faz sentido após o CSV e ARFF writters
-    // @TODO: Verificar se o relative GOOSE não afetou este método, pois o SV pode não ter offset
+    /** Returns the original-list index of the last GOOSE strictly before the SV. */
     public static int getCorrespondingGoose(ArrayList<Goose> gooses, Sv sv) {
-        int low = 0;
-        int high = gooses.size() - 1;
-        int index = -1;
-        double svTime = sv.getTime();
-//        gooses.remove(0);
-        Logger.getLogger("ProtocolCorrelation").info("Searching for a GOOSE sent after " + svTime + " in the range from " + gooses.get(0).getTimestamp() + " to " + gooses.get(gooses.size() - 1).getTimestamp());
+        int bestIndex = -1;
+        double bestTimestamp = Double.NEGATIVE_INFINITY;
+        double target = sv.getTime();
+        for (int i = 0; i < gooses.size(); i++) {
+            double ts = gooses.get(i).getTimestamp();
+            if (ts < target && ts > bestTimestamp) {
+                bestTimestamp = ts;
+                bestIndex = i;
+            }
+        }
+        return bestIndex;
+    }
 
+    private static int lastSvBefore(ArrayList<Sv> svs, double gooseTimestamp) {
+        int low = 0;
+        int high = svs.size() - 1;
+        int result = -1;
         while (low <= high) {
             int mid = (low + high) >>> 1;
-            double gooseTimestamp = gooses.get(mid).getTimestamp();
-
-            if (svTime > gooseTimestamp) {
-                index = mid; // Found a candidate, but continue searching for a closer candidate.
-                low = mid + 1; // Try to find a SV time closer to GOOSE Timestamp.
+            double svTime = svs.get(mid).getTime();
+            if (svTime < gooseTimestamp) {
+                result = mid;
+                low = mid + 1;
             } else {
-                // If the SV time is equal or higher, looks to the inferior part.
                 high = mid - 1;
             }
         }
-        Logger.getLogger("ProtocolCorrelation").info("The last GOOSE sent before " + svTime + " in the range from " + gooses.get(0).getTimestamp() + " to " + gooses.get(gooses.size() - 1).getTimestamp());
-
-        return index;
+        return result;
     }
 
+    private static int lastSvBeforeFrameList(ArrayList<EthernetFrame> svs, double gooseTimestamp) {
+        int low = 0;
+        int high = svs.size() - 1;
+        int result = -1;
+        while (low <= high) {
+            int mid = (low + high) >>> 1;
+            EthernetFrame frame = svs.get(mid);
+            if (!(frame instanceof Sv)) {
+                throw new IllegalArgumentException("processBusMessages must contain only Sv frames.");
+            }
+            double svTime = ((Sv) frame).getTime();
+            if (svTime < gooseTimestamp) {
+                result = mid;
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return result;
+    }
+
+    private static void validateCycleSize(int numCycleMsgs) {
+        if (numCycleMsgs <= 0) {
+            throw new IllegalArgumentException("numCycleMsgs must be positive.");
+        }
+    }
 }
